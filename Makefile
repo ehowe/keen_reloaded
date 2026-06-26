@@ -3,8 +3,10 @@
 # Tested with GNU Make 3.81 (macOS default `make`) and homebrew `gmake`.
 #
 # Common targets:
-#   make build      Export a standalone macOS .app (auto-installs export templates)
-#   make run-app    Build, then launch the .app (clears macOS quarantine)
+#   make build      Export a standalone app for the CURRENT OS/arch
+#                   (macOS -> .app, Windows -> .exe, Linux -> binary)
+#   make build-all  Cross-build all three desktop targets into build/
+#   make run-app    Build for current host, then launch it
 #   make templates  Download + install Godot export templates (idempotent, ~1.3GB once)
 #   make run        Run the project from source
 #   make test       Run the GUT unit/integration suite (headless)
@@ -19,26 +21,49 @@ GODOT ?= /Users/eugene/.local/share/mise/installs/godot/4.7-stable/Godot.app/Con
 
 # --- Build output -----------------------------------------------------------
 BUILD_DIR := build
-MAC_APP   := $(BUILD_DIR)/keen_reloaded.app
+APP_NAME  := keen_reloaded
+MAC_APP   := $(BUILD_DIR)/$(APP_NAME).app
+WIN_EXE   := $(BUILD_DIR)/$(APP_NAME)_windows.exe
+LINUX_BIN := $(BUILD_DIR)/$(APP_NAME)_linux.x86_64
+
+# --- Host OS/arch detection -------------------------------------------------
+# `make build` targets the host; `make build-all` cross-builds all platforms.
+HOST_OS   := $(shell uname -s)
+HOST_ARCH := $(shell uname -m)
+ifeq ($(HOST_OS),Darwin)
+  HOST_PRESET := macOS
+  HOST_OUTPUT := $(MAC_APP)
+else ifeq ($(HOST_OS),Linux)
+  HOST_PRESET := Linux
+  HOST_OUTPUT := $(LINUX_BIN)
+else ifneq (,$(filter MINGW% MSYS% CYGWIN%,$(HOST_OS)))
+  HOST_PRESET := Windows Desktop
+  HOST_OUTPUT := $(WIN_EXE)
+else
+  $(error Unsupported host OS: $(HOST_OS))
+endif
 
 # --- Export templates (machine-global; shared across projects) --------------
 # NOTE: this path contains a space, so it is only ever referenced inside quoted
 # shell recipes — never used as a Make target/prerequisite.
 GODOT_VERDIR := 4.7.stable
 TMPL_DIR     := $(HOME)/Library/Application Support/Godot/export_templates/$(GODOT_VERDIR)
-# existence of macos.zip == "macOS export template installed"
+# existence of macos.zip == "export-templates package extracted"
+# (the official .tpz bundles macOS + Windows + Linux templates together, so one
+# marker proves all three are present).
 TMPL_MARKER  := $(TMPL_DIR)/macos.zip
 TPZ          := Godot_v4.7-stable_export_templates.tpz
 TPZ_URL      := https://github.com/godotengine/godot/releases/download/4.7-stable/$(TPZ)
 
-.PHONY: all build templates test import run run-app edit clean check-godot help
+.PHONY: all build build-all templates test import run run-app edit clean check-godot help
 
 all: build
 
 help:
 	@echo "keen_reloaded targets:"
-	@echo "  make build      - export macOS .app (installs templates if missing)"
-	@echo "  make run-app    - build then launch the .app"
+	@echo "  make build      - export app for current OS/arch ($(HOST_OS)/$(HOST_ARCH))"
+	@echo "  make build-all  - cross-build macOS + Windows + Linux into build/"
+	@echo "  make run-app    - build (current host) then launch"
 	@echo "  make templates  - install export templates (~1.3GB, one-time)"
 	@echo "  make run        - run project from source"
 	@echo "  make test       - run GUT tests"
@@ -47,8 +72,9 @@ help:
 	@echo "  make clean      - remove build/ + export_presets.cfg"
 
 # ---------------------------------------------------------------------------
-# Export templates: downloaded automatically if the macOS marker is absent.
-# (~1.3 GB, one-time; shared by all Godot 4.7 projects on this machine.)
+# Export templates: downloaded automatically if the marker is absent.
+# (~1.3 GB, one-time; the .tpz contains macOS + Windows + Linux templates, so a
+# single install powers both `build` and `build-all`.)
 # ---------------------------------------------------------------------------
 templates:
 	@if [ -f "$(TMPL_MARKER)" ]; then \
@@ -66,31 +92,65 @@ templates:
 
 # ---------------------------------------------------------------------------
 # Generated export preset (gitignored; auto-created if absent).
+# Defines presets for all three desktop platforms: macOS / Windows Desktop / Linux.
+# Windows + Linux embed the .pck for self-contained single-file executables.
 # ---------------------------------------------------------------------------
 export_presets.cfg:
 	@echo ">> Generating $@"
-	@printf '%s\n' \
-		'[preset.0]' '' \
-		'name="macOS"' 'platform="macOS"' 'runnable=true' 'dedicated_server=false' \
-		'export_filter="all_resources"' 'include_filter=""' 'exclude_filter=""' \
-		'export_path="$(MAC_APP)"' '' \
-		'[preset.0.options]' \
-		'custom_template/debug=""' 'custom_template/release=""' \
-		'application/bundle_identifier="com.keenreloaded.game"' \
-		'application/short_version="1.0"' 'application/version="1.0"' \
-		'application/min_macos_version="10.12"' 'display/high_res=true' \
-		'codesign/codesign=0' 'notarization/notarization=0' > $@
+	@{ \
+		printf '%s\n' '[preset.0]' '' \
+			'name="macOS"' 'platform="macOS"' 'runnable=true' 'dedicated_server=false' \
+			'export_filter="all_resources"' 'include_filter=""' 'exclude_filter=""' \
+			'export_path="$(MAC_APP)"' '' \
+			'[preset.0.options]' \
+			'custom_template/debug=""' 'custom_template/release=""' \
+			'application/bundle_identifier="com.keenreloaded.game"' \
+			'application/short_version="1.0"' 'application/version="1.0"' \
+			'application/min_macos_version="10.12"' 'display/high_res=true' \
+			'codesign/codesign=0' 'notarization/notarization=0' '' ; \
+		printf '%s\n' '[preset.1]' '' \
+			'name="Windows Desktop"' 'platform="Windows Desktop"' 'runnable=true' 'dedicated_server=false' \
+			'export_filter="all_resources"' 'include_filter=""' 'exclude_filter=""' \
+			'export_path="$(WIN_EXE)"' '' \
+			'[preset.1.options]' \
+			'custom_template/debug=""' 'custom_template/release=""' \
+			'binary_format/embed_pck=true' '' ; \
+		printf '%s\n' '[preset.2]' '' \
+			'name="Linux"' 'platform="Linux"' 'runnable=true' 'dedicated_server=false' \
+			'export_filter="all_resources"' 'include_filter=""' 'exclude_filter=""' \
+			'export_path="$(LINUX_BIN)"' '' \
+			'[preset.2.options]' \
+			'custom_template/debug=""' 'custom_template/release=""' \
+			'binary_format/embed_pck=true' ; \
+	} > $@
 
 # ---------------------------------------------------------------------------
-# Build: standalone macOS .app. Re-exports every run so source edits ship.
+# Build: standalone app for the CURRENT host OS/arch. Re-exports every run.
 # Depends on: engine check, templates (auto-install), preset (auto-gen), import.
 # ---------------------------------------------------------------------------
 build: check-godot templates export_presets.cfg import
-	@echo ">> Exporting macOS release -> $(MAC_APP)"
+	@echo ">> Exporting $(HOST_PRESET) ($(HOST_OS)/$(HOST_ARCH)) -> $(HOST_OUTPUT)"
 	@mkdir -p $(BUILD_DIR)
-	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
-	@echo ">> Built: $(MAC_APP)"
+	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
+	@echo ">> Built: $(HOST_OUTPUT)"
 	@echo ">> Launch with: make run-app"
+
+# ---------------------------------------------------------------------------
+# Build-all: cross-build every desktop platform into build/.
+# (Templates for all three ship in the single .tpz installed by `templates`.)
+# ---------------------------------------------------------------------------
+build-all: check-godot templates export_presets.cfg import
+	@mkdir -p $(BUILD_DIR)
+	@echo ">> Exporting macOS..."
+	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
+	@echo ">> Exporting Windows Desktop..."
+	@$(GODOT) --headless --export-release "Windows Desktop" "$(WIN_EXE)"
+	@echo ">> Exporting Linux..."
+	@$(GODOT) --headless --export-release "Linux" "$(LINUX_BIN)"
+	@echo ">> Built all platforms:"
+	@echo "   $(MAC_APP)"
+	@echo "   $(WIN_EXE)"
+	@echo "   $(LINUX_BIN)"
 
 check-godot:
 	@test -x "$(GODOT)" || { echo "ERROR: Godot not found at $(GODOT)"; echo "Override with: make GODOT=/path/to/godot build"; exit 1; }
@@ -105,8 +165,14 @@ run: check-godot
 	@$(GODOT) --path .
 
 run-app: build
-	@xattr -dr com.apple.quarantine "$(MAC_APP)" 2>/dev/null || true
-	@open "$(MAC_APP)"
+ifeq ($(HOST_OS),Darwin)
+	@xattr -dr com.apple.quarantine "$(HOST_OUTPUT)" 2>/dev/null || true
+	@open "$(HOST_OUTPUT)"
+else ifeq ($(HOST_OS),Linux)
+	@"$(HOST_OUTPUT)"
+else
+	@"$(HOST_OUTPUT)"
+endif
 
 # ---------------------------------------------------------------------------
 # Test / editor / clean

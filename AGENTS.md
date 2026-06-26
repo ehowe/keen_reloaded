@@ -7,8 +7,10 @@ Godot 4.7 game (Commander Keen remaster). GDScript. Desktop-only.
 `/Users/eugene/.local/share/mise/installs/godot/4.7-stable/Godot.app/Contents/MacOS/Godot`
 
 ## Commands
-- **Build macOS app:** `make build` (auto-installs export templates on first run; output in `build/keen_reloaded.app`)
+- **Build for current host:** `make build` (auto-installs export templates on first run; macOS→`build/keen_reloaded.app`, Windows→`.exe`, Linux→binary)
+- **Cross-build all desktops:** `make build-all` (macOS + Windows + Linux into `build/`)
 - **Build + launch:** `make run-app`
+- **Install export templates:** `make templates` (~1.3 GB, one-time; powers both `build` and `build-all`)
 - **Run tests (headless):** `make test` (or `./tests/run_all.sh`)
 - **Import project:** `make import` (or `godot --headless --import --quit`)
 - **Open editor:** `make edit` (or `godot -e`)
