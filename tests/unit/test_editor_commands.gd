@@ -62,3 +62,41 @@ func test_new_command_clears_redo():
 	assert_true(s.can_redo())
 	s.execute(ld, PaintCellsCmd.new(G, 2))
 	assert_false(s.can_redo(), "redo cleared after new command")
+
+func test_flood_fill_fills_connected_region():
+	var ld := _level()
+	# carve an L-shaped region of 1s
+	ld.set_tile(G, 0, 0, 1)
+	ld.set_tile(G, 1, 0, 1)
+	ld.set_tile(G, 0, 1, 1)
+	var cmd := FloodFillCmd.new(G, Vector2i(0, 0), 2)
+	UndoStack.new().execute(ld, cmd)
+	assert_eq(ld.get_tile(G, 0, 0), 2)
+	assert_eq(ld.get_tile(G, 1, 0), 2)
+	assert_eq(ld.get_tile(G, 0, 1), 2)
+	assert_eq(ld.get_tile(G, 1, 1), 0, "diagonal not connected, stays empty")
+	assert_eq(ld.get_tile(G, 2, 0), 0)
+
+func test_flood_fill_noop_when_same_id():
+	var ld := _level()
+	ld.set_tile(G, 0, 0, 3)
+	var cmd := FloodFillCmd.new(G, Vector2i(0, 0), 3)  # same as target
+	var s := UndoStack.new()
+	s.execute(ld, cmd)
+	assert_eq(ld.get_tile(G, 0, 0), 3)
+	s.undo(ld)
+	assert_eq(ld.get_tile(G, 0, 0), 3, "nothing changed, undo is a noop too")
+
+func test_flood_fill_undo_restores_varied_region():
+	var ld := _level()
+	ld.set_tile(G, 0, 0, 1)
+	ld.set_tile(G, 1, 0, 1)
+	ld.set_tile(G, 2, 0, 5)  # different id, not filled
+	var s := UndoStack.new()
+	s.execute(ld, FloodFillCmd.new(G, Vector2i(0, 0), 9))
+	assert_eq(ld.get_tile(G, 0, 0), 9)
+	s.undo(ld)
+	assert_eq(ld.get_tile(G, 0, 0), 1)
+	assert_eq(ld.get_tile(G, 1, 0), 1)
+	assert_eq(ld.get_tile(G, 2, 0), 5)
+
