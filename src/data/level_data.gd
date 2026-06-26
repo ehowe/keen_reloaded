@@ -50,3 +50,51 @@ func fill_blank() -> void:
 	foreground_tiles.fill(0)
 	background_tiles.resize(count)
 	background_tiles.fill(0)
+
+
+## Returns the geometry tile id at (x, y). 0 if out of bounds.
+func get_geometry_tile(x: int, y: int) -> int:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return 0
+	return geometry_tiles[idx]
+
+
+## Sets the geometry tile id at (x, y). Ignored if out of bounds.
+func set_geometry_tile(x: int, y: int, tile_id: int) -> void:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return
+	geometry_tiles[idx] = tile_id
+
+
+## Returns the foreground tile id at (x, y). 0 if out of bounds.
+func get_foreground_tile(x: int, y: int) -> int:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return 0
+	return foreground_tiles[idx]
+
+
+## Sets the foreground tile id at (x, y). Ignored if out of bounds.
+func set_foreground_tile(x: int, y: int, tile_id: int) -> void:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return
+	foreground_tiles[idx] = tile_id
+
+
+## Returns the background tile id at (x, y). 0 if out of bounds.
+func get_background_tile(x: int, y: int) -> int:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return 0
+	return background_tiles[idx]
+
+
+## Sets the background tile id at (x, y). Ignored if out of bounds.
+func set_background_tile(x: int, y: int, tile_id: int) -> void:
+	var idx := tile_index_at(x, y)
+	if idx < 0:
+		return
+	background_tiles[idx] = tile_id
