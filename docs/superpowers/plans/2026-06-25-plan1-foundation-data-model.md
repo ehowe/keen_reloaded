@@ -849,6 +849,8 @@ git commit -m "docs: add AGENTS.md with build/test commands"
 
 ## Next Plans (out of scope here)
 
-- **Plan 2:** Level editor MVP (3-panel UI, tile painting, entity placement, save/load, Test ▶)
-- **Plan 3:** Runtime core (LevelRuntime, Player CharacterBody2D, base entity classes, Keen 1 entities)
-- **Plan 4:** Pack loading (PackLoader scans res:// + user://, level-select menu, GameManager progression)
+- **Plan 2:** Level editor MVP ✅ — 3-panel UI, tile painting, entity placement, save/load, Test ▶
+- **Plan 3:** Runtime core — `LevelRuntime`, Player (run/jump/pogo), base entity classes, procedural no-art `TileSet`, Test ▶ live. *(Keen 1 entities + `shoot` descoped to Plan 4.)*
+- **Plan 4:** Keen 1 content — real tileset/art, full entity roster (vorticon, yorp, items), `shoot` ability, first level
+- **Plan 5:** Pack loading — `PackLoader` (res:// + user://), level-select menu, `GameManager` progression
+- **Plan 6:** Polish — audio, parallax, HUD, save/progression, gamepad
