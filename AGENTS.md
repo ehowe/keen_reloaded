@@ -7,9 +7,12 @@ Godot 4.7 game (Commander Keen remaster). GDScript. Desktop-only.
 `/Users/eugene/.local/share/mise/installs/godot/4.7-stable/Godot.app/Contents/MacOS/Godot`
 
 ## Commands
-- **Run tests (headless):** `./tests/run_all.sh`
-- **Import project:** `godot --headless --import --quit`
-- **Open editor:** `godot -e` (or open `project.godot` in Godot app)
+- **Build macOS app:** `make build` (auto-installs export templates on first run; output in `build/keen_reloaded.app`)
+- **Build + launch:** `make run-app`
+- **Run tests (headless):** `make test` (or `./tests/run_all.sh`)
+- **Import project:** `make import` (or `godot --headless --import --quit`)
+- **Open editor:** `make edit` (or `godot -e`)
+- See `make help` for all targets.
 
 ## Testing
 GUT (Godot Unit Test) framework, vendored in `addons/gut/`.
