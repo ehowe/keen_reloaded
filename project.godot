@@ -1,0 +1,32 @@
+config_version=5
+
+[application]
+
+config/name="keen_reloaded"
+config/description="Commander Keen remaster — modular, episodic, with level editor"
+run/main_scene="res://src/ui/main_menu.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+
+[autoload]
+
+GameManager="*res://src/core/game_manager.gd"
+PackLoader="*res://src/core/pack_loader.gd"
+EntityRegistry="*res://src/core/entity_registry.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="tiles"
+2d_physics/layer_4="items"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
