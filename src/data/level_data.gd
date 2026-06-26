@@ -3,6 +3,10 @@ extends Resource
 ## Full data for a single level. Serialized to .tres. The single source of
 ## truth: the editor writes it, the runtime reads it.
 
+const LAYER_GEOMETRY := "geometry"
+const LAYER_FOREGROUND := "foreground"
+const LAYER_BACKGROUND := "background"
+
 @export_group("Metadata")
 @export var level_id: String = ""
 @export var level_name: String = ""
@@ -98,3 +102,28 @@ func set_background_tile(x: int, y: int, tile_id: int) -> void:
 	if idx < 0:
 		return
 	background_tiles[idx] = tile_id
+
+
+## Generic layer access: returns the tile id at (x,y) for the named layer.
+## Unknown layers and out-of-bounds cells return 0.
+func get_tile(layer: String, x: int, y: int) -> int:
+	match layer:
+		LAYER_GEOMETRY:
+			return get_geometry_tile(x, y)
+		LAYER_FOREGROUND:
+			return get_foreground_tile(x, y)
+		LAYER_BACKGROUND:
+			return get_background_tile(x, y)
+	return 0
+
+
+## Generic layer access: sets the tile id at (x,y) for the named layer.
+## Unknown layers / out-of-bounds cells are ignored.
+func set_tile(layer: String, x: int, y: int, tile_id: int) -> void:
+	match layer:
+		LAYER_GEOMETRY:
+			set_geometry_tile(x, y, tile_id)
+		LAYER_FOREGROUND:
+			set_foreground_tile(x, y, tile_id)
+		LAYER_BACKGROUND:
+			set_background_tile(x, y, tile_id)
