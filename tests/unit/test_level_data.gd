@@ -89,3 +89,22 @@ func test_serialization_round_trip():
 	assert_eq(loaded.entities.size(), 1)
 	assert_eq(loaded.entities[0].type, "vorticon")
 	assert_eq(loaded.entities[0].properties.get("speed"), 25)
+
+func test_set_get_foreground_tile():
+	var ld := _make_level()
+	ld.fill_blank()
+	ld.set_foreground_tile(1, 1, 5)
+	assert_eq(ld.get_foreground_tile(1, 1), 5)
+	assert_eq(ld.get_foreground_tile(0, 0), 0)
+	# out of bounds returns 0
+	assert_eq(ld.get_foreground_tile(-1, 0), 0)
+
+func test_set_get_background_tile():
+	var ld := _make_level()
+	ld.fill_blank()
+	ld.set_background_tile(2, 0, 7)
+	assert_eq(ld.get_background_tile(2, 0), 7)
+	assert_eq(ld.get_background_tile(0, 0), 0)
+	# out of bounds set is ignored (value unchanged)
+	ld.set_background_tile(99, 99, 1)
+	assert_eq(ld.get_background_tile(99, 99), 0)

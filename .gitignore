@@ -9,5 +9,8 @@ Thumbs.db
 # Superpowers brainstorm artifacts
 .superpowers/
 
+# Serena MCP artifacts
+.serena/
+
 # Editor temp
 *.tmp

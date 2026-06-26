@@ -212,7 +212,7 @@ set -euo pipefail
 GODOT="/Users/eugene/.local/share/mise/installs/godot/4.7-stable/Godot.app/Contents/MacOS/Godot"
 cd "$(dirname "$0")/.."
 "$GODOT" --headless --path . -s res://addons/gut/gut_cmdln.gd \
-  -gdir=res://tests/unit -gexit -gcompact
+  -gdir=res://tests/unit -gexit -gdisable_colors
 ```
 
 Then make it executable:
@@ -677,8 +677,13 @@ var levels: Array[Dictionary] = []  # each: {level_id, file, name, order}
 
 
 ## Parses manifest JSON text. Returns null if invalid or missing required fields.
+## Uses JSON.new().parse() (instance method) so invalid JSON returns an error
+## code silently, instead of JSON.parse_string() which pushes an engine error.
 static func from_json(json_text: String) -> LevelPack:
-	var parsed: Variant = JSON.parse_string(json_text)
+	var parser := JSON.new()
+	if parser.parse(json_text) != OK:
+		return null
+	var parsed: Variant = parser.data
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return null
 	var d: Dictionary = parsed
