@@ -100,3 +100,48 @@ func test_flood_fill_undo_restores_varied_region():
 	assert_eq(ld.get_tile(G, 1, 0), 1)
 	assert_eq(ld.get_tile(G, 2, 0), 5)
 
+func test_add_entity_command():
+	var ld := _level()
+	var s := UndoStack.new()
+	assert_eq(ld.entities.size(), 0)
+	s.execute(ld, AddEntityCmd.new(EntityDef.new("vorticon", 1, 2)))
+	assert_eq(ld.entities.size(), 1)
+	assert_eq(ld.entities[0].type, "vorticon")
+	s.undo(ld)
+	assert_eq(ld.entities.size(), 0)
+	s.redo(ld)
+	assert_eq(ld.entities.size(), 1)
+	assert_eq(ld.entities[0].x, 1)
+
+func test_remove_entity_command_restores_on_undo():
+	var ld := _level()
+	ld.entities.append(EntityDef.new("candy", 3, 4, {"value": 100}))
+	ld.entities.append(EntityDef.new("yorp", 5, 6))
+	var s := UndoStack.new()
+	s.execute(ld, RemoveEntityCmd.new(0))  # remove candy
+	assert_eq(ld.entities.size(), 1)
+	assert_eq(ld.entities[0].type, "yorp")
+	s.undo(ld)
+	assert_eq(ld.entities.size(), 2)
+	assert_eq(ld.entities[0].type, "candy")
+	assert_eq(ld.entities[0].properties.get("value"), 100, "restored entity keeps props")
+	assert_eq(ld.entities[1].type, "yorp")
+
+func test_remove_entity_out_of_range_is_noop():
+	var ld := _level()
+	var s := UndoStack.new()
+	s.execute(ld, RemoveEntityCmd.new(0))  # empty list
+	assert_eq(ld.entities.size(), 0)
+	s.undo(ld)
+	assert_eq(ld.entities.size(), 0)
+
+func test_set_player_spawn_command():
+	var ld := _level()
+	ld.player_spawn = Vector2i(0, 0)
+	var s := UndoStack.new()
+	s.execute(ld, SetPlayerSpawnCmd.new(Vector2i(7, 3)))
+	assert_eq(ld.player_spawn, Vector2i(7, 3))
+	s.undo(ld)
+	assert_eq(ld.player_spawn, Vector2i(0, 0))
+
+
