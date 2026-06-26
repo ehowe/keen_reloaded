@@ -32,9 +32,18 @@ func test_tile_index_helpers():
 	# out of bounds returns -1
 	assert_eq(ld.tile_index_at(4, 0), -1)
 	assert_eq(ld.tile_index_at(0, 3), -1)
+	# negative coords return -1
+	assert_eq(ld.tile_index_at(-1, 0), -1)
+	assert_eq(ld.tile_index_at(0, -1), -1)
 
 func test_fill_blank_tiles():
 	var ld := _make_level()
 	ld.fill_blank()
 	assert_eq(ld.geometry_tiles.size(), 12, "4x3 = 12 tiles")
-	assert_eq(ld.geometry_tiles[0], TILE_EMPTY)
+	assert_eq(ld.foreground_tiles.size(), 12)
+	assert_eq(ld.background_tiles.size(), 12)
+	# every element across all 3 layers must be 0
+	for i in range(12):
+		assert_eq(ld.geometry_tiles[i], TILE_EMPTY)
+		assert_eq(ld.foreground_tiles[i], TILE_EMPTY)
+		assert_eq(ld.background_tiles[i], TILE_EMPTY)
