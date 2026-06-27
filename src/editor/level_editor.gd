@@ -39,8 +39,20 @@ var _last_path: String = ""
 func _ready() -> void:
 	undo_stack = UndoStack.new()
 	undo_stack.changed.connect(_on_history_changed)
-	_new_level()
+	_restore_or_new()
 	_build_ui()
+
+
+## On a fresh open, start a blank level. When returning from Test ▶, restore the
+## level that was stashed in GameManager.pending_level.
+func _restore_or_new() -> void:
+	if GameManager != null and GameManager.pending_level != null:
+		level = GameManager.pending_level
+		undo_stack.clear()
+		selected_entity_index = -1
+		_last_path = ""
+	else:
+		_new_level()
 
 
 # ------------------------------------------------------------------ state API
@@ -73,10 +85,12 @@ func load_level() -> void:
 	_load_dialog.popup_centered_clamped(Vector2i(700, 500))
 
 
-## Public entry used by the toolbar "Test" button. Live gameplay needs the
-## runtime (Plan 3); for now this just reports status.
+## Public entry used by the toolbar "Test ▶" button. Stashes the current level
+## and swaps to the runtime scene for live play; Esc in the runtime returns here.
 func test_run() -> void:
-	_set_status("Test: gameplay runtime arrives in Plan 3.")
+	GameManager.pending_level = level
+	GameManager.return_scene = preload("res://src/editor/level_editor.tscn")
+	get_tree().change_scene_to_packed(preload("res://src/runtime/level_runtime.tscn"))
 
 
 func set_active_layer(layer: String) -> void:
