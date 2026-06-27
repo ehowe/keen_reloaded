@@ -15,7 +15,7 @@ func test_build_spawns_every_registered_entity_type():
 		x += 1
 
 	var rt := LevelRuntime.new()
-	add_child(rt)
+	add_child_autofree(rt)
 	rt.build(ld)
 
 	assert_eq(rt.entities_spawned.size(), ld.entities.size(), "every entity spawned")

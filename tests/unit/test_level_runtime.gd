@@ -18,7 +18,7 @@ func _level() -> LevelData:
 func test_build_assembles_three_tile_layers():
 	GameManager.pending_level = null
 	var rt := LevelRuntime.new()
-	add_child(rt)
+	add_child_autofree(rt)
 	rt.build(_level())
 	assert_eq(rt.layers.size(), 3)
 	assert_true(rt.layers.has(LevelData.LAYER_GEOMETRY))
@@ -29,7 +29,7 @@ func test_build_assembles_three_tile_layers():
 func test_build_sets_geometry_cells():
 	GameManager.pending_level = null
 	var rt := LevelRuntime.new()
-	add_child(rt)
+	add_child_autofree(rt)
 	rt.build(_level())
 	var geo: TileMapLayer = rt.layers[LevelData.LAYER_GEOMETRY]
 	assert_eq(geo.get_cell_atlas_coords(Vector2i(0, 2)), Vector2i(0, 0), "tile id 1 -> atlas (0,0)")
@@ -39,7 +39,7 @@ func test_build_sets_geometry_cells():
 func test_build_spawns_player_and_entities():
 	GameManager.pending_level = null
 	var rt := LevelRuntime.new()
-	add_child(rt)
+	add_child_autofree(rt)
 	var lvl := _level()
 	rt.build(lvl)
 	assert_not_null(rt.player, "player spawned")
@@ -54,7 +54,7 @@ func test_ready_auto_builds_from_pending_level():
 	var lvl := _level()
 	GameManager.pending_level = lvl
 	var rt := LevelRuntime.new()
-	add_child(rt)
+	add_child_autofree(rt)
 	# _ready fired on add_child and should have built from pending_level.
 	assert_eq(rt.layers.size(), 3)
 	assert_not_null(rt.player)

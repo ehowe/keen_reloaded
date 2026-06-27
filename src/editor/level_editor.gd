@@ -51,6 +51,9 @@ func _restore_or_new() -> void:
 		undo_stack.clear()
 		selected_entity_index = -1
 		_last_path = ""
+		# Consume the stash so a later non-Test editor open starts fresh.
+		GameManager.pending_level = null
+		GameManager.return_scene = null
 	else:
 		_new_level()
 

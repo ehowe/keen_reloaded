@@ -28,7 +28,8 @@ func test_props_applied_via_setup():
 	EntityRegistry.clear()
 	EntityRegistry.register("candy", EntityRegistry.CATEGORY_ITEM, "Candy")
 	var c: Collectible = add_child_autofree(EntityRegistry.instantiate("candy", Vector2.ZERO, {"score_value": 77}))
-	assert_eq(c.properties.get("score_value"), 77)
+	assert_eq(c.properties.get("score_value"), 77, "property stored")
+	assert_eq(c.score_value, 77, "property bound to behavior var")
 
 
 func test_unknown_type_returns_null():

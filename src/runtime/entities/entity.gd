@@ -18,6 +18,11 @@ var _area: Area2D
 func setup(p_type_id: String, p_props: Dictionary) -> void:
 	type_id = p_type_id
 	properties = p_props
+	# Apply editor-set tuning keys onto matching instance vars (e.g. score_value,
+	# damage) so per-entity properties actually affect behavior.
+	for key in p_props:
+		if get(key) != null:
+			set(key, p_props[key])
 
 
 func _ready() -> void:
