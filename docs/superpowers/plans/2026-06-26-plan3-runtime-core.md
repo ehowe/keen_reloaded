@@ -1196,16 +1196,16 @@ git commit -m "test: add runtime integration test (spawn all entity types)"
 
 ## Plan 3 Complete Criteria
 
-- [ ] `ProceduralTileSet` builds solid (collision) + decor TileSets with no art (GUT).
-- [ ] Base entity classes dispatch contact correctly (GUT): Collectible scores+frees, Hazard/Enemy damage, Enemy dies at 0.
-- [ ] `EntityRegistry.instantiate` spawns every registered type by category; unknown → null (GUT).
-- [ ] `Player` exposes score/health and joins group `"player"` (GUT); run/jump/pogo work (manual).
-- [ ] `GameManager` holds `pending_level`/`return_scene` and registers input actions (GUT).
-- [ ] `LevelRuntime.build` assembles 3 tile layers + player + entities from any `LevelData` (GUT).
-- [ ] Editor **Test ▶** launches the runtime; **Esc** returns; level is restored intact (manual).
-- [ ] Integration test: every registered entity type spawns without error (GUT).
-- [ ] `./tests/run_all.sh` is green; `godot --headless --import --quit` is clean.
-- [ ] All work committed to `main`.
+- [x] `ProceduralTileSet` builds solid (collision) + decor TileSets with no art (GUT).
+- [x] Base entity classes dispatch contact correctly (GUT): Collectible scores+frees, Hazard/Enemy damage, Enemy dies at 0.
+- [x] `EntityRegistry.instantiate` spawns every registered type by category; unknown → null (GUT).
+- [x] `Player` exposes score/health and joins group `"player"` (GUT); run/jump/pogo work (manual).
+- [x] `GameManager` holds `pending_level`/`return_scene` and registers input actions (GUT).
+- [x] `LevelRuntime.build` assembles 3 tile layers + player + entities from any `LevelData` (GUT).
+- [ ] Editor **Test ▶** launches the runtime; **Esc** returns; level is restored intact (manual — pending `make edit`).
+- [x] Integration test: every registered entity type spawns without error (GUT).
+- [x] `./tests/run_all.sh` is green; `godot --headless --import --quit` is clean.
+- [x] All work committed to `main`.
 
 ## Next Plans (out of scope here)
 
