@@ -69,9 +69,9 @@ func instantiate(type_id: String, pos: Vector2, props: Dictionary = {}) -> Node2
 		return null
 	var entry: Dictionary = _entries[type_id]
 	var node: Node2D = null
-	var scene: Variant = entry.get("scene", null)
-	if scene != null and scene is PackedScene:
-		node = (scene as PackedScene).instantiate()
+	var scene: Variant = entry.get("scene", null)  # Variant because dict values are untyped
+	if scene is PackedScene:
+		node = scene.instantiate()
 	else:
 		node = _default_node_for_category(String(entry.get("category", "")))
 	if node == null:
