@@ -18,7 +18,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.physical_keycode == KEY_ESCAPE:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_ESCAPE:
 		if GameManager != null and GameManager.return_scene != null:
 			get_tree().change_scene_to_packed(GameManager.return_scene)
 

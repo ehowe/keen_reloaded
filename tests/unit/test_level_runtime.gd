@@ -47,6 +47,7 @@ func test_build_spawns_player_and_entities():
 	var ts := lvl.tile_size
 	assert_eq(rt.player.position, Vector2(lvl.player_spawn) * float(ts), "player at spawn")
 	assert_eq(rt.entities_spawned.size(), lvl.entities.size(), "all entities spawned")
+	assert_true(rt.entities_spawned[0].is_in_group("entity"), "entity in group")
 
 
 func test_ready_auto_builds_from_pending_level():
