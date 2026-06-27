@@ -15,6 +15,13 @@ func _ready() -> void:
 	_register_defaults()
 
 
+## Re-register the built-in default roster. Tests that clear() the singleton
+## call this in after_each so the autoload default state survives for later
+## test scripts (the autoload _ready only fires once, at boot).
+func register_defaults() -> void:
+	_register_defaults()
+
+
 ## Ships a small default set so the editor palette isn't empty before episodes
 ## register their own content (Plan 3+). Tests call clear() to start clean.
 func _register_defaults() -> void:
