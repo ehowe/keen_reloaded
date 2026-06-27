@@ -9,6 +9,11 @@ extends RefCounted
 ## index 0. Do NOT call get_collision_polygon_count() — it hangs the headless
 ## engine in 4.7.
 
+# Collision bit values mirror project.godot [layer_names]:
+# layer_1 "player" = bit 1, layer_3 "tiles" = bit 4.
+const COLLISION_LAYER_TILES := 4
+const COLLISION_MASK_PLAYER := 1
+
 ## Build a TileSet with `max_id` colored tiles (ids 1..max_id).
 static func build(max_id: int, tile_size: int, with_collision: bool) -> TileSet:
 	var ts := TileSet.new()
@@ -33,9 +38,8 @@ static func build(max_id: int, tile_size: int, with_collision: bool) -> TileSet:
 	if with_collision:
 		ts.add_physics_layer()
 		var layer: int = ts.get_physics_layers_count() - 1
-		# layer bit 4 = "tiles" (project layer_3), mask bit 1 = "player" (layer_1)
-		ts.set_physics_layer_collision_layer(layer, 4)
-		ts.set_physics_layer_collision_mask(layer, 1)
+		ts.set_physics_layer_collision_layer(layer, COLLISION_LAYER_TILES)
+		ts.set_physics_layer_collision_mask(layer, COLLISION_MASK_PLAYER)
 		var poly := PackedVector2Array([
 			Vector2(0, 0),
 			Vector2(tile_size, 0),

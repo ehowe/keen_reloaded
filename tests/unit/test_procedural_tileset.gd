@@ -7,6 +7,8 @@ func test_solid_tileset_has_tiles_and_collision():
 	var src: TileSetAtlasSource = ts.get_source(0) as TileSetAtlasSource
 	assert_eq(src.get_tiles_count(), 4, "4 tiles for ids 1..4")
 	assert_eq(ts.get_physics_layers_count(), 1, "solid has 1 physics layer")
+	assert_eq(ts.get_physics_layer_collision_layer(0), 4, "tiles collision layer bit")
+	assert_eq(ts.get_physics_layer_collision_mask(0), 1, "player collision mask bit")
 	var td: TileData = src.get_tile_data(Vector2i(0, 0), 0)
 	assert_eq(td.get_collision_polygon_points(0, 0).size(), 4, "tile 1 has a 4-pt collision rect")
 
