@@ -28,12 +28,18 @@ func build(level: LevelData) -> void:
 	_clear()
 	scale = Vector2(RUNTIME_SCALE, RUNTIME_SCALE)
 	var ts := level.tile_size
-	var max_id := _max_tile_id(level)
-	var solid := ProceduralTileSet.build(max_id, ts, true)
-	var decor := ProceduralTileSet.build(max_id, ts, false)
-	layers[LevelData.LAYER_BACKGROUND] = _add_tile_layer(level, LevelData.LAYER_BACKGROUND, decor)
-	layers[LevelData.LAYER_FOREGROUND] = _add_tile_layer(level, LevelData.LAYER_FOREGROUND, decor)
-	layers[LevelData.LAYER_GEOMETRY] = _add_tile_layer(level, LevelData.LAYER_GEOMETRY, solid)
+	var ts_geo: TileSet
+	var ts_decor: TileSet
+	if level.tileset_ref != null:
+		ts_geo = level.tileset_ref
+		ts_decor = level.tileset_ref
+	else:
+		var max_id := _max_tile_id(level)
+		ts_geo = ProceduralTileSet.build(max_id, ts, true)
+		ts_decor = ProceduralTileSet.build(max_id, ts, false)
+	layers[LevelData.LAYER_BACKGROUND] = _add_tile_layer(level, LevelData.LAYER_BACKGROUND, ts_decor)
+	layers[LevelData.LAYER_FOREGROUND] = _add_tile_layer(level, LevelData.LAYER_FOREGROUND, ts_decor)
+	layers[LevelData.LAYER_GEOMETRY] = _add_tile_layer(level, LevelData.LAYER_GEOMETRY, ts_geo)
 	_spawn_player(level, ts)
 	_spawn_entities(level, ts)
 
@@ -42,12 +48,14 @@ func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> 
 	var tml := TileMapLayer.new()
 	tml.name = "Tiles_" + layer_name
 	tml.tile_set = tileset
-	var src_id: int = tileset.get_source_id(0) if tileset.get_source_count() > 0 else -1
+	var src_id: int = TileAtlas.SOURCE_ID if tileset.get_source_count() > 0 else -1
 	for y in range(level.height):
 		for x in range(level.width):
 			var id := level.get_tile(layer_name, x, y)
 			if id > 0 and src_id >= 0:
-				tml.set_cell(Vector2i(x, y), src_id, Vector2i(id - 1, 0))
+				var coords := TileAtlas.atlas_coords_for_id(tileset, id)
+				if coords.x >= 0:
+					tml.set_cell(Vector2i(x, y), src_id, coords)
 	add_child(tml)
 	return tml
 
