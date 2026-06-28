@@ -12,6 +12,7 @@ var _height_spin: SpinBox
 var _spawn_x: SpinBox
 var _spawn_y: SpinBox
 var _entity_box: VBoxContainer
+var _tileset_picker: OptionButton
 
 
 func build(e: LevelEditor) -> void:
@@ -39,6 +40,12 @@ func build(e: LevelEditor) -> void:
 	add_child(_labeled("Spawn X", _spawn_x))
 	add_child(_labeled("Spawn Y", _spawn_y))
 
+	add_child(_section_label("TileSet"))
+	_tileset_picker = OptionButton.new()
+	_populate_tileset_picker()
+	_tileset_picker.item_selected.connect(_on_tileset_selected)
+	add_child(_labeled("Art", _tileset_picker))
+
 	add_child(_section_label("Selected Entity"))
 	_entity_box = VBoxContainer.new()
 	add_child(_entity_box)
@@ -54,6 +61,7 @@ func refresh(e: LevelEditor) -> void:
 	_height_spin.set_value_no_signal(e.level.height)
 	_spawn_x.set_value_no_signal(e.level.player_spawn.x)
 	_spawn_y.set_value_no_signal(e.level.player_spawn.y)
+	_sync_tileset_picker(e.level.tileset_ref)
 	_rebuild_entity_box(e)
 
 
@@ -118,6 +126,42 @@ func _on_dims_changed(_v: float) -> void:
 
 func _on_spawn_changed(_v: float) -> void:
 	_e.level.player_spawn = Vector2i(int(_spawn_x.value), int(_spawn_y.value))
+	_e._broadcast()
+
+
+func _populate_tileset_picker() -> void:
+	_tileset_picker.clear()
+	_tileset_picker.add_item("None (procedural)", 0)
+	_tileset_picker.set_item_metadata(0, "")
+	var dir := DirAccess.open("res://assets/tilesets")
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var fn := dir.get_next()
+	while fn != "":
+		if not dir.current_is_dir() and fn.ends_with(".tres"):
+			_tileset_picker.add_item(fn)
+			_tileset_picker.set_item_metadata(_tileset_picker.item_count - 1, "res://assets/tilesets/%s" % fn)
+		fn = dir.get_next()
+
+
+func _sync_tileset_picker(ts: TileSet) -> void:
+	var want := ""
+	if ts != null and ts.resource_path != null and ts.resource_path != "":
+		want = ts.resource_path
+	for i in range(_tileset_picker.item_count):
+		if String(_tileset_picker.get_item_metadata(i)) == want:
+			_tileset_picker.select(i)
+			return
+	_tileset_picker.select(0)
+
+
+func _on_tileset_selected(index: int) -> void:
+	var path := String(_tileset_picker.get_item_metadata(index))
+	if path == "":
+		_e.level.tileset_ref = null
+	else:
+		_e.level.tileset_ref = load(path)
 	_e._broadcast()
 
 
