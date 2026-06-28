@@ -70,15 +70,16 @@ func _draw() -> void:
 func _layer_pass(layer: String, cs: float, tint: Color) -> void:
 	var ts: TileSet = _level().tileset_ref
 	var has_art := ts != null and ts.get_source_count() > 0
+	var tex: Texture2D = null
+	if has_art:
+		tex = (ts.get_source(TileAtlas.SOURCE_ID) as TileSetAtlasSource).texture
 	for y in range(_level().height):
 		for x in range(_level().width):
 			var id := _level().get_tile(layer, x, y)
 			if id <= 0:
 				continue
 			if has_art:
-				var src: TileSetAtlasSource = ts.get_source(TileAtlas.SOURCE_ID)
 				var region := TileAtlas.tile_region(ts, id)
-				var tex := src.texture
 				draw_texture_rect_region(tex, Rect2(x * cs, y * cs, cs, cs), region, tint)
 			else:
 				draw_rect(Rect2(x * cs, y * cs, cs, cs), EditorColors.tile_color(id) * tint, true)
