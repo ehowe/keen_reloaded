@@ -78,7 +78,7 @@ static func columns(tileset: TileSet) -> int:
     if tex == null or region.x <= 0:
         return 0
     var sep := src.separation.x
-    var margin := src.margin.x
+    var margin := src.margins.x  # NOTE: Godot 4.7 uses `margins` (plural)
     return int((tex.get_width() - margin + sep) / (region.x + sep))
 
 ## Row-major coords for tile id (1-based). id<=0 or out-of-range -> Vector2i(-1,-1).
@@ -99,7 +99,7 @@ static func tile_region(tileset: TileSet, id: int) -> Rect2:
     var src: TileSetAtlasSource = tileset.get_source(SOURCE_ID)
     var region := src.texture_region_size
     var sep := src.separation
-    var margin := src.margin
+    var margin := src.margins  # NOTE: Godot 4.7 uses `margins` (plural)
     return Rect2(
         margin.x + c.x * (region.x + sep.x),
         margin.y + c.y * (region.y + sep.y),
@@ -178,6 +178,14 @@ A dropdown (`OptionButton`) populated by scanning `assets/tilesets/*.tres` via `
 - `LevelData.tile_size` **must equal** the TileSet's `tile_size` (mismatch = misaligned cells).
 - The sheet must be a **complete grid** (no holes before the highest used tile id) so row-major mapping is contiguous.
 - Only static tiles this phase (no `TileSetScenesCollectionSource`, no animation).
+
+### API note (verified against Godot 4.7 stable, headless)
+
+- `TileSetAtlasSource.margins` — **plural** (`margin` does not exist). Same for reading.
+- `TileSetAtlasSource.get_tiles_count()` — **plural** (`get_tile_count` does not exist).
+- `TileSet.add_source(src)` returns the int source id (0 for the first).
+- `Control.draw_texture_rect_region(texture, dest_rect, src_rect, modulate=Color(1,1,1,1))` — draws a sub-region of a texture (used by the editor canvas).
+- `AtlasTexture.atlas` + `AtlasTexture.region` — for palette thumbnails.
 
 ## 5. Data flow
 
