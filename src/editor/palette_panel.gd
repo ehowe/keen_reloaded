@@ -7,6 +7,8 @@ extends VBoxContainer
 ## -> rebuild) and crash. So refresh() must never recreate nodes.
 
 var _tile_buttons: Array[Button] = []
+var _tile_grid: GridContainer
+var _last_tileset: TileSet = null
 var _layer_buttons: Dictionary = {}  # layer -> Button
 var _tool_buttons: Dictionary = {}   # tool -> Button
 var _entity_list: ItemList
@@ -17,21 +19,9 @@ func build(e: LevelEditor) -> void:
 	custom_minimum_size = Vector2(190, 0)
 
 	add_child(_section_label("Tiles"))
-	var grid := GridContainer.new()
-	grid.columns = 4
-	var tile_group := ButtonGroup.new()
-	for id in range(1, LevelEditor.PALETTE_TILE_COUNT + 1):
-		var b := Button.new()
-		b.text = str(id)
-		b.toggle_mode = true
-		b.button_group = tile_group
-		b.add_theme_color_override("font_color", EditorColors.tile_color(id))
-		b.add_theme_color_override("font_hover_color", EditorColors.tile_color(id))
-		var idv := id
-		b.pressed.connect(func() -> void: e.set_selected_tile_id(idv))
-		grid.add_child(b)
-		_tile_buttons.append(b)
-	add_child(grid)
+	_tile_grid = GridContainer.new()
+	_tile_grid.columns = 4
+	add_child(_tile_grid)
 
 	add_child(_section_label("Layer"))
 	var layer_group := ButtonGroup.new()
@@ -64,7 +54,45 @@ func build(e: LevelEditor) -> void:
 		e.set_selected_entity_type(_entity_ids[idx]))
 	add_child(_entity_list)
 	_populate_entities()
+	_rebuild_tile_grid(e)
 	refresh(e)
+
+
+func _rebuild_tile_grid(e: LevelEditor) -> void:
+	for c in _tile_grid.get_children():
+		c.queue_free()
+	_tile_buttons.clear()
+	_last_tileset = e.level.tileset_ref
+	var ts: TileSet = _last_tileset
+	var count := _tile_count(e)
+	var tile_group := ButtonGroup.new()
+	for id in range(1, count + 1):
+		var b := Button.new()
+		b.toggle_mode = true
+		b.button_group = tile_group
+		b.custom_minimum_size = Vector2(40, 40)
+		if ts != null and ts.get_source_count() > 0:
+			b.icon = TileAtlas.tile_icon(ts, id)
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			b.expand_icon = true
+			b.tooltip_text = "Tile %d" % id
+		else:
+			b.text = str(id)
+			b.add_theme_color_override("font_color", EditorColors.tile_color(id))
+			b.add_theme_color_override("font_hover_color", EditorColors.tile_color(id))
+		var idv := id
+		b.pressed.connect(func() -> void: e.set_selected_tile_id(idv))
+		_tile_grid.add_child(b)
+		_tile_buttons.append(b)
+
+
+## Tile count for the palette: the atlas grid size when a TileSet is assigned,
+## else the fixed Plan 2 default.
+func _tile_count(e: LevelEditor) -> int:
+	var ts: TileSet = e.level.tileset_ref
+	if ts != null and ts.get_source_count() > 0:
+		return TileAtlas.tile_count(ts)
+	return LevelEditor.PALETTE_TILE_COUNT
 
 
 func _populate_entities() -> void:
@@ -77,8 +105,12 @@ func _populate_entities() -> void:
 		_entity_list.add_item("[%s] %s" % [cat.left(3), label])
 
 
-## Lightweight: only toggle states. Never recreates nodes (see class doc).
+## Lightweight: toggle states only. Rebuilds the tile grid exclusively when the
+## level's TileSet changed (which happens via the inspector, never a tile click),
+## so it never frees a button during its own pressed emission.
 func refresh(e: LevelEditor) -> void:
+	if e.level.tileset_ref != _last_tileset:
+		_rebuild_tile_grid(e)
 	for i in range(_tile_buttons.size()):
 		_tile_buttons[i].set_pressed_no_signal((i + 1) == e.selected_tile_id)
 	for layer in _layer_buttons:
