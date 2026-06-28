@@ -44,7 +44,7 @@ func build(e: LevelEditor) -> void:
 	_tileset_picker = OptionButton.new()
 	_populate_tileset_picker()
 	_tileset_picker.item_selected.connect(_on_tileset_selected)
-	add_child(_labeled("Art", _tileset_picker))
+	add_child(_labeled("File", _tileset_picker))
 
 	add_child(_section_label("Selected Entity"))
 	_entity_box = VBoxContainer.new()
@@ -136,18 +136,23 @@ func _populate_tileset_picker() -> void:
 	var dir := DirAccess.open("res://assets/tilesets")
 	if dir == null:
 		return
+	var entries: Array[String] = []
 	dir.list_dir_begin()
 	var fn := dir.get_next()
 	while fn != "":
 		if not dir.current_is_dir() and fn.ends_with(".tres"):
-			_tileset_picker.add_item(fn)
-			_tileset_picker.set_item_metadata(_tileset_picker.item_count - 1, "res://assets/tilesets/%s" % fn)
+			entries.append(fn)
 		fn = dir.get_next()
+	dir.list_dir_end()
+	entries.sort()
+	for name in entries:
+		_tileset_picker.add_item(name)
+		_tileset_picker.set_item_metadata(_tileset_picker.item_count - 1, "res://assets/tilesets/%s" % name)
 
 
 func _sync_tileset_picker(ts: TileSet) -> void:
 	var want := ""
-	if ts != null and ts.resource_path != null and ts.resource_path != "":
+	if ts != null and ts.resource_path != "":
 		want = ts.resource_path
 	for i in range(_tileset_picker.item_count):
 		if String(_tileset_picker.get_item_metadata(i)) == want:
@@ -161,7 +166,10 @@ func _on_tileset_selected(index: int) -> void:
 	if path == "":
 		_e.level.tileset_ref = null
 	else:
-		_e.level.tileset_ref = load(path)
+		var loaded := load(path)
+		if loaded == null:
+			push_warning("TileSet load failed: %s" % path)
+		_e.level.tileset_ref = loaded
 	_e._broadcast()
 
 
