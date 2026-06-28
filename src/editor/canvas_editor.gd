@@ -72,7 +72,7 @@ func _layer_pass(layer: String, cs: float, tint: Color) -> void:
 	var has_art := ts != null and ts.get_source_count() > 0
 	var tex: Texture2D = null
 	if has_art:
-		tex = (ts.get_source(TileAtlas.SOURCE_ID) as TileSetAtlasSource).texture
+		tex = TileAtlas.atlas_texture(ts)
 	for y in range(_level().height):
 		for x in range(_level().width):
 			var id := _level().get_tile(layer, x, y)

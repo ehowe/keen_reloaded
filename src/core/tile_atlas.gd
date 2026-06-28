@@ -4,16 +4,41 @@ extends RefCounted
 ## the atlas source's grid (column count derived from the source geometry so
 ## multi-row sheets work). Shared by LevelRuntime + the editor so they never
 ## disagree on which cell a tile id points to.
+##
+## The primary atlas source is resolved by INDEX (get_source_id(0)), not a
+## hardcoded id, so authored TileSets whose first source landed at id != 0
+## (e.g. after deleting + re-adding a source in the editor) still work.
 
-## Atlas source id assumed for authored tilesets (and the procedural fallback).
-const SOURCE_ID := 0
+const INVALID_COORDS := Vector2i(-1, -1)
+
+
+## Actual source id of the primary atlas (resolved by index). -1 if none.
+static func source_id(tileset: TileSet) -> int:
+	if tileset == null or tileset.get_source_count() == 0:
+		return -1
+	return tileset.get_source_id(0)
+
+
+## Resolves the primary atlas source robustly. Returns null if none.
+static func _atlas_source(tileset: TileSet) -> TileSetAtlasSource:
+	if tileset == null or tileset.get_source_count() == 0:
+		return null
+	return tileset.get_source(tileset.get_source_id(0))
+
+
+## Base texture of the atlas (for draw_texture_rect_region). null if none.
+static func atlas_texture(tileset: TileSet) -> Texture2D:
+	var src := _atlas_source(tileset)
+	if src == null:
+		return null
+	return src.texture
 
 
 ## Number of tile columns in the atlas source's grid.
 static func columns(tileset: TileSet) -> int:
-	if tileset == null or tileset.get_source_count() == 0:
+	var src := _atlas_source(tileset)
+	if src == null:
 		return 0
-	var src: TileSetAtlasSource = tileset.get_source(SOURCE_ID)
 	var region := src.texture_region_size
 	var tex := src.texture
 	if tex == null or region.x <= 0:
@@ -25,9 +50,9 @@ static func columns(tileset: TileSet) -> int:
 
 ## Number of tile rows in the atlas source's grid.
 static func rows(tileset: TileSet) -> int:
-	if tileset == null or tileset.get_source_count() == 0:
+	var src := _atlas_source(tileset)
+	if src == null:
 		return 0
-	var src: TileSetAtlasSource = tileset.get_source(SOURCE_ID)
 	var region := src.texture_region_size
 	var tex := src.texture
 	if tex == null or region.y <= 0:
@@ -42,13 +67,13 @@ static func tile_count(tileset: TileSet) -> int:
 	return columns(tileset) * rows(tileset)
 
 
-## Row-major atlas coords for tile id (1-based). id<=0 / no source -> Vector2i(-1,-1).
+## Row-major atlas coords for tile id (1-based). id<=0 / no source -> (-1,-1).
 static func atlas_coords_for_id(tileset: TileSet, id: int) -> Vector2i:
 	if id <= 0 or tileset == null or tileset.get_source_count() == 0:
-		return Vector2i(-1, -1)
+		return INVALID_COORDS
 	var cols := columns(tileset)
 	if cols <= 0:
-		return Vector2i(-1, -1)
+		return INVALID_COORDS
 	var idx := id - 1
 	return Vector2i(idx % cols, idx / cols)
 
@@ -58,7 +83,7 @@ static func tile_region(tileset: TileSet, id: int) -> Rect2:
 	var c := atlas_coords_for_id(tileset, id)
 	if c.x < 0:
 		return Rect2()
-	var src: TileSetAtlasSource = tileset.get_source(SOURCE_ID)
+	var src := _atlas_source(tileset)
 	var region := src.texture_region_size
 	var sep := src.separation
 	var margin := src.margins
@@ -70,9 +95,9 @@ static func tile_region(tileset: TileSet, id: int) -> Rect2:
 
 ## An AtlasTexture for a tile (icon/thumbnail use). Returns null if no texture.
 static func tile_icon(tileset: TileSet, id: int) -> AtlasTexture:
-	if tileset == null or tileset.get_source_count() == 0:
+	var src := _atlas_source(tileset)
+	if src == null:
 		return null
-	var src: TileSetAtlasSource = tileset.get_source(SOURCE_ID)
 	var tex := src.texture
 	if tex == null:
 		return null

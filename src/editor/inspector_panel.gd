@@ -166,9 +166,9 @@ func _on_tileset_selected(index: int) -> void:
 	if path == "":
 		_e.level.tileset_ref = null
 	else:
-		var loaded := load(path)
+		var loaded := load(path) as TileSet
 		if loaded == null:
-			push_warning("TileSet load failed: %s" % path)
+			push_warning("TileSet load failed (wrong type or corrupt): %s" % path)
 		_e.level.tileset_ref = loaded
 	_e._broadcast()
 

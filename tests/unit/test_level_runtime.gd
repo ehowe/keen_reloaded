@@ -96,7 +96,7 @@ func test_build_uses_tileset_ref_when_assigned():
 	assert_eq(rt.layers[LevelData.LAYER_BACKGROUND].tile_set, ts, "background uses the real TileSet")
 	var geo: TileMapLayer = rt.layers[LevelData.LAYER_GEOMETRY]
 	assert_eq(geo.get_cell_atlas_coords(Vector2i(0, 0)), Vector2i(1, 0), "id 2 -> atlas (1,0) via TileAtlas")
-	assert_eq(geo.get_cell_source_id(Vector2i(0, 0)), TileAtlas.SOURCE_ID, "source id 0")
+	assert_eq(geo.get_cell_source_id(Vector2i(0, 0)), TileAtlas.source_id(ts), "source id resolved by index")
 	assert_true(ts.get_physics_layers_count() >= 1, "TileSet carries a physics (collision) layer")
 
 

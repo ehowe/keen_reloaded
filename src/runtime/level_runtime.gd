@@ -1,9 +1,15 @@
 class_name LevelRuntime
 extends Node2D
 ## Builds a playable scene from a LevelData. Creates 3 TileMapLayers from the
-## level's tile arrays (geometry=solid TileSet w/ collision; fg/bg=decor TileSet),
-## spawns the Player at player_spawn, and spawns every EntityDef via the registry.
-## Test ▶ stashes the level in GameManager.pending_level, which _ready() consumes.
+## level's tile arrays, spawns the Player at player_spawn, and spawns every
+## EntityDef via the registry. Test ▶ stashes the level in GameManager.pending_level,
+## which _ready() consumes.
+##
+## TileSet selection: when level.tileset_ref is set, all 3 layers share that one
+## authored TileSet (its per-tile collision applies to EVERY layer — author
+## collision only on tiles meant for the geometry layer, or decor tiles placed
+## in fg/bg will become invisible walls). When null, a ProceduralTileSet is built
+## per layer (geometry=solid w/ collision; fg/bg=decor, no collision).
 
 const RUNTIME_SCALE := 3
 
@@ -48,7 +54,7 @@ func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> 
 	var tml := TileMapLayer.new()
 	tml.name = "Tiles_" + layer_name
 	tml.tile_set = tileset
-	var src_id: int = TileAtlas.SOURCE_ID if tileset.get_source_count() > 0 else -1
+	var src_id: int = TileAtlas.source_id(tileset)
 	for y in range(level.height):
 		for x in range(level.width):
 			var id := level.get_tile(layer_name, x, y)
