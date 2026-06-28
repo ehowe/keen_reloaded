@@ -59,3 +59,27 @@ func test_tile_icon_is_atlas_texture_with_region():
 	var icon: AtlasTexture = TileAtlas.tile_icon(ts, 5)
 	assert_not_null(icon)
 	assert_eq(icon.region, Rect2(2, 19, 16, 16))
+
+
+func test_tile_icon_null_for_null_tileset():
+	assert_null(TileAtlas.tile_icon(null, 1))
+
+
+## Common real-world config: zero separation, single row -> columns == tile_count.
+func test_zero_separation_single_row():
+	var img := Image.create(48, 16, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 1, 1))
+	var tex := ImageTexture.create_from_image(img)
+	var ts := TileSet.new()
+	ts.tile_size = Vector2i(16, 16)
+	var src := TileSetAtlasSource.new()
+	src.texture = tex
+	src.texture_region_size = Vector2i(16, 16)
+	src.margins = Vector2i.ZERO
+	src.separation = Vector2i.ZERO
+	ts.add_source(src)
+	for i in range(3):
+		src.create_tile(Vector2i(i, 0))
+	assert_eq(TileAtlas.columns(ts), 3)
+	assert_eq(TileAtlas.rows(ts), 1)
+	assert_eq(TileAtlas.tile_count(ts), 3)
