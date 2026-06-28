@@ -1,10 +1,13 @@
 class_name PalettePanel
 extends VBoxContainer
 ## Left panel: tile picker, layer toggles, tool toggles, entity list.
-## IMPORTANT: build() creates all nodes ONCE; refresh() only updates toggle
-## states. Rebuilding the tile grid in refresh() would free a button while it is
-## emitting its `pressed` signal (click tile -> set_selected_tile_id -> broadcast
-## -> rebuild) and crash. So refresh() must never recreate nodes.
+## IMPORTANT: build() creates the static Layer/Tool/Entities nodes ONCE; only
+## the tile grid is rebuildable. refresh() may rebuild the tile grid, but ONLY
+## when `tileset_ref` changed (inspector-driven, never mid tile-click). The
+## `_last_tileset` gate enforces this: rebuilding during a tile button's
+## `pressed` emission (click -> set_selected_tile_id -> broadcast -> refresh)
+## would free the emitting button and crash, so refresh() skips the rebuild
+## whenever `tileset_ref == _last_tileset` (the click path).
 
 var _tile_buttons: Array[Button] = []
 var _tile_grid: GridContainer
@@ -72,10 +75,16 @@ func _rebuild_tile_grid(e: LevelEditor) -> void:
 		b.button_group = tile_group
 		b.custom_minimum_size = Vector2(40, 40)
 		if ts != null and ts.get_source_count() > 0:
-			b.icon = TileAtlas.tile_icon(ts, id)
-			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			b.expand_icon = true
-			b.tooltip_text = "Tile %d" % id
+			var icon: AtlasTexture = TileAtlas.tile_icon(ts, id)
+			if icon != null:
+				b.icon = icon
+				b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				b.expand_icon = true
+				b.tooltip_text = "Tile %d" % id
+			else:
+				b.text = str(id)
+				b.add_theme_color_override("font_color", EditorColors.tile_color(id))
+				b.add_theme_color_override("font_hover_color", EditorColors.tile_color(id))
 		else:
 			b.text = str(id)
 			b.add_theme_color_override("font_color", EditorColors.tile_color(id))
