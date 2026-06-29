@@ -232,10 +232,16 @@ func _build_ui() -> void:
 	scroll.add_child(_canvas)
 	columns.add_child(scroll)
 
+	var inspector_scroll := ScrollContainer.new()
+	inspector_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inspector_scroll.custom_minimum_size = Vector2(250, 0)
+	inspector_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_inspector = preload("res://src/editor/inspector_panel.gd").new()
 	_inspector.build(self)
-	_inspector.custom_minimum_size = Vector2(240, 0)
-	columns.add_child(_inspector)
+	_inspector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_inspector.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inspector_scroll.add_child(_inspector)
+	columns.add_child(inspector_scroll)
 
 	_status = Label.new()
 	_status.text = ""

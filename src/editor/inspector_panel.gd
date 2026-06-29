@@ -133,21 +133,10 @@ func _populate_tileset_picker() -> void:
 	_tileset_picker.clear()
 	_tileset_picker.add_item("None (procedural)", 0)
 	_tileset_picker.set_item_metadata(0, "")
-	var dir := DirAccess.open("res://assets/tilesets")
-	if dir == null:
-		return
-	var entries: Array[String] = []
-	dir.list_dir_begin()
-	var fn := dir.get_next()
-	while fn != "":
-		if not dir.current_is_dir() and fn.ends_with(".tres"):
-			entries.append(fn)
-		fn = dir.get_next()
-	dir.list_dir_end()
-	entries.sort()
-	for name in entries:
-		_tileset_picker.add_item(name)
-		_tileset_picker.set_item_metadata(_tileset_picker.item_count - 1, "res://assets/tilesets/%s" % name)
+	for e in TileSetRegistry.available():
+		var idx := _tileset_picker.item_count
+		_tileset_picker.add_item(String(e.get("label", "")))
+		_tileset_picker.set_item_metadata(idx, String(e.get("path", "")))
 
 
 func _sync_tileset_picker(ts: TileSet) -> void:
