@@ -22,9 +22,15 @@ func build(e: LevelEditor) -> void:
 	custom_minimum_size = Vector2(190, 0)
 
 	add_child(_section_label("Tiles"))
+	var tile_scroll := ScrollContainer.new()
+	tile_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tile_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	tile_scroll.custom_minimum_size = Vector2(0, 220)
 	_tile_grid = GridContainer.new()
 	_tile_grid.columns = 4
-	add_child(_tile_grid)
+	_tile_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tile_scroll.add_child(_tile_grid)
+	add_child(tile_scroll)
 
 	add_child(_section_label("Layer"))
 	var layer_group := ButtonGroup.new()
@@ -52,7 +58,7 @@ func build(e: LevelEditor) -> void:
 
 	add_child(_section_label("Entities"))
 	_entity_list = ItemList.new()
-	_entity_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_entity_list.custom_minimum_size = Vector2(0, 100)
 	_entity_list.item_selected.connect(func(idx: int) -> void:
 		e.set_selected_entity_type(_entity_ids[idx]))
 	add_child(_entity_list)
