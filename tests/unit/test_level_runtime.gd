@@ -100,6 +100,24 @@ func test_build_uses_tileset_ref_when_assigned():
 	assert_true(ts.get_physics_layers_count() >= 1, "TileSet carries a physics (collision) layer")
 
 
+func test_build_creates_perimeter_bounds():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	# 3 solid walls (left/right/top), 1 kill zone (bottom) — found by name prefix
+	# so unrelated entity nodes don't pollute the count.
+	var walls := rt.find_children("BoundsWall*", "StaticBody2D", true, false)
+	var kill_zones := rt.find_children("BoundsKillZone*", "Area2D", true, false)
+	assert_eq(walls.size(), 3, "three perimeter walls")
+	assert_eq(kill_zones.size(), 1, "one bottom kill zone")
+	# Walls must sit on the tiles collision layer (4) so the player (mask 4) hits them.
+	for w in walls:
+		assert_eq(w.collision_layer, 4, "wall on tiles layer")
+	# Kill zone must monitor the player layer (1).
+	assert_eq(kill_zones[0].collision_mask, 1, "kill zone detects player")
+
+
 func test_build_falls_back_to_procedural_when_tileset_ref_null():
 	GameManager.pending_level = null
 	var ld := LevelData.new()

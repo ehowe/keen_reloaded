@@ -16,7 +16,7 @@ const LAYER_BACKGROUND := "background"
 @export_group("Dimensions")
 @export var width: int = 0
 @export var height: int = 0
-@export var tile_size: int = 16
+@export var tile_size: int = 64
 
 @export_group("Tile Layers")
 @export var geometry_tiles: PackedInt32Array = []

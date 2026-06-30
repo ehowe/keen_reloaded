@@ -19,7 +19,7 @@ func test_default_construction():
 	assert_eq(ld.level_id, "")
 	assert_eq(ld.width, 0)
 	assert_eq(ld.height, 0)
-	assert_eq(ld.tile_size, 16)
+	assert_eq(ld.tile_size, 64)
 	assert_eq(ld.geometry_tiles.size(), 0)
 	assert_eq(ld.entities.size(), 0)
 	assert_eq(ld.player_spawn, Vector2i.ZERO)

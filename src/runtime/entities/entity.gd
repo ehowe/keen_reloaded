@@ -6,7 +6,7 @@ extends Node2D
 
 signal player_touched(player: Node)
 
-const TILE := 16
+const TILE := 64
 
 var type_id: String = ""
 var properties: Dictionary = {}

@@ -1,4 +1,4 @@
-class GutConfigurationUpdater:
+class ConfigurationUpdater:
 	var EditorGlobals = load("res://addons/gut/gui/editor_globals.gd")
 
 	func warn(message):
@@ -47,8 +47,8 @@ class GutConfigurationUpdater:
 			else:
 				info(str('    ', 'Deleted ', which))
 
-class Gutv9_2_0:
-	extends GutConfigurationUpdater
+class v9_2_0:
+	extends ConfigurationUpdater
 
 	func validate():
 		moved_file('res://.gut_editor_config.json', EditorGlobals.editor_run_gut_config_path)
@@ -116,5 +116,5 @@ static func error_if_not_all_classes_imported() -> bool:
 
 
 static func convert():
-	var inst = Gutv9_2_0.new()
+	var inst = v9_2_0.new()
 	inst.validate()

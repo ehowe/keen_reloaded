@@ -18,7 +18,7 @@ func _init(cont):
 
 
 func _add_save_load():
-	var ctrl = PanelControls.GpcSaveLoad.new('Config', '', '')
+	var ctrl = PanelControls.SaveLoadControl.new('Config', '', '')
 
 	ctrl.save_path_chosen.connect(_on_save_path_chosen)
 	ctrl.load_path_chosen.connect(_on_load_path_chosen)

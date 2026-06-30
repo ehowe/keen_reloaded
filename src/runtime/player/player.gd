@@ -8,11 +8,11 @@ signal score_changed(score: int)
 signal health_changed(health: int)
 signal died
 
-@export var gravity: float = 980.0
-@export var run_speed: float = 120.0
-@export var jump_velocity: float = 300.0
-@export var pogo_bounce: float = 380.0
-@export var max_fall: float = 480.0
+@export var gravity: float = 3920.0
+@export var run_speed: float = 480.0
+@export var jump_velocity: float = 1200.0
+@export var pogo_bounce: float = 1520.0
+@export var max_fall: float = 1920.0
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
 

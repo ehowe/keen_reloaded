@@ -5,7 +5,7 @@ extends Control
 
 var editor: LevelEditor
 
-var zoom: float = 2.0
+var zoom: float = 0.5
 var _last_cell: Vector2i = Vector2i(-1, -1)
 
 
