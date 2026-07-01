@@ -124,7 +124,7 @@ user://levelpacks/<pack_name>/
 └── tilesets/              (shared TileSet overrides, optional)
 ```
 
-Bundled packs live at `res://levels/<episode>/` with the same manifest structure.
+Bundled packs live at `res://assets/levels/<episode>/` with the same manifest structure.
 
 ### 4.3 Load Paths
 
