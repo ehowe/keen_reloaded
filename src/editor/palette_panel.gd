@@ -11,26 +11,31 @@ extends VBoxContainer
 
 var _tile_buttons: Array[Button] = []
 var _tile_grid: GridContainer
+var _tile_scroll: ScrollContainer
 var _last_tileset: TileSet = null
 var _layer_buttons: Dictionary = {}  # layer -> Button
 var _tool_buttons: Dictionary = {}   # tool -> Button
 var _entity_list: ItemList
 var _entity_ids: Array[String] = []
+var _preview_bg: ColorRect
+var _preview_icon: TextureRect
+var _preview_label: Label
 
 
 func build(e: LevelEditor) -> void:
 	custom_minimum_size = Vector2(190, 0)
 
 	add_child(_section_label("Tiles"))
-	var tile_scroll := ScrollContainer.new()
-	tile_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	tile_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	tile_scroll.custom_minimum_size = Vector2(0, 220)
+	add_child(_build_preview())
+	_tile_scroll = ScrollContainer.new()
+	_tile_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_tile_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_tile_scroll.custom_minimum_size = Vector2(0, 220)
 	_tile_grid = GridContainer.new()
 	_tile_grid.columns = 4
 	_tile_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	tile_scroll.add_child(_tile_grid)
-	add_child(tile_scroll)
+	_tile_scroll.add_child(_tile_grid)
+	add_child(_tile_scroll)
 
 	add_child(_section_label("Layer"))
 	var layer_group := ButtonGroup.new()
@@ -46,7 +51,7 @@ func build(e: LevelEditor) -> void:
 
 	add_child(_section_label("Tool"))
 	var tool_group := ButtonGroup.new()
-	for tool: String in ["paint", "erase", "fill", "entity", "select"]:
+	for tool: String in ["paint", "erase", "fill", "entity", "select", "pick"]:
 		var b := Button.new()
 		b.text = LevelEditor.TOOLS[tool]
 		b.toggle_mode = true
@@ -128,6 +133,10 @@ func refresh(e: LevelEditor) -> void:
 		_rebuild_tile_grid(e)
 	for i in range(_tile_buttons.size()):
 		_tile_buttons[i].set_pressed_no_signal((i + 1) == e.selected_tile_id)
+	# Scroll the active tile into view so a picked/selected tile is easy to find.
+	var id := e.selected_tile_id
+	if id >= 1 and id <= _tile_buttons.size():
+		_tile_scroll.ensure_control_visible(_tile_buttons[id - 1])
 	for layer in _layer_buttons:
 		_layer_buttons[layer].set_pressed_no_signal(layer == e.active_layer)
 	for tool in _tool_buttons:
@@ -137,6 +146,38 @@ func refresh(e: LevelEditor) -> void:
 		if _entity_ids[i] == e.selected_entity_type:
 			_entity_list.select(i)
 			break
+	_update_preview(e)
+
+
+## "Current tile" thumbnail at the top of the Tiles section: shows the active
+## brush tile so a picked tile is obvious at a glance.
+func _build_preview() -> Control:
+	var box := HBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_preview_bg = ColorRect.new()
+	_preview_bg.custom_minimum_size = Vector2(64, 64)
+	_preview_bg.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_preview_icon = TextureRect.new()
+	_preview_icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_preview_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_preview_bg.add_child(_preview_icon)
+	box.add_child(_preview_bg)
+	_preview_label = Label.new()
+	_preview_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	box.add_child(_preview_label)
+	return box
+
+
+func _update_preview(e: LevelEditor) -> void:
+	var tile_id := e.selected_tile_id
+	_preview_bg.color = EditorColors.tile_color(tile_id)
+	var ts: TileSet = e.level.tileset_ref
+	if ts != null and ts.get_source_count() > 0:
+		_preview_icon.texture = TileAtlas.tile_icon(ts, tile_id)
+	else:
+		_preview_icon.texture = null
+	_preview_label.text = "Tile %d" % tile_id
 
 
 func _section_label(text: String) -> Label:
