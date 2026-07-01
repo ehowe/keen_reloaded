@@ -81,6 +81,11 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 	p.position = Vector2(level.player_spawn) * float(ts)
 	add_child(p)
 	player = p
+	var world_bounds := Rect2(
+		Vector2.ZERO,
+		Vector2(level.width * ts, level.height * ts) * RUNTIME_SCALE
+	)
+	p.set_camera_bounds(world_bounds)
 
 
 func _spawn_entities(level: LevelData, ts: int) -> void:

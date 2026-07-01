@@ -61,6 +61,18 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+## Clamp the child "Camera2D" to `rect` (world-space pixel rect) so it never
+## scrolls outside the level. Pass the level's pixel bounds at build time.
+func set_camera_bounds(rect: Rect2) -> void:
+	var cam := get_node_or_null("Camera2D") as Camera2D
+	if cam == null:
+		return
+	cam.limit_left = int(rect.position.x)
+	cam.limit_top = int(rect.position.y)
+	cam.limit_right = int(rect.end.x)
+	cam.limit_bottom = int(rect.end.y)
+
+
 func add_score(amount: int) -> void:
 	score += amount
 	score_changed.emit(score)

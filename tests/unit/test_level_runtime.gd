@@ -118,6 +118,21 @@ func test_build_creates_perimeter_bounds():
 	assert_eq(kill_zones[0].collision_mask, 1, "kill zone detects player")
 
 
+func test_build_clamps_camera_to_map_bounds():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	var lvl := _level()
+	rt.build(lvl)
+	var cam := rt.player.get_node_or_null("Camera2D") as Camera2D
+	assert_not_null(cam, "player has a camera")
+	var ts := lvl.tile_size
+	assert_eq(cam.limit_left, 0, "left clamped to map origin")
+	assert_eq(cam.limit_top, 0, "top clamped to map origin")
+	assert_eq(cam.limit_right, lvl.width * ts, "right clamped to map width")
+	assert_eq(cam.limit_bottom, lvl.height * ts, "bottom clamped to map height")
+
+
 func test_build_falls_back_to_procedural_when_tileset_ref_null():
 	GameManager.pending_level = null
 	var ld := LevelData.new()
