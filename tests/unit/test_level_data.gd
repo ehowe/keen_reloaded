@@ -108,3 +108,97 @@ func test_set_get_background_tile():
 	# out of bounds set is ignored (value unchanged)
 	ld.set_background_tile(99, 99, 1)
 	assert_eq(ld.get_background_tile(99, 99), 0)
+
+# --- resize: rows added/removed at TOP, cols at RIGHT; bottom-left anchored ---
+
+func test_resize_grow_height_adds_rows_at_top():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.set_geometry_tile(0, 0, 7)  # top-left
+	ld.set_geometry_tile(0, 2, 9)  # bottom-left
+	ld.resize(4, 5)  # delta_h = +2
+	assert_eq(ld.width, 4)
+	assert_eq(ld.height, 5)
+	assert_eq(ld.geometry_tiles.size(), 20)
+	# new top rows blank
+	assert_eq(ld.get_geometry_tile(0, 0), 0)
+	assert_eq(ld.get_geometry_tile(0, 1), 0)
+	# old top-left shifted down by 2 -> now y2
+	assert_eq(ld.get_geometry_tile(0, 2), 7)
+	# bottom-left stays bottom
+	assert_eq(ld.get_geometry_tile(0, 4), 9)
+
+func test_resize_shrink_height_removes_top_rows():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	for x in range(4):
+		ld.set_geometry_tile(x, 0, 1)  # top row
+		ld.set_geometry_tile(x, 1, 2)  # mid
+		ld.set_geometry_tile(x, 2, 3)  # bottom
+	ld.resize(4, 2)  # delta_h = -1, top row dropped
+	assert_eq(ld.height, 2)
+	# new y0 = old mid (2), new y1 = old bottom (3)
+	for x in range(4):
+		assert_eq(ld.get_geometry_tile(x, 0), 2)
+		assert_eq(ld.get_geometry_tile(x, 1), 3)
+
+func test_resize_grow_width_adds_cols_at_right():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.set_geometry_tile(0, 0, 5)
+	ld.resize(6, 3)
+	assert_eq(ld.width, 6)
+	assert_eq(ld.geometry_tiles.size(), 18)
+	assert_eq(ld.get_geometry_tile(0, 0), 5, "left col preserved in place")
+	assert_eq(ld.get_geometry_tile(4, 0), 0, "new right col blank")
+	assert_eq(ld.get_geometry_tile(5, 0), 0)
+
+func test_resize_shrink_width_removes_right_cols():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.set_geometry_tile(0, 0, 5)
+	ld.set_geometry_tile(3, 0, 8)  # rightmost col
+	ld.resize(2, 3)
+	assert_eq(ld.width, 2)
+	assert_eq(ld.get_geometry_tile(0, 0), 5)
+	assert_eq(ld.get_geometry_tile(3, 0), 0, "removed col reads 0")
+
+func test_resize_preserves_all_layers():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.set_tile(LevelData.LAYER_GEOMETRY, 1, 1, 1)
+	ld.set_tile(LevelData.LAYER_FOREGROUND, 1, 1, 2)
+	ld.set_tile(LevelData.LAYER_BACKGROUND, 1, 1, 3)
+	ld.resize(4, 5)  # delta_h = +2 -> old (1,1) -> new (1,3)
+	assert_eq(ld.get_tile(LevelData.LAYER_GEOMETRY, 1, 3), 1)
+	assert_eq(ld.get_tile(LevelData.LAYER_FOREGROUND, 1, 3), 2)
+	assert_eq(ld.get_tile(LevelData.LAYER_BACKGROUND, 1, 3), 3)
+
+func test_resize_shifts_entities_and_spawn():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.entities.append(EntityDef.new("vorticon", 1, 1))
+	ld.player_spawn = Vector2i(0, 0)
+	ld.resize(4, 5)  # delta_h = +2
+	assert_eq(ld.entities[0].y, 3, "entity pushed down by delta")
+	assert_eq(ld.entities[0].x, 1)
+	assert_eq(ld.player_spawn, Vector2i(0, 2), "spawn pushed down")
+
+func test_resize_shrink_drops_entities_in_removed_rows():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.entities.append(EntityDef.new("a", 0, 0))  # top row -> removed
+	ld.entities.append(EntityDef.new("b", 0, 2))  # bottom -> kept, shifts to y1
+	ld.resize(4, 2)  # delta_h = -1
+	assert_eq(ld.entities.size(), 1)
+	assert_eq(ld.entities[0].type, "b")
+	assert_eq(ld.entities[0].y, 1)
+
+func test_resize_shrink_width_drops_entities_in_removed_cols():
+	var ld := _make_level()  # 4x3
+	ld.fill_blank()
+	ld.entities.append(EntityDef.new("a", 3, 0))  # rightmost col -> removed
+	ld.entities.append(EntityDef.new("b", 0, 0))  # kept
+	ld.resize(2, 3)
+	assert_eq(ld.entities.size(), 1)
+	assert_eq(ld.entities[0].type, "b")

@@ -119,9 +119,7 @@ func _on_episode_changed(t: String) -> void: _e.level.episode = t
 func _on_order_changed(_v: float) -> void: _e.level.order = int(_order_spin.value)
 
 func _on_dims_changed(_v: float) -> void:
-	_e.level.width = int(_width_spin.value)
-	_e.level.height = int(_height_spin.value)
-	_e.level.fill_blank()
+	_e.level.resize(int(_width_spin.value), int(_height_spin.value))
 	_e._broadcast()
 
 func _on_spawn_changed(_v: float) -> void:

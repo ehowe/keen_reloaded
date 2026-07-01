@@ -56,6 +56,65 @@ func fill_blank() -> void:
 	background_tiles.fill(0)
 
 
+## Resizes the level to new_w x new_h, PRESERVING existing tiles. New rows are
+## added/removed at the TOP (y=0); new columns at the RIGHT (x=max). The
+## bottom-left cell stays anchored. Entities and player_spawn shift vertically
+## with added/removed rows; entities landing outside the new bounds are dropped.
+func resize(new_w: int, new_h: int) -> void:
+	new_w = maxi(new_w, 0)
+	new_h = maxi(new_h, 0)
+	var old_w := width
+	var old_h := height
+	var delta_h := new_h - old_h
+	geometry_tiles = _remap_tiles(geometry_tiles, old_w, old_h, new_w, new_h, delta_h)
+	foreground_tiles = _remap_tiles(foreground_tiles, old_w, old_h, new_w, new_h, delta_h)
+	background_tiles = _remap_tiles(background_tiles, old_w, old_h, new_w, new_h, delta_h)
+	width = new_w
+	height = new_h
+	# Columns change at the right -> entity x unchanged. Rows change at the top
+	# -> entity y shifts by delta_h; out-of-bounds entities are dropped.
+	var kept: Array[EntityDef] = []
+	for e in entities:
+		var ny := e.y + delta_h
+		if e.x < 0 or e.x >= new_w or ny < 0 or ny >= new_h:
+			continue
+		e.y = ny
+		kept.append(e)
+	entities = kept
+	# Player spawn follows the same vertical shift; clamp into bounds (kept).
+	var sx := player_spawn.x
+	var sy := player_spawn.y + delta_h
+	if new_w > 0:
+		sx = clampi(sx, 0, new_w - 1)
+	if new_h > 0:
+		sy = clampi(sy, 0, new_h - 1)
+	player_spawn = Vector2i(sx, sy)
+
+
+## Rebuilds a tile layer for a resize. Copies each old cell (x, y) to
+## (x, y + delta_h) when it lands inside the new bounds; everything else is 0.
+static func _remap_tiles(arr: PackedInt32Array, old_w: int, old_h: int, new_w: int, new_h: int, delta_h: int) -> PackedInt32Array:
+	var count := maxi(new_w * new_h, 0)
+	var out := PackedInt32Array()
+	out.resize(count)
+	if count > 0:
+		out.fill(0)
+	if old_w <= 0 or old_h <= 0 or arr.size() == 0:
+		return out
+	for y in range(old_h):
+		var ny := y + delta_h
+		if ny < 0 or ny >= new_h:
+			continue
+		for x in range(old_w):
+			if x >= new_w:
+				break
+			var oi := x + y * old_w
+			if oi >= arr.size():
+				break
+			out[x + ny * new_w] = arr[oi]
+	return out
+
+
 ## Returns the geometry tile id at (x, y). 0 if out of bounds.
 func get_geometry_tile(x: int, y: int) -> int:
 	var idx := tile_index_at(x, y)
