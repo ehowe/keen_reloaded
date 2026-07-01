@@ -14,6 +14,7 @@ const TOOLS := {
 	"fill": "Fill",
 	"entity": "Entity",
 	"select": "Select",
+	"pick": "Pick",
 }
 const PALETTE_TILE_COUNT := 8   # ids 1..N shown in the tile picker
 const DEFAULT_WIDTH := 32
@@ -26,6 +27,7 @@ var active_tool: String = "paint"
 var selected_tile_id: int = 1
 var selected_entity_type: String = "vorticon"
 var selected_entity_index: int = -1
+var tile_selection: Rect2i = Rect2i()  # active tile marquee; zero-area = none
 
 var _canvas: CanvasEditor
 var _palette: PalettePanel
@@ -130,9 +132,74 @@ func edit_at_cell(cell: Vector2i) -> void:
 			cmd.paint(level, cell.x, cell.y)
 			undo_stack.push_applied(level, cmd)
 		"fill":
-			undo_stack.execute(level, FloodFillCmd.new(active_layer, cell, selected_tile_id))
+			# Shift+click flood-erases the region (fill with id 0).
+			var fill_id := selected_tile_id
+			if Input.is_physical_key_pressed(KEY_SHIFT):
+				fill_id = 0
+			undo_stack.execute(level, FloodFillCmd.new(active_layer, cell, fill_id))
 		"entity":
 			_place_entity(cell)
+	_broadcast()
+
+
+## Eyedropper: grab the tile on the active layer at `cell` and make it the active
+## brush, then switch to the Paint tool so it can be reused immediately. No-op on
+## empty or out-of-bounds cells. UI state only -- not recorded on the UndoStack.
+func pick_tile_at(cell: Vector2i) -> void:
+	if cell.x < 0 or cell.y < 0 or cell.x >= level.width or cell.y >= level.height:
+		return
+	var id := level.get_tile(active_layer, cell.x, cell.y)
+	if id <= 0:
+		_set_status("Nothing to pick (empty cell)")
+		return
+	set_selected_tile_id(id)
+	set_tool("paint")
+
+
+## Move every filled tile inside `tile_selection` (across all three layers) by
+## `delta`. Returns false (no-op) when: no active selection, zero delta, nothing
+## filled to move, or any filled tile would land out of bounds. On success pushes
+## one MoveTilesCmd and advances the selection to follow the moved tiles.
+func move_selection(delta: Vector2i) -> bool:
+	if tile_selection.size == Vector2i.ZERO:
+		return false
+	if delta == Vector2i.ZERO:
+		return false
+	var layers := [LevelData.LAYER_GEOMETRY, LevelData.LAYER_FOREGROUND, LevelData.LAYER_BACKGROUND]
+	var end := tile_selection.end  # exclusive
+	# Bounds check: every filled cell's destination must be in-bounds.
+	for layer in layers:
+		for y in range(tile_selection.position.y, end.y):
+			for x in range(tile_selection.position.x, end.x):
+				if level.get_tile(layer, x, y) <= 0:
+					continue
+				var d := Vector2i(x, y) + delta
+				if d.x < 0 or d.y < 0 or d.x >= level.width or d.y >= level.height:
+					_set_status("Move blocked: out of bounds")
+					return false
+	# Gather filled cells per layer into one command.
+	var cmd := MoveTilesCmd.new()
+	cmd.set_delta(delta)
+	for layer in layers:
+		var cells := {}
+		for y in range(tile_selection.position.y, end.y):
+			for x in range(tile_selection.position.x, end.x):
+				var id := level.get_tile(layer, x, y)
+				if id > 0:
+					cells[Vector2i(x, y)] = id
+		if not cells.is_empty():
+			cmd.add_layer(layer, cells)
+	if cmd.is_empty():
+		return false
+	undo_stack.execute(level, cmd)
+	tile_selection.position += delta
+	_broadcast()
+	return true
+
+
+## Clears the active tile marquee (UI state; not recorded on the UndoStack).
+func clear_tile_selection() -> void:
+	tile_selection = Rect2i()
 	_broadcast()
 
 
@@ -343,6 +410,9 @@ func _set_status(text: String) -> void:
 
 
 func _cursor_status() -> String:
-	return "Tool: %s | Layer: %s | Tile: %d | Entity: %s | Undo: %d Redo: %d" % [
+	var hint := ""
+	if active_tool == "fill":
+		hint = " | Shift+click = flood erase"
+	return "Tool: %s | Layer: %s | Tile: %d | Entity: %s | Undo: %d Redo: %d%s" % [
 		active_tool, active_layer, selected_tile_id, selected_entity_type,
-		undo_stack._undo.size(), undo_stack._redo.size()]
+		undo_stack._undo.size(), undo_stack._redo.size(), hint]
