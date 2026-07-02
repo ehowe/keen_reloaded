@@ -34,7 +34,7 @@ func test_editor_place_select_undo_via_controller():
 	assert_eq(inst.level.get_tile(LevelData.LAYER_GEOMETRY, 1, 1), 2)
 	# place an entity
 	inst.set_tool("entity")
-	inst.set_selected_entity_type("vorticon")
+	inst.set_selected_entity_type("keen1.vorticon")
 	inst.edit_at_cell(Vector2i(3, 3))
 	assert_eq(inst.level.entities.size(), 1)
 	# select it -> inspector rebuilds with controls (more than the empty-state label)

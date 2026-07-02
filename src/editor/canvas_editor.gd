@@ -167,7 +167,7 @@ func _on_left_down(cell: Vector2i) -> void:
 	_last_cell = cell
 	match editor.active_tool:
 		"entity":
-			if editor.selected_entity_type == "player_spawn":
+			if editor.selected_entity_type == "keen1.player_spawn":
 				editor.edit_at_cell(cell)
 			else:
 				editor.select_entity(editor.entity_at_cell(cell))

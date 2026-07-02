@@ -25,7 +25,7 @@ var undo_stack: UndoStack
 var active_layer: String = LevelData.LAYER_GEOMETRY
 var active_tool: String = "paint"
 var selected_tile_id: int = 1
-var selected_entity_type: String = "vorticon"
+var selected_entity_type: String = "keen1.vorticon"
 var selected_entity_index: int = -1
 var tile_selection: Rect2i = Rect2i()  # active tile marquee; zero-area = none
 
@@ -231,7 +231,7 @@ func end_stroke() -> void:
 
 
 func _place_entity(cell: Vector2i) -> void:
-	if selected_entity_type == "player_spawn":
+	if selected_entity_type == "keen1.player_spawn":
 		undo_stack.execute(level, SetPlayerSpawnCmd.new(cell))
 		return
 	undo_stack.execute(level, AddEntityCmd.new(EntityDef.new(selected_entity_type, cell.x, cell.y)))
