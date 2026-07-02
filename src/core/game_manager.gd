@@ -16,24 +16,25 @@ func _ready() -> void:
 
 
 ## Scan src/episodes/*/episode.gd, instantiate each Episode, and register its
-## entity types into the global catalog. Idempotent: re-registering overwrites
-## (last-wins on type_id conflict). Tests call this in after_each to restore the
-## default catalog after clear().
+## entity types into the global catalog (registration overwrites on type_id
+## conflict). The metadata list is rebuilt on every call. Tests call this in
+## after_each to restore the default catalog after clear().
 func register_episodes() -> void:
+	episodes.clear()
 	var dir := DirAccess.open(EPISODES_DIR)
 	if dir == null:
 		return
 	dir.list_dir_begin()
-	var name := dir.get_next()
-	while name != "":
-		if dir.dir_exists(name) and dir.file_exists("%s/episode.gd" % name):
-			var path := "%s/%s/episode.gd" % [EPISODES_DIR, name]
-			var EpScript: GDScript = load(path)
-			if EpScript != null:
-				var ep: Episode = EpScript.new()
+	var subdir := dir.get_next()
+	while subdir != "":
+		if dir.dir_exists(subdir) and dir.file_exists("%s/episode.gd" % subdir):
+			var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+			var ep_script: GDScript = load(path)
+			if ep_script != null:
+				var ep: Episode = ep_script.new()
 				ep.register_entities(EntityRegistry)
 				episodes.append({"id": ep.id, "title": ep.title})
-		name = dir.get_next()
+		subdir = dir.get_next()
 	dir.list_dir_end()
 
 

@@ -1,6 +1,6 @@
 extends Node
 ## Extensible entity catalog (autoload). A pure union catalog: episodes register
-## their namespaced types at boot via GameManager._register_episodes(); nothing
+## their namespaced types at boot via GameManager.register_episodes(); nothing
 ## is hardcoded here. The editor palette reads get_palette_entries(); the runtime
 ## spawns via instantiate(type_id, pos, props).
 

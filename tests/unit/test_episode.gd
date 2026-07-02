@@ -15,6 +15,12 @@ func test_keen1_categories():
 	assert_eq(EntityRegistry.get_entry("keen1.candy")["category"], EntityRegistry.CATEGORY_ITEM)
 	assert_eq(EntityRegistry.get_entry("keen1.exit_door")["category"], EntityRegistry.CATEGORY_SPECIAL)
 
+func test_register_episodes_populates_catalog_via_disk_scan():
+	EntityRegistry.clear()
+	GameManager.register_episodes()
+	assert_true(EntityRegistry.has("keen1.vorticon"), "disk scan registered keen1.vorticon")
+	assert_true(EntityRegistry.has("keen1.exit_door"), "disk scan registered keen1.exit_door")
+
 func test_player_spawn_has_no_scene():
 	EntityRegistry.clear()
 	Keen1Episode.new().register_entities(EntityRegistry)
