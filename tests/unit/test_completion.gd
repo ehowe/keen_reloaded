@@ -37,5 +37,19 @@ func test_runtime_completion_shows_overlay_and_pauses():
 	GameManager.return_scene = null
 
 
+func test_overlay_dismissed_on_key_and_click():
+	var ov: CompletionOverlay = add_child_autofree(load("res://src/ui/completion_overlay.tscn").instantiate())
+	watch_signals(ov)
+	var click := InputEventMouseButton.new()
+	click.pressed = true
+	ov._unhandled_input(click)
+	assert_signal_emit_count(ov, "dismissed", 1, "mouse click dismisses")
+	var key := InputEventKey.new()
+	key.pressed = true
+	key.echo = false
+	ov._unhandled_input(key)
+	assert_signal_emit_count(ov, "dismissed", 2, "key press dismisses")
+
+
 func after_each():
 	GameManager.register_episodes()
