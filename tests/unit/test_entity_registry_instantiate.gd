@@ -3,7 +3,7 @@ extends GutTest
 func after_each():
 	# Restore the autoload's default roster so clearing here doesn't leak an
 	# empty registry into later test scripts (e.g. test_level_runtime).
-	EntityRegistry.register_defaults()
+	GameManager.register_episodes()
 
 func test_default_node_per_category():
 	EntityRegistry.clear()

@@ -5,7 +5,7 @@ const G := "geometry"
 func after_each():
 	# Restore the autoload's default roster so clearing here doesn't leak an
 	# empty registry into later test scripts (e.g. test_level_runtime).
-	EntityRegistry.register_defaults()
+	GameManager.register_episodes()
 
 func _level() -> LevelData:
 	var ld := LevelData.new()

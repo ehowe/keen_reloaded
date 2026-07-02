@@ -1,38 +1,18 @@
 extends Node
-## Extensible entity catalog (autoload). This plan implements the DATA layer:
-## register / lookup / palette entries, which the editor's entity palette reads.
-## Plan 3 adds scene instantiation: instantiate(type_id, position, props) -> Node2D.
+## Extensible entity catalog (autoload). A pure union catalog: episodes register
+## their namespaced types at boot via GameManager._register_episodes(); nothing
+## is hardcoded here. The editor palette reads get_palette_entries(); the runtime
+## spawns via instantiate(type_id, pos, props).
 
 const CATEGORY_ENEMY := "enemy"
 const CATEGORY_ITEM := "item"
 const CATEGORY_HAZARD := "hazard"
 const CATEGORY_SPECIAL := "special"
 
-var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properties }
+var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properties, scene }
 
 
-func _ready() -> void:
-	_register_defaults()
-
-
-## Re-register the built-in default roster. Tests that clear() the singleton
-## call this in after_each so the autoload default state survives for later
-## test scripts (the autoload _ready only fires once, at boot).
-func register_defaults() -> void:
-	_register_defaults()
-
-
-## Ships a small default set so the editor palette isn't empty before episodes
-## register their own content (Plan 3+). Tests call clear() to start clean.
-func _register_defaults() -> void:
-	register("vorticon", CATEGORY_ENEMY, "Vorticon")
-	register("yorp", CATEGORY_ENEMY, "Yorp")
-	register("butler", CATEGORY_HAZARD, "Butler Robot")
-	register("candy", CATEGORY_ITEM, "Candy")
-	register("exit_door", CATEGORY_SPECIAL, "Exit Door")
-	register("player_spawn", CATEGORY_SPECIAL, "Player Spawn")
-
-
+## Register (or overwrite) one entity type.
 func register(type_id: String, category: String, label: String, properties: Array = [], scene: PackedScene = null) -> void:
 	_entries[type_id] = {
 		"type_id": type_id,
@@ -76,7 +56,7 @@ func instantiate(type_id: String, pos: Vector2, props: Dictionary = {}) -> Node2
 		return null
 	var entry: Dictionary = _entries[type_id]
 	var node: Node2D = null
-	var scene: Variant = entry.get("scene", null)  # Variant because dict values are untyped
+	var scene: Variant = entry.get("scene", null)
 	if scene is PackedScene:
 		node = scene.instantiate()
 	else:
