@@ -13,7 +13,7 @@ class FakePlayer extends Node:
 
 func _fake_player() -> FakePlayer:
 	var p := FakePlayer.new()
-	add_child(p)
+	add_child_autofree(p)
 	return p
 
 
@@ -57,6 +57,17 @@ func test_enemy_take_damage_reduces_health_and_frees_at_zero():
 	assert_true(e.is_queued_for_deletion(), "enemy frees at 0 health")
 
 
+func test_enemy_death_awards_score_to_player():
+	var e := Enemy.new()
+	e.health = 1
+	e.score_value = 300
+	add_child(e)
+	var p := _fake_player()
+	e.take_damage(1)
+	assert_eq(p.score, 300, "score awarded on death")
+	assert_true(e.is_queued_for_deletion(), "enemy freed on death")
+
+
 func test_entity_ignores_non_player_body():
 	var c := Collectible.new()
 	add_child(c)
@@ -67,7 +78,7 @@ func test_entity_ignores_non_player_body():
 
 
 func test_entity_base_is_character_body():
-	var e := Enemy.new()
+	var e := Collectible.new()
 	add_child(e)
 	assert_true(e is CharacterBody2D, "Entity is now CharacterBody2D")
 	var area := e.find_child("Area2D", true, false)
