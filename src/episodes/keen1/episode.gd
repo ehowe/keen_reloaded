@@ -10,9 +10,12 @@ func _init() -> void:
 
 
 func register_entities(registry: Node) -> void:
-	registry.register("keen1.vorticon", registry.CATEGORY_ENEMY, "Vorticon")
-	registry.register("keen1.yorp", registry.CATEGORY_ENEMY, "Yorp")
-	registry.register("keen1.butler", registry.CATEGORY_HAZARD, "Butler Robot")
+	var vorticon := preload("res://src/runtime/entities/vorticon.tscn")
+	var yorp := preload("res://src/runtime/entities/yorp.tscn")
+	var butler := preload("res://src/runtime/entities/butler.tscn")
+	registry.register("keen1.vorticon", registry.CATEGORY_ENEMY, "Vorticon", [], vorticon)
+	registry.register("keen1.yorp", registry.CATEGORY_ENEMY, "Yorp", [], yorp)
+	registry.register("keen1.butler", registry.CATEGORY_HAZARD, "Butler Robot", [], butler)
 	registry.register("keen1.candy", registry.CATEGORY_ITEM, "Candy")
 	registry.register("keen1.raygun", registry.CATEGORY_ITEM, "Raygun Ammo")
 	registry.register("keen1.exit_door", registry.CATEGORY_SPECIAL, "Exit Door")
