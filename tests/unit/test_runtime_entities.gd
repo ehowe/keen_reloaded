@@ -64,3 +64,12 @@ func test_entity_ignores_non_player_body():
 	add_child(decoy)
 	c._on_body_entered(decoy)  # must not error and must not free
 	assert_false(c.is_queued_for_deletion())
+
+
+func test_entity_base_is_character_body():
+	var e := Enemy.new()
+	add_child(e)
+	assert_true(e is CharacterBody2D, "Entity is now CharacterBody2D")
+	var area := e.find_child("Area2D", true, false)
+	assert_not_null(area, "contact Area2D built")
+	assert_eq(area.collision_mask, 1, "contact Area2D masks the player bit")
