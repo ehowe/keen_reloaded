@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = _dir * patrol_speed
 	if turns_at_walls and is_on_wall():
 		_dir = -_dir
-	if turns_at_ledges:
+	elif turns_at_ledges:
 		var rc := get_node_or_null("LedgeProbe") as RayCast2D
 		if rc != null:
 			rc.target_position = Vector2(_dir * TILE * 0.5, TILE * 0.6)
