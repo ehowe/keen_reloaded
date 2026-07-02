@@ -93,6 +93,28 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 		Vector2(level.width * ts, level.height * ts) * RUNTIME_SCALE
 	)
 	p.set_camera_bounds(world_bounds)
+	_build_hud(p)
+
+
+func _build_hud(p: Node) -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "HUD"
+	add_child(layer)
+	var label := Label.new()
+	label.name = "HUDLabel"
+	label.position = Vector2(12, 8)
+	label.text = _hud_text(int(p.get("score")), int(p.get("ammo")), int(p.get("health")))
+	layer.add_child(label)
+	if p.has_signal("score_changed"):
+		p.score_changed.connect(func(s: int) -> void: label.text = _hud_text(s, int(p.get("ammo")), int(p.get("health"))))
+	if p.has_signal("ammo_changed"):
+		p.ammo_changed.connect(func(a: int) -> void: label.text = _hud_text(int(p.get("score")), a, int(p.get("health"))))
+	if p.has_signal("health_changed"):
+		p.health_changed.connect(func(h: int) -> void: label.text = _hud_text(int(p.get("score")), int(p.get("ammo")), h))
+
+
+func _hud_text(score: int, ammo: int, hp: int) -> String:
+	return "Score: %d   Ammo: %d   HP: %d" % [score, ammo, hp]
 
 
 func _spawn_entities(level: LevelData, ts: int) -> void:
