@@ -78,12 +78,12 @@ func shoot() -> void:
 		return
 	var muzzle := get_node_or_null("Muzzle") as Marker2D
 	var origin: Vector2 = muzzle.global_position if muzzle != null else global_position
-	var proj: Node2D = PROJECTILE.instantiate()
+	var proj: Projectile = PROJECTILE.instantiate()
 	var host: Node = get_parent() if get_parent() != null else get_tree().current_scene
 	host.add_child(proj)
 	proj.global_position = origin
-	if proj.has_method("launch"):
-		proj.launch(_facing)
+	proj.speed = projectile_speed
+	proj.launch(_facing)
 	ammo -= 1
 	ammo_changed.emit(ammo)
 

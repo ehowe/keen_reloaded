@@ -16,12 +16,14 @@ func test_shoot_spawns_projectile_and_decrements():
 	add_child_autofree(host)
 	var p := Player.new()
 	host.add_child(p)  # parent = host so the projectile lands as a sibling
+	p.projectile_speed = 999.0
 	var before := host.get_child_count()
 	p.shoot()
 	assert_eq(p.ammo, p.max_ammo - 1, "ammo decremented")
 	assert_eq(host.get_child_count(), before + 1, "projectile spawned as sibling")
-	var proj := host.get_child(host.get_child_count() - 1)
+	var proj := host.get_child(host.get_child_count() - 1) as Projectile
 	assert_true(proj is Projectile, "spawned node is a Projectile")
+	assert_eq(proj.speed, 999.0, "player projectile_speed wired to bolt")
 
 
 func test_no_shoot_at_zero_ammo():
