@@ -20,6 +20,8 @@ const WALL_THICKNESS := 256.0
 var layers: Dictionary = {}  # layer_name -> TileMapLayer
 var player: Node2D = null
 var entities_spawned: Array[Node2D] = []
+var elapsed: float = 0.0
+var _completed: bool = false
 
 var _level: LevelData = null
 var _tile_size: int = 64
@@ -34,6 +36,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_ESCAPE:
 		if GameManager != null and GameManager.return_scene != null:
 			get_tree().change_scene_to_packed(GameManager.return_scene)
+
+
+func _process(delta: float) -> void:
+	if not _completed:
+		elapsed += delta
 
 
 ## Tear down any previous build and assemble the world from `level`.
@@ -94,6 +101,34 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 		if node != null:
 			add_child(node)
 			entities_spawned.append(node)
+			if node.has_signal("level_completed"):
+				node.level_completed.connect(_on_level_completed)
+
+
+func _on_level_completed() -> void:
+	if _completed:
+		return
+	_completed = true
+	var layer := CanvasLayer.new()
+	layer.name = "CompletionOverlay"
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(layer)
+	var panel: CompletionOverlay = preload("res://src/ui/completion_overlay.tscn").instantiate()
+	layer.add_child(panel)
+	var score := 0
+	if is_instance_valid(player) and player.get("score") != null:
+		score = int(player.score)
+	panel.get_node("Label").text = "Level Complete!\nScore: %d\nTime: %.1f s\n\nPress any key / Esc" % [score, elapsed]
+	panel.dismissed.connect(_on_completion_dismissed)
+	get_tree().paused = true
+
+
+func _on_completion_dismissed() -> void:
+	get_tree().paused = false
+	if GameManager != null and GameManager.return_scene != null:
+		get_tree().change_scene_to_packed(GameManager.return_scene)
+	else:
+		get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
 
 
 func _max_tile_id(level: LevelData) -> int:
@@ -110,6 +145,8 @@ func _clear() -> void:
 	layers.clear()
 	_level = null
 	_tile_size = 64
+	_completed = false
+	elapsed = 0.0
 	for c in get_children():
 		c.queue_free()
 
