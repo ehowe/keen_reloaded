@@ -73,3 +73,5 @@ func test_entity_base_is_character_body():
 	var area := e.find_child("Area2D", true, false)
 	assert_not_null(area, "contact Area2D built")
 	assert_eq(area.collision_mask, 1, "contact Area2D masks the player bit")
+	assert_eq(e.collision_layer, 8, "static entity body on items layer")
+	assert_eq(e.collision_mask, 0, "static entity body collides with nothing")

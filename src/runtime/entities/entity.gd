@@ -5,8 +5,8 @@ extends CharacterBody2D
 ## named "Visual", it is used as-is (the art seam); otherwise a fallback ColorRect
 ## is built. Subclasses override _handle_player() to react on contact.
 ##
-## Base defaults to static-item collision (layer=items, mask=0); physics
-## subclasses (Enemy) override _ready() to set body collision + add a shape.
+## Base defaults to static-item collision (layer=items, mask=0); physics subclasses
+## (added in later tasks) override _ready() to set body collision + add a shape.
 
 signal player_touched(player: Node)
 
