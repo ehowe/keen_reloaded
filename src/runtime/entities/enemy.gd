@@ -91,7 +91,9 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
-	if _stunned:
+	if _dying:
+		velocity.x = 0.0
+	elif _stunned:
 		velocity.x = 0.0
 		_stun_timer -= delta
 		if _stun_timer <= 0.0:
@@ -190,11 +192,45 @@ func _on_recover() -> void:
 
 
 func take_damage(amount: int) -> void:
+	if _dying or _dead:
+		return
 	health -= amount
 	if health <= 0:
-		var tree := get_tree()
-		if tree != null:
-			var p := tree.get_first_node_in_group("player")
-			if p != null and p.has_method("add_score"):
-				p.add_score(score_value)
-		queue_free()
+		_enter_shot_death()
+
+
+func _enter_shot_death() -> void:
+	_dying = true
+	velocity = Vector2.ZERO
+	_state = State.SHOT
+	var shot := _sprites.get("Shot") as AnimatedSprite2D
+	if shot != null and shot.sprite_frames != null:
+		var names := shot.sprite_frames.get_animation_names()
+		if names.size() > 0:
+			shot.visible = true
+			if not shot.sprite_frames.has_animation(shot.animation):
+				shot.animation = names[0]
+			if not shot.is_playing():
+				shot.play()
+			if not shot.animation_finished.is_connected(_on_shot_finished):
+				shot.animation_finished.connect(_on_shot_finished)
+			get_tree().create_timer(0.6).timeout.connect(_die)
+			return
+	_die()  # no death art -> die immediately
+
+
+func _on_shot_finished() -> void:
+	_die()
+
+
+## Idempotent death: awards score once, then frees the node.
+func _die() -> void:
+	if _dead:
+		return
+	_dead = true
+	var tree := get_tree()
+	if tree != null:
+		var p := tree.get_first_node_in_group("player")
+		if p != null and p.has_method("add_score"):
+			p.add_score(score_value)
+	queue_free()

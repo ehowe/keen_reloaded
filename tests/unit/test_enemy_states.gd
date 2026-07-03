@@ -164,3 +164,45 @@ func test_side_contact_ignored_while_stunned():
 	e._handle_player(p)
 	assert_eq(p.health, 3, "harmless while stunned")
 	assert_eq(p.velocity.x, 0.0, "no knockback while stunned")
+
+
+func test_no_shot_art_dies_immediately():
+	var e := _new_enemy()  # no Shot sprite
+	e.score_value = 100
+	var p := _fake_player()
+	e.take_damage(1)
+	assert_true(e.is_queued_for_deletion(), "freed immediately with no death art")
+	assert_eq(p.score, 100, "score awarded")
+
+
+func test_shot_art_defers_death_and_marks_dying():
+	var e := _new_enemy()
+	var shot := _add_sprite(e, "Shot")
+	var frames := SpriteFrames.new()
+	frames.add_frame(&"default", load("res://assets/sprites/Yorp 64x96.png"))
+	shot.sprite_frames = frames
+	e._cache_sprites()
+	e.take_damage(1)
+	assert_true(e._dying, "dying flag set")
+	assert_eq(e._state, Enemy.State.SHOT, "state SHOT")
+	assert_false(e.is_queued_for_deletion(), "not freed until anim/timer completes")
+
+
+func test_take_damage_ignored_once_dying():
+	var e := _new_enemy()
+	e.score_value = 50
+	var p := _fake_player()
+	e.take_damage(1)   # dies immediately (no art)
+	var score_before := p.score
+	e.take_damage(1)   # ignored
+	assert_eq(p.score, score_before, "no double score on repeat hit")
+
+
+func test_die_is_idempotent():
+	var e := _new_enemy()
+	e.score_value = 100
+	var p := _fake_player()
+	e._die()
+	e._die()
+	assert_true(e.is_queued_for_deletion(), "freed once")
+	assert_eq(p.score, 100, "score awarded exactly once")
