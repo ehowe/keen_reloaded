@@ -1,13 +1,14 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://b86psgsmctsmh"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/exit_door.gd" id="1_exit"]
+[ext_resource type="Script" uid="uid://d15pjb881mj5u" path="res://src/runtime/entities/exit_door.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://ccwbvfelvkohg" path="res://assets/sprites/Exit Door.png" id="2_ndiyv"]
 
-[node name="ExitDoor" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_ndiyv")
+
+[node name="ExitDoor" type="CharacterBody2D" unique_id=1317286112]
 script = ExtResource("1_exit")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -32.0
-offset_top = -48.0
-offset_right = 32.0
-offset_bottom = 48.0
-color = Color(0.4, 0.9, 1.0, 1)
+[node name="Visual" type="Sprite2D" parent="." unique_id=23046187]
+position = Vector2(-30, -46)
+texture = SubResource("AtlasTexture_x4u6v")

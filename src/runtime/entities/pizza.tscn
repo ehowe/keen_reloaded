@@ -1,13 +1,14 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://btyqu8r4l8bf2"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/pizza.gd" id="1_pizza"]
+[ext_resource type="Script" uid="uid://cj3uqpqjsp26t" path="res://src/runtime/entities/pizza.gd" id="1_pizza"]
+[ext_resource type="Texture2D" uid="uid://y4wl0o3l5kp6" path="res://assets/tilesets/Invasion of the Vorticons - 64x64.png" id="2_2jsyo"]
 
-[node name="Pizza" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_2jsyo")
+region = Rect2(384, 960, 64, 64)
+
+[node name="Pizza" type="CharacterBody2D" unique_id=1758215728]
 script = ExtResource("1_pizza")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.95, 0.4, 0.2, 1)
+[node name="Visual" type="Sprite2D" parent="." unique_id=1652409526]
+texture = SubResource("AtlasTexture_x4u6v")
