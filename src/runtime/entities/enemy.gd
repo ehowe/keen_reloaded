@@ -219,10 +219,14 @@ func _handle_player(player: Node) -> void:
 	# else: side contact while stunned -> harmless (ignored)
 
 
-## Hook: landed on from above. Default = stun + bounce the player up.
+## Hook: landed on from above. Default = stun + bounce the player up. A re-stomp
+## on an already-stunned enemy refreshes the stun but does NOT bounce again --
+## otherwise the small stomp_bounce (~77px) lets the player exit and re-enter the
+## contact Area2D every cycle, soft-locking them in an infinite stomp-bounce loop.
 func _on_stomped(player: Node) -> void:
+	var already_stunned := _stunned
 	stun(stun_duration)
-	if player is CharacterBody2D and stomp_bounce > 0.0:
+	if not already_stunned and player is CharacterBody2D and stomp_bounce > 0.0:
 		(player as CharacterBody2D).velocity.y = -stomp_bounce
 
 

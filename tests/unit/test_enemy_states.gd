@@ -171,6 +171,28 @@ func test_restomp_refreshes_timer():
 	assert_almost_eq(e._stun_timer, 4.0, 0.001, "timer refreshed to full")
 
 
+func test_restomp_does_not_rebounce_player():
+	# Regression: a stomp bounce (~77px) is enough for the player to exit and
+	# re-enter the enemy's contact Area2D. If a re-stomp bounces again, the
+	# player soft-locks in an infinite stomp-bounce loop. A re-stomp must
+	# refresh the stun timer WITHOUT re-bouncing the player.
+	var e := _new_enemy()
+	e.global_position = Vector2(0, 0)
+	e.stomp_bounce = 520.0
+	var p := _fake_player()
+	p.global_position = Vector2(0, -40)  # above
+	p.velocity = Vector2(0, 500)         # falling
+	# First stomp: stuns + bounces.
+	e._handle_player(p)
+	assert_true(e._stunned, "first stomp stuns")
+	assert_lt(p.velocity.y, 0.0, "first stomp bounces player up")
+	# Second stomp while still stunned: refreshes timer but must NOT bounce.
+	p.velocity = Vector2(0, 500)         # falling again
+	e._handle_player(p)
+	assert_almost_eq(e._stun_timer, 4.0, 0.001, "timer still refreshed on re-stomp")
+	assert_eq(p.velocity.y, 500.0, "re-stomp must not re-bounce (soft-lock fix)")
+
+
 func test_side_contact_knockback_and_damage():
 	var e := _new_enemy()
 	e.global_position = Vector2(100, 0)
