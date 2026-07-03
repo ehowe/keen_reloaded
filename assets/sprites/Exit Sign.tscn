@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://dyjhrqk66kmkn" path="res://assets/sprites/Exit Sign.png" id="1_sujuj"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ueu3a"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sujuj"]
 atlas = ExtResource("1_sujuj")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gbfv2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ueu3a"]
 atlas = ExtResource("1_sujuj")
 region = Rect2(64, 0, 64, 64)
 
@@ -14,18 +14,19 @@ region = Rect2(64, 0, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ueu3a")
+"texture": SubResource("AtlasTexture_sujuj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gbfv2")
+"texture": SubResource("AtlasTexture_ueu3a")
 }],
 "loop": 1,
 "name": &"default",
-"speed": 2.0
+"speed": 1.0
 }]
 
-[node name="ExitSign" type="Node" unique_id=1968177948]
+[node name="ExitSign" type="Node2D" unique_id=529262940]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1153809751]
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=2102879462]
 sprite_frames = SubResource("SpriteFrames_x4u6v")
-frame_progress = 0.54181135
+autoplay = "default"
+frame_progress = 0.051491093
