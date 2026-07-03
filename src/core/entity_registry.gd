@@ -72,8 +72,17 @@ func instantiate(type_id: String, pos: Vector2, props: Dictionary = {}) -> Node2
 	var entry: Dictionary = _entries[type_id]
 	var node: Node2D = null
 	var scene: Variant = entry.get("scene", null)
+	var scene_path: String = String(entry.get("scene_path", ""))
 	if scene is PackedScene:
 		node = scene.instantiate()
+	elif scene_path != "":
+		if not ResourceLoader.exists(scene_path):
+			push_warning("EntityRegistry: sprite scene not found '%s'" % scene_path)
+			return null
+		var wrapper := SpriteEntity.new()
+		var packed := load(scene_path) as PackedScene
+		wrapper.add_child(packed.instantiate())
+		node = wrapper
 	else:
 		node = _default_node_for_category(String(entry.get("category", "")))
 	if node == null:
