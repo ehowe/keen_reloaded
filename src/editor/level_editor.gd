@@ -367,22 +367,36 @@ func _on_save_path(path: String) -> void:
 	_last_path = path
 	var err := ResourceSaver.save(level, path)
 	if err == OK:
+		_remember_path(path)
 		_set_status("Saved: %s" % path)
 	else:
 		_set_status("Save FAILED (error %d): %s" % [err, path])
 
 
 func _on_load_path(path: String) -> void:
+	if _load_from_path(path):
+		_remember_path(path)
+		_set_status("Loaded: %s" % path)
+	else:
+		_set_status("Load FAILED (not a LevelData): %s" % path)
+
+
+## Loads a .tres into the editor without touching the dialog. Returns true on
+## success. Does not set status (callers choose their own message) and does not
+## touch disk memory (the dialog caller remembers on success; auto-reopen does
+## not, since the path is unchanged).
+func _load_from_path(path: String) -> bool:
+	if not ResourceLoader.exists(path):
+		return false
 	var loaded := ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as LevelData
 	if loaded == null:
-		_set_status("Load FAILED (not a LevelData): %s" % path)
-		return
+		return false
 	level = loaded
 	undo_stack.clear()
 	selected_entity_index = -1
 	_last_path = path
 	_broadcast()
-	_set_status("Loaded: %s" % path)
+	return true
 
 
 # ------------------------------------------------------------------ persistence

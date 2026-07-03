@@ -86,3 +86,34 @@ func test_remember_then_recall_path_round_trips():
 func test_recall_with_no_config_returns_empty():
 	var ed := LevelEditor.new()
 	assert_eq(ed._recall_path(), "")
+
+
+func test_load_from_path_loads_valid_level_and_sets_last_path():
+	var ld := _level()
+	var path := "user://tests/test_remember_load.tres"
+	DirAccess.make_dir_recursive_absolute("user://tests/")
+	assert_eq(ResourceSaver.save(ld, path), OK)
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	assert_true(ed._load_from_path(path))
+	assert_not_null(ed.level)
+	assert_eq(ed._last_path, path)
+
+
+func test_load_from_path_returns_false_for_missing_file():
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	assert_false(ed._load_from_path("user://tests/does_not_exist_12345.tres"))
+	assert_null(ed.level)
+
+
+func test_load_from_path_returns_false_for_non_leveldata():
+	var path := "user://tests/test_remember_notlevel.tres"
+	DirAccess.make_dir_recursive_absolute("user://tests/")
+	# A real, savable resource that is NOT a LevelData (Gradient). Loading it and
+	# casting `as LevelData` yields null without emitting engine errors.
+	var r := Gradient.new()
+	assert_eq(ResourceSaver.save(r, path), OK)
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	assert_false(ed._load_from_path(path))
