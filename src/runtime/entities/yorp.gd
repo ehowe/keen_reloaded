@@ -1,7 +1,8 @@
 class_name Yorp
 extends Enemy
-## Keen 1 Yorp: slow patrol; on contact knocks the player back and deals minor
-## damage; 1 hit to defeat.
+## Keen 1 Yorp: slow patrol; on side contact knocks the player back and deals
+## minor damage; a stomp from above stuns it (recoverable); 1 blaster hit to
+## defeat. All behaviour comes from the Enemy base; this class only tunes knobs.
 
 
 func _ready() -> void:
@@ -10,12 +11,3 @@ func _ready() -> void:
 	score_value = 100
 	patrol_speed = 70.0
 	contact_damage = 1
-
-
-func _handle_player(player: Node) -> void:
-	var d := 1
-	if player is CharacterBody2D:
-		d = signi(player.global_position.x - global_position.x)
-		player.velocity = Vector2(d * knockback_x, -knockback_y)
-	if player.has_method("take_damage"):
-		player.take_damage(contact_damage)
