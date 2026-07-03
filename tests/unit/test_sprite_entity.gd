@@ -42,9 +42,36 @@ func test_instantiate_sprite_wraps_scene_in_sprite_entity():
 	assert_eq(node.position, Vector2(100, 200))
 	assert_eq(node.type_id, "keen1.exit_sign")
 	assert_true(node.is_in_group("entity"))
-	# The raw sprite scene is the wrapper's only child.
+	# The sprite's visual is the wrapper's only child (reparented from the
+	# scene's bare-Node root so it inherits the wrapper's transform).
 	assert_eq(node.get_child_count(), 1)
 	assert_true(node.get_child(0) is Node)
+
+
+func test_instantiate_sprite_visual_inherits_wrapper_position():
+	# Regression: a sprite scene whose root is a bare Node (not a CanvasItem)
+	# must still render at the wrapper's position. A non-CanvasItem between the
+	# wrapper and the sprite severs the canvas transform chain, so the sprite
+	# would otherwise render at the world origin (0, 0) instead of here.
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.exit_sign", EntityRegistry.CATEGORY_DECOR, "Exit Sign",
+		"res://assets/sprites/Exit Sign.tscn")
+	var cell_center := Vector2(224, 224)
+	var wrapper := add_child_autofree(EntityRegistry.instantiate("keen1.exit_sign", cell_center)) as Node2D
+	assert_not_null(wrapper)
+	var visual := _first_canvas_descendant(wrapper)
+	assert_not_null(visual, "sprite scene contributed a CanvasItem visual")
+	assert_eq(visual.global_position, cell_center, "sprite visual renders at the wrapper's position")
+
+
+func _first_canvas_descendant(n: Node) -> CanvasItem:
+	for c in n.get_children():
+		if c is CanvasItem:
+			return c
+		var deeper := _first_canvas_descendant(c)
+		if deeper != null:
+			return deeper
+	return null
 
 
 func test_instantiate_sprite_missing_path_returns_null():

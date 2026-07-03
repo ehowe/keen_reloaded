@@ -15,3 +15,26 @@ extends Node2D
 func setup(p_type_id: String, p_props: Dictionary = {}) -> void:
 	type_id = p_type_id
 	properties = p_props
+
+
+## Attach an instantiated sprite scene as this wrapper's visual content. The
+## scene's root is usually a Node2D/Sprite2D and is added directly, so its
+## transform inherits this wrapper's position. If the root is a non-CanvasItem
+## (e.g. a plain organizational Node — see assets/sprites/Exit Sign.tscn), a
+## non-CanvasItem between two CanvasItems severs the canvas transform chain and
+## the sprite would render at the world origin instead of at this wrapper; in
+## that case the root's direct CanvasItem children are reparented into the
+## wrapper (artist-authored local offsets preserved) and the bare root is freed.
+func attach_sprite(root: Node) -> void:
+	if root is CanvasItem:
+		add_child(root)
+		return
+	var canvas_kids: Array[Node] = []
+	for c in root.get_children():
+		if c is CanvasItem:
+			canvas_kids.append(c)
+	for c in canvas_kids:
+		root.remove_child(c)
+		c.owner = null
+		add_child(c)
+	root.free()

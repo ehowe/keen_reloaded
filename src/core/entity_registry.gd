@@ -81,7 +81,7 @@ func instantiate(type_id: String, pos: Vector2, props: Dictionary = {}) -> Node2
 			return null
 		var wrapper := SpriteEntity.new()
 		var packed := load(scene_path) as PackedScene
-		wrapper.add_child(packed.instantiate())
+		wrapper.attach_sprite(packed.instantiate())
 		node = wrapper
 	else:
 		node = _default_node_for_category(String(entry.get("category", "")))
