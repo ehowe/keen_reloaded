@@ -1,8 +1,10 @@
 extends GutTest
 
 func after_each():
-	# Restore the autoload's default roster so clearing here doesn't leak an
-	# empty registry into later test scripts (e.g. test_level_runtime).
+	# Clear first: register_episodes() only re-runs each episode's
+	# register_entities() (add/overwrite), so a non-episode type_id registered
+	# by a test (e.g. keen1.exit_sign) would otherwise leak into later scripts.
+	EntityRegistry.clear()
 	GameManager.register_episodes()
 
 
@@ -23,6 +25,7 @@ func test_register_sprite_adds_decor_entry():
 	assert_eq(e["category"], EntityRegistry.CATEGORY_DECOR)
 	assert_eq(e["label"], "Exit Sign")
 	assert_eq(e["scene_path"], "res://assets/sprites/Exit Sign.tscn")
+	assert_eq(e.get("properties"), [], "properties defaults to empty array")
 	# Surfaced in the palette, grouped under decor.
 	var entries := EntityRegistry.get_palette_entries()
 	assert_eq(entries.size(), 1)

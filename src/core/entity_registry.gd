@@ -10,7 +10,7 @@ const CATEGORY_HAZARD := "hazard"
 const CATEGORY_SPECIAL := "special"
 const CATEGORY_DECOR := "decor"
 
-var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properties, scene }
+var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properties, scene | scene_path }
 
 
 ## Register (or overwrite) one entity type.
