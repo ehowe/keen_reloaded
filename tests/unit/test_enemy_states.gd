@@ -63,7 +63,6 @@ func test_cache_sprites_drops_placeholder_visual():
 	_add_sprite(e, "Stunned")
 	_add_sprite(e, "Shot")
 	e._cache_sprites()
-	await get_tree().process_frame  # let queue_free take effect
 	assert_false(e.has_node("Visual"), "placeholder Visual removed once sprites exist")
 
 
