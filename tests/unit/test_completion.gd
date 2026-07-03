@@ -19,6 +19,7 @@ func test_exit_door_emits_once():
 	add_child_autofree(stub)
 	door._handle_player(stub)
 	door._handle_player(stub)  # second contact must not re-emit
+	await wait_seconds(1.2)  # let the walk-out timer fire before asserting
 	assert_signal_emit_count(door, "level_completed", 1, "level_completed emitted exactly once")
 
 

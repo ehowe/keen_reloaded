@@ -39,6 +39,9 @@ var _windup: float = 0.0
 var _jumping: bool = false
 var _jump_dir: float = 0.0
 var _anim: String = ""
+var _input_locked: bool = false
+var _forced_dir: float = 0.0
+var _speed_scale: float = 1.0
 
 
 func _ready() -> void:
@@ -48,18 +51,26 @@ func _ready() -> void:
 	_align_sprite_feet()
 
 
+## Locks player input and optionally forces horizontal movement (dir = -1/0/1).
+## speed_scale multiplies run_speed while locked (e.g. 0.5 = half speed for exits).
+func lock_input(dir: float = 0.0, speed_scale: float = 1.0) -> void:
+	_input_locked = true
+	_forced_dir = dir
+	_speed_scale = speed_scale
+
+
 func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
 
 	var on_floor := is_on_floor()
-	var dir := Input.get_axis("move_left", "move_right")
+	var dir := _forced_dir if _input_locked else Input.get_axis("move_left", "move_right")
 	if _windup > 0.0:
 		# wind-up: halt horizontal; direction locked at jump press for launch
 		velocity.x = 0.0
 	elif on_floor:
-		velocity.x = dir * run_speed
+		velocity.x = dir * run_speed * (_speed_scale if _input_locked else 1.0)
 		if dir != 0:
 			_facing = signi(dir)
 	elif _jumping and _jump_dir != 0.0 and dir != 0.0:
@@ -70,7 +81,7 @@ func _physics_process(delta: float) -> void:
 
 	_coyote = coyote_time if on_floor else _coyote - delta
 
-	if Input.is_action_just_pressed("jump"):
+	if not _input_locked and Input.is_action_just_pressed("jump"):
 		_buffer = jump_buffer
 	else:
 		_buffer -= delta
@@ -89,13 +100,13 @@ func _physics_process(delta: float) -> void:
 			velocity.x = _jump_dir * leap_speed
 			_jumping = true
 
-	if Input.is_action_just_pressed("pogo"):
+	if not _input_locked and Input.is_action_just_pressed("pogo"):
 		_pogo = not _pogo
 
 	if _pogo and on_floor and _windup <= 0.0:
 		velocity.y = -pogo_bounce
 
-	if Input.is_action_just_pressed("shoot"):
+	if not _input_locked and Input.is_action_just_pressed("shoot"):
 		shoot()
 
 	if _jumping and velocity.y < 0.0 and not Input.is_action_pressed("jump"):

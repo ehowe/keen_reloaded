@@ -10,5 +10,5 @@ atlas = ExtResource("2_ndiyv")
 script = ExtResource("1_exit")
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=23046187]
-position = Vector2(-30, -46)
+position = Vector2(-27, -46)
 texture = SubResource("AtlasTexture_x4u6v")

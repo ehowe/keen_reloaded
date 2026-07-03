@@ -138,6 +138,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=85974780]
+z_index = 1
 collision_mask = 4
 script = ExtResource("1_player")
 
