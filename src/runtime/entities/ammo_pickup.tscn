@@ -1,13 +1,15 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cqu0stec1rcb8"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/ammo_pickup.gd" id="1_ammo"]
+[ext_resource type="Script" uid="uid://bn02tun02ruso" path="res://src/runtime/entities/ammo_pickup.gd" id="1_ammo"]
+[ext_resource type="Texture2D" uid="uid://y4wl0o3l5kp6" path="res://assets/tilesets/Invasion of the Vorticons - 64x64.png" id="2_6cs1u"]
 
-[node name="AmmoPickup" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
+atlas = ExtResource("2_6cs1u")
+region = Rect2(384, 832, 64, 64)
+
+[node name="AmmoPickup" type="CharacterBody2D" unique_id=922844056]
 script = ExtResource("1_ammo")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.3, 0.9, 0.4, 1)
+[node name="Visual" type="Sprite2D" parent="." unique_id=2129226763]
+scale = Vector2(1, 0.959)
+texture = SubResource("AtlasTexture_07erc")

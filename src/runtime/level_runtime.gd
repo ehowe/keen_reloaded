@@ -83,9 +83,14 @@ func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> 
 	return tml
 
 
+func _cell_center(cell: Vector2i, ts: int) -> Vector2:
+	var f := float(ts)
+	return Vector2(cell.x * f + f * 0.5, cell.y * f + f * 0.5)
+
+
 func _spawn_player(level: LevelData, ts: int) -> void:
 	var p := preload("res://src/runtime/player/player.tscn").instantiate()
-	p.position = Vector2(level.player_spawn) * float(ts)
+	p.position = _cell_center(level.player_spawn, ts)
 	add_child(p)
 	player = p
 	var world_bounds := Rect2(
@@ -119,7 +124,7 @@ func _hud_text(score: int, ammo: int, hp: int) -> String:
 
 func _spawn_entities(level: LevelData, ts: int) -> void:
 	for def: EntityDef in level.entities:
-		var node := EntityRegistry.instantiate(def.type, Vector2(def.x, def.y) * float(ts), def.properties)
+		var node := EntityRegistry.instantiate(def.type, _cell_center(Vector2i(def.x, def.y), ts), def.properties)
 		if node != null:
 			add_child(node)
 			entities_spawned.append(node)
@@ -217,7 +222,7 @@ func _on_kill_zone_body_entered(body: Node2D) -> void:
 	if body != player or not is_instance_valid(player):
 		return
 	# Respawn at spawn point and zero velocity. take_damage gives the fall a cost.
-	player.position = Vector2(_level.player_spawn) * float(_tile_size)
+	player.position = _cell_center(_level.player_spawn, _tile_size)
 	player.velocity = Vector2.ZERO
 	if player.has_method("take_damage"):
 		player.take_damage(1)

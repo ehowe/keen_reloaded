@@ -237,17 +237,13 @@ func _place_entity(cell: Vector2i) -> void:
 	undo_stack.execute(level, AddEntityCmd.new(EntityDef.new(selected_entity_type, cell.x, cell.y)))
 
 
-## Returns the entity nearest to a tile cell (within 1 tile), or -1.
+## Returns the index of the entity occupying `cell`, or -1 if none.
 func entity_at_cell(cell: Vector2i) -> int:
-	var best := -1
-	var best_d := 1.5
 	for i in range(level.entities.size()):
 		var e: EntityDef = level.entities[i]
-		var d := Vector2(e.x - cell.x, e.y - cell.y).length()
-		if d <= best_d:
-			best_d = d
-			best = i
-	return best
+		if e.x == cell.x and e.y == cell.y:
+			return i
+	return -1
 
 
 func select_entity(index: int) -> void:
@@ -289,8 +285,14 @@ func _build_ui() -> void:
 
 	_palette = preload("res://src/editor/palette_panel.gd").new()
 	_palette.build(self)
-	_palette.custom_minimum_size = Vector2(180, 0)
-	columns.add_child(_palette)
+	_palette.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_palette.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var palette_scroll := ScrollContainer.new()
+	palette_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	palette_scroll.custom_minimum_size = Vector2(190, 0)
+	palette_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	palette_scroll.add_child(_palette)
+	columns.add_child(palette_scroll)
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL

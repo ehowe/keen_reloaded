@@ -15,7 +15,7 @@ func test_build_creates_hud():
 	assert_not_null(hud, "HUD canvas layer created")
 	var label := hud.find_child("HUDLabel", true, false) if hud != null else null
 	assert_not_null(label, "HUD label present")
-	assert_eq(label.text, "Score: 0   Ammo: 5   HP: 3", "HUD reflects initial player state")
+	assert_eq(label.text, "Score: 0   Ammo: 0   HP: 3", "HUD reflects initial player state")
 
 
 func after_each():

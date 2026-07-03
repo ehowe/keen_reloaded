@@ -33,7 +33,7 @@ var _buffer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
-	ammo = max_ammo
+	ammo = 0
 	ammo_changed.emit(ammo)
 
 
@@ -77,7 +77,9 @@ func shoot() -> void:
 	if ammo <= 0:
 		return
 	var muzzle := get_node_or_null("Muzzle") as Marker2D
-	var origin: Vector2 = muzzle.global_position if muzzle != null else global_position
+	var origin: Vector2 = global_position
+	if muzzle != null:
+		origin = to_global(Vector2(muzzle.position.x * _facing, muzzle.position.y))
 	var proj: Projectile = PROJECTILE.instantiate()
 	var host: Node = get_parent() if get_parent() != null else get_tree().current_scene
 	host.add_child(proj)

@@ -29,7 +29,6 @@ window/size/viewport_height=720
 window/size/window_width_override=2217
 window/size/window_height_override=1247
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [editor_plugins]
 
