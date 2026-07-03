@@ -2,6 +2,10 @@ extends GutTest
 
 const G := "geometry"
 
+func before_each():
+	# Each editor-memory test must start with no leftover cfg on disk.
+	DirAccess.remove_absolute("user://editor.cfg")
+
 func after_each():
 	# Restore the autoload's default roster so clearing here doesn't leak an
 	# empty registry into later test scripts (e.g. test_level_runtime).
@@ -72,3 +76,13 @@ func test_clear_then_re_register_entities_for_palette():
 	var entries := EntityRegistry.get_palette_entries()
 	assert_eq(entries[0]["type_id"], "a")
 	assert_eq(entries[1]["type_id"], "z")
+
+func test_remember_then_recall_path_round_trips():
+	var ed := LevelEditor.new()
+	ed._remember_path("user://tests/some_level.tres")
+	assert_eq(ed._recall_path(), "user://tests/some_level.tres")
+
+
+func test_recall_with_no_config_returns_empty():
+	var ed := LevelEditor.new()
+	assert_eq(ed._recall_path(), "")

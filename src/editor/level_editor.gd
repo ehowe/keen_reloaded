@@ -19,6 +19,9 @@ const TOOLS := {
 const PALETTE_TILE_COUNT := 8   # ids 1..N shown in the tile picker
 const DEFAULT_WIDTH := 32
 const DEFAULT_HEIGHT := 24
+const SETTINGS_PATH := "user://editor.cfg"
+const SETTINGS_SECTION := "editor"
+const SETTINGS_KEY := "last_level_path"
 
 var level: LevelData
 var undo_stack: UndoStack
@@ -380,6 +383,24 @@ func _on_load_path(path: String) -> void:
 	_last_path = path
 	_broadcast()
 	_set_status("Loaded: %s" % path)
+
+
+# ------------------------------------------------------------------ persistence
+
+## Best-effort: remember the last file path so the next fresh editor open can
+## reopen it. Never raises — memory is a convenience, not a requirement.
+func _remember_path(path: String) -> void:
+	var cfg := ConfigFile.new()
+	cfg.set_value(SETTINGS_SECTION, SETTINGS_KEY, path)
+	cfg.save(SETTINGS_PATH)
+
+
+## Returns the last remembered file path, or "" if none/unreadable.
+func _recall_path() -> String:
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) != OK:
+		return ""
+	return cfg.get_value(SETTINGS_SECTION, SETTINGS_KEY, "") as String
 
 
 # ------------------------------------------------------------------ refresh
