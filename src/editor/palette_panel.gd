@@ -231,4 +231,6 @@ func _category_label(cat: String) -> String:
 			return "Hazards"
 		EntityRegistry.CATEGORY_SPECIAL:
 			return "Special"
+		EntityRegistry.CATEGORY_DECOR:
+			return "Decoration"
 	return cat.capitalize()
