@@ -1,5 +1,11 @@
 extends GutTest
 
+
+func before_each() -> void:
+	if FileAccess.file_exists(LevelEditor.SETTINGS_PATH):
+		DirAccess.remove_absolute(LevelEditor.SETTINGS_PATH)
+
+
 func test_main_menu_has_editor_and_quit_buttons():
 	var scene: PackedScene = load("res://src/ui/main_menu.tscn")
 	var inst := scene.instantiate()
