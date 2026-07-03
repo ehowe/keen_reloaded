@@ -10,7 +10,7 @@ func _level() -> LevelData:
 	ld.set_geometry_tile(1, 2, 1)
 	ld.set_foreground_tile(2, 0, 3)
 	ld.player_spawn = Vector2i(0, 1)
-	ld.entities.append(EntityDef.new("keen1.candy", 3, 1))
+	ld.entities.append(EntityDef.new("keen1.lollipop", 3, 1))
 	ld.entities.append(EntityDef.new("keen1.butler", 1, 0))
 	return ld
 

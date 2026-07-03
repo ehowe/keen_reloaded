@@ -17,6 +17,7 @@ var _layer_buttons: Dictionary = {}  # layer -> Button
 var _tool_buttons: Dictionary = {}   # tool -> Button
 var _entity_list: ItemList
 var _entity_ids: Array[String] = []
+var _category_filter: OptionButton
 var _preview_bg: ColorRect
 var _preview_icon: TextureRect
 var _preview_label: Label
@@ -62,6 +63,12 @@ func build(e: LevelEditor) -> void:
 		add_child(b)
 
 	add_child(_section_label("Entities"))
+	_category_filter = OptionButton.new()
+	_populate_category_filter()
+	_category_filter.item_selected.connect(func(_idx: int) -> void:
+		_populate_entities()
+		_sync_entity_selection(e))
+	add_child(_category_filter)
 	_entity_list = ItemList.new()
 	_entity_list.custom_minimum_size = Vector2(0, 100)
 	_entity_list.item_selected.connect(func(idx: int) -> void:
@@ -118,11 +125,13 @@ func _tile_count(e: LevelEditor) -> int:
 func _populate_entities() -> void:
 	_entity_list.clear()
 	_entity_ids.clear()
+	var filter := _selected_category()
 	for entry in EntityRegistry.get_palette_entries():
 		var cat: String = entry.get("category", "")
-		var label: String = entry.get("label", "")
+		if filter != "" and cat != filter:
+			continue
 		_entity_ids.append(entry.get("type_id", ""))
-		_entity_list.add_item("[%s] %s" % [cat.left(3), label])
+		_entity_list.add_item(entry.get("label", ""))
 
 
 ## Lightweight: toggle states only. Rebuilds the tile grid exclusively when the
@@ -141,11 +150,7 @@ func refresh(e: LevelEditor) -> void:
 		_layer_buttons[layer].set_pressed_no_signal(layer == e.active_layer)
 	for tool in _tool_buttons:
 		_tool_buttons[tool].set_pressed_no_signal(tool == e.active_tool)
-	_entity_list.deselect_all()
-	for i in range(_entity_ids.size()):
-		if _entity_ids[i] == e.selected_entity_type:
-			_entity_list.select(i)
-			break
+	_sync_entity_selection(e)
 	_update_preview(e)
 
 
@@ -185,3 +190,45 @@ func _section_label(text: String) -> Label:
 	l.text = text
 	l.add_theme_font_size_override("font_size", 14)
 	return l
+
+
+func _sync_entity_selection(e: LevelEditor) -> void:
+	_entity_list.deselect_all()
+	for i in range(_entity_ids.size()):
+		if _entity_ids[i] == e.selected_entity_type:
+			_entity_list.select(i)
+			break
+
+
+func _populate_category_filter() -> void:
+	_category_filter.clear()
+	_category_filter.add_item("All")
+	_category_filter.set_item_metadata(0, "")
+	var present: Array[String] = []
+	for entry in EntityRegistry.get_palette_entries():
+		var cat := String(entry.get("category", ""))
+		if cat != "" and not present.has(cat):
+			present.append(cat)
+	for cat in present:
+		var idx := _category_filter.item_count
+		_category_filter.add_item(_category_label(cat))
+		_category_filter.set_item_metadata(idx, cat)
+
+
+func _selected_category() -> String:
+	if _category_filter == null:
+		return ""
+	return String(_category_filter.get_item_metadata(_category_filter.selected))
+
+
+func _category_label(cat: String) -> String:
+	match cat:
+		EntityRegistry.CATEGORY_ITEM:
+			return "Pickups"
+		EntityRegistry.CATEGORY_ENEMY:
+			return "Enemies"
+		EntityRegistry.CATEGORY_HAZARD:
+			return "Hazards"
+		EntityRegistry.CATEGORY_SPECIAL:
+			return "Special"
+	return cat.capitalize()
