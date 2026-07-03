@@ -8,6 +8,7 @@ const CATEGORY_ENEMY := "enemy"
 const CATEGORY_ITEM := "item"
 const CATEGORY_HAZARD := "hazard"
 const CATEGORY_SPECIAL := "special"
+const CATEGORY_DECOR := "decor"
 
 var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properties, scene }
 
@@ -20,6 +21,20 @@ func register(type_id: String, category: String, label: String, properties: Arra
 		"label": label,
 		"properties": properties,
 		"scene": scene,
+	}
+
+
+## Register a pure-decoration sprite scene (.tscn under assets/sprites/) as a
+## placeable entity. The scene is loaded lazily at spawn time, so a missing file
+## is skipped gracefully. Mirrors register()'s entry shape but stores a path
+## string (scene_path) instead of a preloaded PackedScene.
+func register_sprite(type_id: String, category: String, label: String, scene_path: String, properties: Array = []) -> void:
+	_entries[type_id] = {
+		"type_id": type_id,
+		"category": category,
+		"label": label,
+		"properties": properties,
+		"scene_path": scene_path,
 	}
 
 
