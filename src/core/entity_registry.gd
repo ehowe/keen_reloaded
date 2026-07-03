@@ -76,7 +76,7 @@ func instantiate(type_id: String, pos: Vector2, props: Dictionary = {}) -> Node2
 	if scene is PackedScene:
 		node = scene.instantiate()
 	elif scene_path != "":
-		if not ResourceLoader.exists(scene_path):
+		if not ResourceLoader.exists(scene_path, "PackedScene"):
 			push_warning("EntityRegistry: sprite scene not found '%s'" % scene_path)
 			return null
 		var wrapper := SpriteEntity.new()
