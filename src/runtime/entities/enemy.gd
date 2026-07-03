@@ -37,6 +37,7 @@ var _stunned: bool = false
 var _stun_timer: float = 0.0
 var _dying: bool = false
 var _dead: bool = false
+var _leave_corpse: bool = false
 var _sprites: Dictionary = {}
 
 
@@ -70,6 +71,34 @@ func _cache_sprites() -> void:
 			n.stop()
 	if _sprites.size() > 0 and has_node("Visual"):
 		get_node("Visual").free()  # immediate: placeholder must not flash for a frame
+	_align_sprite_feet()
+
+
+func _align_sprite_feet() -> void:
+	# Sprite art may be taller than the (sub-tile) collision box; offset each
+	# sprite up so its bottom aligns with the collision (foot) bottom, i.e. the
+	# tile floor, instead of sinking through it.
+	var body := get_node_or_null("BodyShape") as CollisionShape2D
+	if body == null or not (body.shape is RectangleShape2D):
+		return
+	var foot_y := (body.shape as RectangleShape2D).size.y * 0.5
+	for name in _sprites:
+		var spr: AnimatedSprite2D = _sprites[name]
+		var h := _frame_height(spr)
+		if h > 0.0:
+			spr.offset.y = -(h * 0.5 - foot_y)
+
+
+static func _frame_height(spr: AnimatedSprite2D) -> float:
+	if spr.sprite_frames == null:
+		return 0.0
+	var anims := spr.sprite_frames.get_animation_names()
+	if anims.is_empty():
+		return 0.0
+	var tex := spr.sprite_frames.get_frame_texture(anims[0], 0)
+	if tex is AtlasTexture:
+		return (tex as AtlasTexture).region.size.y
+	return float(tex.get_height())
 
 
 func _sync_visual() -> void:
@@ -78,11 +107,10 @@ func _sync_visual() -> void:
 		var n: AnimatedSprite2D = _sprites[name]
 		var show: bool = (name == active)
 		n.visible = show
+		n.flip_h = _dir < 0
 		if show:
 			if _state != State.SHOT and not n.is_playing() and n.sprite_frames != null:
 				n.play()
-			if name == "Walking":
-				n.flip_h = _dir > 0
 		elif n.is_playing():
 			n.stop()
 
@@ -110,22 +138,37 @@ func _tick_wander(delta: float) -> void:
 	_phase_timer -= delta
 	match _state:
 		State.WALK:
-			velocity.x = _dir * patrol_speed
 			_turn_if_blocked()
+			velocity.x = _dir * patrol_speed
 			if _phase_timer <= 0.0:
 				_state = State.IDLE
 				velocity.x = 0.0
-				_phase_timer = idle_time
+				_phase_timer = _idle_phase_time()
 		State.IDLE:
 			velocity.x = 0.0
 			if _phase_timer <= 0.0:
-				_dir = -_dir
+				_dir = _choose_walk_dir()
 				_state = State.WALK
-				_phase_timer = walk_time
+				_phase_timer = _walk_phase_time()
+
+
+## Facing picked when starting a WALK phase. Base: reverse (classic patrol).
+func _choose_walk_dir() -> int:
+	return -_dir
+
+
+## Duration of the next WALK phase. Base: fixed walk_time.
+func _walk_phase_time() -> float:
+	return walk_time
+
+
+## Duration of the next IDLE phase. Base: fixed idle_time.
+func _idle_phase_time() -> float:
+	return idle_time
 
 
 func _turn_if_blocked() -> void:
-	if turns_at_walls and is_on_wall():
+	if turns_at_walls and is_on_wall() and _pressing_into_wall(_dir, get_wall_normal().x):
 		_dir = -_dir
 	elif turns_at_ledges:
 		var rc := get_node_or_null("LedgeProbe") as RayCast2D
@@ -134,6 +177,13 @@ func _turn_if_blocked() -> void:
 			rc.force_raycast_update()
 			if is_on_floor() and not rc.is_colliding():
 				_dir = -_dir
+
+
+## True when the patrol facing presses INTO the wall (wall normal points toward
+## the body, so facing and normal have opposite signs). Prevents re-flipping
+## every frame while still touching a wall we already turned away from.
+static func _pressing_into_wall(dir: int, wall_normal_x: float) -> bool:
+	return dir * wall_normal_x < 0.0
 
 
 ## Subclass hook, called each physics frame just before move_and_slide().
@@ -214,6 +264,7 @@ func _enter_shot_death() -> void:
 				shot.play()
 			if not shot.animation_finished.is_connected(_on_shot_finished):
 				shot.animation_finished.connect(_on_shot_finished)
+			_leave_corpse = true
 			get_tree().create_timer(0.6).timeout.connect(_die)
 			return
 	_die()  # no death art -> die immediately
@@ -223,7 +274,8 @@ func _on_shot_finished() -> void:
 	_die()
 
 
-## Idempotent death: awards score once, then frees the node.
+## Idempotent death: awards score once, then either frees the node or — if the
+## enemy had death art — leaves an inert corpse frozen on the last frame.
 func _die() -> void:
 	if _dead:
 		return
@@ -233,4 +285,17 @@ func _die() -> void:
 		var p := tree.get_first_node_in_group("player")
 		if p != null and p.has_method("add_score"):
 			p.add_score(score_value)
-	queue_free()
+	if _leave_corpse:
+		_become_corpse()
+	else:
+		queue_free()
+
+
+## Freeze in place as a non-interactive corpse: stop physics/collision so the
+## death frame stays visible where the enemy fell.
+func _become_corpse() -> void:
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	if _area != null:
+		_area.set_deferred("monitoring", false)
+		_area.set_deferred("monitorable", false)

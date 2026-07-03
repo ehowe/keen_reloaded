@@ -1,21 +1,18 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://ca8ewn1abdns0"]
 
-[ext_resource type="Script" path="res://src/runtime/player/projectile.gd" id="1_proj"]
+[ext_resource type="Script" uid="uid://dgqhapi3uc7of" path="res://src/runtime/player/projectile.gd" id="1_proj"]
+[ext_resource type="Texture2D" uid="uid://jpgbbgrbbsat" path="res://assets/sprites/blaster.png" id="2_5xsce"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(16, 8)
 
-[node name="Projectile" type="Area2D"]
+[node name="Projectile" type="Area2D" unique_id=1573228111]
 collision_layer = 0
 collision_mask = 6
 script = ExtResource("1_proj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1080782882]
 shape = SubResource("RectangleShape2D_1")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -8.0
-offset_top = -4.0
-offset_right = 8.0
-offset_bottom = 4.0
-color = Color(1, 1, 0.4, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=150274287]
+texture = ExtResource("2_5xsce")

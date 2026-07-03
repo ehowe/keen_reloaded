@@ -1,8 +1,10 @@
 class_name Yorp
 extends Enemy
-## Keen 1 Yorp: slow patrol; on side contact knocks the player back and deals
-## minor damage; a stomp from above stuns it (recoverable); 1 blaster hit to
-## defeat. All behaviour comes from the Enemy base; this class only tunes knobs.
+## Keen 1 Yorp: slow patrol biased toward Keen; on side contact knocks the player
+## back and deals minor damage; a stomp from above stuns it (recoverable); 1
+## blaster hit to defeat. Tuning + seek-biased wander override only.
+
+@export var seek_chance: float = 0.7
 
 
 func _ready() -> void:
@@ -11,3 +13,22 @@ func _ready() -> void:
 	score_value = 100
 	patrol_speed = 70.0
 	contact_damage = 1
+
+
+func _choose_walk_dir() -> int:
+	var tree := get_tree()
+	if tree != null:
+		var p := tree.get_first_node_in_group("player") as Node2D
+		if p != null:
+			if randf() < seek_chance:
+				return 1 if p.global_position.x > global_position.x else -1
+			return -1 if randf() < 0.5 else 1
+	return -_dir
+
+
+func _walk_phase_time() -> float:
+	return randf_range(walk_time * 0.5, walk_time * 1.5)
+
+
+func _idle_phase_time() -> float:
+	return randf_range(idle_time * 0.5, idle_time * 1.5)

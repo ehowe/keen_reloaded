@@ -38,7 +38,7 @@ func test_visual_active_node_matches_state():
 	e._sync_visual()
 	assert_true(walk.visible, "Walking visible in WALK")
 	assert_false(idle.visible, "Idle hidden in WALK")
-	assert_true(walk.flip_h, "Walking flips when _dir>0")
+	assert_false(walk.flip_h, "Walking unflipped (faces right) when _dir>0")
 
 	e._state = Enemy.State.IDLE
 	e._sync_visual()
@@ -66,6 +66,27 @@ func test_cache_sprites_drops_placeholder_visual():
 	assert_false(e.has_node("Visual"), "placeholder Visual removed once sprites exist")
 
 
+func test_sprite_feet_align_with_collision_bottom():
+	# Sprite art taller than the (sub-tile) collision box must be offset up so its
+	# bottom rests on the collision (foot) bottom, i.e. the tile floor.
+	var e := _new_enemy()
+	var walk := _add_sprite(e, "Walking")
+	var frames := SpriteFrames.new()
+	frames.add_frame(&"default", _tex(96))
+	walk.sprite_frames = frames
+	e._cache_sprites()
+	var body := e.get_node("BodyShape") as CollisionShape2D
+	var foot_y := (body.shape as RectangleShape2D).size.y * 0.5
+	assert_almost_eq(walk.offset.y, -(96.0 * 0.5 - foot_y), 0.01,
+			"sprite bottom aligned to collision bottom")
+
+
+static func _tex(h: float) -> PlaceholderTexture2D:
+	var t := PlaceholderTexture2D.new()
+	t.size = Vector2(64, h)
+	return t
+
+
 func test_wander_cycles_walk_then_idle():
 	var e := _new_enemy()
 	e.walk_time = 0.2
@@ -91,6 +112,14 @@ func test_walk_phase_moves_at_patrol_speed():
 	e._dir = 1
 	e._tick_wander(0.05)
 	assert_eq(e.velocity.x, 200.0, "walks right at patrol_speed")
+
+
+func test_pressing_into_wall_only_when_facing_wall():
+	# Wall normal points away from the wall, toward the body.
+	assert_true(Enemy._pressing_into_wall(1, -1.0), "moving right into a right-hand wall")
+	assert_true(Enemy._pressing_into_wall(-1, 1.0), "moving left into a left-hand wall")
+	assert_false(Enemy._pressing_into_wall(-1, -1.0), "moving left away from a right-hand wall")
+	assert_false(Enemy._pressing_into_wall(1, 1.0), "moving right away from a left-hand wall")
 
 
 func _fake_player() -> FakePlayer:
@@ -205,3 +234,21 @@ func test_die_is_idempotent():
 	e._die()
 	assert_true(e.is_queued_for_deletion(), "freed once")
 	assert_eq(p.score, 100, "score awarded exactly once")
+
+
+func test_shot_death_leaves_inert_corpse():
+	var e := _new_enemy()
+	var p := _fake_player()
+	var shot := _add_sprite(e, "Shot")
+	var frames := SpriteFrames.new()
+	frames.add_frame(&"default", load("res://assets/sprites/Yorp 64x96.png"))
+	shot.sprite_frames = frames
+	e._cache_sprites()
+	e.take_damage(1)
+	assert_true(e._dying, "dying")
+	assert_false(e.is_queued_for_deletion(), "not freed when death anim begins")
+	e._on_shot_finished()  # death animation completed
+	assert_false(e.is_queued_for_deletion(), "corpse persists (not freed)")
+	assert_true(e._dead, "marked dead")
+	assert_false(e.is_physics_processing(), "physics stopped on corpse")
+	assert_eq(p.score, e.score_value, "score awarded once")

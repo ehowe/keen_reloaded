@@ -10,16 +10,19 @@ signal ammo_changed(ammo: int)
 signal died
 
 const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
+const PLAYER_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
+const SHOOT_POSE_TIME := 0.12
 
 @export var gravity: float = 3920.0
 @export var run_speed: float = 480.0
-@export var jump_velocity: float = 1200.0
+@export var jump_velocity: float = 1227.0
 @export var pogo_bounce: float = 1520.0
 @export var max_fall: float = 1920.0
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
 @export var max_ammo: int = 5
 @export var projectile_speed: float = 600.0
+@export var jump_cut_gravity: float = 9000.0
 
 var score: int = 0
 var health: int = 3
@@ -29,12 +32,17 @@ var _facing: int = 1
 var _pogo: bool = false
 var _coyote: float = 0.0
 var _buffer: float = 0.0
+var _shoot_timer: float = 0.0
+var _windup: float = 0.0
+var _jumping: bool = false
+var _anim: String = ""
 
 
 func _ready() -> void:
 	add_to_group("player")
 	ammo = 0
 	ammo_changed.emit(ammo)
+	_align_sprite_feet()
 
 
 func _physics_process(delta: float) -> void:
@@ -42,12 +50,14 @@ func _physics_process(delta: float) -> void:
 	if velocity.y > max_fall:
 		velocity.y = max_fall
 
-	var dir := Input.get_axis("move_left", "move_right")
-	velocity.x = dir * run_speed
-	if dir != 0:
-		_facing = signi(dir)
-
 	var on_floor := is_on_floor()
+	var dir := Input.get_axis("move_left", "move_right")
+	if on_floor:
+		velocity.x = dir * run_speed
+		if dir != 0:
+			_facing = signi(dir)
+	# airborne: no air control — preserve horizontal momentum + facing.
+
 	_coyote = coyote_time if on_floor else _coyote - delta
 
 	if Input.is_action_just_pressed("jump"):
@@ -55,27 +65,42 @@ func _physics_process(delta: float) -> void:
 	else:
 		_buffer -= delta
 
-	if _buffer > 0.0 and _coyote > 0.0 and not _pogo:
-		velocity.y = -jump_velocity
+	# Begin a grounded jump wind-up: play the Jump anim once, launch when it ends.
+	if _buffer > 0.0 and _coyote > 0.0 and not _pogo and _windup <= 0.0:
+		_windup = _jump_anim_duration()
 		_buffer = 0.0
 		_coyote = 0.0
+
+	if _windup > 0.0:
+		_windup -= delta
+		if _windup <= 0.0:
+			velocity.y = -jump_velocity
+			_jumping = true
 
 	if Input.is_action_just_pressed("pogo"):
 		_pogo = not _pogo
 
-	if _pogo and on_floor:
+	if _pogo and on_floor and _windup <= 0.0:
 		velocity.y = -pogo_bounce
 
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
 
+	if _jumping and velocity.y < 0.0 and not Input.is_action_pressed("jump"):
+		velocity.y += jump_cut_gravity * delta
+
 	move_and_slide()
+	if is_on_floor():
+		_jumping = false
+	_shoot_timer = maxf(_shoot_timer - delta, 0.0)
+	_sync_visual()
 
 
 ## Fire a projectile from the Muzzle in the facing direction (if ammo remains).
 func shoot() -> void:
 	if ammo <= 0:
 		return
+	_shoot_timer = SHOOT_POSE_TIME
 	var muzzle := get_node_or_null("Muzzle") as Marker2D
 	var origin: Vector2 = global_position
 	if muzzle != null:
@@ -115,3 +140,71 @@ func take_damage(amount: int) -> void:
 	health_changed.emit(health)
 	if health <= 0:
 		died.emit()
+
+
+func _sync_visual() -> void:
+	var anim := _current_anim(is_on_floor(), absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
+	for name in PLAYER_SPRITES:
+		var n := get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		var show: bool = (name == anim)
+		n.visible = show
+		n.flip_h = _facing < 0
+		if not show and n.is_playing():
+			n.stop()
+	if anim != _anim:
+		_anim = anim
+		var n := get_node_or_null(anim) as AnimatedSprite2D
+		if n != null and n.sprite_frames != null:
+			n.stop()
+			n.play()
+
+
+func _current_anim(on_floor: bool, moving: bool, pogo: bool, shooting: bool, winding_up: bool) -> String:
+	if shooting:
+		return "Shooting"
+	if pogo:
+		return "Pogo"
+	if winding_up or not on_floor:
+		return "Jumping"
+	return "Walking" if moving else "Idle"
+
+
+func _jump_anim_duration() -> float:
+	var j := get_node_or_null("Jumping") as AnimatedSprite2D
+	if j == null or j.sprite_frames == null:
+		return 0.0
+	var anims := j.sprite_frames.get_animation_names()
+	if anims.is_empty():
+		return 0.0
+	var speed := j.sprite_frames.get_animation_speed(anims[0])
+	if speed <= 0.0:
+		return 0.0
+	return float(j.sprite_frames.get_frame_count(anims[0])) / speed
+
+
+func _align_sprite_feet() -> void:
+	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col == null or not (col.shape is RectangleShape2D):
+		return
+	var foot_y := (col.shape as RectangleShape2D).size.y * 0.5
+	for name in PLAYER_SPRITES:
+		var n := get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		var h := _frame_height(n)
+		if h > 0.0:
+			n.offset.y = -(h * 0.5 - foot_y)
+
+
+static func _frame_height(spr: AnimatedSprite2D) -> float:
+	if spr.sprite_frames == null:
+		return 0.0
+	var anims := spr.sprite_frames.get_animation_names()
+	if anims.is_empty():
+		return 0.0
+	var tex := spr.sprite_frames.get_frame_texture(anims[0], 0)
+	if tex is AtlasTexture:
+		return (tex as AtlasTexture).region.size.y
+	return float(tex.get_height())
