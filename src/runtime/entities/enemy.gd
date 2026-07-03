@@ -11,11 +11,27 @@ extends Entity
 @export var turns_at_walls: bool = true
 @export var turns_at_ledges: bool = true
 
+enum State { WALK, IDLE, STUNNED, SHOT }
+
+const SPRITE_NAMES := {
+	State.WALK: "Walking",
+	State.IDLE: "Idle",
+	State.STUNNED: "Stunned",
+	State.SHOT: "Shot",
+}
+
 var health: int = 1
 var contact_damage: int = 1
 var score_value: int = 100
 
 var _dir: int = -1  # patrol facing: -1 left, +1 right
+var _state: State = State.WALK
+var _phase_timer: float = 0.0
+var _stunned: bool = false
+var _stun_timer: float = 0.0
+var _dying: bool = false
+var _dead: bool = false
+var _sprites: Dictionary = {}
 
 
 func _ready() -> void:
@@ -35,6 +51,33 @@ func _ready() -> void:
 		rc.enabled = true
 		rc.target_position = Vector2(_dir * TILE * 0.5, TILE * 0.6)
 		add_child(rc)
+	_cache_sprites()
+
+
+func _cache_sprites() -> void:
+	_sprites.clear()
+	for state in SPRITE_NAMES:
+		var n := get_node_or_null(SPRITE_NAMES[state]) as AnimatedSprite2D
+		if n != null:
+			_sprites[SPRITE_NAMES[state]] = n
+			n.stop()
+	if _sprites.size() > 0 and has_node("Visual"):
+		get_node("Visual").queue_free()
+
+
+func _sync_visual() -> void:
+	var active: String = SPRITE_NAMES.get(_state, "")
+	for name in _sprites:
+		var n: AnimatedSprite2D = _sprites[name]
+		var show: bool = (name == active)
+		n.visible = show
+		if show:
+			if _state != State.SHOT and not n.is_playing() and n.sprite_frames != null:
+				n.play()
+			if name == "Walking":
+				n.flip_h = _dir > 0
+		elif n.is_playing():
+			n.stop()
 
 
 func _physics_process(delta: float) -> void:
@@ -53,6 +96,7 @@ func _physics_process(delta: float) -> void:
 				_dir = -_dir
 	_ai_tick(delta)
 	move_and_slide()
+	_sync_visual()
 
 
 ## Subclass hook, called each physics frame just before move_and_slide().
