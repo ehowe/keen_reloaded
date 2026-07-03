@@ -10,6 +10,8 @@ extends Entity
 @export var max_fall: float = 1920.0
 @export var turns_at_walls: bool = true
 @export var turns_at_ledges: bool = true
+@export var walk_time: float = 2.5
+@export var idle_time: float = 1.2
 
 enum State { WALK, IDLE, STUNNED, SHOT }
 
@@ -52,6 +54,7 @@ func _ready() -> void:
 		rc.target_position = Vector2(_dir * TILE * 0.5, TILE * 0.6)
 		add_child(rc)
 	_cache_sprites()
+	_phase_timer = walk_time
 
 
 func _cache_sprites() -> void:
@@ -84,7 +87,31 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
-	velocity.x = _dir * patrol_speed
+	_tick_wander(delta)
+	_ai_tick(delta)
+	move_and_slide()
+	_sync_visual()
+
+
+func _tick_wander(delta: float) -> void:
+	_phase_timer -= delta
+	match _state:
+		State.WALK:
+			velocity.x = _dir * patrol_speed
+			_turn_if_blocked()
+			if _phase_timer <= 0.0:
+				_state = State.IDLE
+				velocity.x = 0.0
+				_phase_timer = idle_time
+		State.IDLE:
+			velocity.x = 0.0
+			if _phase_timer <= 0.0:
+				_dir = -_dir
+				_state = State.WALK
+				_phase_timer = walk_time
+
+
+func _turn_if_blocked() -> void:
 	if turns_at_walls and is_on_wall():
 		_dir = -_dir
 	elif turns_at_ledges:
@@ -94,9 +121,6 @@ func _physics_process(delta: float) -> void:
 			rc.force_raycast_update()
 			if is_on_floor() and not rc.is_colliding():
 				_dir = -_dir
-	_ai_tick(delta)
-	move_and_slide()
-	_sync_visual()
 
 
 ## Subclass hook, called each physics frame just before move_and_slide().

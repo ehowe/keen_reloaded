@@ -65,3 +65,30 @@ func test_cache_sprites_drops_placeholder_visual():
 	e._cache_sprites()
 	await get_tree().process_frame  # let queue_free take effect
 	assert_false(e.has_node("Visual"), "placeholder Visual removed once sprites exist")
+
+
+func test_wander_cycles_walk_then_idle():
+	var e := _new_enemy()
+	e.walk_time = 0.2
+	e.idle_time = 0.1
+	e._phase_timer = e.walk_time
+	e._state = Enemy.State.WALK
+	assert_eq(e._dir, -1, "starts facing left")
+
+	e._tick_wander(0.3)  # walk_time elapsed -> IDLE
+	assert_eq(e._state, Enemy.State.IDLE, "enters IDLE after walk_time")
+	assert_eq(e.velocity.x, 0.0, "stopped while idle")
+
+	e._tick_wander(0.1)  # idle_time elapsed -> WALK, about-face
+	assert_eq(e._state, Enemy.State.WALK, "back to WALK after idle_time")
+	assert_eq(e._dir, 1, "reversed facing after idle")
+
+
+func test_walk_phase_moves_at_patrol_speed():
+	var e := _new_enemy()
+	e.patrol_speed = 200.0
+	e._state = Enemy.State.WALK
+	e._phase_timer = 1.0
+	e._dir = 1
+	e._tick_wander(0.05)
+	assert_eq(e.velocity.x, 200.0, "walks right at patrol_speed")
