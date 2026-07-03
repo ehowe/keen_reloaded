@@ -13,16 +13,18 @@ const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
 const PLAYER_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
 const SHOOT_POSE_TIME := 0.12
 
-@export var gravity: float = 3920.0
+@export var gravity: float = 1763.0
 @export var run_speed: float = 480.0
-@export var jump_velocity: float = 1227.0
-@export var pogo_bounce: float = 1520.0
+@export var jump_velocity: float = 823.0
+@export var leap_speed: float = 480.0
+@export var air_accel: float = 3000.0
+@export var pogo_bounce: float = 1019.0
 @export var max_fall: float = 1920.0
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
 @export var max_ammo: int = 5
 @export var projectile_speed: float = 600.0
-@export var jump_cut_gravity: float = 9000.0
+@export var jump_cut_gravity: float = 4045.0
 
 var score: int = 0
 var health: int = 3
@@ -35,6 +37,7 @@ var _buffer: float = 0.0
 var _shoot_timer: float = 0.0
 var _windup: float = 0.0
 var _jumping: bool = false
+var _jump_dir: float = 0.0
 var _anim: String = ""
 
 
@@ -52,11 +55,18 @@ func _physics_process(delta: float) -> void:
 
 	var on_floor := is_on_floor()
 	var dir := Input.get_axis("move_left", "move_right")
-	if on_floor:
+	if _windup > 0.0:
+		# wind-up: halt horizontal; direction locked at jump press for launch
+		velocity.x = 0.0
+	elif on_floor:
 		velocity.x = dir * run_speed
 		if dir != 0:
 			_facing = signi(dir)
-	# airborne: no air control — preserve horizontal momentum + facing.
+	elif _jumping and _jump_dir != 0.0 and dir != 0.0:
+		# moving jump: slow air steer toward input; releasing input preserves momentum
+		velocity.x = move_toward(velocity.x, dir * leap_speed, air_accel * delta)
+		_facing = signi(dir)
+	# else: stationary jump or fall — preserve horizontal momentum + facing.
 
 	_coyote = coyote_time if on_floor else _coyote - delta
 
@@ -68,6 +78,7 @@ func _physics_process(delta: float) -> void:
 	# Begin a grounded jump wind-up: play the Jump anim once, launch when it ends.
 	if _buffer > 0.0 and _coyote > 0.0 and not _pogo and _windup <= 0.0:
 		_windup = _jump_anim_duration()
+		_jump_dir = sign(dir)
 		_buffer = 0.0
 		_coyote = 0.0
 
@@ -75,6 +86,7 @@ func _physics_process(delta: float) -> void:
 		_windup -= delta
 		if _windup <= 0.0:
 			velocity.y = -jump_velocity
+			velocity.x = _jump_dir * leap_speed
 			_jumping = true
 
 	if Input.is_action_just_pressed("pogo"):

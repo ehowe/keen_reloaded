@@ -76,6 +76,46 @@ func test_jump_windup_delays_then_launches():
 	assert_almost_eq(p.velocity.y, -p.jump_velocity, 1.0, "launches after wind-up elapses")
 
 
+func test_windup_halts_horizontal_movement():
+	var p := _new_player()
+	p._windup = 0.1
+	p.velocity.x = 250.0
+	p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, 0.0, 0.01, "halted during wind-up")
+
+
+func test_launch_leaps_in_pre_jump_direction():
+	var p := _new_player()
+	Input.action_press("move_right")
+	Input.action_press("jump")  # hold so variable-jump cut doesn't reduce launch
+	p._coyote = 0.1
+	p._buffer = 0.1
+	p._physics_process(0.016)  # initiates wind-up, captures rightward dir
+	assert_eq(p._jump_dir, 1.0, "captured rightward direction at jump press")
+	var frames := 0
+	while p._windup > 0.0 and frames < 100:
+		p._physics_process(0.016)
+		frames += 1
+	Input.action_release("jump")
+	Input.action_release("move_right")
+	assert_almost_eq(p.velocity.x, p.leap_speed, 0.01, "launch carries pre-jump direction at leap_speed")
+
+
+func test_stationary_jump_launches_straight_up():
+	var p := _new_player()
+	Input.action_press("jump")  # no move input -> dir 0
+	p._coyote = 0.1
+	p._buffer = 0.1
+	p._physics_process(0.016)
+	assert_eq(p._jump_dir, 0.0, "no direction captured when stationary")
+	var frames := 0
+	while p._windup > 0.0 and frames < 100:
+		p._physics_process(0.016)
+		frames += 1
+	Input.action_release("jump")
+	assert_almost_eq(p.velocity.x, 0.0, 0.01, "stationary jump launches straight up")
+
+
 func test_no_horizontal_air_control():
 	var p := _new_player()
 	p.velocity.x = 250.0
@@ -84,10 +124,53 @@ func test_no_horizontal_air_control():
 	assert_almost_eq(p.velocity.x, 250.0, 0.01, "air momentum preserved (no air control)")
 
 
+func test_moving_jump_allows_slow_air_steer():
+	var p := _new_player()
+	Input.action_press("move_left")  # steer opposite to launch direction
+	p._jumping = true
+	p._jump_dir = 1.0
+	p.velocity.x = p.leap_speed
+	p._physics_process(0.016)
+	# steers toward -leap_speed at air_accel: advances by air_accel * delta
+	var expected := p.leap_speed - p.air_accel * 0.016
+	assert_almost_eq(p.velocity.x, expected, 1.0, "moving jump steers slowly toward input")
+	Input.action_release("move_left")
+
+
+func test_stationary_jump_blocks_air_steer():
+	var p := _new_player()
+	Input.action_press("move_right")
+	p._jumping = true
+	p._jump_dir = 0.0
+	p.velocity.x = 0.0
+	p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, 0.0, 0.01, "stationary jump: no air control")
+	Input.action_release("move_right")
+
+
+func test_moving_jump_holding_direction_maintains_leap():
+	var p := _new_player()
+	Input.action_press("move_right")
+	p._jumping = true
+	p._jump_dir = 1.0
+	p.velocity.x = p.leap_speed
+	p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, p.leap_speed, 0.01, "holding leap direction maintains speed")
+	Input.action_release("move_right")
+
+
 func test_max_jump_height_is_three_tiles():
 	var p := _new_player()
 	var h := p.jump_velocity * p.jump_velocity / (2.0 * p.gravity)
 	assert_almost_eq(h, 3.0 * 64.0, 1.0, "full jump apex = 3 tiles")
+
+
+func test_full_running_jump_distance_is_seven_tiles():
+	var p := _new_player()
+	# air time for full jump (up + down to launch height) = 2 * jump_velocity / gravity
+	var air_time := 2.0 * p.jump_velocity / p.gravity
+	var distance := p.leap_speed * air_time
+	assert_almost_eq(distance, 7.0 * 64.0, 1.0, "full running jump distance = 7 tiles")
 
 
 func test_releasing_jump_cuts_ascent():
