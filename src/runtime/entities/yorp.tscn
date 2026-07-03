@@ -1,13 +1,125 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://src/runtime/entities/yorp.gd" id="1_yorp"]
+[ext_resource type="Texture2D" uid="uid://c5ahtje68vwpw" path="res://assets/sprites/Yorp 64x96.png" id="2_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82yae"]
+atlas = ExtResource("2_tex")
+region = Rect2(136, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf8by"]
+atlas = ExtResource("2_tex")
+region = Rect2(204, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6m28"]
+atlas = ExtResource("2_tex")
+region = Rect2(272, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ugff"]
+atlas = ExtResource("2_tex")
+region = Rect2(340, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82yae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yf8by")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6m28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ugff")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb0e6"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tki2i"]
+atlas = ExtResource("2_tex")
+region = Rect2(68, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb0e6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tki2i")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4o2e"]
+atlas = ExtResource("2_tex")
+region = Rect2(408, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_los54"]
+atlas = ExtResource("2_tex")
+region = Rect2(476, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qccdw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4o2e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_los54")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ln05h"]
+atlas = ExtResource("2_tex")
+region = Rect2(544, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b38o3"]
+atlas = ExtResource("2_tex")
+region = Rect2(612, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f7soo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ln05h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b38o3")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Yorp" type="CharacterBody2D"]
 script = ExtResource("1_yorp")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0.95, 0.6, 0.2, 1)
+[node name="Idle" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+
+[node name="Walking" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_07erc")
+
+[node name="Stunned" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_qccdw")
+
+[node name="Shot" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_f7soo")

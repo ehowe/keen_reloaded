@@ -69,7 +69,7 @@ func _cache_sprites() -> void:
 			_sprites[SPRITE_NAMES[state]] = n
 			n.stop()
 	if _sprites.size() > 0 and has_node("Visual"):
-		get_node("Visual").queue_free()
+		get_node("Visual").free()  # immediate: placeholder must not flash for a frame
 
 
 func _sync_visual() -> void:
