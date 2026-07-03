@@ -13,6 +13,7 @@ func _ready() -> void:
 	score_value = 100
 	patrol_speed = 70.0
 	contact_damage = 1
+	turns_at_ledges = false
 
 
 func _choose_walk_dir() -> int:
