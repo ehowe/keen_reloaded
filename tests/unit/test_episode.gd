@@ -29,6 +29,7 @@ func test_player_spawn_has_no_scene():
 	assert_null(entry.get("scene", null), "player_spawn is a marker with no scene")
 
 func test_exit_sign_registered_as_decor():
+	EntityRegistry.clear()
 	Keen1Episode.new().register_entities(EntityRegistry)
 	assert_true(EntityRegistry.has("keen1.exit_sign"), "keen1.exit_sign registered")
 	var e: Dictionary = EntityRegistry.get_entry("keen1.exit_sign")
