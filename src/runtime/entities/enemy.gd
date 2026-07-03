@@ -12,6 +12,10 @@ extends Entity
 @export var turns_at_ledges: bool = true
 @export var walk_time: float = 2.5
 @export var idle_time: float = 1.2
+@export var stun_duration: float = 4.0
+@export var stomp_bounce: float = 520.0
+@export var knockback_x: float = 400.0
+@export var knockback_y: float = 300.0
 
 enum State { WALK, IDLE, STUNNED, SHOT }
 
@@ -87,8 +91,15 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
-	_tick_wander(delta)
-	_ai_tick(delta)
+	if _stunned:
+		velocity.x = 0.0
+		_stun_timer -= delta
+		if _stun_timer <= 0.0:
+			_stunned = false
+			_on_recover()
+	else:
+		_tick_wander(delta)
+		_ai_tick(delta)
 	move_and_slide()
 	_sync_visual()
 
@@ -132,9 +143,50 @@ func _color() -> Color:
 	return Color(0.9, 0.4, 0.6, 1)
 
 
+func stun(duration: float) -> void:
+	_stunned = true
+	_stun_timer = duration
+	velocity.x = 0.0
+	_state = State.STUNNED
+
+
+func _is_stomp(player: Node) -> bool:
+	if player is CharacterBody2D:
+		var cb := player as CharacterBody2D
+		return cb.velocity.y > 0.0 and cb.global_position.y < global_position.y - TILE * 0.25
+	return false
+
+
 func _handle_player(player: Node) -> void:
+	if _dying:
+		return
+	if _is_stomp(player):
+		_on_stomped(player)
+	elif not _stunned:
+		_on_side_contact(player)
+	# else: side contact while stunned -> harmless (ignored)
+
+
+## Hook: landed on from above. Default = stun + bounce the player up.
+func _on_stomped(player: Node) -> void:
+	stun(stun_duration)
+	if player is CharacterBody2D and stomp_bounce > 0.0:
+		(player as CharacterBody2D).velocity.y = -stomp_bounce
+
+
+## Hook: touched from the side. Default = knockback away + contact damage.
+func _on_side_contact(player: Node) -> void:
+	if player is CharacterBody2D:
+		var d := signi(player.global_position.x - global_position.x)
+		(player as CharacterBody2D).velocity = Vector2(d * knockback_x, -knockback_y)
 	if player.has_method("take_damage"):
 		player.take_damage(contact_damage)
+
+
+## Hook: just recovered from being stunned. Default = resume walking.
+func _on_recover() -> void:
+	_state = State.WALK
+	_phase_timer = walk_time
 
 
 func take_damage(amount: int) -> void:

@@ -92,3 +92,75 @@ func test_walk_phase_moves_at_patrol_speed():
 	e._dir = 1
 	e._tick_wander(0.05)
 	assert_eq(e.velocity.x, 200.0, "walks right at patrol_speed")
+
+
+func _fake_player() -> FakePlayer:
+	var p := FakePlayer.new()
+	add_child_autofree(p)
+	return p
+
+
+func test_stun_freezes_and_marks_state():
+	var e := _new_enemy()
+	e.velocity.x = 123.0
+	e.stun(4.0)
+	assert_true(e._stunned, "stunned flag set")
+	assert_eq(e._state, Enemy.State.STUNNED, "state STUNNED")
+	assert_eq(e._stun_timer, 4.0, "timer set")
+	assert_eq(e.velocity.x, 0.0, "frozen")
+
+
+func test_stun_recovers_after_duration():
+	var e := _new_enemy()
+	e.stun(0.2)
+	assert_true(e._stunned)
+	e._physics_process(0.3)  # stun timer elapses
+	assert_false(e._stunned, "no longer stunned")
+	assert_eq(e._state, Enemy.State.WALK, "resumed walking")
+
+
+func test_stomp_from_above_stuns_without_damage():
+	var e := _new_enemy()
+	e.global_position = Vector2(0, 0)
+	var p := _fake_player()
+	p.global_position = Vector2(0, -40)  # above
+	p.velocity = Vector2(0, 500)         # falling
+	e._handle_player(p)
+	assert_true(e._stunned, "stomped -> stunned")
+	assert_eq(e.health, 1, "stomp does not damage enemy")
+	assert_eq(p.health, 3, "stomp does not damage player")
+	assert_lt(p.velocity.y, 0.0, "player bounced up")
+
+
+func test_restomp_refreshes_timer():
+	var e := _new_enemy()
+	e.stun(4.0)
+	e._physics_process(1.0)            # timer 4.0 -> 3.0
+	var p := _fake_player()
+	p.global_position = Vector2(0, -40)
+	p.velocity = Vector2(0, 500)
+	e._handle_player(p)                # restomp
+	assert_almost_eq(e._stun_timer, 4.0, 0.001, "timer refreshed to full")
+
+
+func test_side_contact_knockback_and_damage():
+	var e := _new_enemy()
+	e.global_position = Vector2(100, 0)
+	var p := _fake_player()
+	p.global_position = Vector2(200, 0)  # to the right
+	p.velocity = Vector2(0, 0)           # not falling
+	e._handle_player(p)
+	assert_gt(p.velocity.x, 0.0, "knocked right (away from enemy)")
+	assert_eq(p.health, 2, "took 1 contact damage")
+
+
+func test_side_contact_ignored_while_stunned():
+	var e := _new_enemy()
+	e.global_position = Vector2(100, 0)
+	e.stun(4.0)
+	var p := _fake_player()
+	p.global_position = Vector2(200, 0)
+	p.velocity = Vector2(0, 0)
+	e._handle_player(p)
+	assert_eq(p.health, 3, "harmless while stunned")
+	assert_eq(p.velocity.x, 0.0, "no knockback while stunned")

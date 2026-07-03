@@ -3,9 +3,6 @@ extends Enemy
 ## Keen 1 Yorp: slow patrol; on contact knocks the player back and deals minor
 ## damage; 1 hit to defeat.
 
-@export var knockback_x: float = 400.0
-@export var knockback_y: float = 300.0
-
 
 func _ready() -> void:
 	super._ready()
