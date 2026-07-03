@@ -59,7 +59,7 @@ func _restore_or_new() -> void:
 		# Consume the stash so a later non-Test editor open starts fresh.
 		GameManager.pending_level = null
 		GameManager.return_scene = null
-	else:
+	elif not _try_reopen_last():
 		_new_level()
 
 
@@ -415,6 +415,23 @@ func _recall_path() -> String:
 	if cfg.load(SETTINGS_PATH) != OK:
 		return ""
 	return cfg.get_value(SETTINGS_SECTION, SETTINGS_KEY, "") as String
+
+
+## On a fresh open (no Test ▶ round-trip), reopen the last remembered file if it
+## still exists and loads cleanly. Returns true when a level was loaded, false
+## when the editor should fall back to a blank level.
+func _try_reopen_last() -> bool:
+	var path := _recall_path()
+	if path.is_empty():
+		return false
+	if not ResourceLoader.exists(path):
+		_set_status("Last level not found, started blank: %s" % path)
+		return false
+	if _load_from_path(path):
+		_set_status("Reopened: %s" % path)
+		return true
+	_set_status("Last level not loadable, started blank: %s" % path)
+	return false
 
 
 # ------------------------------------------------------------------ refresh

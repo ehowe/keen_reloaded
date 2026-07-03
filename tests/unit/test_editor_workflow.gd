@@ -117,3 +117,31 @@ func test_load_from_path_returns_false_for_non_leveldata():
 	var ed := LevelEditor.new()
 	ed.undo_stack = UndoStack.new()
 	assert_false(ed._load_from_path(path))
+
+
+func test_try_reopen_last_returns_false_with_no_memory():
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	assert_false(ed._try_reopen_last())
+	assert_null(ed.level)
+
+
+func test_try_reopen_last_opens_remembered_valid_file():
+	var ld := _level()
+	var path := "user://tests/test_remember_reopen.tres"
+	DirAccess.make_dir_recursive_absolute("user://tests/")
+	assert_eq(ResourceSaver.save(ld, path), OK)
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	ed._remember_path(path)
+	assert_true(ed._try_reopen_last())
+	assert_not_null(ed.level)
+	assert_eq(ed._last_path, path)
+
+
+func test_try_reopen_last_falls_back_when_file_missing():
+	var ed := LevelEditor.new()
+	ed.undo_stack = UndoStack.new()
+	ed._remember_path("user://tests/gone_12345.tres")
+	assert_false(ed._try_reopen_last())
+	assert_null(ed.level)
