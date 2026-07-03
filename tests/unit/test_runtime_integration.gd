@@ -19,7 +19,8 @@ func test_build_spawns_every_registered_entity_type():
 	rt.build(ld)
 
 	assert_eq(rt.entities_spawned.size(), ld.entities.size(), "every entity spawned")
-	# Each spawned node must be a real Entity on the tree.
+	# Each spawned node must be a real gameplay Entity or a decor SpriteEntity,
+	# and live on the tree.
 	for node in rt.entities_spawned:
-		assert_true(node is Entity)
+		assert_true(node is Entity or node is SpriteEntity, "spawned node is Entity or decor SpriteEntity")
 		assert_true(node.is_inside_tree())

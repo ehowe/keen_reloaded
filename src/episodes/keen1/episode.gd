@@ -31,3 +31,5 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.raygun", registry.CATEGORY_ITEM, "Raygun Ammo", [], raygun)
 	registry.register("keen1.exit_door", registry.CATEGORY_SPECIAL, "Exit Door", [], exit_door)
 	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn")
+	registry.register_sprite("keen1.exit_sign", registry.CATEGORY_DECOR, "Exit Sign",
+		"res://assets/sprites/Exit Sign.tscn")
