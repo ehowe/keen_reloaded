@@ -205,5 +205,5 @@ func test_holding_jump_keeps_full_ascent():
 func test_sprite_feet_aligned_to_collision():
 	var p := _new_player()
 	var walk := p.get_node("Walking") as AnimatedSprite2D
-	# sprite 96 tall vs collision 64 tall -> offset.y = -(48 - 32) = -16
-	assert_almost_eq(walk.offset.y, -16.0, 0.01, "feet rest on collision bottom")
+	# sprite 96 tall vs collision 96 tall -> offset.y = -(48 - 48) = 0
+	assert_almost_eq(walk.offset.y, 0.0, 0.01, "feet rest on collision bottom")

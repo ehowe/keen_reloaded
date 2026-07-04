@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ddbhn3oobg28r" path="res://assets/sprites/Keen - Level Movement 64x96.png" id="2_rbc7w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(48, 64)
+size = Vector2(48, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_odxas"]
 atlas = ExtResource("2_rbc7w")
