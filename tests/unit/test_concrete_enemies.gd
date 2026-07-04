@@ -48,5 +48,20 @@ func test_yorp_knockback_no_damage():
 	assert_eq(p.health, 3, "yorp bump does not damage keen (knockback only)")
 
 
+func test_clapper_instakills_on_contact():
+	var c: Clapper = add_child_autofree(load("res://src/runtime/entities/clapper.tscn").instantiate())
+	var p := _fake_player()
+	assert_eq(p.health, 3, "fake player starts at 3 hp")
+	c._handle_player(p)
+	assert_eq(p.health, 0, "clapper drains all health on contact (instakill)")
+
+
+func test_clapper_invincible_to_shots():
+	# projectile.gd only damages bodies with a take_damage method. The Clapper
+	# must NOT implement it, so blaster bolts pass straight through.
+	var c: Clapper = add_child_autofree(load("res://src/runtime/entities/clapper.tscn").instantiate())
+	assert_false(c.has_method("take_damage"), "clapper has no take_damage -> projectiles pass through")
+
+
 func after_each():
 	GameManager.register_episodes()
