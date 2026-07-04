@@ -13,7 +13,7 @@ Keen. It cannot be destroyed by shooting or stomping.
 
 Mechanically it behaves like a deadly hazard; it is registered under the
 `HAZARD` palette category. The art asset already exists at
-`assets/sprites/Clapper.png` + `Clapper.aseprite` (1024×256 sprite sheet).
+`assets/sprites/Clapper.png` + `Clapper.aseprite` (256×64 sprite sheet).
 
 ## 2. Behavior
 
@@ -92,7 +92,7 @@ the real sprite comes from the scene (see 4.2), which suppresses the fallback.
   - `sprite_frames`: built from `res://assets/sprites/Clapper.png` regions.
   - Animation: single looping animation (the clapping cycle). Exact frame count,
     region rects, and FPS are confirmed from `Clapper.aseprite` at implementation
-    time; the sheet is 1024×256.
+    time; the sheet is 256×64.
 - No additional collision children — `Entity._build_contact()` adds the
   `Area2D` + `CollisionShape2D` (64×64 `RectangleShape2D`) at runtime.
 

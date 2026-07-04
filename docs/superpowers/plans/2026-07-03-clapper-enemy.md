@@ -114,7 +114,7 @@ The behavior test loads the scene (`clapper.tscn`), which doesn't exist. The sui
 **Files:**
 - Create: `src/runtime/entities/clapper.tscn`
 
-The Clapper.png (1024×256) holds the clapper as a horizontal strip of **4 frames × 64×64** in its first 256px (verified against `assets/sprites/Clapper.tscn`: regions `Rect2(0,0,64,64)`, `Rect2(64,0,64,64)`, `Rect2(128,0,64,64)`, `Rect2(192,0,64,64)`). The clap animation plays frames 0→1→2→3→2→1 at 5 FPS, looping (open-clap-open).
+The Clapper.png (256×64) is a horizontal strip of **4 frames × 64×64** (verified against `assets/sprites/Clapper.tscn`: regions `Rect2(0,0,64,64)`, `Rect2(64,0,64,64)`, `Rect2(128,0,64,64)`, `Rect2(192,0,64,64)` — exactly fills the sheet). The clap animation plays frames 0→1→2→3→2→1 at 5 FPS, looping (open-clap-open).
 
 - [ ] **Step 1: Create the scene file**
 
