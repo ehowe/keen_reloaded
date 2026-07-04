@@ -38,14 +38,14 @@ func test_butler_is_armored():
 	assert_eq(b.health, 1, "health unchanged")
 
 
-func test_yorp_knockback_and_damage():
+func test_yorp_knockback_no_damage():
 	var y: Yorp = add_child_autofree(load("res://src/runtime/entities/yorp.tscn").instantiate())
 	y.global_position = Vector2(100, 0)
 	var p := _fake_player()
 	p.global_position = Vector2(200, 0)  # player to the right -> knockback +x
 	y._handle_player(p)
 	assert_gt(p.velocity.x, 0, "knocked right")
-	assert_eq(p.health, 2, "took 1 contact damage")
+	assert_eq(p.health, 3, "yorp bump does not damage keen (knockback only)")
 
 
 func after_each():

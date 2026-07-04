@@ -1,8 +1,8 @@
 class_name Yorp
 extends Enemy
 ## Keen 1 Yorp: slow patrol biased toward Keen; on side contact knocks the player
-## back and deals minor damage; a stomp from above stuns it (recoverable); 1
-## blaster hit to defeat. Tuning + seek-biased wander override only.
+## back (no damage — classic Yorp is harmless); a stomp from above stuns it
+## (recoverable); 1 blaster hit to defeat. Tuning + seek-biased wander override only.
 
 @export var seek_chance: float = 0.7
 
@@ -12,7 +12,7 @@ func _ready() -> void:
 	health = 1
 	score_value = 100
 	patrol_speed = 70.0
-	contact_damage = 1
+	contact_damage = 0  # classic Yorp: knockback only, no contact damage
 	turns_at_ledges = false
 
 
