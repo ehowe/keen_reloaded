@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://cleor25njurvy"]
+
+[ext_resource type="Texture2D" uid="uid://bc7m7hpu1ssvg" path="res://assets/sprites/Clapper.png" id="1_pukix"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxybf"]
+atlas = ExtResource("1_pukix")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43ffa"]
+atlas = ExtResource("1_pukix")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr4wq"]
+atlas = ExtResource("1_pukix")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2dx8"]
+atlas = ExtResource("1_pukix")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxybf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43ffa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr4wq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2dx8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr4wq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43ffa")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Clapper" type="Node2D" unique_id=529262940]
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=2102879462]
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+autoplay = "default"
+frame_progress = 0.5240157
