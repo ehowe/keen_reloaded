@@ -10,6 +10,8 @@ extends VBoxContainer
 ## whenever `tileset_ref == _last_tileset` (the click path).
 
 var _tile_buttons: Array[Button] = []
+var _tile_ids: Array[int] = []
+var _last_source: int = 0
 var _tile_grid: GridContainer
 var _tile_scroll: ScrollContainer
 var _last_tileset: TileSet = null
@@ -83,11 +85,25 @@ func _rebuild_tile_grid(e: LevelEditor) -> void:
 	for c in _tile_grid.get_children():
 		c.queue_free()
 	_tile_buttons.clear()
+	_tile_ids.clear()
 	_last_tileset = e.level.tileset_ref
+	_last_source = e.active_source_order
 	var ts: TileSet = _last_tileset
-	var count := _tile_count(e)
+	# Show only the active atlas source's tiles (chosen in the inspector). The
+	# palette used to flatten every source into one giant grid; filtering by
+	# source keeps the picker navigable now that levels can use multiple.
+	if ts != null and ts.get_source_count() > 0:
+		var order := clampi(e.active_source_order, 0, ts.get_source_count() - 1)
+		_tile_ids = TileAtlas.tile_ids_for_source(ts, order)
+		if _tile_ids.is_empty():
+			# Source has no usable texture; fall back to source 0 so the picker
+			# is never blank.
+			_tile_ids = TileAtlas.tile_ids_for_source(ts, 0)
+	else:
+		for i in range(1, LevelEditor.PALETTE_TILE_COUNT + 1):
+			_tile_ids.append(i)
 	var tile_group := ButtonGroup.new()
-	for id in range(1, count + 1):
+	for id in _tile_ids:
 		var b := Button.new()
 		b.toggle_mode = true
 		b.button_group = tile_group
@@ -113,15 +129,6 @@ func _rebuild_tile_grid(e: LevelEditor) -> void:
 		_tile_buttons.append(b)
 
 
-## Tile count for the palette: the atlas grid size when a TileSet is assigned,
-## else the fixed Plan 2 default.
-func _tile_count(e: LevelEditor) -> int:
-	var ts: TileSet = e.level.tileset_ref
-	if ts != null and ts.get_source_count() > 0:
-		return TileAtlas.tile_count(ts)
-	return LevelEditor.PALETTE_TILE_COUNT
-
-
 func _populate_entities() -> void:
 	_entity_list.clear()
 	_entity_ids.clear()
@@ -138,14 +145,14 @@ func _populate_entities() -> void:
 ## level's TileSet changed (which happens via the inspector, never a tile click),
 ## so it never frees a button during its own pressed emission.
 func refresh(e: LevelEditor) -> void:
-	if e.level.tileset_ref != _last_tileset:
+	if e.level.tileset_ref != _last_tileset or e.active_source_order != _last_source:
 		_rebuild_tile_grid(e)
 	for i in range(_tile_buttons.size()):
-		_tile_buttons[i].set_pressed_no_signal((i + 1) == e.selected_tile_id)
+		_tile_buttons[i].set_pressed_no_signal(_tile_ids[i] == e.selected_tile_id)
 	# Scroll the active tile into view so a picked/selected tile is easy to find.
-	var id := e.selected_tile_id
-	if id >= 1 and id <= _tile_buttons.size():
-		_tile_scroll.ensure_control_visible(_tile_buttons[id - 1])
+	var idx := _tile_ids.find(e.selected_tile_id)
+	if idx >= 0 and idx < _tile_buttons.size():
+		_tile_scroll.ensure_control_visible(_tile_buttons[idx])
 	for layer in _layer_buttons:
 		_layer_buttons[layer].set_pressed_no_signal(layer == e.active_layer)
 	for tool in _tool_buttons:
@@ -176,12 +183,13 @@ func _build_preview() -> Control:
 
 func _update_preview(e: LevelEditor) -> void:
 	var tile_id := e.selected_tile_id
-	_preview_bg.color = EditorColors.tile_color(tile_id)
 	var ts: TileSet = e.level.tileset_ref
 	if ts != null and ts.get_source_count() > 0:
 		_preview_icon.texture = TileAtlas.tile_icon(ts, tile_id)
+		_preview_bg.color = Color(0.15, 0.15, 0.18)
 	else:
 		_preview_icon.texture = null
+		_preview_bg.color = EditorColors.tile_color(tile_id)
 	_preview_label.text = "Tile %d" % tile_id
 
 

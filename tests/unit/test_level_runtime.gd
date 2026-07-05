@@ -133,6 +133,48 @@ func test_build_clamps_camera_to_map_bounds():
 	assert_eq(cam.limit_bottom, lvl.height * ts, "bottom clamped to map height")
 
 
+## Two-source TileSet: source 0 = 2x1, source 1 = 2x1 (16px cells).
+func _two_source_tileset() -> TileSet:
+	var ts := TileSet.new()
+	ts.tile_size = Vector2i(16, 16)
+	var img0 := Image.create(32, 16, false, Image.FORMAT_RGBA8)
+	img0.fill(Color(0.2, 0.7, 0.3, 1))
+	var s0 := TileSetAtlasSource.new()
+	s0.texture = ImageTexture.create_from_image(img0)
+	s0.texture_region_size = Vector2i(16, 16)
+	ts.add_source(s0)
+	s0.create_tile(Vector2i(0, 0))
+	s0.create_tile(Vector2i(1, 0))
+	var img1 := Image.create(32, 16, false, Image.FORMAT_RGBA8)
+	img1.fill(Color(0.7, 0.2, 0.3, 1))
+	var s1 := TileSetAtlasSource.new()
+	s1.texture = ImageTexture.create_from_image(img1)
+	s1.texture_region_size = Vector2i(16, 16)
+	ts.add_source(s1)
+	s1.create_tile(Vector2i(0, 0))
+	s1.create_tile(Vector2i(1, 0))
+	return ts
+
+
+func test_build_renders_second_source_cell():
+	GameManager.pending_level = null
+	var ts := _two_source_tileset()
+	var ld := LevelData.new()
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	# source 1, cell idx 1 -> atlas (1, 0)
+	ld.set_geometry_tile(0, 0, TileAtlas.SOURCE_STRIDE + 2)
+	ld.tileset_ref = ts
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	var geo: TileMapLayer = rt.layers[LevelData.LAYER_GEOMETRY]
+	assert_eq(geo.get_cell_source_id(Vector2i(0, 0)), ts.get_source_id(1), "cell resolves to source 1")
+	assert_eq(geo.get_cell_atlas_coords(Vector2i(0, 0)), Vector2i(1, 0), "source-1 cell coords")
+
+
 func test_build_falls_back_to_procedural_when_tileset_ref_null():
 	GameManager.pending_level = null
 	var ld := LevelData.new()

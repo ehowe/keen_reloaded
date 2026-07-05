@@ -118,7 +118,7 @@ static func _remap_tiles(arr: PackedInt32Array, old_w: int, old_h: int, new_w: i
 ## Returns the geometry tile id at (x, y). 0 if out of bounds.
 func get_geometry_tile(x: int, y: int) -> int:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= geometry_tiles.size():
 		return 0
 	return geometry_tiles[idx]
 
@@ -126,7 +126,7 @@ func get_geometry_tile(x: int, y: int) -> int:
 ## Sets the geometry tile id at (x, y). Ignored if out of bounds.
 func set_geometry_tile(x: int, y: int, tile_id: int) -> void:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= geometry_tiles.size():
 		return
 	geometry_tiles[idx] = tile_id
 
@@ -134,7 +134,7 @@ func set_geometry_tile(x: int, y: int, tile_id: int) -> void:
 ## Returns the foreground tile id at (x, y). 0 if out of bounds.
 func get_foreground_tile(x: int, y: int) -> int:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= foreground_tiles.size():
 		return 0
 	return foreground_tiles[idx]
 
@@ -142,7 +142,7 @@ func get_foreground_tile(x: int, y: int) -> int:
 ## Sets the foreground tile id at (x, y). Ignored if out of bounds.
 func set_foreground_tile(x: int, y: int, tile_id: int) -> void:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= foreground_tiles.size():
 		return
 	foreground_tiles[idx] = tile_id
 
@@ -150,7 +150,7 @@ func set_foreground_tile(x: int, y: int, tile_id: int) -> void:
 ## Returns the background tile id at (x, y). 0 if out of bounds.
 func get_background_tile(x: int, y: int) -> int:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= background_tiles.size():
 		return 0
 	return background_tiles[idx]
 
@@ -158,7 +158,7 @@ func get_background_tile(x: int, y: int) -> int:
 ## Sets the background tile id at (x, y). Ignored if out of bounds.
 func set_background_tile(x: int, y: int, tile_id: int) -> void:
 	var idx := tile_index_at(x, y)
-	if idx < 0:
+	if idx < 0 or idx >= background_tiles.size():
 		return
 	background_tiles[idx] = tile_id
 

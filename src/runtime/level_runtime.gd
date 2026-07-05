@@ -71,14 +71,18 @@ func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> 
 	var tml := TileMapLayer.new()
 	tml.name = "Tiles_" + layer_name
 	tml.tile_set = tileset
-	var src_id: int = TileAtlas.source_id(tileset)
+	var has_art := tileset != null and tileset.get_source_count() > 0
 	for y in range(level.height):
 		for x in range(level.width):
 			var id := level.get_tile(layer_name, x, y)
-			if id > 0 and src_id >= 0:
-				var coords := TileAtlas.atlas_coords_for_id(tileset, id)
-				if coords.x >= 0:
-					tml.set_cell(Vector2i(x, y), src_id, coords)
+			if id <= 0 or not has_art:
+				continue
+			# Per-cell source: a tile id packs source_index*STRIDE + cell, so
+			# different cells may resolve to different atlas sources.
+			var sid := TileAtlas.source_id_for_id(tileset, id)
+			var coords := TileAtlas.atlas_coords_for_id(tileset, id)
+			if sid >= 0 and coords.x >= 0:
+				tml.set_cell(Vector2i(x, y), sid, coords)
 	add_child(tml)
 	return tml
 

@@ -101,9 +101,13 @@ func _draw() -> void:
 func _layer_pass(layer: String, cs: float, tint: Color) -> void:
 	var ts: TileSet = _level().tileset_ref
 	var has_art := ts != null and ts.get_source_count() > 0
-	var tex: Texture2D = null
+	# Cache each source's texture so tiles from any source render correctly.
+	var tex_by_source: Dictionary = {}
 	if has_art:
-		tex = TileAtlas.atlas_texture(ts)
+		for i in range(ts.get_source_count()):
+			var src := ts.get_source(ts.get_source_id(i))
+			if src.texture != null:
+				tex_by_source[i] = src.texture
 	for y in range(_level().height):
 		for x in range(_level().width):
 			var id := _level().get_tile(layer, x, y)
@@ -111,7 +115,9 @@ func _layer_pass(layer: String, cs: float, tint: Color) -> void:
 				continue
 			if has_art:
 				var region := TileAtlas.tile_region(ts, id)
-				draw_texture_rect_region(tex, Rect2(x * cs, y * cs, cs, cs), region, tint)
+				var tex: Texture2D = tex_by_source.get(TileAtlas.source_index_for_id(id))
+				if tex != null:
+					draw_texture_rect_region(tex, Rect2(x * cs, y * cs, cs, cs), region, tint)
 			else:
 				draw_rect(Rect2(x * cs, y * cs, cs, cs), EditorColors.tile_color(id) * tint, true)
 

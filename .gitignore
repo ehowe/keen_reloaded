@@ -17,3 +17,6 @@ Thumbs.db
 
 # Editor temp
 *.tmp
+
+# Dev scratch
+tmp/

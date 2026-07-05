@@ -13,6 +13,8 @@ var _spawn_x: SpinBox
 var _spawn_y: SpinBox
 var _entity_box: VBoxContainer
 var _tileset_picker: OptionButton
+var _source_picker: OptionButton
+var _last_ts: TileSet = null
 
 
 func build(e: LevelEditor) -> void:
@@ -45,6 +47,14 @@ func build(e: LevelEditor) -> void:
 	_populate_tileset_picker()
 	_tileset_picker.item_selected.connect(_on_tileset_selected)
 	add_child(_labeled("File", _tileset_picker))
+	# Source picker: filters the palette to one atlas source within the chosen
+	# TileSet. Populated whenever the file changes (see refresh / _on_tileset_selected).
+	_source_picker = OptionButton.new()
+	_source_picker.item_selected.connect(_on_source_selected)
+	add_child(_labeled("Source", _source_picker))
+	# Populate once so the picker is never empty on the first refresh (which
+	# only repopulates when the tileset actually changes).
+	_populate_source_picker(null)
 
 	add_child(_section_label("Selected Entity"))
 	_entity_box = VBoxContainer.new()
@@ -62,6 +72,10 @@ func refresh(e: LevelEditor) -> void:
 	_spawn_x.set_value_no_signal(e.level.player_spawn.x)
 	_spawn_y.set_value_no_signal(e.level.player_spawn.y)
 	_sync_tileset_picker(e.level.tileset_ref)
+	if e.level.tileset_ref != _last_ts:
+		_last_ts = e.level.tileset_ref
+		_populate_source_picker(e.level.tileset_ref)
+	_sync_source_picker(e.active_source_order)
 	_rebuild_entity_box(e)
 
 
@@ -157,7 +171,34 @@ func _on_tileset_selected(index: int) -> void:
 		if loaded == null:
 			push_warning("TileSet load failed (wrong type or corrupt): %s" % path)
 		_e.level.tileset_ref = loaded
+	# New file: reset to its first source so the palette always shows something.
+	_e.active_source_order = 0
 	_e._broadcast()
+
+
+func _populate_source_picker(ts: TileSet) -> void:
+	_source_picker.clear()
+	if ts == null or ts.get_source_count() == 0:
+		_source_picker.add_item("None", 0)
+		_source_picker.set_item_metadata(0, -1)
+		_source_picker.disabled = true
+		return
+	_source_picker.disabled = false
+	for i in range(ts.get_source_count()):
+		_source_picker.add_item(TileAtlas.source_name(ts, i))
+		_source_picker.set_item_metadata(i, i)
+
+
+func _sync_source_picker(order: int) -> void:
+	for i in range(_source_picker.item_count):
+		if int(_source_picker.get_item_metadata(i)) == order:
+			_source_picker.select(i)
+			return
+	_source_picker.select(0)
+
+
+func _on_source_selected(index: int) -> void:
+	_e.set_active_source_order(int(_source_picker.get_item_metadata(index)))
 
 
 # ---------------------------------------------------------------- helpers

@@ -28,6 +28,7 @@ var undo_stack: UndoStack
 var active_layer: String = LevelData.LAYER_GEOMETRY
 var active_tool: String = "paint"
 var selected_tile_id: int = 1
+var active_source_order: int = 0  # atlas source shown in the palette (filter only)
 var selected_entity_type: String = "keen1.vorticon"
 var selected_entity_index: int = -1
 var tile_selection: Rect2i = Rect2i()  # active tile marquee; zero-area = none
@@ -116,6 +117,14 @@ func set_selected_tile_id(id: int) -> void:
 	_broadcast()
 
 
+## Active atlas source (0-based order) shown in the palette. This only filters
+## which tiles the palette offers; a painted tile id always encodes its own
+## source, so cells from other sources still render fine.
+func set_active_source_order(order: int) -> void:
+	active_source_order = order
+	_broadcast()
+
+
 func set_selected_entity_type(type_id: String) -> void:
 	selected_entity_type = type_id
 	_broadcast()
@@ -155,6 +164,12 @@ func pick_tile_at(cell: Vector2i) -> void:
 	if id <= 0:
 		_set_status("Nothing to pick (empty cell)")
 		return
+	# Keep the picked tile visible: switch the palette to its source. Safe to
+	# rebuild here because this fires from canvas input, not a palette button.
+	if level.tileset_ref != null:
+		var want := TileAtlas.source_index_for_id(id)
+		if want >= 0 and want < level.tileset_ref.get_source_count():
+			active_source_order = want
 	set_selected_tile_id(id)
 	set_tool("paint")
 
@@ -365,6 +380,11 @@ func _make_file_dialog(mode: int) -> FileDialog:
 
 func _on_save_path(path: String) -> void:
 	_last_path = path
+	var want := level.width * level.height
+	if want > 0 and (level.geometry_tiles.size() != want or level.foreground_tiles.size() != want or level.background_tiles.size() != want):
+		push_error("Refusing to save %s: tile array size mismatch (want %d, have geo=%d fg=%d bg=%d). File unchanged." % [path, want, level.geometry_tiles.size(), level.foreground_tiles.size(), level.background_tiles.size()])
+		_set_status("Save ABORTED (array size mismatch): %s" % path)
+		return
 	var err := ResourceSaver.save(level, path)
 	if err == OK:
 		_remember_path(path)
