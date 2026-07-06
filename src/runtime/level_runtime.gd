@@ -193,20 +193,21 @@ func _build_bounds(level: LevelData, ts: int) -> void:
 	_add_wall("BoundsWall_Right", Vector2(w_px + t * 0.5, h_px * 0.5), Vector2(t, h_px + t * 2.0))
 	_add_wall("BoundsWall_Top", Vector2(w_px * 0.5, -t * 0.5), Vector2(w_px + t * 2.0, t))
 
-	# Bottom kill zone: detect player (layer 1), respawn on entry.
-	var kz := Area2D.new()
-	kz.name = "BoundsKillZone"
-	kz.collision_mask = COLLISION_LAYER_PLAYER
-	kz.monitorable = true
-	kz.monitoring = true
-	var kshape := RectangleShape2D.new()
-	kshape.size = Vector2(w_px + t * 2.0, t)
-	var kcol := CollisionShape2D.new()
-	kcol.shape = kshape
-	kz.add_child(kcol)
-	kz.position = Vector2(w_px * 0.5, h_px + t * 0.5)
-	kz.body_entered.connect(_on_kill_zone_body_entered)
-	add_child(kz)
+	# Bottom kill zone: levels only. Overworld is non-lethal (no fall death).
+	if _level.map_kind == LevelData.MapKind.LEVEL:
+		var kz := Area2D.new()
+		kz.name = "BoundsKillZone"
+		kz.collision_mask = COLLISION_LAYER_PLAYER
+		kz.monitorable = true
+		kz.monitoring = true
+		var kshape := RectangleShape2D.new()
+		kshape.size = Vector2(w_px + t * 2.0, t)
+		var kcol := CollisionShape2D.new()
+		kcol.shape = kshape
+		kz.add_child(kcol)
+		kz.position = Vector2(w_px * 0.5, h_px + t * 0.5)
+		kz.body_entered.connect(_on_kill_zone_body_entered)
+		add_child(kz)
 
 
 func _add_wall(node_name: String, center: Vector2, size: Vector2) -> void:
