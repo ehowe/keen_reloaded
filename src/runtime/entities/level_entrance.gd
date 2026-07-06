@@ -24,11 +24,14 @@ var _blocker: StaticBody2D
 var _blocker_shape: CollisionShape2D
 
 
-## Called by EntityRegistry.instantiate. Reads editor-set properties.
+## Called by EntityRegistry.instantiate. Reads editor-set properties. Order-
+## independent: refresh_blocking() reapplies solidity whether or not _ready has
+## run yet (it null-guards the shape).
 func setup(p_type_id: String, p_props: Dictionary) -> void:
 	type_id = p_type_id
 	target_level_id = String(p_props.get("target_level_id", ""))
 	blocks_until_completed = bool(p_props.get("blocks_until_completed", false))
+	refresh_blocking()
 
 
 ## Called by LevelRuntime after instantiate so the entrance knows its tile.
@@ -101,7 +104,7 @@ func attempt_enter(interact_pressed: bool) -> bool:
 
 
 func is_blocking() -> bool:
-	return blocks_until_completed and not GameManager.is_level_completed(target_level_id)
+	return blocks_until_completed and target_level_id != "" and not GameManager.is_level_completed(target_level_id)
 
 
 ## Recompute the blocker's solidity from GameManager state. Called on build and

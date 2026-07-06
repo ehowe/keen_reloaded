@@ -34,6 +34,11 @@ func test_gate_unblocks_when_completed():
 	var e := _make_entrance("a", true)
 	assert_false(e.is_blocking())
 
+func test_gate_with_empty_target_never_blocks():
+	# A gate pointing at no level must not wall off the overworld forever.
+	var e := _make_entrance("", true)
+	assert_false(e.is_blocking())
+
 func test_attempt_enter_requires_nearby():
 	var e := _make_entrance("a", false)
 	assert_false(e.attempt_enter(true))
