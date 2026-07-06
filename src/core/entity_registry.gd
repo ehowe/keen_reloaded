@@ -14,13 +14,16 @@ var _entries: Dictionary = {}  # type_id -> { type_id, category, label, properti
 
 
 ## Register (or overwrite) one entity type.
-func register(type_id: String, category: String, label: String, properties: Array = [], scene: PackedScene = null) -> void:
+func register(type_id: String, category: String, label: String, properties: Array = [], scene: PackedScene = null, map_kinds: Array[int] = []) -> void:
+	if map_kinds.is_empty():
+		map_kinds = [LevelData.MapKind.LEVEL]
 	_entries[type_id] = {
 		"type_id": type_id,
 		"category": category,
 		"label": label,
 		"properties": properties,
 		"scene": scene,
+		"map_kinds": map_kinds,
 	}
 
 
@@ -28,13 +31,16 @@ func register(type_id: String, category: String, label: String, properties: Arra
 ## placeable entity. The scene is loaded lazily at spawn time, so a missing file
 ## is skipped gracefully. Mirrors register()'s entry shape but stores a path
 ## string (scene_path) instead of a preloaded PackedScene.
-func register_sprite(type_id: String, category: String, label: String, scene_path: String, properties: Array = []) -> void:
+func register_sprite(type_id: String, category: String, label: String, scene_path: String, properties: Array = [], map_kinds: Array[int] = []) -> void:
+	if map_kinds.is_empty():
+		map_kinds = [LevelData.MapKind.LEVEL]
 	_entries[type_id] = {
 		"type_id": type_id,
 		"category": category,
 		"label": label,
 		"properties": properties,
 		"scene_path": scene_path,
+		"map_kinds": map_kinds,
 	}
 
 

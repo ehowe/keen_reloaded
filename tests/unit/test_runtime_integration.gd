@@ -8,9 +8,12 @@ func test_build_spawns_every_registered_entity_type():
 	ld.tile_size = 16
 	ld.fill_blank()
 	ld.player_spawn = Vector2i(1, 1)
-	# Add one EntityDef per registered type, spaced along a row.
+	# Add one EntityDef per registered type valid for this map kind, spaced along a row.
 	var x := 2
 	for entry in EntityRegistry.get_palette_entries():
+		var kinds: Array = entry.get("map_kinds", [LevelData.MapKind.LEVEL])
+		if not kinds.has(int(ld.map_kind)):
+			continue
 		ld.entities.append(EntityDef.new(String(entry["type_id"]), x, 1))
 		x += 1
 

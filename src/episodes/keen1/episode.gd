@@ -35,3 +35,7 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn")
 	registry.register_sprite("keen1.exit_sign", registry.CATEGORY_DECOR, "Exit Sign",
 		"res://assets/sprites/Exit Sign.tscn")
+	var level_entrance := preload("res://src/runtime/entities/level_entrance.tscn")
+	var overworld_only: Array[int] = [LevelData.MapKind.OVERWORLD]
+	registry.register("keen1.level_entrance", registry.CATEGORY_SPECIAL, "Level Entrance",
+		[], level_entrance, overworld_only)
