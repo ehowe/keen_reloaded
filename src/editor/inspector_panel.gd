@@ -116,17 +116,31 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 	ys.value_changed.connect(func(_v: float) -> void: ent.y = int(ys.value))
 	_entity_box.add_child(_labeled("Y", ys))
 
-	# numeric properties only (int-valued) for MVP
 	for key in ent.properties.keys():
 		var val = ent.properties[key]
-		if typeof(val) == TYPE_INT or typeof(val) == TYPE_FLOAT:
-			var ps := SpinBox.new()
-			ps.min_value = -9999
-			ps.max_value = 9999
-			ps.set_value_no_signal(val)
-			var k: Variant = key
-			ps.value_changed.connect(func(_v: float) -> void: ent.properties[k] = int(ps.value))
-			_entity_box.add_child(_labeled(str(key), ps))
+		match typeof(val):
+			TYPE_INT, TYPE_FLOAT:
+				var ps := SpinBox.new()
+				ps.min_value = -9999
+				ps.max_value = 9999
+				ps.set_value_no_signal(val)
+				var k: Variant = key
+				ps.value_changed.connect(func(_v: float) -> void: ent.properties[k] = int(ps.value))
+				_entity_box.add_child(_labeled(str(key), ps))
+			TYPE_BOOL:
+				var cb := CheckBox.new()
+				cb.name = "Prop_" + str(key)
+				cb.set_pressed_no_signal(val)
+				var kb: Variant = key
+				cb.toggled.connect(func(p: bool) -> void: ent.properties[kb] = p)
+				_entity_box.add_child(_labeled(str(key), cb))
+			TYPE_STRING:
+				var sle := LineEdit.new()
+				sle.name = "Prop_" + str(key)
+				sle.text = val
+				var sk: Variant = key
+				sle.text_changed.connect(func(t: String) -> void: ent.properties[sk] = t)
+				_entity_box.add_child(_labeled(str(key), sle))
 
 	var del := Button.new()
 	del.text = "Delete entity"
