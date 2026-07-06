@@ -44,6 +44,7 @@ func _ensure_input_actions() -> void:
 	_add_key_action("jump", KEY_SPACE)
 	_add_key_action("pogo", KEY_P)
 	_add_key_action("shoot", KEY_X)
+	_add_key_action("interact", KEY_UP)
 
 
 func _add_key_action(action_name: String, keycode: int) -> void:
