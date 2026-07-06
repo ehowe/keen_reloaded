@@ -121,6 +121,7 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 		match typeof(val):
 			TYPE_INT, TYPE_FLOAT:
 				var ps := SpinBox.new()
+				ps.name = "Prop_" + str(key)
 				ps.min_value = -9999
 				ps.max_value = 9999
 				ps.set_value_no_signal(val)
