@@ -32,6 +32,7 @@ func clear_progress() -> void:
 	current_overworld = null
 	current_level = null
 	last_entrance_pos = Vector2i.ZERO
+	pending_player_spawn = Vector2i(-1, -1)
 	_levels_by_id.clear()
 
 

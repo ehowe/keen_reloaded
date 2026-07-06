@@ -17,8 +17,12 @@ func test_mark_completed_is_idempotent():
 
 func test_clear_progress():
 	GameManager.mark_completed("keen1_01")
+	var ld := LevelData.new()
+	ld.level_id = "ow_x"
+	GameManager.register_level(ld)
 	GameManager.clear_progress()
 	assert_false(GameManager.is_level_completed("keen1_01"))
+	assert_null(GameManager.get_level_by_id("ow_x"), "registry cleared too")
 
 func test_register_and_get_level():
 	var ld := LevelData.new()
