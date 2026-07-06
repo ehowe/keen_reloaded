@@ -80,3 +80,42 @@ func test_complete_level_returns_to_overworld():
 	assert_eq(GameManager.pending_level, ow)
 	assert_eq(GameManager.pending_player_spawn, Vector2i(5, 6))
 	assert_true(GameManager.is_level_completed("keen1_01"))
+
+func test_episode_load_overworld_from_path():
+	# Build a tiny overworld .tres, point an Episode at it, load.
+	var ow := LevelData.new()
+	ow.level_id = "ow_test"
+	ow.level_name = "Test Overworld"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	var path := "res://tests/tmp_overworld.tres"
+	# Save into res:// so ResourceLoader.load(path) works headless.
+	DirAccess.make_dir_recursive_absolute("res://tests/")
+	assert_eq(ResourceSaver.save(ow, path), OK)
+	var ep := Episode.new()
+	ep.id = "t"
+	ep.title = "T"
+	ep.overworld_level_id = "ow_test"
+	ep.overworld_path = path
+	var loaded := ep.load_overworld()
+	assert_not_null(loaded)
+	assert_eq(loaded.level_id, "ow_test")
+	assert_eq(loaded.map_kind, LevelData.MapKind.OVERWORLD)
+
+func test_start_episode_sets_overworld_state():
+	var ow := LevelData.new()
+	ow.level_id = "ow_s"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	GameManager.register_level(ow)
+	# start_episode_no_scene_swap takes the resolved overworld directly so the
+	# test avoids directory scanning + scene swaps.
+	GameManager.start_episode_no_scene_swap("fake", ow)
+	assert_eq(GameManager.state, GameManager.State.OVERWORLD)
+	assert_eq(GameManager.current_overworld, ow)
+	assert_eq(GameManager.pending_level, ow)
+	assert_eq(GameManager.current_episode_id, "fake")

@@ -91,6 +91,47 @@ func complete_level_no_scene_swap() -> void:
 	state = State.OVERWORLD
 
 
+## Boot the overworld loop for an episode: resolve + load its overworld, then
+## swap to the runtime scene in OVERWORLD state.
+func start_episode(ep_id: String) -> void:
+	var ow := _resolve_overworld(ep_id)
+	if ow == null:
+		push_warning("GameManager: no overworld for episode '%s'" % ep_id)
+		return
+	start_episode_no_scene_swap(ep_id, ow)
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+func start_episode_no_scene_swap(ep_id: String, ow: LevelData) -> void:
+	current_episode_id = ep_id
+	current_overworld = ow
+	register_level(ow)
+	pending_level = ow
+	pending_player_spawn = Vector2i(-1, -1)
+	state = State.OVERWORLD
+
+
+func _resolve_overworld(ep_id: String) -> LevelData:
+	# Find the Episode instance for ep_id and ask it for its overworld.
+	var dir := DirAccess.open(EPISODES_DIR)
+	if dir == null:
+		return null
+	dir.list_dir_begin()
+	var subdir := dir.get_next()
+	while subdir != "":
+		if dir.dir_exists(subdir) and dir.file_exists("%s/episode.gd" % subdir):
+			var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+			var ep_script: GDScript = load(path)
+			if ep_script != null:
+				var ep: Episode = ep_script.new()
+				if ep.id == ep_id:
+					dir.list_dir_end()
+					return ep.load_overworld()
+		subdir = dir.get_next()
+	dir.list_dir_end()
+	return null
+
+
 ## Save-ready hooks (not wired to disk this spec; Plan 6 calls these).
 func serialize() -> Dictionary:
 	return {
