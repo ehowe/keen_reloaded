@@ -60,3 +60,10 @@ func test_attempt_enter_emits_signal():
 	e.attempt_enter(true)
 	assert_eq(captured["target"], "lvl_x")
 	assert_eq(captured["tile"], Vector2i(3, 4))
+
+func test_refresh_blocking_clears_after_completion():
+	var e := _make_entrance("a", true)
+	assert_true(e.is_blocking())
+	GameManager.mark_completed("a")
+	e.refresh_blocking()
+	assert_false(e.is_blocking())
