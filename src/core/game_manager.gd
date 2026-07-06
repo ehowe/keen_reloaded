@@ -1,13 +1,74 @@
 extends Node
 ## Top-level game state singleton (autoload). Registers player input actions in
 ## code and discovers + registers all episodes into the global EntityRegistry at
-## boot. Holds the Test ▶ round-trip state.
+## boot. Owns the overworld gameplay loop state machine and the per-level
+## completion set (session-held now; serialize/deserialize ready for Plan 6 save).
 
 const EPISODES_DIR := "res://src/episodes"
+const RUNTIME_SCENE := preload("res://src/runtime/level_runtime.tscn")
 
+enum State { MENU, OVERWORLD, LEVEL, TEST }
+
+var state: State = State.MENU
 var pending_level: LevelData = null
+var pending_player_spawn: Vector2i = Vector2i(-1, -1)
 var return_scene: PackedScene = null
 var episodes: Array = []  # registered Episode metadata ({id, title})
+
+var current_episode_id: String = ""
+var current_overworld: LevelData = null
+var current_level: LevelData = null
+var completed_levels: Array[String] = []
+var last_entrance_pos: Vector2i = Vector2i.ZERO
+
+var _levels_by_id: Dictionary = {}  # level_id -> LevelData (registry seam; Plan 5 fills via PackLoader)
+
+
+## Session-reset helper (also used by tests).
+func clear_progress() -> void:
+	state = State.MENU
+	completed_levels.clear()
+	current_episode_id = ""
+	current_overworld = null
+	current_level = null
+	last_entrance_pos = Vector2i.ZERO
+	_levels_by_id.clear()
+
+
+func is_level_completed(level_id: String) -> bool:
+	return completed_levels.has(level_id)
+
+
+## Idempotent: marks a level completed and records it for gate clearance.
+func mark_completed(level_id: String) -> void:
+	if not completed_levels.has(level_id):
+		completed_levels.append(level_id)
+
+
+## Registry seam: tests and (future) PackLoader register resolvable levels here.
+func register_level(ld: LevelData) -> void:
+	if ld.level_id != "":
+		_levels_by_id[ld.level_id] = ld
+
+
+func get_level_by_id(level_id: String) -> LevelData:
+	return _levels_by_id.get(level_id, null)
+
+
+## Save-ready hooks (not wired to disk this spec; Plan 6 calls these).
+func serialize() -> Dictionary:
+	return {
+		"completed_levels": completed_levels.duplicate(),
+		"current_episode_id": current_episode_id,
+	}
+
+
+func deserialize(data: Dictionary) -> void:
+	completed_levels.clear()
+	var loaded: Array = data.get("completed_levels", [])
+	for id in loaded:
+		completed_levels.append(String(id))
+	current_episode_id = String(data.get("current_episode_id", ""))
 
 
 func _ready() -> void:
