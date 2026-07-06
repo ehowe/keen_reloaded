@@ -29,7 +29,12 @@ var _tile_size: int = 64
 
 func _ready() -> void:
 	if GameManager != null and GameManager.pending_level != null:
-		build(GameManager.pending_level)
+		var lv := GameManager.pending_level
+		GameManager.pending_level = null
+		build(lv)
+		if GameManager.pending_player_spawn.x >= 0 and is_instance_valid(player):
+			player.position = _cell_center(GameManager.pending_player_spawn, _tile_size)
+		GameManager.pending_player_spawn = Vector2i(-1, -1)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -132,7 +137,11 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 		if node != null:
 			add_child(node)
 			entities_spawned.append(node)
-			if node.has_signal("level_completed"):
+			if node is LevelEntrance:
+				(node as LevelEntrance).set_tile(Vector2i(def.x, def.y))
+				(node as LevelEntrance).refresh_blocking()
+				(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
+			elif node.has_signal("level_completed"):
 				node.level_completed.connect(_on_level_completed)
 
 
@@ -154,10 +163,19 @@ func _on_level_completed() -> void:
 	get_tree().paused = true
 
 
+func _on_enter_requested(target_level_id: String, tile: Vector2i) -> void:
+	if GameManager != null:
+		GameManager.enter_level(target_level_id, tile)
+
+
 func _on_completion_dismissed() -> void:
 	get_tree().paused = false
 	if GameManager != null and GameManager.return_scene != null:
+		# Test ▶ from the editor: go back to the editor.
 		get_tree().change_scene_to_packed(GameManager.return_scene)
+	elif GameManager != null and GameManager.current_overworld != null:
+		# Overworld loop: return to the overworld at the entrance tile.
+		GameManager.complete_level()
 	else:
 		get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
 

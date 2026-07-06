@@ -56,6 +56,41 @@ func get_level_by_id(level_id: String) -> LevelData:
 	return _levels_by_id.get(level_id, null)
 
 
+## Transition overworld -> level. Records the entrance tile so complete_level
+## can place Keen back at this door.
+func enter_level(target_level_id: String, from_tile: Vector2i) -> void:
+	enter_level_no_scene_swap(target_level_id, from_tile)
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+func enter_level_no_scene_swap(target_level_id: String, from_tile: Vector2i) -> void:
+	var lvl := get_level_by_id(target_level_id)
+	if lvl == null:
+		push_warning("GameManager: unknown level id '%s'" % target_level_id)
+		return
+	current_level = lvl
+	last_entrance_pos = from_tile
+	pending_level = lvl
+	pending_player_spawn = Vector2i(-1, -1)  # use the level's own player_spawn
+	state = State.LEVEL
+
+
+## Transition level -> overworld at last_entrance_pos. Idempotently records
+## completion so gate blockers clear on the rebuilt overworld.
+func complete_level() -> void:
+	complete_level_no_scene_swap()
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+func complete_level_no_scene_swap() -> void:
+	if current_level != null:
+		mark_completed(current_level.level_id)
+	pending_level = current_overworld
+	pending_player_spawn = last_entrance_pos
+	current_level = null
+	state = State.OVERWORLD
+
+
 ## Save-ready hooks (not wired to disk this spec; Plan 6 calls these).
 func serialize() -> Dictionary:
 	return {
