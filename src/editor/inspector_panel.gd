@@ -14,6 +14,7 @@ var _spawn_y: SpinBox
 var _entity_box: VBoxContainer
 var _tileset_picker: OptionButton
 var _source_picker: OptionButton
+var _map_kind_picker: OptionButton
 var _last_ts: TileSet = null
 
 
@@ -30,6 +31,13 @@ func build(e: LevelEditor) -> void:
 	add_child(_labeled("Episode", _episode_edit))
 	_order_spin = _spin(0, 9999, _on_order_changed)
 	add_child(_labeled("Order", _order_spin))
+
+	_map_kind_picker = OptionButton.new()
+	_map_kind_picker.name = "MapKindPicker"
+	_map_kind_picker.add_item("Level", LevelData.MapKind.LEVEL)
+	_map_kind_picker.add_item("Overworld", LevelData.MapKind.OVERWORLD)
+	_map_kind_picker.item_selected.connect(_on_map_kind_selected)
+	add_child(_labeled("Map Kind", _map_kind_picker))
 
 	_width_spin = _spin(1, 512, _on_dims_changed)
 	_height_spin = _spin(1, 512, _on_dims_changed)
@@ -67,6 +75,7 @@ func refresh(e: LevelEditor) -> void:
 	_set_if_focused(_name_edit, e.level.level_name)
 	_set_if_focused(_episode_edit, e.level.episode)
 	_order_spin.set_value_no_signal(e.level.order)
+	_map_kind_picker.select(int(e.level.map_kind))
 	_width_spin.set_value_no_signal(e.level.width)
 	_height_spin.set_value_no_signal(e.level.height)
 	_spawn_x.set_value_no_signal(e.level.player_spawn.x)
@@ -131,6 +140,10 @@ func _on_id_changed(t: String) -> void: _e.level.level_id = t
 func _on_name_changed(t: String) -> void: _e.level.level_name = t
 func _on_episode_changed(t: String) -> void: _e.level.episode = t
 func _on_order_changed(_v: float) -> void: _e.level.order = int(_order_spin.value)
+
+func _on_map_kind_selected(index: int) -> void:
+	_e.level.map_kind = index as LevelData.MapKind
+	_e._broadcast()
 
 func _on_dims_changed(_v: float) -> void:
 	_e.level.resize(int(_width_spin.value), int(_height_spin.value))
