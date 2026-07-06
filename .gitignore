@@ -20,3 +20,6 @@ Thumbs.db
 
 # Dev scratch
 tmp/
+
+# Test-generated resources
+tests/tmp_*.tres
