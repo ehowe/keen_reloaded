@@ -14,6 +14,7 @@ var _spawn_y: SpinBox
 var _entity_box: VBoxContainer
 var _tileset_picker: OptionButton
 var _source_picker: OptionButton
+var _map_kind_picker: OptionButton
 var _last_ts: TileSet = null
 
 
@@ -30,6 +31,13 @@ func build(e: LevelEditor) -> void:
 	add_child(_labeled("Episode", _episode_edit))
 	_order_spin = _spin(0, 9999, _on_order_changed)
 	add_child(_labeled("Order", _order_spin))
+
+	_map_kind_picker = OptionButton.new()
+	_map_kind_picker.name = "MapKindPicker"
+	_map_kind_picker.add_item("Level", LevelData.MapKind.LEVEL)
+	_map_kind_picker.add_item("Overworld", LevelData.MapKind.OVERWORLD)
+	_map_kind_picker.item_selected.connect(_on_map_kind_selected)
+	add_child(_labeled("Map Kind", _map_kind_picker))
 
 	_width_spin = _spin(1, 512, _on_dims_changed)
 	_height_spin = _spin(1, 512, _on_dims_changed)
@@ -67,6 +75,7 @@ func refresh(e: LevelEditor) -> void:
 	_set_if_focused(_name_edit, e.level.level_name)
 	_set_if_focused(_episode_edit, e.level.episode)
 	_order_spin.set_value_no_signal(e.level.order)
+	_map_kind_picker.select(int(e.level.map_kind))
 	_width_spin.set_value_no_signal(e.level.width)
 	_height_spin.set_value_no_signal(e.level.height)
 	_spawn_x.set_value_no_signal(e.level.player_spawn.x)
@@ -107,17 +116,32 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 	ys.value_changed.connect(func(_v: float) -> void: ent.y = int(ys.value))
 	_entity_box.add_child(_labeled("Y", ys))
 
-	# numeric properties only (int-valued) for MVP
 	for key in ent.properties.keys():
 		var val = ent.properties[key]
-		if typeof(val) == TYPE_INT or typeof(val) == TYPE_FLOAT:
-			var ps := SpinBox.new()
-			ps.min_value = -9999
-			ps.max_value = 9999
-			ps.set_value_no_signal(val)
-			var k: Variant = key
-			ps.value_changed.connect(func(_v: float) -> void: ent.properties[k] = int(ps.value))
-			_entity_box.add_child(_labeled(str(key), ps))
+		match typeof(val):
+			TYPE_INT, TYPE_FLOAT:
+				var ps := SpinBox.new()
+				ps.name = "Prop_" + str(key)
+				ps.min_value = -9999
+				ps.max_value = 9999
+				ps.set_value_no_signal(val)
+				var k: Variant = key
+				ps.value_changed.connect(func(_v: float) -> void: ent.properties[k] = int(ps.value))
+				_entity_box.add_child(_labeled(str(key), ps))
+			TYPE_BOOL:
+				var cb := CheckBox.new()
+				cb.name = "Prop_" + str(key)
+				cb.set_pressed_no_signal(val)
+				var kb: Variant = key
+				cb.toggled.connect(func(p: bool) -> void: ent.properties[kb] = p)
+				_entity_box.add_child(_labeled(str(key), cb))
+			TYPE_STRING:
+				var sle := LineEdit.new()
+				sle.name = "Prop_" + str(key)
+				sle.text = val
+				var sk: Variant = key
+				sle.text_changed.connect(func(t: String) -> void: ent.properties[sk] = t)
+				_entity_box.add_child(_labeled(str(key), sle))
 
 	var del := Button.new()
 	del.text = "Delete entity"
@@ -131,6 +155,10 @@ func _on_id_changed(t: String) -> void: _e.level.level_id = t
 func _on_name_changed(t: String) -> void: _e.level.level_name = t
 func _on_episode_changed(t: String) -> void: _e.level.episode = t
 func _on_order_changed(_v: float) -> void: _e.level.order = int(_order_spin.value)
+
+func _on_map_kind_selected(index: int) -> void:
+	_e.level.map_kind = index as LevelData.MapKind
+	_e._broadcast()
 
 func _on_dims_changed(_v: float) -> void:
 	_e.level.resize(int(_width_spin.value), int(_height_spin.value))

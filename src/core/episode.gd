@@ -7,6 +7,20 @@ extends RefCounted
 
 var id: String = ""
 var title: String = ""
+# Plan 5 (PackLoader) will consume overworld_level_id to resolve the overworld
+# from the level catalog instead of the direct path below.
+var overworld_level_id: String = ""
+var overworld_path: String = ""  # res:// path to the bundled overworld .tres; empty until authored
+
+
+## Loads this episode's overworld LevelData, or returns null if none is configured.
+func load_overworld() -> LevelData:
+	if overworld_path == "":
+		return null
+	if not ResourceLoader.exists(overworld_path):
+		push_warning("Episode '%s': overworld not found at %s" % [id, overworld_path])
+		return null
+	return ResourceLoader.load(overworld_path, "", ResourceLoader.CACHE_MODE_IGNORE) as LevelData
 
 
 ## Override: register this episode's entity types into `registry`.

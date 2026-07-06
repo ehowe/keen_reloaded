@@ -20,3 +20,6 @@ func test_input_actions_registered():
 	assert_true(InputMap.has_action("jump"))
 	assert_true(InputMap.has_action("pogo"))
 	assert_true(InputMap.has_action("shoot"))
+
+func test_interact_action_registered():
+	assert_true(InputMap.has_action("interact"))

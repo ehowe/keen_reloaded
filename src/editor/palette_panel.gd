@@ -19,6 +19,7 @@ var _layer_buttons: Dictionary = {}  # layer -> Button
 var _tool_buttons: Dictionary = {}   # tool -> Button
 var _entity_list: ItemList
 var _entity_ids: Array[String] = []
+var _last_map_kind: int = -1
 var _category_filter: OptionButton
 var _preview_bg: ColorRect
 var _preview_icon: TextureRect
@@ -68,7 +69,7 @@ func build(e: LevelEditor) -> void:
 	_category_filter = OptionButton.new()
 	_populate_category_filter()
 	_category_filter.item_selected.connect(func(_idx: int) -> void:
-		_populate_entities()
+		_populate_entities(_last_map_kind)
 		_sync_entity_selection(e))
 	add_child(_category_filter)
 	_entity_list = ItemList.new()
@@ -76,7 +77,8 @@ func build(e: LevelEditor) -> void:
 	_entity_list.item_selected.connect(func(idx: int) -> void:
 		e.set_selected_entity_type(_entity_ids[idx]))
 	add_child(_entity_list)
-	_populate_entities()
+	_last_map_kind = int(e.level.map_kind)
+	_populate_entities(_last_map_kind)
 	_rebuild_tile_grid(e)
 	refresh(e)
 
@@ -129,11 +131,11 @@ func _rebuild_tile_grid(e: LevelEditor) -> void:
 		_tile_buttons.append(b)
 
 
-func _populate_entities() -> void:
+func _populate_entities(map_kind: int) -> void:
 	_entity_list.clear()
 	_entity_ids.clear()
 	var filter := _selected_category()
-	for entry in EntityRegistry.get_palette_entries():
+	for entry in EntityRegistry.get_palette_entries_for_kind(map_kind):
 		var cat: String = entry.get("category", "")
 		if filter != "" and cat != filter:
 			continue
@@ -145,6 +147,10 @@ func _populate_entities() -> void:
 ## level's TileSet changed (which happens via the inspector, never a tile click),
 ## so it never frees a button during its own pressed emission.
 func refresh(e: LevelEditor) -> void:
+	if int(e.level.map_kind) != _last_map_kind:
+		_last_map_kind = int(e.level.map_kind)
+		_populate_entities(_last_map_kind)
+		e.selected_entity_type = ""
 	if e.level.tileset_ref != _last_tileset or e.active_source_order != _last_source:
 		_rebuild_tile_grid(e)
 	for i in range(_tile_buttons.size()):
@@ -242,3 +248,7 @@ func _category_label(cat: String) -> String:
 		EntityRegistry.CATEGORY_DECOR:
 			return "Decoration"
 	return cat.capitalize()
+
+
+func get_entity_ids_for_test() -> Array[String]:
+	return _entity_ids.duplicate()

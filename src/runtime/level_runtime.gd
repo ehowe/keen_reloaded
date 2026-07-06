@@ -29,7 +29,12 @@ var _tile_size: int = 64
 
 func _ready() -> void:
 	if GameManager != null and GameManager.pending_level != null:
-		build(GameManager.pending_level)
+		var lv := GameManager.pending_level
+		GameManager.pending_level = null
+		build(lv)
+		if GameManager.pending_player_spawn.x >= 0 and is_instance_valid(player):
+			player.position = _cell_center(GameManager.pending_player_spawn, _tile_size)
+		GameManager.pending_player_spawn = Vector2i(-1, -1)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -132,7 +137,11 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 		if node != null:
 			add_child(node)
 			entities_spawned.append(node)
-			if node.has_signal("level_completed"):
+			if node is LevelEntrance:
+				(node as LevelEntrance).set_tile(Vector2i(def.x, def.y))
+				(node as LevelEntrance).refresh_blocking()
+				(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
+			elif node.has_signal("level_completed"):
 				node.level_completed.connect(_on_level_completed)
 
 
@@ -154,10 +163,19 @@ func _on_level_completed() -> void:
 	get_tree().paused = true
 
 
+func _on_enter_requested(target_level_id: String, tile: Vector2i) -> void:
+	if GameManager != null:
+		GameManager.enter_level(target_level_id, tile)
+
+
 func _on_completion_dismissed() -> void:
 	get_tree().paused = false
 	if GameManager != null and GameManager.return_scene != null:
+		# Test ▶ from the editor: go back to the editor.
 		get_tree().change_scene_to_packed(GameManager.return_scene)
+	elif GameManager != null and GameManager.current_overworld != null:
+		# Overworld loop: return to the overworld at the entrance tile.
+		GameManager.complete_level()
 	else:
 		get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
 
@@ -182,8 +200,9 @@ func _clear() -> void:
 		c.queue_free()
 
 
-## Builds invisible collision walls on the top/left/right edges of the map and a
-## kill zone below the bottom edge (falls = respawn at player_spawn).
+## Builds invisible collision walls on the top/left/right edges of the map. For
+## LEVEL maps, also adds a kill zone below the bottom edge (falls = respawn at
+## player_spawn); OVERWORLD maps are non-lethal.
 func _build_bounds(level: LevelData, ts: int) -> void:
 	var w_px := float(level.width * ts)
 	var h_px := float(level.height * ts)
@@ -193,20 +212,21 @@ func _build_bounds(level: LevelData, ts: int) -> void:
 	_add_wall("BoundsWall_Right", Vector2(w_px + t * 0.5, h_px * 0.5), Vector2(t, h_px + t * 2.0))
 	_add_wall("BoundsWall_Top", Vector2(w_px * 0.5, -t * 0.5), Vector2(w_px + t * 2.0, t))
 
-	# Bottom kill zone: detect player (layer 1), respawn on entry.
-	var kz := Area2D.new()
-	kz.name = "BoundsKillZone"
-	kz.collision_mask = COLLISION_LAYER_PLAYER
-	kz.monitorable = true
-	kz.monitoring = true
-	var kshape := RectangleShape2D.new()
-	kshape.size = Vector2(w_px + t * 2.0, t)
-	var kcol := CollisionShape2D.new()
-	kcol.shape = kshape
-	kz.add_child(kcol)
-	kz.position = Vector2(w_px * 0.5, h_px + t * 0.5)
-	kz.body_entered.connect(_on_kill_zone_body_entered)
-	add_child(kz)
+	# Bottom kill zone: levels only. Overworld is non-lethal (no fall death).
+	if level.map_kind == LevelData.MapKind.LEVEL:
+		var kz := Area2D.new()
+		kz.name = "BoundsKillZone"
+		kz.collision_mask = COLLISION_LAYER_PLAYER
+		kz.monitorable = true
+		kz.monitoring = true
+		var kshape := RectangleShape2D.new()
+		kshape.size = Vector2(w_px + t * 2.0, t)
+		var kcol := CollisionShape2D.new()
+		kcol.shape = kshape
+		kz.add_child(kcol)
+		kz.position = Vector2(w_px * 0.5, h_px + t * 0.5)
+		kz.body_entered.connect(_on_kill_zone_body_entered)
+		add_child(kz)
 
 
 func _add_wall(node_name: String, center: Vector2, size: Vector2) -> void:
