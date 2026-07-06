@@ -135,12 +135,9 @@ func _populate_entities(map_kind: int) -> void:
 	_entity_list.clear()
 	_entity_ids.clear()
 	var filter := _selected_category()
-	for entry in EntityRegistry.get_palette_entries():
+	for entry in EntityRegistry.get_palette_entries_for_kind(map_kind):
 		var cat: String = entry.get("category", "")
 		if filter != "" and cat != filter:
-			continue
-		var kinds: Array = entry.get("map_kinds", [LevelData.MapKind.LEVEL])
-		if not kinds.has(map_kind):
 			continue
 		_entity_ids.append(entry.get("type_id", ""))
 		_entity_list.add_item(entry.get("label", ""))
@@ -153,6 +150,7 @@ func refresh(e: LevelEditor) -> void:
 	if int(e.level.map_kind) != _last_map_kind:
 		_last_map_kind = int(e.level.map_kind)
 		_populate_entities(_last_map_kind)
+		e.selected_entity_type = ""
 	if e.level.tileset_ref != _last_tileset or e.active_source_order != _last_source:
 		_rebuild_tile_grid(e)
 	for i in range(_tile_buttons.size()):

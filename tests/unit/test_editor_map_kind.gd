@@ -1,5 +1,8 @@
 extends GutTest
 
+func after_each():
+	GameManager.register_episodes()
+
 func _make_editor() -> LevelEditor:
 	var ed := LevelEditor.new()
 	add_child_autofree(ed)

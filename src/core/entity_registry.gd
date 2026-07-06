@@ -64,6 +64,16 @@ func get_palette_entries() -> Array[Dictionary]:
 	return list
 
 
+## Palette entries filtered to those valid for the given map kind.
+func get_palette_entries_for_kind(map_kind: int) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for entry in get_palette_entries():
+		var kinds: Array = entry.get("map_kinds", [LevelData.MapKind.LEVEL])
+		if kinds.has(map_kind):
+			out.append(entry)
+	return out
+
+
 func clear() -> void:
 	_entries.clear()
 
