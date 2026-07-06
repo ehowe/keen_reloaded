@@ -6,7 +6,7 @@ extends Node2D
 ##
 ## Does NOT own completion state — reads GameManager.is_level_completed(). Emits
 ## `enter_requested(target_level_id, tile)`; LevelRuntime wires it to
-## GameManager.enter_level() (later task).
+## GameManager.enter_level().
 
 signal enter_requested(target_level_id: String, tile: Vector2i)
 

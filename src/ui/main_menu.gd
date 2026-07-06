@@ -17,7 +17,7 @@ func _ensure_play_button() -> void:
 	play.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	add_child(play)
 	play.set("theme_type_variation", "Button")
-	(%PlayButton as Button).pressed.connect(_play)
+	play.pressed.connect(_play)
 
 func _play() -> void:
 	GameManager.start_episode("keen1")

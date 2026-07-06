@@ -7,6 +7,8 @@ extends RefCounted
 
 var id: String = ""
 var title: String = ""
+# Plan 5 (PackLoader) will consume overworld_level_id to resolve the overworld
+# from the level catalog instead of the direct path below.
 var overworld_level_id: String = ""
 var overworld_path: String = ""  # res:// path to the bundled overworld .tres; empty until authored
 
