@@ -98,3 +98,75 @@ func test_overworld_lock_input_forces_x_axis():
 	p._physics_process(0.016)
 	assert_almost_eq(p.velocity.x, p.overworld_speed, 0.5, "locked -> forced x velocity")
 	assert_almost_eq(p.velocity.y, 0.0, 0.01, "locked -> no y velocity")
+
+
+func _visible_sprite(p: Player) -> AnimatedSprite2D:
+	for n in p.get_children():
+		if n is AnimatedSprite2D and (n as AnimatedSprite2D).visible:
+			return n
+	return null
+
+
+func test_overworld_shows_down_sprite_by_default():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._sync_visual()
+	var vis := _visible_sprite(p)
+	assert_not_null(vis, "one sprite visible")
+	assert_eq(vis.name, "OverworldDown", "default facing -> OverworldDown visible")
+
+
+func test_overworld_shows_direction_sprite():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	for dir_name in ["Up", "Down", "Left", "Right"]:
+		var dir: int = {
+			"Up": Player.Direction.UP,
+			"Down": Player.Direction.DOWN,
+			"Left": Player.Direction.LEFT,
+			"Right": Player.Direction.RIGHT,
+		}[dir_name]
+		p._overworld_dir = dir
+		p._sync_visual()
+		var vis := _visible_sprite(p)
+		assert_eq(vis.name, "Overworld" + dir_name, "direction %s -> matching sprite visible" % dir_name)
+
+
+func test_overworld_moving_plays_anim():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._overworld_dir = Player.Direction.RIGHT
+	p.velocity = Vector2(p.overworld_speed, 0)  # moving
+	p._sync_visual()
+	var vis := _visible_sprite(p)
+	assert_true(vis.is_playing(), "moving -> anim playing")
+
+
+func test_overworld_stopped_stops_on_frame_zero():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._overworld_dir = Player.Direction.UP
+	p.velocity = Vector2(p.overworld_speed, 0)
+	p._sync_visual()  # starts playing
+	p.velocity = Vector2.ZERO  # now stopped
+	p._sync_visual()
+	var vis := _visible_sprite(p)
+	assert_false(vis.is_playing(), "stopped -> anim stopped")
+	assert_eq(vis.frame, 0, "stopped -> frame 0")
+
+
+func test_overworld_no_flip_h():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._overworld_dir = Player.Direction.LEFT
+	p._sync_visual()
+	var vis := _visible_sprite(p)
+	assert_false(vis.flip_h, "overworld sprites never flip (each direction has its own)")
+
+
+func test_overworld_sprite_feet_aligned():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	var down := p.get_node("OverworldDown") as AnimatedSprite2D
+	# collision 96 tall (foot_y=48), overworld sprite 64 tall (half=32) -> offset.y = -(32-48) = 16
+	assert_almost_eq(down.offset.y, 16.0, 0.5, "overworld sprite feet align to collision bottom")

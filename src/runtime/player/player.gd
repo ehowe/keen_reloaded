@@ -13,7 +13,8 @@ signal ammo_changed(ammo: int)
 signal died
 
 const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
-const PLAYER_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
+const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
+const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
 const SHOOT_POSE_TIME := 0.12
 
 @export var gravity: float = 1763.0
@@ -200,8 +201,15 @@ func take_damage(amount: int) -> void:
 
 
 func _sync_visual() -> void:
+	if _mode == Mode.OVERWORLD:
+		_sync_visual_overworld()
+		return
+	_sync_visual_level()
+
+
+func _sync_visual_level() -> void:
 	var anim := _current_anim(is_on_floor(), absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
-	for name in PLAYER_SPRITES:
+	for name in LEVEL_SPRITES:
 		var n := get_node_or_null(name) as AnimatedSprite2D
 		if n == null:
 			continue
@@ -212,10 +220,47 @@ func _sync_visual() -> void:
 			n.stop()
 	if anim != _anim:
 		_anim = anim
-		var n := get_node_or_null(anim) as AnimatedSprite2D
-		if n != null and n.sprite_frames != null:
+		var nn := get_node_or_null(anim) as AnimatedSprite2D
+		if nn != null and nn.sprite_frames != null:
+			nn.stop()
+			nn.play()
+
+
+func _overworld_anim_name() -> String:
+	match _overworld_dir:
+		Direction.UP:
+			return "OverworldUp"
+		Direction.DOWN:
+			return "OverworldDown"
+		Direction.LEFT:
+			return "OverworldLeft"
+		Direction.RIGHT:
+			return "OverworldRight"
+	return "OverworldDown"
+
+
+func _sync_visual_overworld() -> void:
+	var picked := _overworld_anim_name()
+	var moving := velocity.length() > 1.0
+	for name in OVERWORLD_SPRITES:
+		var n := get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		var show: bool = (name == picked)
+		n.visible = show
+		n.flip_h = false
+		if not show and n.is_playing():
 			n.stop()
-			n.play()
+	var picked_node := get_node_or_null(picked) as AnimatedSprite2D
+	if picked_node == null or picked_node.sprite_frames == null:
+		return
+	if moving:
+		if not picked_node.is_playing():
+			picked_node.play()
+	else:
+		if picked_node.is_playing():
+			picked_node.stop()
+		picked_node.frame = 0
 
 
 func _current_anim(on_floor: bool, moving: bool, pogo: bool, shooting: bool, winding_up: bool) -> String:
@@ -246,7 +291,8 @@ func _align_sprite_feet() -> void:
 	if col == null or not (col.shape is RectangleShape2D):
 		return
 	var foot_y := (col.shape as RectangleShape2D).size.y * 0.5
-	for name in PLAYER_SPRITES:
+	var sprites := OVERWORLD_SPRITES if _mode == Mode.OVERWORLD else LEVEL_SPRITES
+	for name in sprites:
 		var n := get_node_or_null(name) as AnimatedSprite2D
 		if n == null:
 			continue
