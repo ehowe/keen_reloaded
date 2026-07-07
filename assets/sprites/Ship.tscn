@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://b7xsnogu6qxey"]
+
+[ext_resource type="Texture2D" uid="uid://bkgrr6vktb5c1" path="res://assets/tilesets/Overworld.png" id="1_pvnlg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("1_pvnlg")
+region = Rect2(256, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuobn"]
+atlas = ExtResource("1_pvnlg")
+region = Rect2(320, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nn7r7"]
+atlas = ExtResource("1_pvnlg")
+region = Rect2(384, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ceexl"]
+atlas = ExtResource("1_pvnlg")
+region = Rect2(448, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r448g"]
+atlas = ExtResource("1_pvnlg")
+region = Rect2(512, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuobn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nn7r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ceexl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r448g")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Ship" type="Node2D" unique_id=207604645]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1085183088]
+position = Vector2(32, 0)
+texture = SubResource("AtlasTexture_x4u6v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1990437039]
+position = Vector2(-32, 0)
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.45282665

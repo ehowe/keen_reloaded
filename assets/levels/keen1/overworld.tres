@@ -4,6 +4,11 @@
 [ext_resource type="Script" path="res://src/data/level_data.gd" id="2_2om6j"]
 [ext_resource type="TileSet" path="res://assets/tilesets/Invasion of the Vorticons.tres" id="3_u5nx1"]
 
+[sub_resource type="Resource" id="Resource_pgp4k"]
+script = ExtResource("1_pgp4k")
+type = "keen1.vorticon"
+y = 45
+
 [resource]
 script = ExtResource("2_2om6j")
 level_id = "new_level"
