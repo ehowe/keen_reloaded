@@ -17,6 +17,8 @@ func test_input_actions_registered():
 	# GameManager._ready runs at autoload load, before tests.
 	assert_true(InputMap.has_action("move_left"))
 	assert_true(InputMap.has_action("move_right"))
+	assert_true(InputMap.has_action("move_up"))
+	assert_true(InputMap.has_action("move_down"))
 	assert_true(InputMap.has_action("jump"))
 	assert_true(InputMap.has_action("pogo"))
 	assert_true(InputMap.has_action("shoot"))

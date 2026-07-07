@@ -181,6 +181,8 @@ func register_episodes() -> void:
 func _ensure_input_actions() -> void:
 	_add_key_action("move_left", KEY_A)
 	_add_key_action("move_right", KEY_D)
+	_add_key_action("move_up", KEY_W)
+	_add_key_action("move_down", KEY_S)
 	_add_key_action("jump", KEY_SPACE)
 	_add_key_action("pogo", KEY_P)
 	_add_key_action("shoot", KEY_X)
