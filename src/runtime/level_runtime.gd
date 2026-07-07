@@ -107,10 +107,14 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 		Vector2(level.width * ts, level.height * ts) * RUNTIME_SCALE
 	)
 	p.set_camera_bounds(world_bounds)
+	if level.map_kind == LevelData.MapKind.OVERWORLD:
+		p.set_mode(Player.Mode.OVERWORLD)
 	_build_hud(p)
 
 
 func _build_hud(p: Node) -> void:
+	if _level.map_kind == LevelData.MapKind.OVERWORLD:
+		return  # No score/ammo/HP HUD on the overworld.
 	var layer := CanvasLayer.new()
 	layer.name = "HUD"
 	add_child(layer)

@@ -191,3 +191,27 @@ func test_build_falls_back_to_procedural_when_tileset_ref_null():
 	var geo: TileMapLayer = rt.layers[LevelData.LAYER_GEOMETRY]
 	assert_not_null(geo.tile_set)
 	assert_eq(geo.get_cell_atlas_coords(Vector2i(0, 0)), Vector2i(0, 0), "procedural id 1 -> (0,0)")
+
+
+func test_build_sets_player_mode_for_overworld():
+	GameManager.pending_level = null
+	var ld := LevelData.new()
+	ld.map_kind = LevelData.MapKind.OVERWORLD
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	ld.player_spawn = Vector2i(0, 1)
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	assert_not_null(rt.player, "player spawned")
+	assert_eq(rt.player._mode, Player.Mode.OVERWORLD, "player spawned in OVERWORLD mode on overworld map")
+
+
+func test_build_keeps_player_mode_for_level():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	assert_eq(rt.player._mode, Player.Mode.LEVEL, "player stays in LEVEL mode on level map")
