@@ -4,6 +4,9 @@ extends CharacterBody2D
 ## (ammo-limited) in the facing direction. Exposes add_score()/add_ammo()/
 ## take_damage() for entities. Movement constants are @export for tuning.
 
+enum Mode { LEVEL, OVERWORLD }
+enum Direction { UP, DOWN, LEFT, RIGHT }
+
 signal score_changed(score: int)
 signal health_changed(health: int)
 signal ammo_changed(ammo: int)
@@ -42,6 +45,8 @@ var _anim: String = ""
 var _input_locked: bool = false
 var _forced_dir: float = 0.0
 var _speed_scale: float = 1.0
+var _mode: int = Mode.LEVEL
+var _overworld_dir: int = Direction.DOWN
 
 
 func _ready() -> void:
@@ -57,6 +62,13 @@ func lock_input(dir: float = 0.0, speed_scale: float = 1.0) -> void:
 	_input_locked = true
 	_forced_dir = dir
 	_speed_scale = speed_scale
+
+
+## Switches the player between LEVEL (platformer) and OVERWORLD (top-down) rules.
+## Re-runs sprite alignment so the active sprite set is positioned correctly.
+func set_mode(m: int) -> void:
+	_mode = m
+	_align_sprite_feet()
 
 
 func _physics_process(delta: float) -> void:
