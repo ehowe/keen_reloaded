@@ -18,6 +18,7 @@ const SHOOT_POSE_TIME := 0.12
 
 @export var gravity: float = 1763.0
 @export var run_speed: float = 480.0
+@export var overworld_speed: float = 320.0
 @export var jump_velocity: float = 823.0
 @export var leap_speed: float = 480.0
 @export var air_accel: float = 3000.0
@@ -72,6 +73,9 @@ func set_mode(m: int) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _mode == Mode.OVERWORLD:
+		_physics_overworld(delta)
+		return
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
@@ -128,6 +132,24 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_jumping = false
 	_shoot_timer = maxf(_shoot_timer - delta, 0.0)
+	_sync_visual()
+
+
+## Top-down 4-directional movement for OVERWORLD maps. No gravity, no jump/pogo/shoot.
+func _physics_overworld(delta: float) -> void:
+	var input_vec: Vector2
+	if _input_locked:
+		input_vec = Vector2(_forced_dir, 0.0)
+	else:
+		input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	velocity = input_vec * overworld_speed
+	if input_vec != Vector2.ZERO:
+		# Pick dominant axis. Ties go horizontal to match original Keen feel.
+		if absf(input_vec.x) >= absf(input_vec.y):
+			_overworld_dir = Direction.RIGHT if input_vec.x > 0.0 else Direction.LEFT
+		else:
+			_overworld_dir = Direction.DOWN if input_vec.y > 0.0 else Direction.UP
+	move_and_slide()
 	_sync_visual()
 
 
