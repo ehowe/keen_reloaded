@@ -1,8 +1,12 @@
 class_name Player
 extends CharacterBody2D
-## Player avatar. Run, jump (coyote + buffer), toggle pogo, and shoot the raygun
-## (ammo-limited) in the facing direction. Exposes add_score()/add_ammo()/
-## take_damage() for entities. Movement constants are @export for tuning.
+## Player avatar. Two modes selected via set_mode():
+##   - LEVEL (default): run, jump (coyote + buffer), toggle pogo, shoot the
+##     raygun (ammo-limited) in the facing direction.
+##   - OVERWORLD: top-down 4-directional walk (WASD), no gravity/jump/pogo/shoot,
+##     drives the OverworldUp/Down/Left/Right sprites.
+## Exposes add_score()/add_ammo()/take_damage() for entities.
+## Movement constants are @export for tuning.
 
 enum Mode { LEVEL, OVERWORLD }
 enum Direction { UP, DOWN, LEFT, RIGHT }
