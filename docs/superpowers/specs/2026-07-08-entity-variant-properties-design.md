@@ -238,52 +238,61 @@ func setup(p_type_id: String, p_props: Dictionary = {}) -> void:
 ```
 
 `_apply_variant_properties` iterates the registry schema for `type_id`; for
-each `enum` property it selects which child CanvasItem is visible:
+each `enum` property it selects which descendant CanvasItem is visible:
 
 ```gdscript
 func _apply_variant_properties() -> void:
     for s in EntityRegistry.get_properties_schema(type_id):
         if String(s.get("type", "")) != "enum":
             continue
+        var options: Array = s.get("options", [])
+        if options.is_empty():
+            continue
         var key: String = String(s.get("name", ""))
         var val := String(properties.get(key, s.get("default", "")))
-        if val == "":
-            continue
-        _show_variant_child(key, val)
+        _select_variant_child(options, val)
 
-func _show_variant_child(group_key: String, val: String) -> void:
-    # A variant group = this property's CanvasItem children whose names
-    # contain an enum option (case-insensitive). Show the one matching `val`,
-    # hide the rest. Children not matching any option are left untouched.
-    var options: Array[String] = []
-    for s in EntityRegistry.get_properties_schema(type_id):
-        if String(s.get("name", "")) == group_key:
-            for o in Array(s.get("options", [])):
-                options.append(String(o))
+## Variant group = the set of descendant CanvasItems whose node names contain
+## an enum option (case-insensitive). Show the one whose option == val; hide
+## the rest. Descendants not matching any option are left untouched. Descendant
+## walk is required because attach_sprite() adds the sprite scene's root as the
+## wrapper's only child, so the variant sprites are grandchildren (e.g. the
+## spike's `"Spike Right"` / `"SpikeLeft"` live under the `"Spike"` root).
+func _select_variant_child(options: Array, val: String) -> void:
+    var want := val.to_lower()
     var matched: CanvasItem = null
-    for c in get_children():
+    var to_hide: Array[CanvasItem] = []
+    for c in _descendants(self):
         if not (c is CanvasItem):
             continue
         var nm := String(c.name).to_lower()
-        var belongs := false
         for o in options:
             if nm.contains(String(o).to_lower()):
-                belongs = true
-                if String(o).to_lower() == val.to_lower():
+                if String(o).to_lower() == want:
                     matched = c
+                else:
+                    to_hide.append(c)
                 break
-        if belongs and c != matched:
-            c.visible = false
+    for c in to_hide:
+        c.visible = false
     if matched != null:
         matched.visible = true
+
+func _descendants(n: Node) -> Array[Node]:
+    var out: Array[Node] = []
+    for c in n.get_children():
+        out.append(c)
+        out.append_array(_descendants(c))
+    return out
 ```
 
 ### Convention (documented)
 
-A sprite with N visual variants authors N sibling `CanvasItem` children whose
-**node names contain their enum option value** (case-insensitive). Exactly one
-should be visible in the `.tscn` (the default); `SpriteEntity` enforces the
-rest at runtime.
+A sprite with N visual variants authors N sibling `CanvasItem` nodes anywhere
+in the wrapped scene's subtree whose **node names contain their enum option
+value** (case-insensitive). Exactly one should be visible in the `.tscn` (the
+default); `SpriteEntity` enforces the rest at runtime by walking descendants
+and toggling `.visible`.
 
 For the spike this holds with **zero node renames**:
 
