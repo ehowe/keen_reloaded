@@ -329,3 +329,15 @@ func test_dead_physics_keeps_velocity_constant_no_gravity():
 		p._physics_process(0.016)
 	assert_almost_eq(p.velocity.x, v_before.x, 0.001, "vx unchanged (no input/friction)")
 	assert_almost_eq(p.velocity.y, v_before.y, 0.001, "vy unchanged (no gravity applied)")
+
+
+func test_dead_takes_precedence_over_overworld_mode():
+	# Dead state is terminal — must dominate mode-specific physics so the launch
+	# vector is never clobbered, even if death somehow triggers in OVERWORLD.
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p.take_damage(p.health)
+	var v_before := p.velocity
+	p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, v_before.x, 0.001, "overworld mode does not clobber dead vx")
+	assert_almost_eq(p.velocity.y, v_before.y, 0.001, "overworld mode does not clobber dead vy")
