@@ -64,6 +64,46 @@ func test_instantiate_sprite_visual_inherits_wrapper_position():
 	assert_eq(visual.global_position, cell_center, "sprite visual renders at the wrapper's position")
 
 
+func _register_spike_ad_hoc() -> void:
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.spike", EntityRegistry.CATEGORY_HAZARD, "Spike",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+
+func test_variant_right_shows_right_child_hides_left():
+	_register_spike_ad_hoc()
+	var n := add_child_autofree(EntityRegistry.instantiate("keen1.spike", Vector2.ZERO,
+		{"facing": "right"})) as Node2D
+	assert_not_null(n)
+	assert_true(_find_child_named(n, "Spike Right").visible, "right variant visible")
+	assert_false(_find_child_named(n, "SpikeLeft").visible, "left variant hidden")
+
+func test_variant_left_shows_left_child_hides_right():
+	_register_spike_ad_hoc()
+	var n := add_child_autofree(EntityRegistry.instantiate("keen1.spike", Vector2.ZERO,
+		{"facing": "left"})) as Node2D
+	assert_not_null(n)
+	assert_true(_find_child_named(n, "SpikeLeft").visible, "left variant visible")
+	assert_false(_find_child_named(n, "Spike Right").visible, "right variant hidden")
+
+func test_variant_default_applied_when_property_absent():
+	# No facing key -> schema default "right" applies.
+	_register_spike_ad_hoc()
+	var n := add_child_autofree(EntityRegistry.instantiate("keen1.spike", Vector2.ZERO)) as Node2D
+	assert_not_null(n)
+	assert_true(_find_child_named(n, "Spike Right").visible, "default right variant visible")
+	assert_false(_find_child_named(n, "SpikeLeft").visible, "non-default left variant hidden")
+
+func _find_child_named(root: Node, want: String) -> CanvasItem:
+	for c in root.get_children():
+		if c is CanvasItem and String(c.name) == want:
+			return c
+		var deeper := _find_child_named(c, want)
+		if deeper != null:
+			return deeper
+	return null
+
+
 func _first_canvas_descendant(n: Node) -> CanvasItem:
 	for c in n.get_children():
 		if c is CanvasItem:

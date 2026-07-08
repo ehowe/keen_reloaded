@@ -11,10 +11,60 @@ extends Node2D
 @export var properties: Dictionary = {}
 
 
-## Called by EntityRegistry.instantiate after constructing the wrapper.
+## Called by EntityRegistry.instantiate after constructing the wrapper and
+## attaching the sprite scene. Applies enum "variant" properties: for each
+## enum in the type's schema, the descendant CanvasItem whose name contains
+## the property value (case-insensitive) is shown; sibling variants hidden.
 func setup(p_type_id: String, p_props: Dictionary = {}) -> void:
 	type_id = p_type_id
 	properties = p_props
+	_apply_variant_properties()
+
+
+func _apply_variant_properties() -> void:
+	for s in EntityRegistry.get_properties_schema(type_id):
+		if String(s.get("type", "")) != "enum":
+			continue
+		var options: Array = s.get("options", [])
+		if options.is_empty():
+			continue
+		var key: String = String(s.get("name", ""))
+		var val := String(properties.get(key, s.get("default", "")))
+		_select_variant_child(options, val)
+
+
+## Variant group = descendant CanvasItems whose node names contain an enum
+## option (case-insensitive). Show the one whose option == val; hide the rest.
+## Descendants not matching any option are left untouched. Descendant walk is
+## required because attach_sprite() adds the scene root as the wrapper's only
+## child, so variant sprites are typically grandchildren of the wrapper.
+func _select_variant_child(options: Array, val: String) -> void:
+	var want := val.to_lower()
+	var matched: CanvasItem = null
+	var to_hide: Array[CanvasItem] = []
+	for c in _descendants(self):
+		if not (c is CanvasItem):
+			continue
+		var nm := String(c.name).to_lower()
+		for o in options:
+			if nm.contains(String(o).to_lower()):
+				if String(o).to_lower() == want:
+					matched = c
+				else:
+					to_hide.append(c)
+				break
+	for c in to_hide:
+		c.visible = false
+	if matched != null:
+		matched.visible = true
+
+
+func _descendants(n: Node) -> Array[Node]:
+	var out: Array[Node] = []
+	for c in n.get_children():
+		out.append(c)
+		out.append_array(_descendants(c))
+	return out
 
 
 ## Attach an instantiated sprite scene as this wrapper's visual content. The
