@@ -251,3 +251,25 @@ func test_overworld_to_level_switch_hides_overworld_sprites():
 		if n == null:
 			continue
 		assert_false(n.visible, "%s must be hidden after switching back to LEVEL" % name)
+
+
+func test_take_damage_lethal_sets_dead():
+	var p := Player.new()
+	add_child(p)
+	var fired := []
+	p.died.connect(func() -> void: fired.append(true))
+	p.take_damage(p.health)
+	assert_true(p._dead, "health to 0 sets _dead")
+	assert_eq(fired.size(), 1, "died emitted exactly once")
+
+
+func test_take_damage_after_dead_is_noop():
+	var p := Player.new()
+	add_child(p)
+	p._dead = true
+	p.health = 5
+	var fired := []
+	p.died.connect(func() -> void: fired.append(true))
+	p.take_damage(3)
+	assert_eq(p.health, 5, "health unchanged once dead")
+	assert_eq(fired.size(), 0, "no further died emit once dead")

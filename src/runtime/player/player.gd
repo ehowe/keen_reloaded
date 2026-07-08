@@ -56,6 +56,7 @@ var _speed_scale: float = 1.0
 var _mode: int = Mode.LEVEL
 var _overworld_dir: int = Direction.DOWN
 var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input while nonzero
+var _dead: bool = false
 
 
 func _ready() -> void:
@@ -213,10 +214,20 @@ func apply_bounce(vx: float) -> void:
 
 
 func take_damage(amount: int) -> void:
+	if _dead:
+		return
 	health -= amount
 	health_changed.emit(health)
 	if health <= 0:
-		died.emit()
+		_die()
+
+
+func _die() -> void:
+	if _dead:
+		return
+	_dead = true
+	_input_locked = true
+	died.emit()
 
 
 func _sync_visual() -> void:
