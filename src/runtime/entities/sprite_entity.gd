@@ -6,6 +6,7 @@ extends Node2D
 ## Deliberately has no collision, no AI, no signals — it is a positioned
 ## container; the wrapped sprite scene's children (e.g. AnimatedSprite2D) render
 ## and animate on their own.
+## Applies schema-driven enum "variant" visibility in setup().
 
 @export var type_id: String = ""
 @export var properties: Dictionary = {}
@@ -38,6 +39,9 @@ func _apply_variant_properties() -> void:
 ## Descendants not matching any option are left untouched. Descendant walk is
 ## required because attach_sprite() adds the scene root as the wrapper's only
 ## child, so variant sprites are typically grandchildren of the wrapper.
+## Note: the first option whose substring appears in a child name wins. Avoid
+## option values that are substrings of each other (e.g. ["right","topright"]),
+## or name variant children exactly their option value.
 func _select_variant_child(options: Array, val: String) -> void:
 	var want := val.to_lower()
 	var matched: CanvasItem = null
@@ -57,6 +61,8 @@ func _select_variant_child(options: Array, val: String) -> void:
 		c.visible = false
 	if matched != null:
 		matched.visible = true
+	elif not to_hide.is_empty():
+		push_warning("SpriteEntity: variant value '%s' matched no child of '%s'" % [val, type_id])
 
 
 func _descendants(n: Node) -> Array[Node]:
