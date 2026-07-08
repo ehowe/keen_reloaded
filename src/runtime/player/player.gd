@@ -238,10 +238,24 @@ func _die() -> void:
 
 
 func _sync_visual() -> void:
+	if _dead:
+		_sync_visual_death()
+		return
 	if _mode == Mode.OVERWORLD:
 		_sync_visual_overworld()
 		return
 	_sync_visual_level()
+
+
+func _sync_visual_death() -> void:
+	_hide_sprites(LEVEL_SPRITES)
+	_hide_sprites(OVERWORLD_SPRITES)
+	var d := get_node_or_null("Death") as AnimatedSprite2D
+	if d == null:
+		return
+	d.visible = true
+	if not d.is_playing():
+		d.play()
 
 
 ## Hides (and stops) every sprite in `names`. Used by each mode's sync to keep
@@ -350,6 +364,11 @@ func _align_sprite_feet() -> void:
 		var h := _frame_height(n)
 		if h > 0.0:
 			n.offset.y = -(h * 0.5 - foot_y)
+	var death := get_node_or_null("Death") as AnimatedSprite2D
+	if death != null:
+		var dh := _frame_height(death)
+		if dh > 0.0:
+			death.offset.y = -(dh * 0.5 - foot_y)
 
 
 static func _frame_height(spr: AnimatedSprite2D) -> float:

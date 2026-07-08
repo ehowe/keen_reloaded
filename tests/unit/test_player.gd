@@ -296,3 +296,24 @@ func test_die_disables_collision_shape():
 func test_death_launch_speed_default_is_800():
 	var p := Player.new()
 	assert_eq(p.death_launch_speed, 800.0, "tunable default")
+
+
+func test_dead_shows_death_sprite_and_hides_all_others():
+	var p := _new_player()
+	p._die()
+	p._sync_visual()
+	var death := p.get_node_or_null("Death") as AnimatedSprite2D
+	assert_not_null(death, "Death node exists")
+	assert_true(death.visible, "Death sprite visible when dead")
+	assert_true(death.is_playing(), "Death sprite playing")
+	for name in Player.LEVEL_SPRITES + Player.OVERWORLD_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		assert_false(n.visible, "%s hidden when dead" % name)
+
+
+func test_death_sprite_feet_aligned_to_collision():
+	var p := _new_player()
+	var death := p.get_node("Death") as AnimatedSprite2D
+	assert_almost_eq(death.offset.y, 16.0, 0.01, "Death feet rest on collision bottom")
