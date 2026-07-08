@@ -47,6 +47,7 @@ func test_spike_registered_as_hazard_with_facing_schema():
 	var schema := EntityRegistry.get_properties_schema("keen1.spike")
 	assert_eq(schema.size(), 1)
 	assert_eq(String(schema[0].get("name")), "facing")
+	assert_eq(String(schema[0].get("type")), "enum")
 	assert_eq(String(schema[0].get("default")), "right")
 	assert_eq(schema[0].get("options"), ["right", "left"])
 
