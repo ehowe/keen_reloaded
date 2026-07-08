@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dvng1hyywldn" path="res://src/runtime/player/player.gd" id="1_player"]
 [ext_resource type="Texture2D" uid="uid://ddbhn3oobg28r" path="res://assets/sprites/Keen - Level Movement 64x96.png" id="2_rbc7w"]
 [ext_resource type="Texture2D" uid="uid://b3ff5xgudqyko" path="res://assets/sprites/KeenOverworld.png" id="3_odxas"]
+[ext_resource type="Texture2D" uid="uid://0lxi2hysqvst" path="res://assets/sprites/Keen Death.png" id="4_v3301"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(48, 96)
@@ -282,6 +283,28 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5x7g"]
+atlas = ExtResource("4_v3301")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anmoy"]
+atlas = ExtResource("4_v3301")
+region = Rect2(68, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o820e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5x7g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anmoy")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Player" type="CharacterBody2D" unique_id=85974780]
 z_index = 1
 collision_mask = 4
@@ -336,3 +359,8 @@ frame_progress = 0.7236792
 [node name="OverworldRight" type="AnimatedSprite2D" parent="." unique_id=2108458679]
 visible = false
 sprite_frames = SubResource("SpriteFrames_b8cap")
+
+[node name="Death" type="AnimatedSprite2D" parent="." unique_id=1067233957]
+visible = false
+sprite_frames = SubResource("SpriteFrames_o820e")
+frame_progress = 0.115484014
