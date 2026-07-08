@@ -21,7 +21,7 @@ func register(type_id: String, category: String, label: String, properties: Arra
 		"type_id": type_id,
 		"category": category,
 		"label": label,
-		"properties": properties,
+		"properties": _normalize_properties(properties),
 		"scene": scene,
 		"map_kinds": map_kinds,
 	}
@@ -38,10 +38,35 @@ func register_sprite(type_id: String, category: String, label: String, scene_pat
 		"type_id": type_id,
 		"category": category,
 		"label": label,
-		"properties": properties,
+		"properties": _normalize_properties(properties),
 		"scene_path": scene_path,
 		"map_kinds": map_kinds,
 	}
+
+
+## Schema entries for a type: each is {name, default, type, options?}. Empty
+## for unknown types or types registered without a schema.
+func get_properties_schema(type_id: String) -> Array:
+	return Array(_entries.get(type_id, {}).get("properties", []))
+
+
+## Return a shallow copy of `properties` with enum entries normalized: an enum
+## whose default is not in its options (or whose options are empty) is coerced
+## to options[0] with a push_warning. Non-enum entries pass through unchanged.
+func _normalize_properties(properties: Array) -> Array:
+	var out: Array = []
+	for entry in properties:
+		var e: Dictionary = entry.duplicate()
+		if String(e.get("type", "")) == "enum":
+			var options: Array = e.get("options", [])
+			var n := String(e.get("name", ""))
+			if options.is_empty():
+				push_warning("EntityRegistry: enum property '%s' has no options" % n)
+			elif not options.has(e.get("default", null)):
+				push_warning("EntityRegistry: enum property '%s' default not in options; using '%s'" % [n, String(options[0])])
+				e["default"] = options[0]
+		out.append(e)
+	return out
 
 
 func has(type_id: String) -> bool:
