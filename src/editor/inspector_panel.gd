@@ -100,7 +100,6 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 	var ent: EntityDef = e.level.entities[e.selected_entity_index]
 	_entity_box.add_child(_kv_label("type", ent.type))
 
-	# X / Y (unchanged).
 	var xs := SpinBox.new()
 	xs.min_value = 0
 	xs.max_value = 511
