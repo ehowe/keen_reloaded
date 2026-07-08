@@ -34,6 +34,8 @@ const SHOOT_POSE_TIME := 0.12
 @export var max_ammo: int = 5
 @export var projectile_speed: float = 600.0
 @export var jump_cut_gravity: float = 4045.0
+## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
+@export var bounce_decay: float = 3000.0
 
 var score: int = 0
 var health: int = 3
@@ -53,6 +55,7 @@ var _forced_dir: float = 0.0
 var _speed_scale: float = 1.0
 var _mode: int = Mode.LEVEL
 var _overworld_dir: int = Direction.DOWN
+var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input while nonzero
 
 
 func _ready() -> void:
@@ -133,6 +136,12 @@ func _physics_process(delta: float) -> void:
 	if _jumping and velocity.y < 0.0 and not Input.is_action_pressed("jump"):
 		velocity.y += jump_cut_gravity * delta
 
+	# Bounce impulse (e.g. yorp bump): overrides horizontal velocity and eases to
+	# 0, animating Keen backward instead of teleporting him.
+	if _bounce_vx != 0.0:
+		velocity.x = _bounce_vx
+		_bounce_vx = move_toward(_bounce_vx, 0.0, bounce_decay * delta)
+
 	move_and_slide()
 	if is_on_floor():
 		_jumping = false
@@ -195,6 +204,12 @@ func add_score(amount: int) -> void:
 func add_ammo(amount: int) -> void:
 	ammo = clampi(ammo + amount, 0, max_ammo)
 	ammo_changed.emit(ammo)
+
+
+## Apply a horizontal bounce impulse (e.g. from a yorp bump). Overrides Keen's
+## horizontal input while active, decaying to 0 so he slides back smoothly.
+func apply_bounce(vx: float) -> void:
+	_bounce_vx = vx
 
 
 func take_damage(amount: int) -> void:

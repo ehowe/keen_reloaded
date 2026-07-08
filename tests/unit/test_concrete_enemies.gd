@@ -38,14 +38,18 @@ func test_butler_is_armored():
 	assert_eq(b.health, 1, "health unchanged")
 
 
-func test_yorp_knockback_no_damage():
+func test_yorp_shove_no_damage():
+	# Yorp no longer one-shot knocks back; it shoves Keen continuously in
+	# _physics_process. Side contact on its own must not damage Keen (harmless)
+	# and must not throw him (velocity unchanged by the contact handler itself).
 	var y: Yorp = add_child_autofree(load("res://src/runtime/entities/yorp.tscn").instantiate())
 	y.global_position = Vector2(100, 0)
 	var p := _fake_player()
-	p.global_position = Vector2(200, 0)  # player to the right -> knockback +x
+	p.global_position = Vector2(200, 0)
+	p.velocity = Vector2(11, 22)
 	y._handle_player(p)
-	assert_gt(p.velocity.x, 0, "knocked right")
-	assert_eq(p.health, 3, "yorp bump does not damage keen (knockback only)")
+	assert_eq(p.velocity, Vector2(11, 22), "side contact does not knockback (shove is per-frame)")
+	assert_eq(p.health, 3, "yorp bump does not damage keen")
 
 
 func test_clapper_instakills_on_contact():

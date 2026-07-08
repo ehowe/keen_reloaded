@@ -19,6 +19,12 @@ func test_player_in_player_group():
 	assert_true(p.is_in_group("player"))
 
 
+func test_apply_bounce_sets_impulse():
+	var p := _new_player()
+	p.apply_bounce(-440.0)
+	assert_eq(p._bounce_vx, -440.0, "bounce impulse stored")
+
+
 func _new_player() -> Player:
 	var p: Player = add_child_autofree(load("res://src/runtime/player/player.tscn").instantiate())
 	return p
