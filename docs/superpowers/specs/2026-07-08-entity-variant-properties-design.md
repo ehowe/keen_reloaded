@@ -143,10 +143,15 @@ func _default_properties(type_id: String) -> Dictionary:
     return out
 ```
 
-Rationale: the placed `EntityDef` becomes self-describing. Runtime reads
-`def.properties` only — it never consults the registry schema, so old saves
-and hand-edited `.tres` files keep working, and the runtime stays decoupled
-from editor-side schema knowledge. `keen1.player_spawn` placement
+Rationale: the placed `EntityDef` becomes self-describing for the values that
+matter — the chosen variant (e.g. `facing=left`) round-trips via
+`def.properties`, so old saves and hand-edited `.tres` files keep working
+even if the enum's option set later changes. `SpriteEntity` does read the
+*structural* schema (which properties are enum variants, and their option
+set) from the `EntityRegistry` autoload at runtime — but only to group
+children for visibility toggling, never to interpret the stored value. The
+autoload is present in every build (runtime and editor alike), so this
+coupling is safe. `keen1.player_spawn` placement
 (`set_selected_entity_type == "keen1.player_spawn"` special case) is
 unaffected — it has an empty schema.
 

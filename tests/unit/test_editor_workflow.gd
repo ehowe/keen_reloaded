@@ -175,3 +175,42 @@ func test_place_entity_empty_schema_yields_empty_props():
 	ed._place_entity(Vector2i(1, 2))
 	assert_eq(ed.level.entities.size(), 1)
 	assert_eq(ed.level.entities[0].properties, {}, "no schema -> empty props")
+
+
+func test_editor_to_runtime_variant_visibility():
+	# End-to-end hardening for the "entity variant properties" feature: the
+	# editor seeds a schema default on placement, the author edits it, and the
+	# runtime SpriteEntity then shows the matching child sprite. Connects the
+	# editor half (properties writeback) to the runtime half (variant visibility).
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.spike", EntityRegistry.CATEGORY_HAZARD, "Spike",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+	var ed := LevelEditor.new()
+	add_child_autofree(ed)
+	ed._ready()
+	# 1. Place a spike; placement seeds the schema default ("right").
+	ed.selected_entity_type = "keen1.spike"
+	ed._place_entity(Vector2i(3, 4))
+	assert_eq(ed.level.entities.size(), 1)
+	var def: EntityDef = ed.level.entities[0]
+	assert_eq(def.properties.get("facing"), "right", "placement seeds schema default")
+	# 2. Author edits the facing variant to "left" (as the inspector would).
+	def.properties["facing"] = "left"
+	# 3. Runtime instantiates from the edited EntityDef's properties dict.
+	var n := add_child_autofree(EntityRegistry.instantiate("keen1.spike", Vector2.ZERO,
+		def.properties)) as Node2D
+	assert_not_null(n)
+	# 4. The left variant child is visible; the right variant child is hidden.
+	assert_true(_find_child_named(n, "SpikeLeft").visible, "left variant visible after edit")
+	assert_false(_find_child_named(n, "Spike Right").visible, "right variant hidden after edit")
+
+
+func _find_child_named(root: Node, want: String) -> CanvasItem:
+	for c in root.get_children():
+		if c is CanvasItem and String(c.name) == want:
+			return c
+		var deeper := _find_child_named(c, want)
+		if deeper != null:
+			return deeper
+	return null
