@@ -215,3 +215,40 @@ func test_build_keeps_player_mode_for_level():
 	add_child_autofree(rt)
 	rt.build(_level())
 	assert_eq(rt.player._mode, Player.Mode.LEVEL, "player stays in LEVEL mode on level map")
+
+
+func test_kill_zone_lethal_fall_does_not_respawn():
+	# Lethal fall: HP=1 -> take_damage kills -> _die() owns launch velocity.
+	# The kill zone must NOT teleport/zero the player afterward.
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	var lvl := _level()
+	rt.build(lvl)
+	var p := rt.player
+	p.health = 1
+	var pos_before := p.position
+	p.take_damage(1)  # would-be lethal even without kill zone
+	rt._on_kill_zone_body_entered(p)
+	assert_eq(p.position, pos_before, "lethal fall: position untouched by respawn")
+	assert_true((p.velocity - Vector2(-cos(deg_to_rad(60.0)), -sin(deg_to_rad(60.0))) * p.death_launch_speed).length() < 0.2, "launch velocity preserved")
+	assert_true(p._dead, "player is dead")
+
+
+func test_kill_zone_nonlethal_fall_respawns():
+	# Non-lethal fall: HP>1 -> take_damage(1) leaves HP>0 -> respawn at spawn.
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	var lvl := _level()
+	rt.build(lvl)
+	var p := rt.player
+	p.health = 3
+	rt._on_kill_zone_body_entered(p)
+	assert_eq(p.health, 2, "non-lethal fall costs 1 HP")
+	var ts := lvl.tile_size
+	var expected_spawn := Vector2(lvl.player_spawn.x * ts + ts / 2.0, lvl.player_spawn.y * ts + ts / 2.0)
+	assert_almost_eq(p.position.x, expected_spawn.x, 0.01, "respawned at spawn x")
+	assert_almost_eq(p.position.y, expected_spawn.y, 0.01, "respawned at spawn y")
+	assert_eq(p.velocity, Vector2.ZERO, "velocity zeroed on respawn")
+	assert_false(p._dead, "player still alive")

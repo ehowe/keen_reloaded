@@ -249,8 +249,11 @@ func _add_wall(node_name: String, center: Vector2, size: Vector2) -> void:
 func _on_kill_zone_body_entered(body: Node2D) -> void:
 	if body != player or not is_instance_valid(player):
 		return
-	# Respawn at spawn point and zero velocity. take_damage gives the fall a cost.
-	player.position = _cell_center(_level.player_spawn, _tile_size)
-	player.velocity = Vector2.ZERO
+	# Damage first. A lethal fall triggers Player._die() inside take_damage,
+	# which owns the launch velocity and must not be overwritten.
 	if player.has_method("take_damage"):
 		player.take_damage(1)
+	# Respawn ONLY if still alive.
+	if is_instance_valid(player) and int(player.get("health")) > 0:
+		player.position = _cell_center(_level.player_spawn, _tile_size)
+		player.velocity = Vector2.ZERO
