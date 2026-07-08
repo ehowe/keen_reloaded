@@ -46,8 +46,11 @@ func register_sprite(type_id: String, category: String, label: String, scene_pat
 
 ## Schema entries for a type: each is {name, default, type, options?}. Empty
 ## for unknown types or types registered without a schema.
-func get_properties_schema(type_id: String) -> Array:
-	return Array(_entries.get(type_id, {}).get("properties", []))
+func get_properties_schema(type_id: String) -> Array[Dictionary]:
+	var stored: Array = _entries.get(type_id, {}).get("properties", [])
+	var out: Array[Dictionary] = []
+	out.assign(stored)
+	return out
 
 
 ## Return a shallow copy of `properties` with enum entries normalized: an enum

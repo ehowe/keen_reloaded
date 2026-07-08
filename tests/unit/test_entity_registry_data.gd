@@ -54,3 +54,13 @@ func test_enum_invalid_default_coerced_to_first_option():
 	var s := EntityRegistry.get_properties_schema("thing")
 	assert_eq(String(s[0].get("default")), "happy", "bad default coerced to options[0]")
 	assert_eq(s[0].get("options"), ["happy", "sad"], "options preserved")
+	assert_eq(String(bad[0].get("default")), "angry", "caller input not mutated")
+
+func test_enum_empty_options_warns_no_crash():
+	# An enum with no options must warn and not crash (must not index options[0]).
+	EntityRegistry.clear()
+	var bad := [{name = "dir", default = "x", type = "enum", options = []}]
+	EntityRegistry.register("t2", EntityRegistry.CATEGORY_ITEM, "T2", bad)
+	var s := EntityRegistry.get_properties_schema("t2")
+	assert_eq(s.size(), 1)
+	assert_eq(String(s[0].get("name")), "dir")
