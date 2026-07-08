@@ -36,12 +36,14 @@ func test_palette_filters_by_map_kind():
 	ed_level._palette.refresh(ed_level)
 	var level_ids := ed_level._palette.get_entity_ids_for_test()
 	assert_true(level_ids.has("keen1.vorticon"), "level palette shows gameplay entities")
+	assert_true(level_ids.has("keen1.player_spawn"), "level palette shows player spawn")
 	assert_false(level_ids.has("keen1.level_entrance"), "level palette hides overworld-only entrance")
 
 	ed_level.level.map_kind = LevelData.MapKind.OVERWORLD
 	ed_level._palette.refresh(ed_level)
 	var ow_ids := ed_level._palette.get_entity_ids_for_test()
 	assert_true(ow_ids.has("keen1.level_entrance"), "overworld palette shows the entrance")
+	assert_true(ow_ids.has("keen1.player_spawn"), "overworld palette shows player spawn")
 	assert_false(ow_ids.has("keen1.vorticon"), "overworld palette hides gameplay entities")
 
 
@@ -65,3 +67,25 @@ func test_inspector_edits_string_and_bool_props():
 	cb.set_pressed_no_signal(false)
 	cb.toggled.emit(false)
 	assert_eq(def.properties["blocks_until_completed"], false)
+
+
+func test_inspector_enum_option_button_writes_back():
+	# A registered type with an enum schema renders an OptionButton; selecting
+	# an item writes the chosen option into EntityDef.properties.
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.spike", EntityRegistry.CATEGORY_HAZARD, "Spike",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+	var ed := LevelEditor.new()
+	add_child_autofree(ed)
+	ed._ready()
+	var def := EntityDef.new("keen1.spike", 1, 1, {"facing": "right"})
+	ed.level.entities.append(def)
+	ed.select_entity(ed.level.entities.size() - 1)
+	var ob: OptionButton = ed._inspector.find_child("Prop_facing", true, false)
+	assert_not_null(ob, "enum property renders an OptionButton")
+	assert_eq(ob.selected, 0, "default 'right' is item 0")
+	# Select 'left' (item 1) and emit the signal.
+	ob.select(1)
+	ob.item_selected.emit(1)
+	assert_eq(def.properties["facing"], "left", "OptionButton writes chosen option back")

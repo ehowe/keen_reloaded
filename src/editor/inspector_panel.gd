@@ -100,8 +100,7 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 	var ent: EntityDef = e.level.entities[e.selected_entity_index]
 	_entity_box.add_child(_kv_label("type", ent.type))
 
-	# Each SpinBox writes straight to the entity via a closure capturing itself,
-	# so we avoid fragile get_node() lookups (and node-name collisions).
+	# X / Y (unchanged).
 	var xs := SpinBox.new()
 	xs.min_value = 0
 	xs.max_value = 511
@@ -116,7 +115,58 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 	ys.value_changed.connect(func(_v: float) -> void: ent.y = int(ys.value))
 	_entity_box.add_child(_labeled("Y", ys))
 
+	# 1. Schema-driven controls (enum -> OptionButton; int/bool/string typed).
+	var covered: Dictionary = {}
+	for s in EntityRegistry.get_properties_schema(ent.type):
+		var key: String = String(s.get("name", ""))
+		if key == "":
+			continue
+		covered[key] = true
+		var stype := String(s.get("type", ""))
+		var val = ent.properties.get(key, s.get("default"))
+		match stype:
+			"enum":
+				var options: Array = s.get("options", [])
+				var ob := OptionButton.new()
+				ob.name = "Prop_" + key
+				for opt in options:
+					ob.add_item(String(opt))
+				var idx := options.find(val)
+				ob.select(idx if idx >= 0 else 0)
+				var k_enum: Variant = key
+				var opts_enum: Array = options
+				ob.item_selected.connect(func(i: int) -> void:
+					ent.properties[k_enum] = opts_enum[i])
+				_entity_box.add_child(_labeled(key, ob))
+			"bool":
+				var cb := CheckBox.new()
+				cb.name = "Prop_" + key
+				cb.set_pressed_no_signal(bool(val))
+				var kb: Variant = key
+				cb.toggled.connect(func(p: bool) -> void: ent.properties[kb] = p)
+				_entity_box.add_child(_labeled(key, cb))
+			"int":
+				var ps := SpinBox.new()
+				ps.name = "Prop_" + key
+				ps.min_value = -9999
+				ps.max_value = 9999
+				ps.set_value_no_signal(val)
+				var ki: Variant = key
+				ps.value_changed.connect(func(_v: float) -> void: ent.properties[ki] = int(ps.value))
+				_entity_box.add_child(_labeled(key, ps))
+			_:
+				var sle := LineEdit.new()
+				sle.name = "Prop_" + key
+				sle.text = String(val)
+				var sk: Variant = key
+				sle.text_changed.connect(func(t: String) -> void: ent.properties[sk] = t)
+				_entity_box.add_child(_labeled(key, sle))
+
+	# 2. Instance-key fallback: keys present on the entity but not in the schema
+	#    (e.g. keen1.level_entrance, which has an empty schema today).
 	for key in ent.properties.keys():
+		if covered.has(key):
+			continue
 		var val = ent.properties[key]
 		match typeof(val):
 			TYPE_INT, TYPE_FLOAT:
