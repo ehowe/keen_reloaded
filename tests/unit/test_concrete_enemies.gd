@@ -67,5 +67,46 @@ func test_clapper_invincible_to_shots():
 	assert_false(c.has_method("take_damage"), "clapper has no take_damage -> projectiles pass through")
 
 
+func test_spike_instakills_on_contact():
+	# Spike is a stationary instakill hazard (drains all health), like the Clapper.
+	var s = add_child_autofree(load("res://src/runtime/entities/spike.tscn").instantiate())
+	var p := _fake_player()
+	assert_eq(p.health, 3, "fake player starts at 3 hp")
+	s._handle_player(p)
+	assert_eq(p.health, 0, "spike drains all health on contact (instakill)")
+
+
+func test_spike_facing_left_shows_left_variant():
+	# The facing enum variant selects which AnimatedSprite2D child is visible.
+	GameManager.register_episodes()
+	var s = add_child_autofree(load("res://src/runtime/entities/spike.tscn").instantiate())
+	s.setup("keen1.spike", {"facing": "left"})
+	assert_true(_find_node_named(s, "SpikeLeft").visible, "left variant visible")
+	assert_false(_find_node_named(s, "Spike Right").visible, "right variant hidden")
+
+
+func test_spike_facing_right_shows_right_variant():
+	GameManager.register_episodes()
+	var s = add_child_autofree(load("res://src/runtime/entities/spike.tscn").instantiate())
+	s.setup("keen1.spike", {"facing": "right"})
+	assert_true(_find_node_named(s, "Spike Right").visible, "right variant visible")
+	assert_false(_find_node_named(s, "SpikeLeft").visible, "left variant hidden")
+
+
+func test_spike_invincible_to_shots():
+	var s = add_child_autofree(load("res://src/runtime/entities/spike.tscn").instantiate())
+	assert_false(s.has_method("take_damage"), "spike has no take_damage -> projectiles pass through")
+
+
+func _find_node_named(root: Node, want: String) -> Node:
+	for c in root.get_children():
+		if String(c.name) == want:
+			return c
+		var deeper := _find_node_named(c, want)
+		if deeper != null:
+			return deeper
+	return null
+
+
 func after_each():
 	GameManager.register_episodes()

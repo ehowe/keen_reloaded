@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/runtime/entities/spike.gd" id="1_spike"]
+[ext_resource type="PackedScene" uid="uid://dtqx3w4s4bxpk" path="res://assets/sprites/Spike.tscn" id="2_visual"]
+
+[node name="Spike" type="CharacterBody2D"]
+script = ExtResource("1_spike")
+
+[node name="Visual" parent="." instance=ExtResource("2_visual")]

@@ -21,6 +21,7 @@ func register_entities(registry: Node) -> void:
 	var raygun := preload("res://src/runtime/entities/ammo_pickup.tscn")
 	var exit_door := preload("res://src/runtime/entities/exit_door.tscn")
 	var clapper := preload("res://src/runtime/entities/clapper.tscn")
+	var spike := preload("res://src/runtime/entities/spike.tscn")
 	registry.register("keen1.vorticon", registry.CATEGORY_ENEMY, "Vorticon", [], vorticon)
 	registry.register("keen1.yorp", registry.CATEGORY_ENEMY, "Yorp", [], yorp)
 	registry.register("keen1.butler", registry.CATEGORY_HAZARD, "Butler Robot", [], butler)
@@ -36,9 +37,9 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn", [], null, all_kinds)
 	registry.register_sprite("keen1.exit_sign", registry.CATEGORY_DECOR, "Exit Sign",
 		"res://assets/sprites/Exit Sign.tscn")
-	registry.register_sprite("keen1.spike", registry.CATEGORY_HAZARD, "Spike",
-		"res://assets/sprites/Spike.tscn",
-		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+	registry.register("keen1.spike", registry.CATEGORY_HAZARD, "Spike",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}],
+		spike)
 	var level_entrance := preload("res://src/runtime/entities/level_entrance.tscn")
 	var overworld_only: Array[int] = [LevelData.MapKind.OVERWORLD]
 	registry.register("keen1.level_entrance", registry.CATEGORY_SPECIAL, "Level Entrance",

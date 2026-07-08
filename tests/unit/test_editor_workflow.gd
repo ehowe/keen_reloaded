@@ -180,12 +180,9 @@ func test_place_entity_empty_schema_yields_empty_props():
 func test_editor_to_runtime_variant_visibility():
 	# End-to-end hardening for the "entity variant properties" feature: the
 	# editor seeds a schema default on placement, the author edits it, and the
-	# runtime SpriteEntity then shows the matching child sprite. Connects the
+	# runtime Spike hazard then shows the matching child sprite. Connects the
 	# editor half (properties writeback) to the runtime half (variant visibility).
-	EntityRegistry.clear()
-	EntityRegistry.register_sprite("keen1.spike", EntityRegistry.CATEGORY_HAZARD, "Spike",
-		"res://assets/sprites/Spike.tscn",
-		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+	GameManager.register_episodes()
 	var ed := LevelEditor.new()
 	add_child_autofree(ed)
 	ed._ready()

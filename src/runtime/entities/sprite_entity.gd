@@ -6,7 +6,7 @@ extends Node2D
 ## Deliberately has no collision, no AI, no signals — it is a positioned
 ## container; the wrapped sprite scene's children (e.g. AnimatedSprite2D) render
 ## and animate on their own.
-## Applies schema-driven enum "variant" visibility in setup().
+## Applies schema-driven enum "variant" visibility in setup() via EntityVariant.
 
 @export var type_id: String = ""
 @export var properties: Dictionary = {}
@@ -23,54 +23,7 @@ func setup(p_type_id: String, p_props: Dictionary = {}) -> void:
 
 
 func _apply_variant_properties() -> void:
-	for s in EntityRegistry.get_properties_schema(type_id):
-		if String(s.get("type", "")) != "enum":
-			continue
-		var options: Array = s.get("options", [])
-		if options.is_empty():
-			continue
-		var key: String = String(s.get("name", ""))
-		var val := String(properties.get(key, s.get("default", "")))
-		_select_variant_child(options, val)
-
-
-## Variant group = descendant CanvasItems whose node names contain an enum
-## option (case-insensitive). Show the one whose option == val; hide the rest.
-## Descendants not matching any option are left untouched. Descendant walk is
-## required because attach_sprite() adds the scene root as the wrapper's only
-## child, so variant sprites are typically grandchildren of the wrapper.
-## Note: the first option whose substring appears in a child name wins. Avoid
-## option values that are substrings of each other (e.g. ["right","topright"]),
-## or name variant children exactly their option value.
-func _select_variant_child(options: Array, val: String) -> void:
-	var want := val.to_lower()
-	var matched: CanvasItem = null
-	var to_hide: Array[CanvasItem] = []
-	for c in _descendants(self):
-		if not (c is CanvasItem):
-			continue
-		var nm := String(c.name).to_lower()
-		for o in options:
-			if nm.contains(String(o).to_lower()):
-				if String(o).to_lower() == want:
-					matched = c
-				else:
-					to_hide.append(c)
-				break
-	for c in to_hide:
-		c.visible = false
-	if matched != null:
-		matched.visible = true
-	elif not to_hide.is_empty():
-		push_warning("SpriteEntity: variant value '%s' matched no child of '%s'" % [val, type_id])
-
-
-func _descendants(n: Node) -> Array[Node]:
-	var out: Array[Node] = []
-	for c in n.get_children():
-		out.append(c)
-		out.append_array(_descendants(c))
-	return out
+	EntityVariant.apply(type_id, properties, self)
 
 
 ## Attach an instantiated sprite scene as this wrapper's visual content. The
