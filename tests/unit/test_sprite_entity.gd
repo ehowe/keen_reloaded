@@ -94,6 +94,19 @@ func test_variant_default_applied_when_property_absent():
 	assert_true(_find_child_named(n, "Spike Right").visible, "default right variant visible")
 	assert_false(_find_child_named(n, "SpikeLeft").visible, "non-default left variant hidden")
 
+func test_spike_variant_autoplays_animation():
+	# AnimatedSprite2D scenes animate "on their own" only when autoplay is set
+	# in the scene (SpriteEntity does not call play()). Regression guard for
+	# the Spike scene being committed without autoplay on its variant sprites.
+	_register_spike_ad_hoc()
+	var n := add_child_autofree(EntityRegistry.instantiate("keen1.spike", Vector2.ZERO,
+		{"facing": "right"})) as Node2D
+	assert_not_null(n)
+	var right := _find_child_named(n, "Spike Right") as AnimatedSprite2D
+	assert_not_null(right)
+	assert_true(right.is_playing(), "right variant autoplays its animation")
+
+
 func _find_child_named(root: Node, want: String) -> CanvasItem:
 	for c in root.get_children():
 		if c is CanvasItem and String(c.name) == want:

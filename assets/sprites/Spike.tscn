@@ -78,10 +78,12 @@ animations = [{
 
 [node name="Spike Right" type="AnimatedSprite2D" parent="." unique_id=348141275]
 sprite_frames = SubResource("SpriteFrames_07erc")
+autoplay = "default"
 frame = 2
 frame_progress = 0.46828234
 
 [node name="SpikeLeft" type="AnimatedSprite2D" parent="." unique_id=1359620897]
 visible = false
 sprite_frames = SubResource("SpriteFrames_x4u6v")
+autoplay = "default"
 frame_progress = 0.23926651
