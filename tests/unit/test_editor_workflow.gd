@@ -145,3 +145,33 @@ func test_try_reopen_last_falls_back_when_file_missing():
 	ed._remember_path("user://tests/gone_12345.tres")
 	assert_false(ed._try_reopen_last())
 	assert_null(ed.level)
+
+func test_place_entity_seeds_schema_defaults():
+	# A registered type with an enum schema should place with the default
+	# written into EntityDef.properties (self-describing data).
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.spike", EntityRegistry.CATEGORY_HAZARD, "Spike",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
+	var ed := LevelEditor.new()
+	add_child_autofree(ed)
+	ed._ready()
+	ed.selected_entity_type = "keen1.spike"
+	ed._place_entity(Vector2i(3, 4))
+	assert_eq(ed.level.entities.size(), 1)
+	var def: EntityDef = ed.level.entities[0]
+	assert_eq(def.x, 3)
+	assert_eq(def.y, 4)
+	assert_eq(def.properties.get("facing"), "right", "schema default seeded on placement")
+
+func test_place_entity_empty_schema_yields_empty_props():
+	# A schemaless type places with an empty properties dict (unchanged).
+	EntityRegistry.clear()
+	EntityRegistry.register("keen1.vorticon", EntityRegistry.CATEGORY_ENEMY, "Vorticon")
+	var ed := LevelEditor.new()
+	add_child_autofree(ed)
+	ed._ready()
+	ed.selected_entity_type = "keen1.vorticon"
+	ed._place_entity(Vector2i(1, 2))
+	assert_eq(ed.level.entities.size(), 1)
+	assert_eq(ed.level.entities[0].properties, {}, "no schema -> empty props")

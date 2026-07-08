@@ -252,7 +252,22 @@ func _place_entity(cell: Vector2i) -> void:
 	if selected_entity_type == "keen1.player_spawn":
 		undo_stack.execute(level, SetPlayerSpawnCmd.new(cell))
 		return
-	undo_stack.execute(level, AddEntityCmd.new(EntityDef.new(selected_entity_type, cell.x, cell.y)))
+	var props := _default_properties(selected_entity_type)
+	undo_stack.execute(level, AddEntityCmd.new(
+		EntityDef.new(selected_entity_type, cell.x, cell.y, props)))
+
+
+## Build a properties Dictionary from a type's schema defaults. Used at
+## placement so each EntityDef carries its full property set (self-describing
+## data; the runtime reads def.properties only and stays schema-agnostic).
+func _default_properties(type_id: String) -> Dictionary:
+	var out: Dictionary = {}
+	for entry in EntityRegistry.get_properties_schema(type_id):
+		var n: String = String(entry.get("name", ""))
+		if n == "":
+			continue
+		out[n] = entry.get("default", null)
+	return out
 
 
 ## Returns the index of the entity occupying `cell`, or -1 if none.
