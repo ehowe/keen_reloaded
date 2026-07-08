@@ -93,6 +93,20 @@ func complete_level_no_scene_swap() -> void:
 	state = State.OVERWORLD
 
 
+## Transition level -> overworld on death WITHOUT recording completion. Keen
+## respawns at the entrance he walked in from, level stays uncompleted.
+func fail_level() -> void:
+	fail_level_no_scene_swap()
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+func fail_level_no_scene_swap() -> void:
+	pending_level = current_overworld
+	pending_player_spawn = last_entrance_pos
+	current_level = null
+	state = State.OVERWORLD
+
+
 ## Boot the overworld loop for an episode: resolve + load its overworld, then
 ## swap to the runtime scene in OVERWORLD state.
 func start_episode(ep_id: String) -> void:

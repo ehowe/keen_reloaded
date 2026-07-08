@@ -119,3 +119,26 @@ func test_start_episode_sets_overworld_state():
 	assert_eq(GameManager.current_overworld, ow)
 	assert_eq(GameManager.pending_level, ow)
 	assert_eq(GameManager.current_episode_id, "fake")
+
+func test_fail_level_returns_to_overworld_without_completing():
+	var ow := LevelData.new()
+	ow.level_id = "ow"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	var lvl := LevelData.new()
+	lvl.level_id = "keen1_01"
+	lvl.width = 2
+	lvl.height = 2
+	lvl.fill_blank()
+	GameManager.register_level(ow)
+	GameManager.register_level(lvl)
+	GameManager.current_overworld = ow
+	GameManager.enter_level_no_scene_swap("keen1_01", Vector2i(5, 6))
+	GameManager.fail_level_no_scene_swap()
+	assert_eq(GameManager.state, GameManager.State.OVERWORLD)
+	assert_eq(GameManager.pending_level, ow)
+	assert_eq(GameManager.pending_player_spawn, Vector2i(5, 6))
+	assert_false(GameManager.is_level_completed("keen1_01"), "death must NOT mark level complete")
+	assert_null(GameManager.current_level, "current_level cleared")
