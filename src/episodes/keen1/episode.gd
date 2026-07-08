@@ -32,9 +32,13 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.teddy", registry.CATEGORY_ITEM, "Teddy Bear", [], teddy)
 	registry.register("keen1.raygun", registry.CATEGORY_ITEM, "Raygun Ammo", [], raygun)
 	registry.register("keen1.exit_door", registry.CATEGORY_SPECIAL, "Exit Door", [], exit_door)
-	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn")
+	var all_kinds: Array[int] = [LevelData.MapKind.LEVEL, LevelData.MapKind.OVERWORLD]
+	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn", [], null, all_kinds)
 	registry.register_sprite("keen1.exit_sign", registry.CATEGORY_DECOR, "Exit Sign",
 		"res://assets/sprites/Exit Sign.tscn")
+	registry.register_sprite("keen1.spike", registry.CATEGORY_HAZARD, "Spike",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]}])
 	var level_entrance := preload("res://src/runtime/entities/level_entrance.tscn")
 	var overworld_only: Array[int] = [LevelData.MapKind.OVERWORLD]
 	registry.register("keen1.level_entrance", registry.CATEGORY_SPECIAL, "Level Entrance",

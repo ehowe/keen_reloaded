@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dtqx3w4s4bxpk"]
+
+[ext_resource type="Texture2D" uid="uid://clus6egld88sv" path="res://assets/sprites/Spike.png" id="1_w55yb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w55yb"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srbwp"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtb2k"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ko38r"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w55yb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srbwp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtb2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ko38r")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x20u"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68lua"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smwki"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mngtk"]
+atlas = ExtResource("1_w55yb")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x20u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68lua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smwki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mngtk")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Spike" type="Node2D" unique_id=1672158033]
+
+[node name="Spike Right" type="AnimatedSprite2D" parent="." unique_id=348141275]
+sprite_frames = SubResource("SpriteFrames_07erc")
+frame = 2
+frame_progress = 0.46828234
+
+[node name="SpikeLeft" type="AnimatedSprite2D" parent="." unique_id=1359620897]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.23926651

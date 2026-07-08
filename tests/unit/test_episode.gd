@@ -37,5 +37,18 @@ func test_exit_sign_registered_as_decor():
 	assert_eq(e["category"], EntityRegistry.CATEGORY_DECOR)
 	assert_eq(e["scene_path"], "res://assets/sprites/Exit Sign.tscn")
 
+func test_spike_registered_as_hazard_with_facing_schema():
+	EntityRegistry.clear()
+	Keen1Episode.new().register_entities(EntityRegistry)
+	assert_true(EntityRegistry.has("keen1.spike"), "keen1.spike registered")
+	var e: Dictionary = EntityRegistry.get_entry("keen1.spike")
+	assert_eq(e["category"], EntityRegistry.CATEGORY_HAZARD)
+	assert_eq(e["scene_path"], "res://assets/sprites/Spike.tscn")
+	var schema := EntityRegistry.get_properties_schema("keen1.spike")
+	assert_eq(schema.size(), 1)
+	assert_eq(String(schema[0].get("name")), "facing")
+	assert_eq(String(schema[0].get("default")), "right")
+	assert_eq(schema[0].get("options"), ["right", "left"])
+
 func after_each():
 	GameManager.register_episodes()
