@@ -235,7 +235,10 @@ func _die() -> void:
 	_input_locked = true
 	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if col != null:
-		col.disabled = true
+		# Defer: _die() may fire from an Area2D body_entered callback (e.g. the
+		# Clapper) during the physics query flush, where a direct set is rejected
+		# and the shape stays enabled — leaving Keen colliding during death-flight.
+		col.set_deferred("disabled", true)
 	var rad := deg_to_rad(DEATH_LAUNCH_ANGLE_DEG)
 	velocity = Vector2(-cos(rad), -sin(rad)) * death_launch_speed
 	died.emit()

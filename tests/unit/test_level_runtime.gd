@@ -270,3 +270,83 @@ func test_died_is_connected_after_build():
 	add_child_autofree(rt)
 	rt.build(_level())
 	assert_true(rt.player.died.is_connected(rt._on_player_died), "died -> _on_player_died wired")
+
+
+# REPRODUCTION: real TileMapLayer ceiling. Player dies, launches up-left.
+# If CollisionShape2D.disable does NOT stop TileMapLayer collisions, Keen
+# stops at the ceiling row. If it does, he flies past it.
+func test_dead_player_flies_through_tilemap_ceiling():
+	GameManager.pending_level = null
+	var ld := LevelData.new()
+	ld.width = 5
+	ld.height = 6
+	ld.tile_size = 16
+	ld.fill_blank()
+	# Solid ceiling row across the top (row 0) — covers the up-left launch path.
+	for x in range(ld.width):
+		ld.set_geometry_tile(x, 0, 1)
+	ld.player_spawn = Vector2i(2, 4)
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	var p := rt.player
+	p.take_damage(p.health)  # die -> up-left launch, shape disabled
+	await get_tree().physics_frame  # let the deferred disable flush
+	var start := p.global_position
+	for i in 40:
+		p._physics_process(0.016)
+	var traveled := p.global_position - start
+	# Ceiling sits ~40px above spawn; if colliding, traveled.y ~= -40. If passing
+	# through (correct), traveled.y is far more negative (40 frames * ~11px).
+	assert_lt(traveled.y, -100.0, "Keen flew past the tilemap ceiling during death flight")
+
+
+# REGRESSION: the real Clapper path. The Clapper (and every Entity) detects the
+# player via an Area2D body_entered signal, which fires DURING the physics query
+# flush. Setting CollisionShape2D.disabled = true there is rejected by Godot
+# ("Can't change this state while flushing queries"), leaving the shape enabled
+# so Keen collides with walls during death-flight. The fix defers the disable.
+# This test drives the player into a contact Area2D on real physics frames so
+# death triggers from the body_entered callback (the query-flush path), then
+# verifies the death-flight passes through a ceiling.
+func test_death_via_area_body_entered_flies_through_ceiling():
+	var p := add_child_autofree(load("res://src/runtime/player/player.tscn").instantiate()) as Player
+	p.global_position = Vector2(200, 400)
+	# Wide ceiling on the tiles layer (4) covering the up-left launch path.
+	var ceil_body := StaticBody2D.new()
+	ceil_body.collision_layer = 4
+	var cshape := RectangleShape2D.new()
+	cshape.size = Vector2(2000, 16)
+	var ccol := CollisionShape2D.new()
+	ccol.shape = cshape
+	ceil_body.add_child(ccol)
+	ceil_body.global_position = Vector2(-400, 200)
+	add_child(ceil_body)
+	# Clapper-like contact Area2D just above the player's start.
+	var area := Area2D.new()
+	area.collision_mask = 1  # player bit
+	var ashape := RectangleShape2D.new()
+	ashape.size = Vector2(64, 64)
+	var acol := CollisionShape2D.new()
+	acol.shape = ashape
+	area.add_child(acol)
+	area.global_position = Vector2(200, 300)
+	area.body_entered.connect(func(body) -> void:
+		if body == p and p.has_method("take_damage"):
+			p.take_damage(p.health))
+	add_child(area)
+	# Drive the player up into the area on real physics frames so body_entered
+	# fires during the query flush (the real Clapper path).
+	for i in 40:
+		if p._dead:
+			break
+		p.velocity = Vector2(0, -300)
+		await get_tree().physics_frame
+	assert_true(p._dead, "player died via area body_entered")
+	var col := p.get_node("CollisionShape2D") as CollisionShape2D
+	var start := Vector2(p.global_position)
+	for i in 40:
+		await get_tree().physics_frame
+	var end := p.global_position
+	assert_true(col.disabled, "death during query flush still disables the shape (deferred)")
+	assert_lt(end.y, 0.0, "Keen flew up through the ceiling (no collision)")

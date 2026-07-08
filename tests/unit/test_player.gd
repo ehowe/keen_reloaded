@@ -290,6 +290,7 @@ func test_die_disables_collision_shape():
 	var col := p.get_node("CollisionShape2D") as CollisionShape2D
 	assert_false(col.disabled, "collision enabled before death")
 	p.take_damage(p.health)
+	await get_tree().physics_frame
 	assert_true(col.disabled, "collision disabled on death so Keen flies through walls")
 
 
