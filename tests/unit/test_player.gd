@@ -317,3 +317,15 @@ func test_death_sprite_feet_aligned_to_collision():
 	var p := _new_player()
 	var death := p.get_node("Death") as AnimatedSprite2D
 	assert_almost_eq(death.offset.y, 16.0, 0.01, "Death feet rest on collision bottom")
+
+
+func test_dead_physics_keeps_velocity_constant_no_gravity():
+	var p := _new_player()
+	p.take_damage(p.health)  # triggers _die(), sets launch velocity
+	var v_before := p.velocity
+	# Simulate several frames. No floor in the test scene, so if gravity were
+	# applied, velocity.y would rise (fall). It must stay exactly constant.
+	for i in 5:
+		p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, v_before.x, 0.001, "vx unchanged (no input/friction)")
+	assert_almost_eq(p.velocity.y, v_before.y, 0.001, "vy unchanged (no gravity applied)")

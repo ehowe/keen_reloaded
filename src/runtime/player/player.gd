@@ -87,6 +87,10 @@ func _physics_process(delta: float) -> void:
 	if _mode == Mode.OVERWORLD:
 		_physics_overworld(delta)
 		return
+	if _dead:
+		move_and_slide()
+		_sync_visual()
+		return
 	velocity.y += gravity * delta
 	if velocity.y > max_fall:
 		velocity.y = max_fall
