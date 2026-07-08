@@ -89,3 +89,31 @@ func test_inspector_enum_option_button_writes_back():
 	ob.select(1)
 	ob.item_selected.emit(1)
 	assert_eq(def.properties["facing"], "left", "OptionButton writes chosen option back")
+
+func test_inspector_two_enums_each_write_independently():
+	# Two enum properties on one type: each OptionButton closure must capture its
+	# own key/options (regression guard for per-iteration capture in the loop).
+	EntityRegistry.clear()
+	EntityRegistry.register_sprite("keen1.gadget", EntityRegistry.CATEGORY_HAZARD, "Gadget",
+		"res://assets/sprites/Spike.tscn",
+		[{name = "facing", default = "right", type = "enum", options = ["right", "left"]},
+		 {name = "mode", default = "off", type = "enum", options = ["off", "on", "blink"]}])
+	var ed := LevelEditor.new()
+	add_child_autofree(ed)
+	ed._ready()
+	var def := EntityDef.new("keen1.gadget", 1, 1, {"facing": "right", "mode": "off"})
+	ed.level.entities.append(def)
+	ed.select_entity(ed.level.entities.size() - 1)
+	var ob_facing: OptionButton = ed._inspector.find_child("Prop_facing", true, false)
+	var ob_mode: OptionButton = ed._inspector.find_child("Prop_mode", true, false)
+	assert_not_null(ob_facing)
+	assert_not_null(ob_mode)
+	# Change facing -> mode must be untouched, and vice versa.
+	ob_facing.select(1)
+	ob_facing.item_selected.emit(1)
+	assert_eq(def.properties["facing"], "left")
+	assert_eq(def.properties["mode"], "off", "changing facing did not touch mode")
+	ob_mode.select(2)
+	ob_mode.item_selected.emit(2)
+	assert_eq(def.properties["mode"], "blink")
+	assert_eq(def.properties["facing"], "left", "changing mode did not touch facing")
