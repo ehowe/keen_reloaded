@@ -22,6 +22,7 @@ var player: Node2D = null
 var entities_spawned: Array[Node2D] = []
 var elapsed: float = 0.0
 var _completed: bool = false
+var _dying: bool = false
 
 var _level: LevelData = null
 var _tile_size: int = 64
@@ -46,6 +47,36 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if not _completed:
 		elapsed += delta
+	if _dying and not _completed and is_instance_valid(player):
+		if _player_offscreen():
+			_complete_death()
+
+
+func _on_player_died() -> void:
+	_dying = true
+
+
+## True when the player has left the visible camera viewport (camera is clamped
+## to world bounds, so a flying corpse eventually exits the rendered rect).
+func _player_offscreen() -> bool:
+	var cam := player.get_node_or_null("Camera2D") as Camera2D
+	var vp := get_viewport_rect()
+	var center := cam.get_screen_center_position() if cam != null else player.global_position
+	var visible_rect := Rect2(center - vp.size * 0.5, vp.size)
+	return not visible_rect.has_point(player.global_position)
+
+
+func _complete_death() -> void:
+	if _completed:
+		return
+	_dying = false
+	_completed = true
+	if GameManager != null and GameManager.return_scene != null:
+		get_tree().change_scene_to_packed(GameManager.return_scene)
+	elif GameManager != null and GameManager.current_overworld != null:
+		GameManager.fail_level()
+	else:
+		get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
 
 
 ## Tear down any previous build and assemble the world from `level`.
@@ -110,6 +141,8 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 	if level.map_kind == LevelData.MapKind.OVERWORLD:
 		p.set_mode(Player.Mode.OVERWORLD)
 	_build_hud(p)
+	if p.has_signal("died"):
+		p.died.connect(_on_player_died)
 
 
 func _build_hud(p: Node) -> void:
@@ -199,6 +232,7 @@ func _clear() -> void:
 	_level = null
 	_tile_size = 64
 	_completed = false
+	_dying = false
 	elapsed = 0.0
 	for c in get_children():
 		c.queue_free()

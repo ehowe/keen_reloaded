@@ -252,3 +252,21 @@ func test_kill_zone_nonlethal_fall_respawns():
 	assert_almost_eq(p.position.y, expected_spawn.y, 0.01, "respawned at spawn y")
 	assert_eq(p.velocity, Vector2.ZERO, "velocity zeroed on respawn")
 	assert_false(p._dead, "player still alive")
+
+
+func test_player_died_signal_sets_dying_flag():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	assert_false(rt._dying, "_dying false before death")
+	rt.player.died.emit()
+	assert_true(rt._dying, "_dying set when player.died emits")
+
+
+func test_died_is_connected_after_build():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	assert_true(rt.player.died.is_connected(rt._on_player_died), "died -> _on_player_died wired")
