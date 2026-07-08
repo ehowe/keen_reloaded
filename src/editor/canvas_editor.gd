@@ -25,6 +25,21 @@ static func rect_from_corners(a: Vector2i, b: Vector2i) -> Rect2i:
 	)
 
 
+## Label drawn for an entity in the canvas: the type id, plus the value of
+## each enum (variant) property in parentheses — e.g. "keen1.spike (left)".
+## Static so it is unit-testable without instantiating the canvas.
+static func entity_label(e: EntityDef) -> String:
+	var label := e.type
+	for s in EntityRegistry.get_properties_schema(e.type):
+		if String(s.get("type", "")) != "enum":
+			continue
+		var k: String = String(s.get("name", ""))
+		var v := String(e.properties.get(k, s.get("default", "")))
+		if v != "":
+			label = "%s (%s)" % [label, v]
+	return label
+
+
 func _level() -> LevelData:
 	return editor.level
 
@@ -73,7 +88,7 @@ func _draw() -> void:
 	for e in _level().entities:
 		var rect := Rect2(e.x * cs + 2, e.y * cs + 2, cs - 4, cs - 4)
 		draw_rect(rect, Color(1, 0.4, 0.2, 0.9), false, 2.0)
-		draw_string(get_theme_default_font(), rect.position + Vector2(2, 12), e.type, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.9))
+		draw_string(get_theme_default_font(), rect.position + Vector2(2, 12), CanvasEditor.entity_label(e), HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(1, 1, 1, 0.9))
 
 	# selection highlight
 	if editor.selected_entity_index >= 0 and editor.selected_entity_index < _level().entities.size():
