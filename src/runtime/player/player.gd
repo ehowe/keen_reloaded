@@ -211,7 +211,20 @@ func _sync_visual() -> void:
 	_sync_visual_level()
 
 
+## Hides (and stops) every sprite in `names`. Used by each mode's sync to keep
+## the inactive sprite set from leaking through the active display.
+func _hide_sprites(names: Array) -> void:
+	for name in names:
+		var n := get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		n.visible = false
+		if n.is_playing():
+			n.stop()
+
+
 func _sync_visual_level() -> void:
+	_hide_sprites(OVERWORLD_SPRITES)
 	var anim := _current_anim(is_on_floor(), absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
 	for name in LEVEL_SPRITES:
 		var n := get_node_or_null(name) as AnimatedSprite2D
@@ -244,6 +257,7 @@ func _overworld_anim_name() -> String:
 
 
 func _sync_visual_overworld() -> void:
+	_hide_sprites(LEVEL_SPRITES)
 	var picked := _overworld_anim_name()
 	var moving := velocity.length() > 1.0
 	for name in OVERWORLD_SPRITES:

@@ -207,3 +207,41 @@ func test_sprite_feet_aligned_to_collision():
 	var walk := p.get_node("Walking") as AnimatedSprite2D
 	# sprite 96 tall vs collision 96 tall -> offset.y = -(48 - 48) = 0
 	assert_almost_eq(walk.offset.y, 0.0, 0.01, "feet rest on collision bottom")
+
+
+# Regression: after overworld sprites were added to the player scene, the LEVEL
+# display showed an overworld sprite alongside the active level sprite because
+# _sync_visual_level() only managed LEVEL_SPRITES (overworld sprites were left
+# at whatever visibility the scene/previous mode left them in).
+func test_level_mode_hides_all_overworld_sprites():
+	var p := _new_player()
+	p._sync_visual()
+	for name in Player.OVERWORLD_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		assert_false(n.visible, "%s must be hidden in LEVEL mode" % name)
+
+
+func test_level_mode_shows_exactly_one_sprite():
+	var p := _new_player()
+	p._sync_visual()
+	var vis_count := 0
+	for name in Player.LEVEL_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n != null and n.visible:
+			vis_count += 1
+	assert_eq(vis_count, 1, "exactly one LEVEL sprite visible in LEVEL mode")
+
+
+func test_overworld_to_level_switch_hides_overworld_sprites():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._sync_visual()  # activates an overworld sprite
+	p.set_mode(Player.Mode.LEVEL)
+	p._sync_visual()
+	for name in Player.OVERWORLD_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		assert_false(n.visible, "%s must be hidden after switching back to LEVEL" % name)

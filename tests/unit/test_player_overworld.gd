@@ -170,3 +170,30 @@ func test_overworld_sprite_feet_aligned():
 	var down := p.get_node("OverworldDown") as AnimatedSprite2D
 	# collision 96 tall (foot_y=48), overworld sprite 64 tall (half=32) -> offset.y = -(32-48) = 16
 	assert_almost_eq(down.offset.y, 16.0, 0.5, "overworld sprite feet align to collision bottom")
+
+
+# Regression: _sync_visual_overworld() previously only touched OVERWORLD_SPRITES,
+# so any LEVEL sprite left visible by a prior LEVEL sync would still render in
+# OVERWORLD mode. After LEVEL->OVERWORLD transitions, all level sprites must hide.
+func test_overworld_mode_hides_all_level_sprites():
+	var p := _new_player()
+	p._sync_visual()  # LEVEL mode first -> activates a level sprite
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._sync_visual()
+	for name in Player.LEVEL_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n == null:
+			continue
+		assert_false(n.visible, "%s must be hidden in OVERWORLD mode" % name)
+
+
+func test_overworld_mode_shows_exactly_one_sprite():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p._sync_visual()
+	var vis_count := 0
+	for name in Player.OVERWORLD_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n != null and n.visible:
+			vis_count += 1
+	assert_eq(vis_count, 1, "exactly one OVERWORLD sprite visible in OVERWORLD mode")

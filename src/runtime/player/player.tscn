@@ -334,4 +334,5 @@ sprite_frames = SubResource("SpriteFrames_fbg04")
 frame_progress = 0.7236792
 
 [node name="OverworldRight" type="AnimatedSprite2D" parent="." unique_id=2108458679]
+visible = false
 sprite_frames = SubResource("SpriteFrames_b8cap")
