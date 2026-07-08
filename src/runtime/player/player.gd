@@ -20,6 +20,7 @@ const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
 const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
 const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
 const SHOOT_POSE_TIME := 0.12
+const DEATH_LAUNCH_ANGLE_DEG := 60.0
 
 @export var gravity: float = 1763.0
 @export var run_speed: float = 480.0
@@ -36,6 +37,7 @@ const SHOOT_POSE_TIME := 0.12
 @export var jump_cut_gravity: float = 4045.0
 ## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
 @export var bounce_decay: float = 3000.0
+@export var death_launch_speed: float = 800.0
 
 var score: int = 0
 var health: int = 3
@@ -227,6 +229,11 @@ func _die() -> void:
 		return
 	_dead = true
 	_input_locked = true
+	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col != null:
+		col.disabled = true
+	var rad := deg_to_rad(DEATH_LAUNCH_ANGLE_DEG)
+	velocity = Vector2(-cos(rad), -sin(rad)) * death_launch_speed
 	died.emit()
 
 

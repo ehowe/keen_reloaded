@@ -273,3 +273,26 @@ func test_take_damage_after_dead_is_noop():
 	p.take_damage(3)
 	assert_eq(p.health, 5, "health unchanged once dead")
 	assert_eq(fired.size(), 0, "no further died emit once dead")
+
+
+func test_die_sets_upleft_launch_vector():
+	var p := _new_player()
+	var speed := p.death_launch_speed
+	p.take_damage(p.health)
+	var rad := deg_to_rad(60.0)
+	var expected := Vector2(-cos(rad), -sin(rad)) * speed
+	assert_almost_eq(p.velocity.x, expected.x, 0.1, "vx = -speed*cos60")
+	assert_almost_eq(p.velocity.y, expected.y, 0.1, "vy = -speed*sin60")
+
+
+func test_die_disables_collision_shape():
+	var p := _new_player()
+	var col := p.get_node("CollisionShape2D") as CollisionShape2D
+	assert_false(col.disabled, "collision enabled before death")
+	p.take_damage(p.health)
+	assert_true(col.disabled, "collision disabled on death so Keen flies through walls")
+
+
+func test_death_launch_speed_default_is_800():
+	var p := Player.new()
+	assert_eq(p.death_launch_speed, 800.0, "tunable default")
