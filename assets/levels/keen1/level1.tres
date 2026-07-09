@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/data/entity_def.gd" id="1"]
 [ext_resource type="Script" path="res://src/data/level_data.gd" id="2"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/level.wav" id="2_w0sgv"]
 [ext_resource type="TileSet" path="res://assets/tilesets/Invasion of the Vorticons.tres" id="3"]
 
 [sub_resource type="Resource" id="Resource_y4ekj"]
@@ -250,3 +251,4 @@ background_tiles = PackedInt32Array(684, 684, 684, 684, 684, 684, 684, 684, 684,
 entities = Array[ExtResource("1")]([SubResource("Resource_y4ekj"), SubResource("Resource_m7eer"), SubResource("Resource_60lig"), SubResource("Resource_2fvdk"), SubResource("Resource_1bvko"), SubResource("Resource_q0mex"), SubResource("Resource_6y5o6"), SubResource("Resource_l1q1i"), SubResource("Resource_n2eg4"), SubResource("Resource_g5q7f"), SubResource("Resource_4v8bg"), SubResource("Resource_y7r57"), SubResource("Resource_n7rjf"), SubResource("Resource_0xg22"), SubResource("Resource_1xgav"), SubResource("Resource_y3sgg"), SubResource("Resource_wq0ow"), SubResource("Resource_hyjf1"), SubResource("Resource_iqels"), SubResource("Resource_glgcp"), SubResource("Resource_ewgoj"), SubResource("Resource_l7xpp"), SubResource("Resource_fqkau"), SubResource("Resource_hqj8u"), SubResource("Resource_23hvl"), SubResource("Resource_itu3d"), SubResource("Resource_sjj1c"), SubResource("Resource_dmah1"), SubResource("Resource_dxyi3"), SubResource("Resource_yvja5"), SubResource("Resource_db6pj"), SubResource("Resource_r1eyo"), SubResource("Resource_5f368"), SubResource("Resource_wo4hr"), SubResource("Resource_0edla"), SubResource("Resource_dviks"), SubResource("Resource_o3x5s"), SubResource("Resource_3343v")])
 player_spawn = Vector2i(1, 14)
 tileset_ref = ExtResource("3")
+music = ExtResource("2_w0sgv")

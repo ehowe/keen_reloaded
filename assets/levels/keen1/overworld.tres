@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/data/entity_def.gd" id="1_pgp4k"]
 [ext_resource type="Script" path="res://src/data/level_data.gd" id="2_2om6j"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/overworld.wav" id="2_5oagg"]
 [ext_resource type="TileSet" path="res://assets/tilesets/Invasion of the Vorticons.tres" id="3_u5nx1"]
 
 [sub_resource type="Resource" id="Resource_pgp4k"]
@@ -23,3 +24,4 @@ background_tiles = PackedInt32Array(131110, 131110, 131110, 131110, 131110, 1311
 entities = Array[ExtResource("1_pgp4k")]([SubResource("Resource_pgp4k")])
 player_spawn = Vector2i(10, 35)
 tileset_ref = ExtResource("3_u5nx1")
+music = ExtResource("2_5oagg")
