@@ -342,3 +342,8 @@ func test_dead_takes_precedence_over_overworld_mode():
 	p._physics_process(0.016)
 	assert_almost_eq(p.velocity.x, v_before.x, 0.001, "overworld mode does not clobber dead vx")
 	assert_almost_eq(p.velocity.y, v_before.y, 0.001, "overworld mode does not clobber dead vy")
+
+
+func test_player_has_max_health_default():
+	var p: Player = add_child_autofree(Player.new())
+	assert_eq(p.max_health, 3, "default max_health is 3")

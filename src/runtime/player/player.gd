@@ -33,6 +33,7 @@ const DEATH_LAUNCH_ANGLE_DEG := 60.0
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
 @export var max_ammo: int = 5
+@export var max_health: int = 3
 @export var projectile_speed: float = 600.0
 @export var jump_cut_gravity: float = 4045.0
 ## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
