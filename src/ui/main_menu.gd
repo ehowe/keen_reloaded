@@ -4,10 +4,26 @@ const EDITOR_SCENE := preload("res://src/editor/level_editor.tscn")
 const PACK_SELECT := preload("res://src/ui/pack_select.tscn")
 
 func _ready() -> void:
+	AudioManager.play_music(AudioManager.MUSIC_THEME)
 	_ensure_play_button()
 	%CustomPacksButton.pressed.connect(_open_pack_select)
 	%EditorButton.pressed.connect(_open_editor)
 	%QuitButton.pressed.connect(func() -> void: get_tree().quit())
+	_wire_ui_sfx()
+
+
+func _wire_ui_sfx() -> void:
+	for b in find_children("*", "Button", true, false):
+		(b as Button).focus_entered.connect(_on_button_focus)
+		(b as Button).pressed.connect(_on_button_select)
+
+
+func _on_button_focus() -> void:
+	AudioManager.play_sfx("menu_move")
+
+
+func _on_button_select() -> void:
+	AudioManager.play_sfx("menu_select")
 
 func _ensure_play_button() -> void:
 	if has_node("%PlayButton"):

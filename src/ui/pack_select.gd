@@ -12,6 +12,23 @@ func _ready() -> void:
 	%BackButton.pressed.connect(_back)
 	list.item_activated.connect(_on_item_activated)
 	_repopulate()
+	_wire_ui_sfx()
+
+
+func _wire_ui_sfx() -> void:
+	%LoadZipButton.focus_entered.connect(_on_button_focus)
+	%BackButton.focus_entered.connect(_on_button_focus)
+	%LoadZipButton.pressed.connect(_on_button_select)
+	%BackButton.pressed.connect(_on_button_select)
+	list.item_selected.connect(func(_i: int) -> void: _on_button_focus())
+
+
+func _on_button_focus() -> void:
+	AudioManager.play_sfx("menu_move")
+
+
+func _on_button_select() -> void:
+	AudioManager.play_sfx("menu_select")
 
 
 func _repopulate() -> void:
