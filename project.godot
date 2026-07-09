@@ -17,8 +17,8 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
-GameManager="*res://src/core/game_manager.gd"
 PackLoader="*res://src/core/pack_loader.gd"
+GameManager="*res://src/core/game_manager.gd"
 EntityRegistry="*res://src/core/entity_registry.gd"
 TileSetRegistry="*res://src/core/tileset_registry.gd"
 
