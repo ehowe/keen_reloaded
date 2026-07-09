@@ -21,6 +21,7 @@ PackLoader="*res://src/core/pack_loader.gd"
 GameManager="*res://src/core/game_manager.gd"
 EntityRegistry="*res://src/core/entity_registry.gd"
 TileSetRegistry="*res://src/core/tileset_registry.gd"
+AudioManager="*res://src/core/audio_manager.gd"
 
 [display]
 
