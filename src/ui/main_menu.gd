@@ -1,9 +1,11 @@
 extends Control
 
 const EDITOR_SCENE := preload("res://src/editor/level_editor.tscn")
+const PACK_SELECT := preload("res://src/ui/pack_select.tscn")
 
 func _ready() -> void:
 	_ensure_play_button()
+	%CustomPacksButton.pressed.connect(_open_pack_select)
 	%EditorButton.pressed.connect(_open_editor)
 	%QuitButton.pressed.connect(func() -> void: get_tree().quit())
 
@@ -24,3 +26,6 @@ func _play() -> void:
 
 func _open_editor() -> void:
 	get_tree().change_scene_to_packed(EDITOR_SCENE)
+
+func _open_pack_select() -> void:
+	get_tree().change_scene_to_packed(PACK_SELECT)

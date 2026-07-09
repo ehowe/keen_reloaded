@@ -1,17 +1,17 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://src/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://src/ui/pack_select.gd" id="1_ps"]
 
-[node name="MainMenu" type="Control"]
+[node name="PackSelect" type="Control"]
 layout_mode = 3
-script = ExtResource("1_menu")
+script = ExtResource("1_ps")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="BG" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,64 +27,15 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
 offset_right = 320.0
-offset_top = -120.0
-offset_bottom = -60.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "keen_reloaded"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Subtitle" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -320.0
-offset_right = 320.0
-offset_top = -60.0
-offset_bottom = -30.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Plan 1: data model  ·  Plan 2: level editor"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlayButton" type="Button" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_right = 90.0
-offset_top = -40.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Play"
-
-[node name="CustomPacksButton" type="Button" parent="."]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_right = 90.0
-offset_top = 10.0
-offset_bottom = 50.0
+offset_top = -200.0
+offset_bottom = -160.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Custom Packs"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EditorButton" type="Button" parent="."]
+[node name="LoadZipButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -92,15 +43,47 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -90.0
-offset_right = 90.0
-offset_top = 60.0
+offset_left = -110.0
+offset_right = 110.0
+offset_top = -140.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load .zip…"
+
+[node name="PackList" type="ItemList" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_right = 300.0
+offset_top = -80.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatusLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_right = 300.0
+offset_top = 70.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Open Level Editor"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="QuitButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -108,10 +91,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -90.0
-offset_right = 90.0
-offset_top = 110.0
-offset_bottom = 150.0
+offset_left = -60.0
+offset_right = 60.0
+offset_top = 120.0
+offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Quit"
+text = "Back"
