@@ -12,4 +12,5 @@ func _color() -> Color:
 func _handle_player(player: Node) -> void:
 	if player.has_method("add_score"):
 		player.add_score(score_value)
+	AudioManager.play_sfx("pickup_score")
 	queue_free()

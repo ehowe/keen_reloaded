@@ -250,7 +250,10 @@ func take_damage(amount: int) -> void:
 		return
 	health -= amount
 	if health <= 0:
+		AudioManager.play_sfx("enemy_die")
 		_enter_shot_death()
+	else:
+		AudioManager.play_sfx("enemy_hit")
 
 
 func _enter_shot_death() -> void:
