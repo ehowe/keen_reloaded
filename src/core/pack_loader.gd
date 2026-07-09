@@ -51,6 +51,9 @@ func _scan_pack(pack_dir: String) -> void:
 	var ow: LevelData = null
 	for entry in pack.levels:
 		var file: String = entry.get("file", "")
+		if _safe_entry_path(file) == "":
+			push_warning("PackLoader: unsafe level file path '%s' in %s" % [file, pack_dir])
+			continue
 		var lid: String = entry.get("level_id", "")
 		var path := pack_dir + file
 		if not ResourceLoader.exists(path):
@@ -129,6 +132,7 @@ func import_zip(zip_path: String) -> Dictionary:
 	_reset_tmp()
 	var reader := ZIPReader.new()
 	if reader.open(zip_path) != OK:
+		reader.close()
 		return _fail("cannot read zip")
 	var entries := reader.get_files()
 	# 1. validate every entry before writing anything to disk

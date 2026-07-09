@@ -118,3 +118,19 @@ func test_scan_bad_level_file_skipped_but_pack_loads():
 	assert_true(PackLoader.is_installed("p2"))
 	assert_eq(PackLoader.get_levels("p2").size(), 1, "missing level skipped")
 	assert_null(PackLoader.get_level("p2", "missing"))
+
+func test_scan_unsafe_level_file_path_skipped():
+	# A manifest whose level "file" traverses must not load outside the pack dir.
+	var manifest := """{
+		"pack_id": "unsafe", "name": "Unsafe", "author": "qa", "version": "1.0",
+		"levels": [
+			{"level_id": "ow", "file": "overworld.tres", "name": "OW", "order": 0},
+			{"level_id": "bad", "file": "../evil.tres", "name": "Bad", "order": 1}
+		]
+	}"""
+	_install("unsafe", manifest, {"overworld.tres": _ow()})
+	PackLoader.scan()
+	# Pack still registers (it has a valid overworld); only the unsafe level is skipped.
+	assert_true(PackLoader.is_installed("unsafe"))
+	assert_null(PackLoader.get_level("unsafe", "bad"), "traversal file must not be loaded")
+	assert_eq(PackLoader.get_levels("unsafe").size(), 1)
