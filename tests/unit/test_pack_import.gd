@@ -110,3 +110,57 @@ func test_import_zip_reimport_overwrites():
 	assert_true(r2.ok)
 	assert_eq(r2.pack_id, "ztest")
 	assert_eq(PackLoader.get_packs().size(), 1)
+
+func test_import_zip_rejects_traversal_pack_id():
+	# Manifest pack_id "../evil" must NOT escape root_dir (C1 regression).
+	var manifest := """{
+		"pack_id": "../evil", "name": "Evil", "author": "qa", "version": "1.0",
+		"levels": [{"level_id": "ow", "file": "overworld.tres", "name": "OW", "order": 0}]
+	}"""
+	var e: Dictionary = {}
+	e["manifest.json"] = manifest.to_utf8_buffer()
+	var ow := _make_level("ow", true)
+	ResourceSaver.save(ow, "res://tests/tmp_zip_ow.tres")
+	e["overworld.tres"] = FileAccess.get_file_as_bytes("res://tests/tmp_zip_ow.tres")
+	var zip_path := "user://tmp_evilid.zip"
+	_make_zip(zip_path, e)
+	var r: Dictionary = PackLoader.import_zip(zip_path)
+	assert_false(r.ok, "traversal pack_id must be rejected")
+	assert_eq(r.error, "invalid pack_id")
+	# nothing must have been created outside the temp root
+	assert_false(DirAccess.dir_exists_absolute("user://evil"), "no escape dir created")
+
+func test_import_zip_allows_uppercase_extension():
+	# .TRES must pass the case-insensitive allowlist and import successfully.
+	var manifest := """{
+		"pack_id": "upper", "name": "Upper", "author": "qa", "version": "1.0",
+		"levels": [{"level_id": "ow", "file": "overworld.TRES", "name": "OW", "order": 0}]
+	}"""
+	var e: Dictionary = {}
+	e["manifest.json"] = manifest.to_utf8_buffer()
+	var ow := _make_level("ow", true)
+	ResourceSaver.save(ow, "res://tests/tmp_zip_ow.tres")
+	e["overworld.TRES"] = FileAccess.get_file_as_bytes("res://tests/tmp_zip_ow.tres")
+	var zip_path := "user://tmp_upper.zip"
+	_make_zip(zip_path, e)
+	var r: Dictionary = PackLoader.import_zip(zip_path)
+	assert_true(r.ok, "uppercase .TRES should import: %s" % r.error)
+	assert_eq(r.pack_id, "upper")
+
+func test_import_zip_handles_nested_directory_entry():
+	# A zip with a nested path extracts into the right subdir.
+	var manifest := """{
+		"pack_id": "nested", "name": "Nested", "author": "qa", "version": "1.0",
+		"levels": [{"level_id": "ow", "file": "data/overworld.tres", "name": "OW", "order": 0}]
+	}"""
+	var e: Dictionary = {}
+	e["manifest.json"] = manifest.to_utf8_buffer()
+	var ow := _make_level("ow", true)
+	ResourceSaver.save(ow, "res://tests/tmp_zip_ow.tres")
+	e["data/overworld.tres"] = FileAccess.get_file_as_bytes("res://tests/tmp_zip_ow.tres")
+	var zip_path := "user://tmp_nested.zip"
+	_make_zip(zip_path, e)
+	var r: Dictionary = PackLoader.import_zip(zip_path)
+	assert_true(r.ok, "nested entry should import: %s" % r.error)
+	assert_eq(r.pack_id, "nested")
+	assert_not_null(PackLoader.get_overworld("nested"))

@@ -129,7 +129,6 @@ func import_zip(zip_path: String) -> Dictionary:
 	_reset_tmp()
 	var reader := ZIPReader.new()
 	if reader.open(zip_path) != OK:
-		reader.close()
 		return _fail("cannot read zip")
 	var entries := reader.get_files()
 	# 1. validate every entry before writing anything to disk
@@ -164,14 +163,32 @@ func import_zip(zip_path: String) -> Dictionary:
 	if pack == null:
 		_reset_tmp()
 		return _fail("invalid manifest")
-	# 4. move to canonical dir (overwrite if re-importing)
-	var canon := root_dir + pack.pack_id + "/"
-	_remove_dir_recursive(canon)
-	DirAccess.make_dir_recursive_absolute(root_dir)
-	var err := DirAccess.rename_absolute(TMP_IMPORT, canon)
-	if err != OK:
+	# C1: pack_id is attacker-controlled manifest data; validate it is a simple
+	# name so the canonical install path cannot escape root_dir.
+	var clean_id := pack.pack_id.strip_edges()
+	var name_re := RegEx.new()
+	name_re.compile("^[A-Za-z0-9_\\-]+$")
+	if clean_id.is_empty() or name_re.search(clean_id) == null:
 		_reset_tmp()
-		return _fail("cannot install pack dir (err=%d)" % err)
+		return _fail("invalid pack_id")
+	pack.pack_id = clean_id
+	# 4. atomic install: stage old dir aside, move new in, restore on failure.
+	var canon := root_dir + pack.pack_id + "/"
+	var bak := root_dir + pack.pack_id + ".reimport_bak/"
+	_remove_dir_recursive(bak)
+	if DirAccess.dir_exists_absolute(canon):
+		if DirAccess.rename_absolute(canon, bak) != OK:
+			_reset_tmp()
+			return _fail("cannot stage existing pack")
+	DirAccess.make_dir_recursive_absolute(root_dir)
+	if DirAccess.rename_absolute(TMP_IMPORT, canon) != OK:
+		# install failed — restore the previous pack if we staged one
+		if DirAccess.dir_exists_absolute(bak):
+			if DirAccess.rename_absolute(bak, canon) != OK:
+				push_error("PackLoader: failed to restore pack '%s'" % pack.pack_id)
+		_reset_tmp()
+		return _fail("cannot install pack dir")
+	_remove_dir_recursive(bak)
 	scan()
 	return {"ok": true, "error": "", "pack_id": pack.pack_id}
 
@@ -181,7 +198,10 @@ func import_zip(zip_path: String) -> Dictionary:
 ## manifest.json, *.tres, *.res.
 static func _safe_entry_path(raw: String) -> String:
 	var p := raw.replace("\\", "/").strip_edges()
-	if p.is_empty() or p.begins_with("/") or p.begins_with("res://") or p.begins_with("user://"):
+	if p.is_empty() or p.begins_with("/"):
+		return ""
+	var pl := p.to_lower()
+	if pl.begins_with("res://") or pl.begins_with("user://"):
 		return ""
 	if p.length() >= 2 and p[1] == ":":
 		return ""  # Windows drive letter (e.g. C:)
