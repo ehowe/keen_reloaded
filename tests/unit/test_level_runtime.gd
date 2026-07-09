@@ -350,3 +350,25 @@ func test_death_via_area_body_entered_flies_through_ceiling():
 	var end := p.global_position
 	assert_true(col.disabled, "death during query flush still disables the shape (deferred)")
 	assert_lt(end.y, 0.0, "Keen flew up through the ceiling (no collision)")
+
+
+func test_build_plays_level_music():
+	GameManager.pending_level = null
+	var lvl := _level()
+	lvl.music = load("res://assets/audio/sfx/jump.wav")
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(lvl)
+	assert_true(AudioManager._music_player.playing)
+	assert_eq(AudioManager._music_player.stream, lvl.music)
+
+
+func test_build_stops_music_when_none():
+	GameManager.pending_level = null
+	var lvl := _level()
+	lvl.music = null
+	AudioManager.play_music(load("res://assets/audio/sfx/jump.wav"))
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(lvl)
+	assert_false(AudioManager._music_player.playing)

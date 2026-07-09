@@ -101,6 +101,17 @@ func build(level: LevelData) -> void:
 	_spawn_player(level, ts)
 	_spawn_entities(level, ts)
 	_build_bounds(level, ts)
+	_drive_music(level)
+
+
+## Play the level's music (looping), or stop music if the level has none.
+func _drive_music(level: LevelData) -> void:
+	if AudioManager == null:
+		return
+	if level.music is AudioStream:
+		AudioManager.play_music(level.music)
+	else:
+		AudioManager.stop_music()
 
 
 func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> TileMapLayer:
@@ -186,6 +197,7 @@ func _on_level_completed() -> void:
 	if _completed:
 		return
 	_completed = true
+	AudioManager.play_sfx("complete")
 	var layer := CanvasLayer.new()
 	layer.name = "CompletionOverlay"
 	layer.process_mode = Node.PROCESS_MODE_ALWAYS
