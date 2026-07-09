@@ -141,9 +141,12 @@ func start_pack(pack_id: String) -> void:
 
 ## Non-scene-swap variant for headless tests.
 func start_pack_no_scene_swap(pack_id: String, ow: LevelData) -> void:
+	# Custom packs always start a fresh session (progress is session-held; save = Plan 6).
 	clear_progress()
 	current_episode_id = pack_id
 	current_overworld = ow
+	# Explicit overworld register mirrors start_episode; the loop below re-registers
+	# it (same cached instance) — idempotent and harmless.
 	register_level(ow)
 	for lvl in PackLoader.get_levels(pack_id):
 		register_level(lvl)

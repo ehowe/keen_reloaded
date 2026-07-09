@@ -3,6 +3,11 @@ extends GutTest
 func before_each():
 	GameManager.clear_progress()
 
+func after_each():
+	GameManager.clear_progress()
+	PackLoader._remove_dir_recursive(PL_TMP)
+	PackLoader.root_dir = "user://levelpacks/"
+
 func test_is_level_completed_false_by_default():
 	assert_false(GameManager.is_level_completed("keen1_01"))
 
@@ -191,9 +196,7 @@ func test_start_pack_sets_overworld_state_and_registers_levels():
 	# _levels_by_id populated via register_level (existing seam). The loader
 	# returns freshly disk-loaded Resource instances (not the in-memory ow/lvl
 	# we saved), so verify registration by presence, not reference identity.
-	assert_not_null(GameManager.get_level_by_id("ow"))
-	assert_not_null(GameManager.get_level_by_id("k1_01"))
+	assert_eq(GameManager.get_level_by_id("ow").level_id, "ow")
+	assert_eq(GameManager.get_level_by_id("k1_01").level_id, "k1_01")
 	# fresh session: progress cleared on start_pack
 	assert_false(GameManager.is_level_completed("k1_01"))
-	PackLoader._remove_dir_recursive(PL_TMP)
-	PackLoader.root_dir = "user://levelpacks/"
