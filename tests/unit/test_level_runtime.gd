@@ -1,5 +1,8 @@
 extends GutTest
 
+func after_each() -> void:
+	AudioManager.stop_music()
+
 func _level() -> LevelData:
 	var ld := LevelData.new()
 	ld.width = 4
