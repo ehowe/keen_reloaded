@@ -25,11 +25,13 @@ func _repopulate() -> void:
 
 
 func _open_dialog() -> void:
+	status.text = ""
 	if dialog == null:
 		dialog = FileDialog.new()
 		dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 		dialog.access = FileDialog.ACCESS_FILESYSTEM
 		dialog.filters = PackedStringArray(["*.zip ; Level Pack"])
+		dialog.title = "Select Level Pack (.zip)"
 		add_child(dialog)
 		dialog.file_selected.connect(_on_zip_selected)
 	dialog.popup_centered()
