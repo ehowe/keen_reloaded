@@ -29,7 +29,7 @@ func scan() -> void:
 	var subdir := root.get_next()
 	while subdir != "":
 		if not subdir.begins_with(".") and root.dir_exists(subdir):
-			_scan_pack(root_dir + subdir + "/")
+			_scan_pack(root_dir.path_join(subdir) + "/")
 		subdir = root.get_next()
 	root.list_dir_end()
 

@@ -48,7 +48,7 @@ func _install(pack_id: String, manifest_text: String, files: Dictionary) -> void
 	for fname in files:
 		var v = files[fname]
 		if v is LevelData:
-			ResourceSaver.save(v, d + fname)
+			assert_eq(ResourceSaver.save(v, d + fname), OK, "failed to save test level %s" % fname)
 		else:
 			var f := FileAccess.open(d + fname, FileAccess.WRITE)
 			f.store_string(String(v))
