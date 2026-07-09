@@ -295,7 +295,7 @@ keen_reloaded/
 
 ## 10. Build Phases (high-level)
 
-Implementation is broken into plans, one per phase. Status as of 2026-06-26:
+Implementation is broken into plans, one per phase. Status as of 2026-07-09:
 
 | Plan | Phase | Status |
 |------|-------|--------|
@@ -303,7 +303,7 @@ Implementation is broken into plans, one per phase. Status as of 2026-06-26:
 | Plan 2 | **Editor MVP** — 3-panel UI, tile painting, entity placement, undo/redo, save/load `.tres`, Test ▶ (stubbed) | ✅ Done |
 | Plan 3 | **Runtime core** — `LevelRuntime` build-from-data, procedural no-art `TileSet`+`TileMapLayer`, player (run/jump/**pogo**), base entity classes, `EntityRegistry.instantiate`, Test ▶ live | 🚧 In progress |
 | Plan 4 | **Keen 1 content** — real tileset + art pipeline, full entity roster (vorticon, yorp, items, hazards), **shoot** ability, exit/special logic, first level authored via editor | Planned |
-| Plan 5 | **Pack loading** — `PackLoader` (res:// + user://), level-select menu, `GameManager` progression | Planned |
+| Plan 5 | **Pack loading** — `PackLoader` custom user packs via `.zip` import into `user://levelpacks/`, `pack_select` menu, `GameManager.start_pack` progression (bundled content stays scene-wired) | ✅ Done |
 | Plan 6 | **Polish** — audio, background/parallax, HUD, save/progression, gamepad mapping | Planned |
 
 **Descopes carried from Plan 3 → Plan 4:** real art/tileset assets, the full Keen 1 entity roster + concrete entity scenes, the `shoot` player ability, and exit/special-entity behavior. Plan 3 ships a fully working runtime with placeholder procedural visuals so the editor's Test ▶ is immediately useful. (See `docs/superpowers/specs/2026-06-26-plan3-runtime-core-design.md`.)
