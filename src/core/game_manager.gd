@@ -221,20 +221,42 @@ func register_episodes() -> void:
 
 
 func _ensure_input_actions() -> void:
-	_add_key_action("move_left", KEY_A)
-	_add_key_action("move_right", KEY_D)
-	_add_key_action("move_up", KEY_W)
-	_add_key_action("move_down", KEY_S)
-	_add_key_action("jump", KEY_SPACE)
-	_add_key_action("pogo", KEY_P)
-	_add_key_action("shoot", KEY_X)
-	_add_key_action("interact", KEY_UP)
+	# Keyboard + D-pad + left-stick for movement; face buttons for actions.
+	_add_action("move_left",  [_keyev(KEY_A), _btnev(JOY_BUTTON_DPAD_LEFT),  _axisev(JOY_AXIS_LEFT_X, -1.0)])
+	_add_action("move_right", [_keyev(KEY_D), _btnev(JOY_BUTTON_DPAD_RIGHT), _axisev(JOY_AXIS_LEFT_X, 1.0)])
+	_add_action("move_up",    [_keyev(KEY_W), _btnev(JOY_BUTTON_DPAD_UP),    _axisev(JOY_AXIS_LEFT_Y, -1.0)])
+	_add_action("move_down",  [_keyev(KEY_S), _btnev(JOY_BUTTON_DPAD_DOWN),  _axisev(JOY_AXIS_LEFT_Y, 1.0)])
+	_add_action("jump",     [_keyev(KEY_SPACE), _btnev(JOY_BUTTON_A)])
+	_add_action("pogo",     [_keyev(KEY_P),     _btnev(JOY_BUTTON_B)])
+	_add_action("shoot",    [_keyev(KEY_X),     _btnev(JOY_BUTTON_X)])
+	_add_action("interact", [_keyev(KEY_UP),    _btnev(JOY_BUTTON_Y)])
 
 
-func _add_key_action(action_name: String, keycode: int) -> void:
+## Create the action (if absent) and attach every event. Idempotent: if the
+## action already exists (e.g. declared in project.godot or a prior run), it is
+## left untouched so events are never duplicated.
+func _add_action(action_name: String, events: Array) -> void:
 	if InputMap.has_action(action_name):
 		return
 	InputMap.add_action(action_name)
+	for ev in events:
+		InputMap.action_add_event(action_name, ev)
+
+
+func _keyev(keycode: int) -> InputEventKey:
 	var ev := InputEventKey.new()
 	ev.physical_keycode = keycode
-	InputMap.action_add_event(action_name, ev)
+	return ev
+
+
+func _btnev(button: int) -> InputEventJoypadButton:
+	var ev := InputEventJoypadButton.new()
+	ev.button_index = button
+	return ev
+
+
+func _axisev(axis: int, value: float) -> InputEventJoypadMotion:
+	var ev := InputEventJoypadMotion.new()
+	ev.axis = axis
+	ev.axis_value = value
+	return ev
