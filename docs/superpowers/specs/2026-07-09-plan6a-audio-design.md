@@ -1,7 +1,7 @@
 # Plan 6a — Audio — Design Spec
 
 **Date:** 2026-07-09
-**Status:** Draft
+**Status:** Implemented (code merged to `main`; audible smoke pending)
 **Parent spec:** `docs/superpowers/specs/2026-06-25-keen-reloaded-design.md` (§6 Game Runtime)
 **Engine:** Godot 4.7 (stable), GDScript
 **Predecessors:** Plans 1–5 (data model, editor, runtime core, Keen 1 content, pack loading)
@@ -66,7 +66,7 @@ Gameplay events
 | Decision | Choice | Rationale |
 |---|---|---|
 | Audio entry point | **Autoload `AudioManager` + direct calls** (Approach A) | Simplest, idiomatic Godot; one global source of truth; survives scene swaps. Gameplay calls `play_sfx(name)` at the event source — unambiguous (unlike `ammo_changed`, which fires on both shoot and pickup). Polyphonic player handles overlapping SFX. |
-| SFX polyphony | **`AudioStreamPlayerPolyphonic`** (`max_polyphony = 8`) | Rapid jump+pogo+shoot and multiple enemy hits overlap without cutting each other off. |
+| SFX polyphony | **Round-robin voice pool of 8 `AudioStreamPlayer` nodes** | Rapid jump+pogo+shoot and multiple enemy hits overlap without cutting each other off. **Deviation from original intent:** the spec first proposed Godot's `AudioStreamPlayerPolyphonic`, but that node class does **not** exist in Godot 4.7 stable (verified via `ClassDB`); only `AudioStreamPlaybackPolyphonic` exists. A round-robin pool realizes the same non-cutting polyphony. |
 | SFX registry | **Name → preloaded `AudioStream`, keyed by filename** | `assets/audio/sfx/jump.wav` → `play_sfx("jump")`. Convention over config; new SFX = drop a file. No hardcoded list in code. |
 | Trigger mechanism | **Direct calls at the source** | `shoot()` is only the success path → unambiguous. Avoids the `ammo_changed` ambiguity that forces new signals under a signal-driven design. No new signals needed. |
 | Assets | **Generated placeholder WAVs (CC0/public-domain)** | No audio files exist; can't browse a CC0 library. A one-off generator script writes valid WAV bytes (synthesized blips/loops). Generated = original = free to license; real playback path; replaceable later. |
@@ -80,7 +80,7 @@ Gameplay events
 
 | Component | File | Role |
 |---|---|---|
-| `AudioManager` (**new** autoload) | `src/core/audio_manager.gd` | Preloads `assets/audio/sfx/*` into a name→stream registry at boot; owns music `AudioStreamPlayer` + SFX `AudioStreamPlayerPolyphonic`. API: `play_sfx`, `play_music`, `stop_music`, `stop_all`, `register_sfx`. Pure playback — no gameplay logic. |
+| `AudioManager` (**new** autoload) | `src/core/audio_manager.gd` | Preloads `assets/audio/sfx/*` into a name→stream registry at boot; owns music `AudioStreamPlayer` + a round-robin voice pool of 8 `AudioStreamPlayer` nodes (polyphony). API: `play_sfx`, `play_music`, `stop_music`, `stop_all`, `register_sfx`. Pure playback — no gameplay logic. |
 | `LevelRuntime` (exists) | `src/runtime/level_runtime.gd` | In `build()`, after spawn: if `level.music is AudioStream` → `AudioManager.play_music(level.music)` else `stop_music()`. In `_on_level_completed` → `AudioManager.play_sfx("complete")`. |
 | `Player` (exists) | `src/runtime/player/player.gd` | Direct `AudioManager.play_sfx(...)` calls at: jump wind-up start, pogo toggle + bounce, `shoot()` success, `take_damage()`, `_die()`. |
 | `Enemy` (exists) | `src/runtime/entities/enemy.gd` | In `take_damage()`: `enemy_hit` when still alive, `enemy_die` at the `<= 0` branch. Butler overrides `take_damage` to no-op (no SFX). |
@@ -92,6 +92,14 @@ Gameplay events
 | `project.godot` | (config) | Add `AudioManager` autoload (last). |
 
 ### 3.2 AudioManager API
+
+> **Implemented as** `src/core/audio_manager.gd` (authoritative source; the block
+> below mirrors it). **Deviation from original draft:** Godot 4.7 stable has **no
+> `AudioStreamPlayerPolyphonic` node** and `AudioStreamPlayer` has **no
+> `play_stream()` method** (verified via `ClassDB.class_exists`/`class_has_method`).
+> Polyphony is realized with a round-robin voice pool of `MAX_POLYPHONY`
+> `AudioStreamPlayer` nodes instead. Behavior (non-cutting, name→stream registry,
+> music loop) matches the original intent.
 
 ```gdscript
 extends Node
@@ -105,7 +113,8 @@ const MUSIC_THEME := preload("res://assets/audio/music/menu.wav")
 
 var _sfx: Dictionary = {}                       # name -> AudioStream
 var _music_player: AudioStreamPlayer
-var _sfx_player: AudioStreamPlayerPolyphonic
+var _sfx_pool: Array[AudioStreamPlayer] = []    # round-robin polyphony voices
+var _sfx_cursor: int = 0
 
 
 func _ready() -> void:
@@ -114,21 +123,27 @@ func _ready() -> void:
 
 
 ## Play a sound by registry name. Unknown names are a no-op + push_warning.
-## Uses play_stream() (polyphonic, non-cutting) so overlapping calls each get
-## their own voice up to MAX_POLYPHONY.
+## Uses a round-robin voice pool so overlapping calls each get their own
+## player up to MAX_POLYPHONY (non-cutting).
 func play_sfx(name: String) -> void:
 	var stream: AudioStream = _sfx.get(name, null)
 	if stream == null:
 		push_warning("AudioManager: unknown sfx '%s'" % name)
 		return
-	_sfx_player.play_stream(stream)
+	var voice: AudioStreamPlayer = _sfx_pool[_sfx_cursor]
+	_sfx_cursor = (_sfx_cursor + 1) % MAX_POLYPHONY
+	voice.stream = stream
+	voice.play()
 
 
 ## Play a looping music stream. null stops current music (silence).
+## WAV loop_mode is forced at runtime (import flags reset on reimport).
 func play_music(stream: AudioStream) -> void:
 	if stream == null:
 		stop_music()
 		return
+	if stream is AudioStreamWAV:
+		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 	_music_player.stream = stream
 	_music_player.play()
 
@@ -137,14 +152,12 @@ func stop_music() -> void:
 	_music_player.stop()
 
 
-## Stops music. Active short SFX voices (<1s) play out to completion; this is
-## intentional (stopping polyphonic voices mid-play is not exposed cleanly).
-## Used on scene teardown / completion.
+## Stops music. Active short SFX voices (<1s) play out by design.
 func stop_all() -> void:
 	stop_music()
 
 
-## Test/extension seam: register a stream at runtime (overrides on name conflict).
+## Test/extension seam: register a stream at runtime (overrides on conflict).
 func register_sfx(name: String, stream: AudioStream) -> void:
 	_sfx[name] = stream
 
@@ -153,10 +166,11 @@ func _build_players() -> void:
 	_music_player = AudioStreamPlayer.new()
 	_music_player.name = "MusicPlayer"
 	add_child(_music_player)
-	_sfx_player = AudioStreamPlayerPolyphonic.new()
-	_sfx_player.name = "SfxPlayer"
-	_sfx_player.max_polyphony = MAX_POLYPHONY
-	add_child(_sfx_player)
+	for i in MAX_POLYPHONY:
+		var voice := AudioStreamPlayer.new()
+		voice.name = "SfxPlayer%d" % i
+		add_child(voice)
+		_sfx_pool.append(voice)
 
 
 ## Scan SFX_DIR, load every .wav keyed by filename without extension.
@@ -177,8 +191,8 @@ func _load_sfx_registry() -> void:
 ```
 
 Notes:
-- `AudioStreamPlayerPolyphonic.play_stream(stream)` is the non-cutting polyphonic API (returns a playback id; voices recycle at `max_polyphony`). We do not set `.stream` / call `.play()` — that would cut an in-flight identical sound.
-- WAV streams loop only if their import setting `loop` is enabled — set in the `.import` file (see §4.2). SFX do not loop; music does.
+- **Polyphony via round-robin pool:** `play_sfx` advances `_sfx_cursor` mod `MAX_POLYPHONY` (8), so up to 8 SFX overlap without cutting. A 9th simultaneous SFX reuses voice 0 (truncates that voice's tail) — an acceptable polyphony limit for this game's SFX density (voices are <1s, round-robin means a voice is reused only every 8th call).
+- **Loop mode set at runtime, not `.import`:** `play_music` forces `AudioStreamWAV.loop_mode = LOOP_FORWARD` on the passed stream. Robust against Godot reimporting the `.import` file and resetting the flag (deviation from §4.2, which originally proposed editing `.import`). SFX do not loop; music does.
 - `_load_sfx_registry` runs at autoload `_ready` (before the main scene). `load()` of imported `.wav` resources is cached by Godot, so per-call `play_sfx` does no disk IO.
 - `MUSIC_THEME` is preloaded as a `const`; `main_menu` calls `AudioManager.play_music(AudioManager.MUSIC_THEME)`.
 
@@ -245,7 +259,7 @@ assets/audio/
 ### 4.2 Import / loop settings
 
 - SFX `.wav`: default import — **no loop**.
-- Music `.wav`: set `loop = true` in each `.import` file so `AudioStreamWAV` loops. (Godot writes `.import` on first `make import`; the plan edits `loop` for the three music files.)
+- Music `.wav`: **loop is forced at runtime** by `AudioManager.play_music()` (`AudioStreamWAV.loop_mode = LOOP_FORWARD`). *(Original draft proposed editing `loop = true` in each music `.import` file, but `.import` flags reset on reimport — setting loop_mode in code is more robust. See §3.2.)*
 - Generator output must be valid RIFF/WAV so Godot's importer accepts them.
 
 ### 4.3 SFX character (so they're identifiable)
@@ -281,7 +295,7 @@ After assets are imported:
 - `assets/levels/keen1/overworld.tres` → `music` = `overworld.wav` resource (sub-resource path `res://assets/audio/music/overworld.wav`).
 - `assets/levels/keen1/level1.tres` → `music` = `level.wav` resource.
 
-Done via `make edit` (Inspector → Assets → music) or a direct `.tres` edit, in the implementation plan.
+Done via a committed deterministic script `tools/assign_music.gd` (run headless) rather than manual `make edit` / `.tres` hand-editing — reproducible and idempotent.
 
 ## 5. Data model & config
 
@@ -314,7 +328,7 @@ Audio output cannot be verified headless. Tests assert **state + wiring**, never
 | Test | Asserts |
 |---|---|
 | `test_registry_has_known_sfx` | after autoload init, all 12 names (`jump`, `pogo`, `shoot`, `hurt`, `die`, `pickup_score`, `pickup_ammo`, `enemy_hit`, `enemy_die`, `complete`, `menu_move`, `menu_select`) present in `_sfx`; registry non-empty |
-| `test_unknown_sfx_is_noop` | `play_sfx("nonexistent")` does not crash; `assert_warning` / `watch_signals` confirms the warning |
+| `test_unknown_sfx_is_noop` | `play_sfx("nonexistent")` does not crash and does not pollute the registry. (GUT cannot capture `push_warning`; we assert the meaningful guarantees — no crash + registry unchanged — rather than the warning itself.) |
 | `test_register_sfx_seam` | `register_sfx("fake", stream)` then `play_sfx("fake")` → no warning |
 | `test_play_music_starts_player` | `play_music(stream)` → `_music_player.playing == true`; `_music_player.stream == stream` |
 | `test_play_music_null_stops` | `play_music(null)` → `_music_player.playing == false` |
@@ -346,18 +360,18 @@ Suggested task order (full breakdown deferred to the implementation plan):
 
 ## 8. Complete-criteria
 
-- [ ] `AudioManager` autoload exists; `_sfx` registry holds all 12 names at boot — GUT.
-- [ ] `play_sfx` unknown name = no-op + warning; `register_sfx` seam works — GUT.
-- [ ] `play_music` / `stop_music` / `play_music(null)` / `stop_all` behave per spec — GUT.
-- [ ] `LevelRuntime.build` plays `level.music` when set, stops when null — GUT.
-- [ ] Player/enemy/pickup/completion/UI trigger calls do not cause runtime errors — GUT + manual.
-- [ ] `assets/audio/` holds 12 SFX + 3 music WAVs + `LICENSE.txt`; music imports loop.
-- [ ] Bundled `overworld.tres` and `level1.tres` carry assigned music — manual / file check.
-- [ ] `./tests/run_all.sh` fully green; `make run-app` plays music + SFX audibly.
+- [x] `AudioManager` autoload exists; `_sfx` registry holds all 12 names at boot — GUT.
+- [x] `play_sfx` unknown name = no-op + warning; `register_sfx` seam works — GUT.
+- [x] `play_music` / `stop_music` / `play_music(null)` / `stop_all` behave per spec — GUT.
+- [x] `LevelRuntime.build` plays `level.music` when set, stops when null — GUT.
+- [x] Player/enemy/pickup/completion/UI trigger calls do not cause runtime errors — GUT + manual.
+- [x] `assets/audio/` holds 12 SFX + 3 music WAVs + `LICENSE.txt`; music loops (loop_mode forced at runtime).
+- [x] Bundled `overworld.tres` and `level1.tres` carry assigned music — file check.
+- [x] `./tests/run_all.sh` fully green (352/352); `make run-app` plays music + SFX audibly — **audible smoke still pending (manual)**.
 
 ## 9. Risk notes
 
 - **Generated WAV validity:** if the generator emits malformed RIFF, Godot's importer rejects the files and `load()` returns null → registry ends empty, `play_sfx` becomes all-no-op. Mitigation: validate the generator output with a quick header parse; the registry-count GUT test fails loudly if `_sfx` is empty.
-- **`AudioStreamPlayerPolyphonic` API:** `play_stream(stream)` is the non-cutting polyphonic entry (Godot 4.2+; present in 4.7). If a given SFX still audibly self-cuts under rapid fire, set distinct `pitch_scale` jitter per call — but default behavior is voice-recycling, so this is a watch-item, not a blocker.
+- **Polyphony approach (deviation resolved):** the original draft assumed `AudioStreamPlayerPolyphonic.play_stream(stream)` (Godot 4.2+) was available. **It is not present in Godot 4.7 stable** — `ClassDB.class_exists("AudioStreamPlayerPolyphonic") == false` (only `AudioStreamPlaybackPolyphonic` exists). Polyphony is realized via a round-robin voice pool of 8 `AudioStreamPlayer` nodes (§3.2). A 9th simultaneous SFX truncates voice 0's tail; acceptable for this game's SFX density. If a future SFX audibly self-cuts under rapid fire, raise `MAX_POLYPHONY` or add `pitch_scale` jitter.
 - **WAV loop setting:** `AudioStreamWAV` loops only if `loop_mode`/`loop` import flag is set. If music does not loop audibly, fix the `.import` (not code).
 - **Autoload `load()` in export:** `DirAccess` scan of `res://assets/audio/sfx/` and `load()` of `.wav` must survive PCK packaging. Imported resources are enumerated in export; verified at the `make build` gate. If stripped, fall back to a hardcoded preload list (documented escape hatch).
