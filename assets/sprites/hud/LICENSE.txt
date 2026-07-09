@@ -1,0 +1,9 @@
+ keen_reloaded HUD icon placeholders
+-------------------------------------
+All files under assets/sprites/hud/ are GENERATED PLACEHOLDERS, synthesized by
+tools/gen_hud_icons.gd. They are original works (programmatically drawn simple
+pixel patterns) and are released to the public domain (CC0)
+https://creativecommons.org/publicdomain/zero/1.0/
+
+They exist only so the HUD has real icon textures. Replace them freely with
+proper Keen-style art; no attribution required.
