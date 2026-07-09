@@ -1,7 +1,7 @@
 # Plan 6a — Audio — Design Spec
 
 **Date:** 2026-07-09
-**Status:** Implemented (code merged to `main`; audible smoke pending)
+**Status:** Implemented (merged to `main`; audible smoke confirmed)
 **Parent spec:** `docs/superpowers/specs/2026-06-25-keen-reloaded-design.md` (§6 Game Runtime)
 **Engine:** Godot 4.7 (stable), GDScript
 **Predecessors:** Plans 1–5 (data model, editor, runtime core, Keen 1 content, pack loading)
@@ -367,7 +367,7 @@ Suggested task order (full breakdown deferred to the implementation plan):
 - [x] Player/enemy/pickup/completion/UI trigger calls do not cause runtime errors — GUT + manual.
 - [x] `assets/audio/` holds 12 SFX + 3 music WAVs + `LICENSE.txt`; music loops (loop_mode forced at runtime).
 - [x] Bundled `overworld.tres` and `level1.tres` carry assigned music — file check.
-- [x] `./tests/run_all.sh` fully green (352/352); `make run-app` plays music + SFX audibly — **audible smoke still pending (manual)**.
+- [x] `./tests/run_all.sh` fully green (352/352); `make run-app` plays music + SFX audibly — confirmed via manual smoke.
 
 ## 9. Risk notes
 
