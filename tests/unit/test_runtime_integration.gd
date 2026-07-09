@@ -27,5 +27,5 @@ func test_build_spawns_every_registered_entity_type():
 		assert_eq(rt.entities_spawned.size(), ld.entities.size(),
 			"every kind-%d map entity spawned" % kind)
 		for node in rt.entities_spawned:
-			assert_true(node is Entity or node is SpriteEntity or node is LevelEntrance)
+			assert_true(node is Entity or node is SpriteEntity or node is LevelEntrance or node is Ship)
 			assert_true(node.is_inside_tree())
