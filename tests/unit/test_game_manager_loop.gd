@@ -142,3 +142,58 @@ func test_fail_level_returns_to_overworld_without_completing():
 	assert_eq(GameManager.pending_player_spawn, Vector2i(5, 6))
 	assert_false(GameManager.is_level_completed("keen1_01"), "death must NOT mark level complete")
 	assert_null(GameManager.current_level, "current_level cleared")
+
+const PL_TMP := "user://tmp_gm_packtest/"
+
+func _seed_pack_loader(pack_id: String, ow: LevelData, levels: Array) -> void:
+	PackLoader.root_dir = PL_TMP
+	PackLoader._remove_dir_recursive(PL_TMP)
+	var d := PL_TMP + pack_id + "/"
+	DirAccess.make_dir_recursive_absolute(d)
+	ResourceSaver.save(ow, d + "overworld.tres")
+	var parts := PackedStringArray()
+	parts.append('{"level_id": "ow", "file": "overworld.tres", "name": "OW", "order": 0}')
+	var i := 1
+	for lvl in levels:
+		var fn := "lvl_%d.tres" % i
+		ResourceSaver.save(lvl, d + fn)
+		parts.append('{"level_id": "%s", "file": "%s", "name": "L%d", "order": %d}' % [lvl.level_id, fn, i, i])
+		i += 1
+	var manifest := """{
+		"pack_id": "%s", "name": "GM", "author": "qa", "version": "1.0",
+		"levels": [%s]
+	}""" % [pack_id, ", ".join(parts)]
+	var mf := FileAccess.open(d + "manifest.json", FileAccess.WRITE)
+	mf.store_string(manifest)
+	mf.close()
+	PackLoader.scan()
+
+
+func test_start_pack_sets_overworld_state_and_registers_levels():
+	GameManager.clear_progress()
+	var ow := LevelData.new()
+	ow.level_id = "ow"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	var lvl := LevelData.new()
+	lvl.level_id = "k1_01"
+	lvl.width = 2
+	lvl.height = 2
+	lvl.fill_blank()
+	_seed_pack_loader("mypack", ow, [lvl])
+	GameManager.start_pack_no_scene_swap("mypack", ow)
+	assert_eq(GameManager.state, GameManager.State.OVERWORLD)
+	assert_eq(GameManager.current_overworld, ow)
+	assert_eq(GameManager.pending_level, ow)
+	assert_eq(GameManager.current_episode_id, "mypack")
+	# _levels_by_id populated via register_level (existing seam). The loader
+	# returns freshly disk-loaded Resource instances (not the in-memory ow/lvl
+	# we saved), so verify registration by presence, not reference identity.
+	assert_not_null(GameManager.get_level_by_id("ow"))
+	assert_not_null(GameManager.get_level_by_id("k1_01"))
+	# fresh session: progress cleared on start_pack
+	assert_false(GameManager.is_level_completed("k1_01"))
+	PackLoader._remove_dir_recursive(PL_TMP)
+	PackLoader.root_dir = "user://levelpacks/"

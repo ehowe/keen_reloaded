@@ -127,6 +127,31 @@ func start_episode_no_scene_swap(ep_id: String, ow: LevelData) -> void:
 	state = State.OVERWORLD
 
 
+## Boot a custom level pack: resolve its overworld, register every pack level,
+## then swap to the runtime scene in OVERWORLD state. Reuses the existing
+## enter/complete/fail loop. (Bundled episodes use start_episode instead.)
+func start_pack(pack_id: String) -> void:
+	var ow := PackLoader.get_overworld(pack_id)
+	if ow == null:
+		push_warning("GameManager: pack '%s' has no overworld" % pack_id)
+		return
+	start_pack_no_scene_swap(pack_id, ow)
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+## Non-scene-swap variant for headless tests.
+func start_pack_no_scene_swap(pack_id: String, ow: LevelData) -> void:
+	clear_progress()
+	current_episode_id = pack_id
+	current_overworld = ow
+	register_level(ow)
+	for lvl in PackLoader.get_levels(pack_id):
+		register_level(lvl)
+	pending_level = ow
+	pending_player_spawn = Vector2i(-1, -1)
+	state = State.OVERWORLD
+
+
 func _resolve_overworld(ep_id: String) -> LevelData:
 	# Find the Episode instance for ep_id and ask it for its overworld.
 	var dir := DirAccess.open(EPISODES_DIR)
