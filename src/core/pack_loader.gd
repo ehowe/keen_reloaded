@@ -120,3 +120,83 @@ static func _remove_dir_recursive(path: String) -> void:
 		name = dir.get_next()
 	dir.list_dir_end()
 	DirAccess.remove_absolute(path)
+
+
+## Import a level-pack zip. Extracts to TMP_IMPORT with path-traversal + file-
+## type hardening, parses the manifest to learn pack_id, then moves to the
+## canonical dir root_dir/<pack_id>/ and re-scans. Returns {ok, error, pack_id}.
+func import_zip(zip_path: String) -> Dictionary:
+	_reset_tmp()
+	var reader := ZIPReader.new()
+	if reader.open(zip_path) != OK:
+		reader.close()
+		return _fail("cannot read zip")
+	var entries := reader.get_files()
+	# 1. validate every entry before writing anything to disk
+	for entry in entries:
+		if entry.ends_with("/"):
+			continue  # directory entry; allowed, nothing to write
+		if _safe_entry_path(entry) == "":
+			reader.close()
+			_reset_tmp()
+			return _fail("unsafe/disallowed path: %s" % entry)
+	# 2. extract to TMP_IMPORT
+	DirAccess.make_dir_recursive_absolute(TMP_IMPORT)
+	for entry in entries:
+		if entry.ends_with("/"):
+			continue
+		var dest := TMP_IMPORT + _safe_entry_path(entry)
+		DirAccess.make_dir_recursive_absolute(dest.get_base_dir())
+		var f := FileAccess.open(dest, FileAccess.WRITE)
+		if f == null:
+			reader.close()
+			_reset_tmp()
+			return _fail("cannot write extracted file: %s" % dest)
+		f.store_buffer(reader.read_file(entry))
+		f.close()
+	reader.close()
+	# 3. parse manifest to learn pack_id
+	var manifest_path := TMP_IMPORT + "manifest.json"
+	if not FileAccess.file_exists(manifest_path):
+		_reset_tmp()
+		return _fail("no manifest.json")
+	var pack := LevelPack.from_json(FileAccess.get_file_as_string(manifest_path))
+	if pack == null:
+		_reset_tmp()
+		return _fail("invalid manifest")
+	# 4. move to canonical dir (overwrite if re-importing)
+	var canon := root_dir + pack.pack_id + "/"
+	_remove_dir_recursive(canon)
+	DirAccess.make_dir_recursive_absolute(root_dir)
+	var err := DirAccess.rename_absolute(TMP_IMPORT, canon)
+	if err != OK:
+		_reset_tmp()
+		return _fail("cannot install pack dir (err=%d)" % err)
+	scan()
+	return {"ok": true, "error": "", "pack_id": pack.pack_id}
+
+
+## Returns a safe relative path for a zip entry, or "" if it is absolute,
+## traverses with "..", or has a disallowed extension. Allowlist:
+## manifest.json, *.tres, *.res.
+static func _safe_entry_path(raw: String) -> String:
+	var p := raw.replace("\\", "/").strip_edges()
+	if p.is_empty() or p.begins_with("/") or p.begins_with("res://") or p.begins_with("user://"):
+		return ""
+	if p.length() >= 2 and p[1] == ":":
+		return ""  # Windows drive letter (e.g. C:)
+	for seg in p.split("/"):
+		if seg == "..":
+			return ""
+	var fname := p.get_file()
+	if fname != "manifest.json" and not ALLOWED_EXTS.has(fname.get_extension().to_lower()):
+		return ""
+	return p
+
+
+static func _fail(msg: String) -> Dictionary:
+	return {"ok": false, "error": msg, "pack_id": ""}
+
+
+func _reset_tmp() -> void:
+	_remove_dir_recursive(TMP_IMPORT)
