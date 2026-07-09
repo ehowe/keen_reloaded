@@ -1,0 +1,9 @@
+ keen_reloaded audio placeholders
+----------------------------------
+All files under assets/audio/ are GENERATED PLACEHOLDERS, synthesized by
+tools/gen_audio.gd. They are original works (programmatically generated
+simple waveforms) and are released to the public domain (CC0)
+https://creativecommons.org/publicdomain/zero/1.0/
+
+They exist only so the audio system has a real playback path. Replace them
+freely with proper Keen-style music/SFX; no attribution required.
