@@ -123,6 +123,7 @@ func _physics_process(delta: float) -> void:
 		_jump_dir = sign(dir)
 		_buffer = 0.0
 		_coyote = 0.0
+		AudioManager.play_sfx("jump")
 
 	if _windup > 0.0:
 		_windup -= delta
@@ -136,6 +137,7 @@ func _physics_process(delta: float) -> void:
 
 	if _pogo and on_floor and _windup <= 0.0:
 		velocity.y = -pogo_bounce
+		AudioManager.play_sfx("pogo")
 
 	if not _input_locked and Input.is_action_just_pressed("shoot"):
 		shoot()
@@ -178,6 +180,7 @@ func _physics_overworld(delta: float) -> void:
 func shoot() -> void:
 	if ammo <= 0:
 		return
+	AudioManager.play_sfx("shoot")
 	_shoot_timer = SHOOT_POSE_TIME
 	var muzzle := get_node_or_null("Muzzle") as Marker2D
 	var origin: Vector2 = global_position
@@ -224,6 +227,7 @@ func take_damage(amount: int) -> void:
 		return
 	health -= amount
 	health_changed.emit(health)
+	AudioManager.play_sfx("hurt")
 	if health <= 0:
 		_die()
 
@@ -232,6 +236,7 @@ func _die() -> void:
 	if _dead:
 		return
 	_dead = true
+	AudioManager.play_sfx("die")
 	_input_locked = true
 	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if col != null:
