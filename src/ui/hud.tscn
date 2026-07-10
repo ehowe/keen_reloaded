@@ -30,6 +30,7 @@ layout_mode = 2
 
 [node name="ScoreLabel" type="Label" parent="LevelContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Score 0"
 
 [node name="OverworldContainer" type="VBoxContainer" parent="."]
@@ -47,4 +48,5 @@ offset_bottom = 40.0
 
 [node name="ClearedLabel" type="Label" parent="OverworldContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Levels cleared: 0 / 0"
