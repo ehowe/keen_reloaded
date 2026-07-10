@@ -124,6 +124,25 @@ func _rebuild_entity_box(e: LevelEditor) -> void:
 		var stype := String(s.get("type", ""))
 		var val = ent.properties.get(key, s.get("default"))
 		match stype:
+			"level_id":
+				var scanned: Array[String] = LevelCatalog.scan_level_ids()
+				var cur := String(val)
+				var lvl_opts: Array = []
+				for id in scanned:
+					lvl_opts.append(id)
+				if cur != "" and not lvl_opts.has(cur):
+					lvl_opts.append(cur)
+				var lob := OptionButton.new()
+				lob.name = "Prop_" + key
+				for opt in lvl_opts:
+					lob.add_item(String(opt))
+				var lidx := lvl_opts.find(cur)
+				lob.select(lidx if lidx >= 0 else -1)
+				var k_lvl: Variant = key
+				var opts_lvl: Array = lvl_opts
+				lob.item_selected.connect(func(i: int) -> void:
+					ent.properties[k_lvl] = opts_lvl[i])
+				_entity_box.add_child(_labeled(key, lob))
 			"enum":
 				var options: Array = s.get("options", [])
 				var ob := OptionButton.new()

@@ -13,8 +13,8 @@ y = 37
 
 [resource]
 script = ExtResource("2_2om6j")
-level_id = "new_level"
-level_name = "Untitled"
+level_id = "keen1_overworld"
+level_name = "Overworld"
 map_kind = 1
 width = 71
 height = 69

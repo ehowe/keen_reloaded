@@ -52,7 +52,7 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.teleporter", registry.CATEGORY_SPECIAL, "Teleporter",
 		[
 			{name = "teleporter_id", default = "", type = "string"},
-			{name = "destination_level_id", default = "", type = "string"},
+			{name = "destination_level_id", default = "", type = "level_id"},
 			{name = "destination_teleporter_id", default = "", type = "string"},
 		],
 		teleporter, all_kinds)
