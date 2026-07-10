@@ -64,14 +64,25 @@ Registered in `src/episodes/keen1/episode.gd::register_entities()`.
 - `setup(type_id, props)` — reads `teleporter_id`, `destination_level_id`, `destination_teleporter_id` from props.
 - `_ready()` — builds a proximity `Area2D` (mask = player bit, `PROXIMITY_RADIUS = 1` → 3×3 zone) and a placeholder `ColorRect` visual (color distinct from other specials, e.g. magenta).
 - `_process()` — calls `attempt_teleport(Input.is_action_just_pressed("interact"))`.
-- `attempt_teleport(interact_pressed) -> bool` — emits `teleport_requested(destination_level_id, destination_teleporter_id)` only when nearby AND interact pressed AND both destination fields are non-empty. Returns false (no-op) otherwise. Interact flag is a parameter for deterministic tests.
-- Test seam `_set_nearby_for_test(v)`.
+- `attempt_teleport(interact_pressed) -> bool` — starts the **departure** sequence when nearby AND interact pressed AND both destination fields are non-empty AND idle. Returns true on start; `teleport_requested` emits AFTER the source animation finishes (not from this call). Interact flag is a parameter for deterministic tests.
+- `play_arrival(player)` — drives the **arrival** sequence; called by `LevelRuntime` after a teleport-built scene spawn.
+- Test seams `_set_nearby_for_test(v)`, `_set_player_for_test(p)`.
 
 ```gdscript
 signal teleport_requested(destination_level_id: String, destination_teleporter_id: String)
+signal arrival_finished()
 ```
 
-Does NOT own any state beyond its configured IDs and the `_nearby` flag. Does NOT resolve the destination — that is `GameManager`'s job.
+### 4.1 Visual / Animation Sequence
+
+The scene carries a static `Visual` (Sprite2D, shown when idle) and an `AnimatedSprite2D` (hidden when idle, plays the `default` animation once on activation). On interact, the full sequence is:
+
+1. **Depart (source):** hide + freeze the player (`visible=false`, `process_mode=DISABLED`), hide `Visual`, play source anim once.
+2. On anim finish → emit `teleport_requested` → `GameManager.teleport` rebuilds the runtime scene.
+3. **Arrive (destination):** new scene builds; `GameManager.pending_teleport_arrival_id` tells `LevelRuntime` which teleporter just arrived on. `LevelRuntime` calls `play_arrival(player)` → hide + freeze player, play destination anim once.
+4. On anim finish → restore `Visual`, show + unfreeze player, emit `arrival_finished`.
+
+Because `GameManager.teleport` **always rebuilds the scene** (even same-map), same-map and cross-map links follow the identical path — "both sides animate one loop" falls out naturally (departure anim in the old scene, arrival anim in the new scene). The player is hidden+frozen for the whole transit, so no drift/gravity and no visible "jump".
 
 ## 5. LevelRuntime Wiring
 
@@ -83,6 +94,8 @@ if node is Teleporter:
 ```
 
 `_on_teleport_requested(dest_level_id, dest_teleporter_id)` forwards to `GameManager.teleport(dest_level_id, dest_teleporter_id)` (null-guarded for headless tests where `GameManager` may be absent).
+
+After `build()`, `_ready()` also checks `GameManager.pending_teleport_arrival_id`; if set, it finds the matching spawned `Teleporter` and calls `play_arrival(player)` to play the destination-side animation (consuming the flag).
 
 ## 6. GameManager.teleport()
 
@@ -99,8 +112,10 @@ func teleport(destination_level_id: String, destination_teleporter_id: String) -
 1. `lvl := get_level_by_id(destination_level_id)` — if null, `push_warning` + return (dangling level ref, no-op).
 2. Scan `lvl.entities` for an `EntityDef` whose `type` is a teleporter type AND `properties.teleporter_id == destination_teleporter_id`. Helper `_find_teleporter_tile(level, teleporter_id) -> Vector2i` returns the tile, or `Vector2i(-1, -1)` if not found.
 3. If not found, `push_warning` + return (dangling teleporter ref, no-op).
-4. Set `pending_level = lvl`, `pending_player_spawn = <dest tile>`, `current_level = lvl if lvl.map_kind == LEVEL else null`, `state = LEVEL if lvl.map_kind == LEVEL else OVERWORLD`.
+4. Set `pending_level = lvl`, `pending_player_spawn = <dest tile>`, `pending_teleport_arrival_id = destination_teleporter_id`, `current_level = lvl if lvl.map_kind == LEVEL else null`, `state = LEVEL if lvl.map_kind == LEVEL else OVERWORLD`.
 5. Leave `current_overworld` untouched when teleporting within/to a level; leave it untouched when teleporting within the overworld.
+
+`pending_teleport_arrival_id` is reset to `""` by `clear_progress()` and on every non-teleport scene-swap path (`enter_level`, `complete_level`, `fail_level`) so a stale flag can't trigger a spurious arrival animation.
 
 **Self-teleport guard:** if `destination_level_id == current_level/overworld level_id` and `destination_teleporter_id == this teleporter's own id`, resolution simply returns the current tile — harmless, no special-case needed (the player ends up where they already are).
 
