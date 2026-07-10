@@ -51,5 +51,36 @@ func test_spike_registered_as_hazard_with_facing_schema():
 	assert_eq(String(schema[0].get("default")), "right")
 	assert_eq(schema[0].get("options"), ["right", "left"])
 
+func test_level_entrance_has_variant_schema():
+	EntityRegistry.clear()
+	Keen1Episode.new().register_entities(EntityRegistry)
+	assert_true(EntityRegistry.has("keen1.level_entrance"), "keen1.level_entrance registered")
+	var schema := EntityRegistry.get_properties_schema("keen1.level_entrance")
+	assert_eq(schema.size(), 3)
+	assert_eq(String(schema[0].get("name")), "target_level_id")
+	assert_eq(String(schema[0].get("type")), "level_id")
+	assert_eq(String(schema[1].get("name")), "blocks_until_completed")
+	assert_eq(String(schema[1].get("type")), "bool")
+	assert_eq(String(schema[2].get("name")), "variant")
+	assert_eq(String(schema[2].get("type")), "enum")
+	assert_eq(schema[2].get("options"),
+		["City", "Blue Shrine", "Emerald", "Gray Shrine", "Crystal", "Castle", "Treasury"])
+
+func test_keen1_load_levels_finds_level1():
+	var ep := GameManager._find_episode("keen1")
+	assert_not_null(ep, "_find_episode found keen1")
+	if ep == null:
+		return
+	assert_eq(ep.id, "keen1")
+	assert_eq(ep.overworld_path, "res://assets/levels/keen1/overworld.tres")
+	var levels := ep.load_levels()
+	assert_gt(levels.size(), 0, "load_levels found at least one level")
+	var found_01 := false
+	for lvl in levels:
+		if lvl.level_id == "keen1_01":
+			found_01 = true
+	assert_true(found_01, "keen1_01 found in load_levels output")
+
+
 func after_each():
 	GameManager.register_episodes()

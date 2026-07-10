@@ -174,6 +174,17 @@ func _seed_pack_loader(pack_id: String, ow: LevelData, levels: Array) -> void:
 	PackLoader.scan()
 
 
+func test_start_episode_registers_episode_levels_from_disk():
+	GameManager.clear_progress()
+	var ep := GameManager._find_episode("keen1")
+	assert_not_null(ep)
+	var ow := ep.load_overworld()
+	assert_not_null(ow)
+	GameManager.start_episode_no_scene_swap("keen1", ow)
+	assert_not_null(GameManager.get_level_by_id("keen1_01"), "keen1_01 must be registered after start_episode")
+	GameManager.clear_progress()
+
+
 func test_start_pack_sets_overworld_state_and_registers_levels():
 	GameManager.clear_progress()
 	var ow := LevelData.new()

@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cvn7q6g8fgox3"]
 
 [ext_resource type="Script" uid="uid://bydp6vm0q6c3o" path="res://src/runtime/entities/teddy.gd" id="1_teddy"]
-[ext_resource type="Texture2D" uid="uid://y4wl0o3l5kp6" path="res://assets/tilesets/Invasion of the Vorticons - 64x64.png" id="2_o6oyj"]
+[ext_resource type="Texture2D" uid="uid://b7ihigfw4amcd" path="res://assets/sprites/Pickups.png" id="2_o6oyj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyjdt"]
 atlas = ExtResource("2_o6oyj")
-region = Rect2(640, 960, 64, 64)
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wln0f"]
 atlas = SubResource("AtlasTexture_jyjdt")

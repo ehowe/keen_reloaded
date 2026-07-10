@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dnxmlpejjolnu"]
 
-[ext_resource type="Script" path="res://src/runtime/level_runtime.gd" id="1_runtime"]
+[ext_resource type="Script" uid="uid://caekb5mxlnelq" path="res://src/runtime/level_runtime.gd" id="1_runtime"]
 
-[node name="LevelRuntime" type="Node2D"]
+[node name="LevelRuntime" type="Node2D" unique_id=465086455]
 script = ExtResource("1_runtime")

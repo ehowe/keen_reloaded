@@ -11,6 +11,7 @@ extends Node2D
 signal enter_requested(target_level_id: String, tile: Vector2i)
 
 const TILE := 64
+const BLOCKER_SIZE := 48
 const PROXIMITY_RADIUS := 1  # tiles around the door in each direction (3x3 zone)
 
 var type_id: String = ""
@@ -26,11 +27,13 @@ var _blocker_shape: CollisionShape2D
 
 ## Called by EntityRegistry.instantiate. Reads editor-set properties. Order-
 ## independent: refresh_blocking() reapplies solidity whether or not _ready has
-## run yet (it null-guards the shape).
+## run yet (it null-guards the shape). Applies the "variant" enum to select which
+## child Sprite2D is visible.
 func setup(p_type_id: String, p_props: Dictionary) -> void:
 	type_id = p_type_id
 	target_level_id = String(p_props.get("target_level_id", ""))
 	blocks_until_completed = bool(p_props.get("blocks_until_completed", false))
+	EntityVariant.apply(type_id, p_props, self)
 	refresh_blocking()
 
 
@@ -42,7 +45,6 @@ func set_tile(t: Vector2i) -> void:
 func _ready() -> void:
 	_build_proximity()
 	_build_blocker()
-	_build_visual()
 
 
 func _build_proximity() -> void:
@@ -68,23 +70,24 @@ func _build_blocker() -> void:
 	_blocker.collision_layer = 4  # tiles bit -> blocks the player
 	_blocker_shape = CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(TILE, TILE)
+	rect.size = Vector2(BLOCKER_SIZE, BLOCKER_SIZE)
 	_blocker_shape.shape = rect
 	_blocker.add_child(_blocker_shape)
 	_blocker.add_to_group("level_entrance_blocker")
 	add_child(_blocker)
+	# Offset the blocker to the visible sprite's center so collision aligns
+	# with the art, which may be larger or offset from the entity origin.
+	var sprite := _get_visible_sprite()
+	if sprite != null:
+		_blocker.position = sprite.position
 	_apply_blocking()
 
 
-func _build_visual() -> void:
-	if has_node("Visual"):
-		return
-	var vis := ColorRect.new()
-	vis.name = "Visual"
-	vis.size = Vector2(TILE, TILE)
-	vis.position = Vector2(-TILE / 2.0, -TILE / 2.0)
-	vis.color = Color(0.95, 0.75, 0.2, 1)
-	add_child(vis)
+func _get_visible_sprite() -> Sprite2D:
+	for c in get_children():
+		if c is Sprite2D and c.visible:
+			return c
+	return null
 
 
 func _process(_delta: float) -> void:

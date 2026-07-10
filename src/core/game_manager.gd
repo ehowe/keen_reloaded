@@ -179,6 +179,11 @@ func start_episode_no_scene_swap(ep_id: String, ow: LevelData) -> void:
 	current_episode_id = ep_id
 	current_overworld = ow
 	register_level(ow)
+	# Register every LEVEL-kind map in the episode so level entrances resolve.
+	var ep := _find_episode(ep_id)
+	if ep != null:
+		for lvl in ep.load_levels():
+			register_level(lvl)
 	pending_level = ow
 	pending_player_spawn = Vector2i(-1, -1)
 	state = State.OVERWORLD
@@ -214,6 +219,15 @@ func start_pack_no_scene_swap(pack_id: String, ow: LevelData) -> void:
 
 func _resolve_overworld(ep_id: String) -> LevelData:
 	# Find the Episode instance for ep_id and ask it for its overworld.
+	var ep := _find_episode(ep_id)
+	if ep == null:
+		return null
+	return ep.load_overworld()
+
+
+## Scan src/episodes/*/episode.gd, instantiate each Episode, and return the one
+## whose id matches. Returns null if not found.
+func _find_episode(ep_id: String) -> Episode:
 	var dir := DirAccess.open(EPISODES_DIR)
 	if dir == null:
 		return null
@@ -227,7 +241,7 @@ func _resolve_overworld(ep_id: String) -> LevelData:
 				var ep: Episode = ep_script.new()
 				if ep.id == ep_id:
 					dir.list_dir_end()
-					return ep.load_overworld()
+					return ep
 		subdir = dir.get_next()
 	dir.list_dir_end()
 	return null

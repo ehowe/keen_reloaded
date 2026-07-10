@@ -44,7 +44,13 @@ func register_entities(registry: Node) -> void:
 	var level_entrance := preload("res://src/runtime/entities/level_entrance.tscn")
 	var overworld_only: Array[int] = [LevelData.MapKind.OVERWORLD]
 	registry.register("keen1.level_entrance", registry.CATEGORY_SPECIAL, "Level Entrance",
-		[], level_entrance, overworld_only)
+		[
+			{name = "target_level_id", default = "", type = "level_id"},
+			{name = "blocks_until_completed", default = false, type = "bool"},
+			{name = "variant", default = "City", type = "enum",
+				options = ["City", "Blue Shrine", "Emerald", "Gray Shrine", "Crystal", "Castle", "Treasury"]},
+		],
+		level_entrance, overworld_only)
 	var ship := preload("res://src/runtime/entities/ship.tscn")
 	registry.register("keen1.ship", registry.CATEGORY_SPECIAL, "Ship",
 		[], ship, overworld_only)

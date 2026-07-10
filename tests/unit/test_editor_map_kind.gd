@@ -47,7 +47,7 @@ func test_palette_filters_by_map_kind():
 	assert_false(ow_ids.has("keen1.vorticon"), "overworld palette hides gameplay entities")
 
 
-func test_inspector_edits_string_and_bool_props():
+func test_inspector_edits_level_id_and_bool_props():
 	var ed := LevelEditor.new()
 	add_child_autofree(ed)
 	ed._ready()
@@ -55,13 +55,14 @@ func test_inspector_edits_string_and_bool_props():
 		{"target_level_id": "lvl1", "blocks_until_completed": true})
 	ed.level.entities.append(def)
 	ed.select_entity(ed.level.entities.size() - 1)
-	# Find the LineEdit for target_level_id and change it.
-	var le: LineEdit = ed._inspector.find_child("Prop_target_level_id", true, false)
-	assert_not_null(le, "String property should render as a LineEdit")
-	le.text = "lvl2"
-	le.text_changed.emit("lvl2")
-	assert_eq(def.properties["target_level_id"], "lvl2")
-	# Find the CheckBox for blocks_until_completed and toggle it.
+	# target_level_id is a level_id type -> OptionButton dropdown of scanned levels.
+	var ob: OptionButton = ed._inspector.find_child("Prop_target_level_id", true, false)
+	assert_not_null(ob, "level_id property renders an OptionButton")
+	assert_true(ob.item_count > 1, "dropdown includes scanned levels plus current 'lvl1'")
+	ob.select(0)
+	ob.item_selected.emit(0)
+	assert_eq(def.properties["target_level_id"], ob.get_item_text(0))
+	# blocks_until_completed is a bool -> CheckBox.
 	var cb: CheckBox = ed._inspector.find_child("Prop_blocks_until_completed", true, false)
 	assert_not_null(cb, "Bool property should render as a CheckBox")
 	cb.set_pressed_no_signal(false)
