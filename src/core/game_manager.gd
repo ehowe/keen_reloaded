@@ -107,6 +107,49 @@ func fail_level_no_scene_swap() -> void:
 	state = State.OVERWORLD
 
 
+## Transition the player to a destination teleporter (same or different map).
+## Resolves the destination level via get_level_by_id and the destination
+## teleporter's tile by scanning that level's entities for a matching
+## teleporter_id. No-op (push_warning) on dangling refs.
+func teleport(destination_level_id: String, destination_teleporter_id: String) -> void:
+	teleport_no_scene_swap(destination_level_id, destination_teleporter_id)
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+
+
+## Headless-testable core of teleport(); does not swap the scene.
+func teleport_no_scene_swap(destination_level_id: String, destination_teleporter_id: String) -> void:
+	if destination_level_id == "" or destination_teleporter_id == "":
+		push_warning("GameManager.teleport: empty destination (level='%s', teleporter='%s')" % [destination_level_id, destination_teleporter_id])
+		return
+	var lvl := get_level_by_id(destination_level_id)
+	if lvl == null:
+		push_warning("GameManager.teleport: unknown level id '%s'" % destination_level_id)
+		return
+	var tile := _find_teleporter_tile(lvl, destination_teleporter_id)
+	if tile.x < 0:
+		push_warning("GameManager.teleport: teleporter '%s' not found in level '%s'" % [destination_teleporter_id, destination_level_id])
+		return
+	pending_level = lvl
+	pending_player_spawn = tile
+	if lvl.map_kind == LevelData.MapKind.LEVEL:
+		current_level = lvl
+		state = State.LEVEL
+	else:
+		current_level = null
+		state = State.OVERWORLD
+
+
+## Find the tile of the teleporter whose properties.teleporter_id == id within
+## `level`. Returns Vector2i(-1, -1) if none. A teleporter is identified by
+## carrying a `teleporter_id` property (type-agnostic, so any namespaced
+## teleporter type resolves without core knowing the type id).
+func _find_teleporter_tile(level: LevelData, teleporter_id: String) -> Vector2i:
+	for def: EntityDef in level.entities:
+		if String(def.properties.get("teleporter_id", "")) == teleporter_id:
+			return Vector2i(def.x, def.y)
+	return Vector2i(-1, -1)
+
+
 ## Boot the overworld loop for an episode: resolve + load its overworld, then
 ## swap to the runtime scene in OVERWORLD state.
 func start_episode(ep_id: String) -> void:
