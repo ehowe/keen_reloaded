@@ -192,12 +192,14 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 		if node != null:
 			add_child(node)
 			entities_spawned.append(node)
-			if node is LevelEntrance:
-				(node as LevelEntrance).set_tile(Vector2i(def.x, def.y))
-				(node as LevelEntrance).refresh_blocking()
-				(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
-			elif node.has_signal("level_completed"):
-				node.level_completed.connect(_on_level_completed)
+		if node is LevelEntrance:
+			(node as LevelEntrance).set_tile(Vector2i(def.x, def.y))
+			(node as LevelEntrance).refresh_blocking()
+			(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
+		elif node is Teleporter:
+			(node as Teleporter).teleport_requested.connect(_on_teleport_requested)
+		elif node.has_signal("level_completed"):
+			node.level_completed.connect(_on_level_completed)
 
 
 func _on_level_completed() -> void:
@@ -223,6 +225,11 @@ func _on_level_completed() -> void:
 func _on_enter_requested(target_level_id: String, tile: Vector2i) -> void:
 	if GameManager != null:
 		GameManager.enter_level(target_level_id, tile)
+
+
+func _on_teleport_requested(destination_level_id: String, destination_teleporter_id: String) -> void:
+	if GameManager != null:
+		GameManager.teleport(destination_level_id, destination_teleporter_id)
 
 
 func _on_completion_dismissed() -> void:

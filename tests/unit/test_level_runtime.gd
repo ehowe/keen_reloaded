@@ -408,3 +408,28 @@ func test_overworld_hud_shows_cleared():
 	assert_true((hud.get_node("OverworldContainer") as CanvasItem).visible, "overworld HUD visible")
 	assert_eq((hud.get_node("OverworldContainer/ClearedLabel") as Label).text, "Levels cleared: 0 / 2", "M counts entrances, N is completed set size")
 	GameManager.completed_levels.clear()
+
+
+func test_build_wires_teleporter_signal():
+	GameManager.pending_level = null
+	var ld := LevelData.new()
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	ld.player_spawn = Vector2i(0, 1)
+	ld.entities.append(EntityDef.new("keen1.teleporter", 2, 1, {
+		"teleporter_id": "a",
+		"destination_level_id": "ow",
+		"destination_teleporter_id": "b",
+	}))
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	var tp: Teleporter = null
+	for n in rt.entities_spawned:
+		if n is Teleporter:
+			tp = n
+			break
+	assert_not_null(tp, "teleporter spawned")
+	assert_true(tp.teleport_requested.get_connections().size() >= 1, "teleport_requested wired to runtime")
