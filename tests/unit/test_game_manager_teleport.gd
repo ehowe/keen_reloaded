@@ -27,7 +27,7 @@ func test_same_map_teleport_sets_spawn_and_state():
 	_add_teleporter(lvl, "src", 1, 1, "lvl1", "dst")
 	_add_teleporter(lvl, "dst", 5, 6, "lvl1", "src")
 	GameManager.register_level(lvl)
-	GameManager.teleport_no_scene_swap("lvl1", "dst")
+	assert_true(GameManager.teleport_no_scene_swap("lvl1", "dst"), "returns true on success")
 	assert_eq(GameManager.pending_level, lvl)
 	assert_eq(GameManager.pending_player_spawn, Vector2i(5, 6))
 	assert_eq(GameManager.state, GameManager.State.LEVEL)
@@ -66,7 +66,7 @@ func test_dangling_level_id_is_noop():
 	_add_teleporter(lvl, "a", 1, 1)
 	GameManager.register_level(lvl)
 	var state_before := GameManager.state
-	GameManager.teleport_no_scene_swap("nope", "a")
+	assert_false(GameManager.teleport_no_scene_swap("nope", "a"), "returns false on dangling level")
 	assert_eq(GameManager.state, state_before, "state unchanged on dangling level")
 	assert_null(GameManager.pending_level, "pending_level untouched on dangling level")
 	assert_eq(GameManager.pending_teleport_arrival_id, "", "arrival id not set on dangling level")
@@ -80,7 +80,7 @@ func test_dangling_teleporter_id_is_noop():
 	assert_eq(GameManager.pending_teleport_arrival_id, "", "arrival id not set on dangling teleporter")
 
 func test_empty_destination_is_noop():
-	GameManager.teleport_no_scene_swap("", "")
+	assert_false(GameManager.teleport_no_scene_swap("", ""), "returns false on empty destination")
 	assert_eq(GameManager.state, GameManager.State.MENU, "state unchanged on empty destination")
 	assert_eq(GameManager.pending_teleport_arrival_id, "", "arrival id not set on empty destination")
 

@@ -117,25 +117,30 @@ func fail_level_no_scene_swap() -> void:
 ## Transition the player to a destination teleporter (same or different map).
 ## Resolves the destination level via get_level_by_id and the destination
 ## teleporter's tile by scanning that level's entities for a matching
-## teleporter_id. No-op (push_warning) on dangling refs.
-func teleport(destination_level_id: String, destination_teleporter_id: String) -> void:
-	teleport_no_scene_swap(destination_level_id, destination_teleporter_id)
+## teleporter_id. Returns false (no scene swap) on dangling refs so the caller
+## can restore any pre-teleport visual state (e.g. un-hide the player).
+func teleport(destination_level_id: String, destination_teleporter_id: String) -> bool:
+	if not teleport_no_scene_swap(destination_level_id, destination_teleporter_id):
+		return false
 	get_tree().change_scene_to_packed(RUNTIME_SCENE)
+	return true
 
 
-## Headless-testable core of teleport(); does not swap the scene.
-func teleport_no_scene_swap(destination_level_id: String, destination_teleporter_id: String) -> void:
+## Headless-testable core of teleport(); does not swap the scene. Returns true
+## when the destination resolved and pending spawn state was set, false on a
+## dangling/empty destination (caller should treat as a failed teleport).
+func teleport_no_scene_swap(destination_level_id: String, destination_teleporter_id: String) -> bool:
 	if destination_level_id == "" or destination_teleporter_id == "":
 		push_warning("GameManager.teleport: empty destination (level='%s', teleporter='%s')" % [destination_level_id, destination_teleporter_id])
-		return
+		return false
 	var lvl := get_level_by_id(destination_level_id)
 	if lvl == null:
 		push_warning("GameManager.teleport: unknown level id '%s'" % destination_level_id)
-		return
+		return false
 	var tile := _find_teleporter_tile(lvl, destination_teleporter_id)
 	if tile.x < 0:
 		push_warning("GameManager.teleport: teleporter '%s' not found in level '%s'" % [destination_teleporter_id, destination_level_id])
-		return
+		return false
 	pending_level = lvl
 	pending_player_spawn = tile
 	pending_teleport_arrival_id = destination_teleporter_id
@@ -145,6 +150,7 @@ func teleport_no_scene_swap(destination_level_id: String, destination_teleporter
 	else:
 		current_level = null
 		state = State.OVERWORLD
+	return true
 
 
 ## Find the tile of the teleporter whose properties.teleporter_id == id within

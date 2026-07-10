@@ -220,7 +220,7 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 			(node as LevelEntrance).refresh_blocking()
 			(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
 		elif node is Teleporter:
-			(node as Teleporter).teleport_requested.connect(_on_teleport_requested)
+			(node as Teleporter).teleport_requested.connect(_on_teleport_requested.bind(node))
 		elif node.has_signal("level_completed"):
 			node.level_completed.connect(_on_level_completed)
 
@@ -250,9 +250,13 @@ func _on_enter_requested(target_level_id: String, tile: Vector2i) -> void:
 		GameManager.enter_level(target_level_id, tile)
 
 
-func _on_teleport_requested(destination_level_id: String, destination_teleporter_id: String) -> void:
-	if GameManager != null:
-		GameManager.teleport(destination_level_id, destination_teleporter_id)
+func _on_teleport_requested(destination_level_id: String, destination_teleporter_id: String, source: Teleporter) -> void:
+	if GameManager == null:
+		return
+	# GameManager.teleport returns false when the destination is dangling (no
+	# scene swap). Restore the source visual + player so we don't soft-lock.
+	if not GameManager.teleport(destination_level_id, destination_teleporter_id):
+		source.restore_after_failed_departure()
 
 
 func _on_completion_dismissed() -> void:

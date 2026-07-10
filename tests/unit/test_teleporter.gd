@@ -104,3 +104,17 @@ func test_play_arrival_hides_player_and_restores_on_finish():
 	assert_eq(p.process_mode, Node.PROCESS_MODE_INHERIT, "player unfrozen after arrival")
 	assert_true(_visual(t).visible, "static Visual restored after arrival")
 	assert_false(_anim(t).visible, "anim hidden again after arrival")
+
+func test_restore_after_failed_departure_restores_player_and_visual():
+	var t := _teleporter()
+	var p := Node2D.new()
+	add_child_autofree(p)
+	t._set_player_for_test(p)
+	t._set_nearby_for_test(true)
+	t.attempt_teleport(true)  # depart: player hidden+frozen, anim playing
+	assert_false(p.visible, "player hidden during departure")
+	t.restore_after_failed_departure()
+	assert_true(p.visible, "player shown again after failed departure")
+	assert_eq(p.process_mode, Node.PROCESS_MODE_INHERIT, "player unfrozen after failed departure")
+	assert_true(_visual(t).visible, "static Visual restored")
+	assert_false(_anim(t).visible, "anim hidden after restore")

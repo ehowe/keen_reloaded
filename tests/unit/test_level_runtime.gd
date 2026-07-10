@@ -467,3 +467,38 @@ func test_build_plays_arrival_for_pending_teleport():
 	# Finish arrival to restore player state (avoids leaking a frozen player).
 	tp._on_animation_finished()
 	assert_true(rt.player.visible, "player shown after arrival finishes")
+
+
+func test_failed_teleport_restores_player_and_visual():
+	# A teleporter pointing at a dangling level must not soft-lock: the player
+	# is un-hidden and unfrozen after the failed teleport.
+	var ld := LevelData.new()
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	ld.player_spawn = Vector2i(0, 1)
+	ld.entities.append(EntityDef.new("keen1.teleporter", 2, 1, {
+		"teleporter_id": "src",
+		"destination_level_id": "ghost",  # not registered -> dangling
+		"destination_teleporter_id": "dst",
+	}))
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	var tp: Teleporter = null
+	for n in rt.entities_spawned:
+		if n is Teleporter:
+			tp = n
+			break
+	tp._set_player_for_test(rt.player)
+	tp._set_nearby_for_test(true)
+	assert_true(tp.attempt_teleport(true), "departure started")
+	assert_false(rt.player.visible, "player hidden during departure anim")
+	# Finishing the departure anim emits teleport_requested -> dangling teleport
+	# -> GameManager.teleport returns false -> source restored.
+	tp._on_animation_finished()
+	assert_true(rt.player.visible, "player restored after failed teleport")
+	assert_eq(rt.player.process_mode, Node.PROCESS_MODE_INHERIT, "player unfrozen after failed teleport")
+	assert_true((tp.get_node("Visual") as CanvasItem).visible, "teleporter visual restored")

@@ -111,6 +111,21 @@ func play_arrival(player: Node) -> void:
 	_start_phase(_Phase.ARRIVE)
 
 
+## Undo a departure when the teleport could not resolve (dangling destination).
+## Restores the static visual and un-hides/unfreezes the player so the game
+## does not soft-lock. Called by LevelRuntime when GameManager.teleport fails.
+func restore_after_failed_departure() -> void:
+	_phase = _Phase.IDLE
+	if _anim != null:
+		_anim.visible = false
+		_anim.stop()
+	if _visual != null:
+		_visual.visible = true
+	if _player != null:
+		_player.visible = true
+		_player.set_process_mode(Node.PROCESS_MODE_INHERIT)
+
+
 func _start_phase(phase: int) -> void:
 	_phase = phase
 	if _player != null:
