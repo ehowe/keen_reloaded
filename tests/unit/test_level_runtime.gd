@@ -433,3 +433,37 @@ func test_build_wires_teleporter_signal():
 			break
 	assert_not_null(tp, "teleporter spawned")
 	assert_true(tp.teleport_requested.get_connections().size() >= 1, "teleport_requested wired to runtime")
+
+
+func test_build_plays_arrival_for_pending_teleport():
+	var ld := LevelData.new()
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	ld.player_spawn = Vector2i(0, 1)
+	ld.entities.append(EntityDef.new("keen1.teleporter", 2, 1, {
+		"teleporter_id": "dest",
+		"destination_level_id": "ow",
+		"destination_teleporter_id": "src",
+	}))
+	# Drive the _ready arrival path: pending_level + arrival id + spawn tile.
+	GameManager.pending_level = ld
+	GameManager.pending_teleport_arrival_id = "dest"
+	GameManager.pending_player_spawn = Vector2i(2, 1)
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	# _ready consumed the flag and triggered the destination's arrival anim.
+	assert_eq(GameManager.pending_teleport_arrival_id, "", "arrival id consumed after build")
+	assert_false(rt.player.visible, "player hidden during arrival anim")
+	assert_eq(rt.player.process_mode, Node.PROCESS_MODE_DISABLED, "player frozen during arrival anim")
+	var tp: Teleporter = null
+	for n in rt.entities_spawned:
+		if n is Teleporter:
+			tp = n
+			break
+	assert_not_null(tp, "destination teleporter spawned")
+	assert_true((tp.get_node("AnimatedSprite2D") as AnimatedSprite2D).is_playing(), "arrival anim playing")
+	# Finish arrival to restore player state (avoids leaking a frozen player).
+	tp._on_animation_finished()
+	assert_true(rt.player.visible, "player shown after arrival finishes")

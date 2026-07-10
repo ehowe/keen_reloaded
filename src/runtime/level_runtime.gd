@@ -35,7 +35,30 @@ func _ready() -> void:
 		build(lv)
 		if GameManager.pending_player_spawn.x >= 0 and is_instance_valid(player):
 			player.position = _cell_center(GameManager.pending_player_spawn, _tile_size)
+		# Teleport arrival: play the destination teleporter's arrival animation
+		# once (hides+freezes the player for the duration).
+		if GameManager.pending_teleport_arrival_id != "":
+			_trigger_arrival(GameManager.pending_teleport_arrival_id)
 		GameManager.pending_player_spawn = Vector2i(-1, -1)
+
+
+## Find the just-spawned destination teleporter and play its arrival animation.
+## Clears the arrival id whether or not the teleporter was found.
+func _trigger_arrival(teleporter_id: String) -> void:
+	GameManager.pending_teleport_arrival_id = ""
+	for n in entities_spawned:
+		if n is Teleporter and (n as Teleporter).teleporter_id == teleporter_id:
+			if is_instance_valid(player):
+				(n as Teleporter).play_arrival(player)
+				(n as Teleporter).arrival_finished.connect(_on_teleport_arrival_finished)
+			return
+	push_warning("LevelRuntime: arrival teleporter '%s' not spawned" % teleporter_id)
+
+
+func _on_teleport_arrival_finished() -> void:
+	# The Teleporter restores the player's visibility/process_mode itself; this
+	# handler exists so the connection has a target and future cleanup can hook in.
+	pass
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,26 +1,41 @@
 class_name Teleporter
 extends Node2D
 ## Special entity valid in both LEVEL and OVERWORLD maps. Player stands near it
-## and presses `interact` to request a teleport to a destination teleporter,
-## which may live in this map or a different one. Emits `teleport_requested`;
-## LevelRuntime wires it to GameManager.teleport().
+## and presses `interact` to teleport to a destination teleporter (same or
+## different map). Directional: each teleporter has one destination; a two-way
+## link is two teleporters pointing at each other.
 ##
-## Directional: each teleporter has exactly one destination. A two-way link is
-## two teleporters pointing at each other. Resolution (finding the destination
-## tile) is GameManager's job — this node only carries the configured IDs.
+## Visual sequence on interact (both sides animate one loop):
+##   player hidden+frozen -> source anim plays once -> teleport (scene swap)
+##   -> destination spawns -> player hidden+frozen -> dest anim plays once
+##   -> player shown+unfrozen.
+## GameManager.teleport always rebuilds the runtime scene, so same-map and
+## cross-map follow the identical path.
+##
+## Idle: the static `Visual` (Sprite2D) shows; `AnimatedSprite2D` is hidden.
+## Resolution (finding the destination tile) is GameManager's job — this node
+## only carries the configured IDs and drives the animation.
 
 signal teleport_requested(destination_level_id: String, destination_teleporter_id: String)
+signal arrival_finished()
 
 const TILE := 64
 const PROXIMITY_RADIUS := 1  # tiles around the teleporter in each direction (3x3 zone)
+const ANIM_NAME := "default"
+
+enum _Phase { IDLE, DEPART, ARRIVE }
 
 var type_id: String = ""
 var teleporter_id: String = ""
 var destination_level_id: String = ""
 var destination_teleporter_id: String = ""
 
+var _phase: int = _Phase.IDLE
 var _nearby: bool = false
+var _player: Node = null
 var _proximity: Area2D
+@onready var _visual: CanvasItem = get_node_or_null("Visual")
+@onready var _anim: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
 
 
 ## Called by EntityRegistry.instantiate after constructing the node.
@@ -33,7 +48,13 @@ func setup(p_type_id: String, props: Dictionary) -> void:
 
 func _ready() -> void:
 	_build_proximity()
-	_build_visual()
+	# `Visual` + `AnimatedSprite2D` come from the scene. Build a fallback
+	# ColorRect only when the scene provided none (e.g. bare Teleporter.new()).
+	if _visual == null:
+		_visual = _fallback_visual()
+		add_child(_visual)
+	if _anim != null:
+		_anim.animation_finished.connect(_on_animation_finished)
 
 
 func _build_proximity() -> void:
@@ -53,42 +74,88 @@ func _build_proximity() -> void:
 	add_child(_proximity)
 
 
-func _build_visual() -> void:
-	if has_node("Visual"):
-		return
+func _fallback_visual() -> CanvasItem:
 	var vis := ColorRect.new()
 	vis.name = "Visual"
 	vis.size = Vector2(TILE, TILE)
 	vis.position = Vector2(-TILE / 2.0, -TILE / 2.0)
 	vis.color = Color(0.9, 0.3, 0.9, 1)  # magenta placeholder
-	add_child(vis)
+	return vis
 
 
 func _process(_delta: float) -> void:
 	attempt_teleport(Input.is_action_just_pressed("interact"))
 
 
-## Returns true and emits teleport_requested when a player is nearby, the
-## interact control is pressed, and both destination fields are set.
-## `interact_pressed` is a parameter (not read from Input) so tests are
-## deterministic.
+## Returns true when the departure sequence starts: player nearby, interact
+## pressed, both destination fields set, and not already animating. The
+## `teleport_requested` signal emits AFTER the source animation finishes (see
+## _on_animation_finished), not from this call. `interact_pressed` is a
+## parameter so tests stay deterministic.
 func attempt_teleport(interact_pressed: bool) -> bool:
 	if not _nearby or not interact_pressed:
 		return false
 	if destination_level_id == "" or destination_teleporter_id == "":
 		return false
-	teleport_requested.emit(destination_level_id, destination_teleporter_id)
+	if _phase != _Phase.IDLE:
+		return false
+	_start_phase(_Phase.DEPART)
 	return true
 
 
-func _on_body_entered(_body: Node) -> void:
+## Drive the arrival animation. Called by LevelRuntime after a scene rebuilt by
+## GameManager.teleport, once the destination teleporter is spawned. Hides +
+## freezes the player for the duration; arrival_finished emits on completion.
+func play_arrival(player: Node) -> void:
+	_player = player
+	_start_phase(_Phase.ARRIVE)
+
+
+func _start_phase(phase: int) -> void:
+	_phase = phase
+	if _player != null:
+		_player.visible = false
+		_player.set_process_mode(Node.PROCESS_MODE_DISABLED)
+	if _visual != null:
+		_visual.visible = false
+	if _anim != null:
+		_anim.visible = true
+		_anim.play(ANIM_NAME)
+	else:
+		# No animation node (e.g. bare test instance): resolve immediately.
+		_on_animation_finished()
+
+
+func _on_animation_finished() -> void:
+	match _phase:
+		_Phase.DEPART:
+			_phase = _Phase.IDLE
+			teleport_requested.emit(destination_level_id, destination_teleporter_id)
+		_Phase.ARRIVE:
+			_phase = _Phase.IDLE
+			if _visual != null:
+				_visual.visible = true
+			if _anim != null:
+				_anim.visible = false
+			if _player != null:
+				_player.visible = true
+				_player.set_process_mode(Node.PROCESS_MODE_INHERIT)
+			arrival_finished.emit()
+
+
+func _on_body_entered(body: Node) -> void:
 	_nearby = true
+	if body != null and body.is_in_group("player"):
+		_player = body
 
 
 func _on_body_exited(_body: Node) -> void:
 	_nearby = false
 
 
-# --- test seam ---
+# --- test seams ---
 func _set_nearby_for_test(v: bool) -> void:
 	_nearby = v
+
+func _set_player_for_test(p: Node) -> void:
+	_player = p

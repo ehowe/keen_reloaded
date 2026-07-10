@@ -12,6 +12,9 @@ enum State { MENU, OVERWORLD, LEVEL, TEST }
 var state: State = State.MENU
 var pending_level: LevelData = null
 var pending_player_spawn: Vector2i = Vector2i(-1, -1)
+# Set by teleport(): the destination teleporter_id whose arrival animation
+# LevelRuntime should play after the rebuilt scene spawns. Empty = normal spawn.
+var pending_teleport_arrival_id: String = ""
 var return_scene: PackedScene = null
 var episodes: Array = []  # registered Episode metadata ({id, title})
 
@@ -34,6 +37,7 @@ func clear_progress() -> void:
 	last_entrance_pos = Vector2i.ZERO
 	pending_player_spawn = Vector2i(-1, -1)
 	pending_level = null
+	pending_teleport_arrival_id = ""
 	return_scene = null
 	_levels_by_id.clear()
 
@@ -74,6 +78,7 @@ func enter_level_no_scene_swap(target_level_id: String, from_tile: Vector2i) -> 
 	last_entrance_pos = from_tile
 	pending_level = lvl
 	pending_player_spawn = Vector2i(-1, -1)  # use the level's own player_spawn
+	pending_teleport_arrival_id = ""
 	state = State.LEVEL
 
 
@@ -89,6 +94,7 @@ func complete_level_no_scene_swap() -> void:
 		mark_completed(current_level.level_id)
 	pending_level = current_overworld
 	pending_player_spawn = last_entrance_pos
+	pending_teleport_arrival_id = ""
 	current_level = null
 	state = State.OVERWORLD
 
@@ -103,6 +109,7 @@ func fail_level() -> void:
 func fail_level_no_scene_swap() -> void:
 	pending_level = current_overworld
 	pending_player_spawn = last_entrance_pos
+	pending_teleport_arrival_id = ""
 	current_level = null
 	state = State.OVERWORLD
 
@@ -131,6 +138,7 @@ func teleport_no_scene_swap(destination_level_id: String, destination_teleporter
 		return
 	pending_level = lvl
 	pending_player_spawn = tile
+	pending_teleport_arrival_id = destination_teleporter_id
 	if lvl.map_kind == LevelData.MapKind.LEVEL:
 		current_level = lvl
 		state = State.LEVEL

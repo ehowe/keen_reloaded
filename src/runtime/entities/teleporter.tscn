@@ -1,6 +1,63 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://d0pjfop0drekk"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/teleporter.gd" id="1_tp"]
+[ext_resource type="Script" uid="uid://bt8bvmgabwncn" path="res://src/runtime/entities/teleporter.gd" id="1_tp"]
+[ext_resource type="Texture2D" uid="uid://duvj3b65u01sv" path="res://assets/sprites/Teleporter.png" id="2_pef41"]
 
-[node name="Teleporter" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_pef41")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pef41"]
+atlas = ExtResource("2_pef41")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tit21"]
+atlas = ExtResource("2_pef41")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0scro"]
+atlas = ExtResource("2_pef41")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a7ay"]
+atlas = ExtResource("2_pef41")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5hik"]
+atlas = ExtResource("2_pef41")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pef41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tit21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0scro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a7ay")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5hik")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Teleporter" type="Node2D" unique_id=1532750741]
 script = ExtResource("1_tp")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=1427680898]
+texture = SubResource("AtlasTexture_x4u6v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1395446667]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame = 4
+frame_progress = 1.0
