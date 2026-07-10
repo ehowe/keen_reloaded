@@ -7,6 +7,7 @@ extends Episode
 func _init() -> void:
 	id = "keen1"
 	title = "Marooned on Mars"
+	overworld_path = "res://assets/levels/keen1/overworld.tres"
 
 
 func register_entities(registry: Node) -> void:
