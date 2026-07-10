@@ -1,7 +1,7 @@
 # Plan 6b — Feel & Feedback — Design Spec
 
 **Date:** 2026-07-09
-**Status:** Design (not yet implemented)
+**Status:** Implemented (merged to `main`; 362/362 GUT green)
 **Parent spec:** `docs/superpowers/specs/2026-06-25-keen-reloaded-design.md` (§6 Game Runtime)
 **Engine:** Godot 4.7 (stable), GDScript
 **Predecessors:** Plans 1–5, Plan 6a (audio)
