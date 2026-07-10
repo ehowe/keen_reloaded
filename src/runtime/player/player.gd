@@ -21,6 +21,10 @@ const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
 const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
 const SHOOT_POSE_TIME := 0.12
 const DEATH_LAUNCH_ANGLE_DEG := 60.0
+## CollisionShape2D node names per mode. Only the active mode's shape is enabled;
+## set_mode() toggles them so Keen collides against the right tileset geometry.
+const COLLISION_LEVEL := "Level"
+const COLLISION_OVERWORLD := "Overworld"
 
 @export var gravity: float = 1763.0
 @export var run_speed: float = 480.0
@@ -66,6 +70,7 @@ func _ready() -> void:
 	add_to_group("player")
 	ammo = 0
 	ammo_changed.emit(ammo)
+	_apply_collision_for_mode()
 	_align_sprite_feet()
 
 
@@ -78,10 +83,33 @@ func lock_input(dir: float = 0.0, speed_scale: float = 1.0) -> void:
 
 
 ## Switches the player between LEVEL (platformer) and OVERWORLD (top-down) rules.
-## Re-runs sprite alignment so the active sprite set is positioned correctly.
+## Enables only the matching CollisionShape2D and re-runs sprite alignment so the
+## active sprite set is positioned against the active collision box.
 func set_mode(m: int) -> void:
 	_mode = m
+	_apply_collision_for_mode()
 	_align_sprite_feet()
+
+
+## Enables only the current mode's CollisionShape2D and disables the other, so
+## Keen collides with level geometry in LEVEL mode and overworld geometry in
+## OVERWORLD mode. Called from _ready (default LEVEL) and set_mode.
+func _apply_collision_for_mode() -> void:
+	var level_active := (_mode == Mode.LEVEL)
+	var lvl := get_node_or_null(COLLISION_LEVEL) as CollisionShape2D
+	var ow := get_node_or_null(COLLISION_OVERWORLD) as CollisionShape2D
+	if lvl != null:
+		lvl.disabled = not level_active
+	if ow != null:
+		ow.disabled = level_active
+
+
+## Deferred collision disable, safe to call from inside a physics query flush
+## (e.g. Area2D body_entered -> take_damage -> _die). No-op if the node is absent.
+func _set_collision_disabled_deferred(node_name: String, disabled: bool) -> void:
+	var col := get_node_or_null(node_name) as CollisionShape2D
+	if col != null:
+		col.set_deferred("disabled", disabled)
 
 
 func _physics_process(delta: float) -> void:
@@ -239,12 +267,12 @@ func _die() -> void:
 	_dead = true
 	AudioManager.play_sfx("die")
 	_input_locked = true
-	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if col != null:
-		# Defer: _die() may fire from an Area2D body_entered callback (e.g. the
-		# Clapper) during the physics query flush, where a direct set is rejected
-		# and the shape stays enabled — leaving Keen colliding during death-flight.
-		col.set_deferred("disabled", true)
+	# Defer: _die() may fire from an Area2D body_entered callback (e.g. the
+	# Clapper) during the physics query flush, where a direct set is rejected
+	# and the shape stays enabled — leaving Keen colliding during death-flight.
+	# Disable both mode shapes so the death-flight ignores all tile geometry.
+	_set_collision_disabled_deferred(COLLISION_LEVEL, true)
+	_set_collision_disabled_deferred(COLLISION_OVERWORLD, true)
 	var rad := deg_to_rad(DEATH_LAUNCH_ANGLE_DEG)
 	velocity = Vector2(-cos(rad), -sin(rad)) * death_launch_speed
 	died.emit()
@@ -365,7 +393,8 @@ func _jump_anim_duration() -> float:
 
 
 func _align_sprite_feet() -> void:
-	var col := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var col_name := COLLISION_OVERWORLD if _mode == Mode.OVERWORLD else COLLISION_LEVEL
+	var col := get_node_or_null(col_name) as CollisionShape2D
 	if col == null or not (col.shape is RectangleShape2D):
 		return
 	var foot_y := (col.shape as RectangleShape2D).size.y * 0.5

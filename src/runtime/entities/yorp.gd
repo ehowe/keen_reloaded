@@ -66,7 +66,7 @@ func _solidify_against_player() -> void:
 	if p == null:
 		return
 	var yh := _rect_half("BodyShape")
-	var ph := _rect_half_of(p, "CollisionShape2D")
+	var ph := _rect_half_of(p, Player.COLLISION_LEVEL)
 	if yh == Vector2.ZERO or ph == Vector2.ZERO:
 		return
 	var dy := p.global_position.y - global_position.y

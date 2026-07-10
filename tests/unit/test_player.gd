@@ -287,11 +287,22 @@ func test_die_sets_upleft_launch_vector():
 
 func test_die_disables_collision_shape():
 	var p := _new_player()
-	var col := p.get_node("CollisionShape2D") as CollisionShape2D
+	var col := p.get_node("Level") as CollisionShape2D
 	assert_false(col.disabled, "collision enabled before death")
 	p.take_damage(p.health)
 	await get_tree().physics_frame
 	assert_true(col.disabled, "collision disabled on death so Keen flies through walls")
+
+
+func test_die_disables_both_mode_collisions():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)  # overworld shape active before death
+	p.take_damage(p.health)
+	await get_tree().physics_frame
+	var lvl := p.get_node(Player.COLLISION_LEVEL) as CollisionShape2D
+	var ow := p.get_node(Player.COLLISION_OVERWORLD) as CollisionShape2D
+	assert_true(lvl.disabled, "Level shape disabled on death")
+	assert_true(ow.disabled, "Overworld shape disabled on death")
 
 
 func test_death_launch_speed_default_is_800():

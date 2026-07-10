@@ -346,7 +346,7 @@ func test_death_via_area_body_entered_flies_through_ceiling():
 		p.velocity = Vector2(0, -300)
 		await get_tree().physics_frame
 	assert_true(p._dead, "player died via area body_entered")
-	var col := p.get_node("CollisionShape2D") as CollisionShape2D
+	var col := p.get_node("Level") as CollisionShape2D
 	var start := Vector2(p.global_position)
 	for i in 40:
 		await get_tree().physics_frame

@@ -168,8 +168,9 @@ func test_overworld_sprite_feet_aligned():
 	var p := _new_player()
 	p.set_mode(Player.Mode.OVERWORLD)
 	var down := p.get_node("OverworldDown") as AnimatedSprite2D
-	# collision 96 tall (foot_y=48), overworld sprite 64 tall (half=32) -> offset.y = -(32-48) = 16
-	assert_almost_eq(down.offset.y, 16.0, 0.5, "overworld sprite feet align to collision bottom")
+	# overworld collision 64 tall (foot_y=32), overworld sprite 64 tall (half=32)
+	# -> offset.y = -(32 - 32) = 0
+	assert_almost_eq(down.offset.y, 0.0, 0.5, "overworld sprite feet align to collision bottom")
 
 
 # Regression: _sync_visual_overworld() previously only touched OVERWORLD_SPRITES,
@@ -197,3 +198,46 @@ func test_overworld_mode_shows_exactly_one_sprite():
 		if n != null and n.visible:
 			vis_count += 1
 	assert_eq(vis_count, 1, "exactly one OVERWORLD sprite visible in OVERWORLD mode")
+
+
+func test_level_collision_nodes_exist():
+	var p := _new_player()
+	assert_not_null(p.get_node_or_null(Player.COLLISION_LEVEL), "Level collision node exists")
+	assert_not_null(p.get_node_or_null(Player.COLLISION_OVERWORLD), "Overworld collision node exists")
+
+
+# On spawn (default LEVEL) the Level shape is active and the Overworld shape is
+# disabled, so Keen collides against level geometry only.
+func test_ready_enables_level_disables_overworld_collision():
+	var p := _new_player()
+	var lvl := p.get_node(Player.COLLISION_LEVEL) as CollisionShape2D
+	var ow := p.get_node(Player.COLLISION_OVERWORLD) as CollisionShape2D
+	assert_false(lvl.disabled, "LEVEL default -> Level shape enabled")
+	assert_true(ow.disabled, "LEVEL default -> Overworld shape disabled")
+
+
+func test_overworld_mode_swaps_collision():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	var lvl := p.get_node(Player.COLLISION_LEVEL) as CollisionShape2D
+	var ow := p.get_node(Player.COLLISION_OVERWORLD) as CollisionShape2D
+	assert_true(lvl.disabled, "OVERWORLD mode -> Level shape disabled")
+	assert_false(ow.disabled, "OVERWORLD mode -> Overworld shape enabled")
+
+
+func test_back_to_level_re_enables_level_collision():
+	var p := _new_player()
+	p.set_mode(Player.Mode.OVERWORLD)
+	p.set_mode(Player.Mode.LEVEL)
+	var lvl := p.get_node(Player.COLLISION_LEVEL) as CollisionShape2D
+	var ow := p.get_node(Player.COLLISION_OVERWORLD) as CollisionShape2D
+	assert_false(lvl.disabled, "LEVEL restored -> Level shape enabled")
+	assert_true(ow.disabled, "LEVEL restored -> Overworld shape disabled")
+
+
+func test_overworld_collision_shape_is_64x64():
+	var p := _new_player()
+	var ow := p.get_node(Player.COLLISION_OVERWORLD) as CollisionShape2D
+	assert_true(ow.shape is RectangleShape2D, "Overworld shape is a RectangleShape2D")
+	var rect := ow.shape as RectangleShape2D
+	assert_eq(rect.size, Vector2(64, 64), "Overworld collision box is 64x64")
