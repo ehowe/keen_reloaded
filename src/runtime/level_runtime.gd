@@ -157,26 +157,33 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 
 
 func _build_hud(p: Node) -> void:
-	if _level.map_kind == LevelData.MapKind.OVERWORLD:
-		return  # No score/ammo/HP HUD on the overworld.
 	var layer := CanvasLayer.new()
 	layer.name = "HUD"
+	layer.layer = 1
 	add_child(layer)
-	var label := Label.new()
-	label.name = "HUDLabel"
-	label.position = Vector2(12, 8)
-	label.text = _hud_text(int(p.get("score")), int(p.get("ammo")), int(p.get("health")))
-	layer.add_child(label)
-	if p.has_signal("score_changed"):
-		p.score_changed.connect(func(s: int) -> void: label.text = _hud_text(s, int(p.get("ammo")), int(p.get("health"))))
-	if p.has_signal("ammo_changed"):
-		p.ammo_changed.connect(func(a: int) -> void: label.text = _hud_text(int(p.get("score")), a, int(p.get("health"))))
-	if p.has_signal("health_changed"):
-		p.health_changed.connect(func(h: int) -> void: label.text = _hud_text(int(p.get("score")), int(p.get("ammo")), h))
-
-
-func _hud_text(score: int, ammo: int, hp: int) -> String:
-	return "Score: %d   Ammo: %d   HP: %d" % [score, ammo, hp]
+	var hud: Hud = preload("res://src/ui/hud.tscn").instantiate()
+	layer.add_child(hud)
+	if _level.map_kind == LevelData.MapKind.OVERWORLD:
+		hud.set_mode(Hud.Mode.OVERWORLD)
+		var total := 0
+		for def in _level.entities:
+			if String(def.properties.get("target_level_id", "")) != "":
+				total += 1
+		var cleared := 0
+		if GameManager != null:
+			cleared = GameManager.completed_levels.size()
+		hud.set_cleared(cleared, total)
+	else:
+		hud.set_mode(Hud.Mode.LEVEL)
+		hud.set_health(int(p.get("health")), int(p.get("max_health")))
+		hud.set_ammo(int(p.get("ammo")), int(p.get("max_ammo")))
+		hud.set_score(int(p.get("score")))
+		if p.has_signal("health_changed"):
+			p.health_changed.connect(func(h: int) -> void: hud.set_health(h, int(p.get("max_health"))))
+		if p.has_signal("ammo_changed"):
+			p.ammo_changed.connect(func(a: int) -> void: hud.set_ammo(a, int(p.get("max_ammo"))))
+		if p.has_signal("score_changed"):
+			p.score_changed.connect(func(s: int) -> void: hud.set_score(s))
 
 
 func _spawn_entities(level: LevelData, ts: int) -> void:
@@ -200,6 +207,7 @@ func _on_level_completed() -> void:
 	AudioManager.play_sfx("complete")
 	var layer := CanvasLayer.new()
 	layer.name = "CompletionOverlay"
+	layer.layer = 10
 	layer.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(layer)
 	var panel: CompletionOverlay = preload("res://src/ui/completion_overlay.tscn").instantiate()

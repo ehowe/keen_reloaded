@@ -375,3 +375,36 @@ func test_build_stops_music_when_none():
 	add_child_autofree(rt)
 	rt.build(lvl)
 	assert_false(AudioManager._music_player.playing)
+
+
+func test_build_creates_level_hud():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	var hud := rt.find_child("Hud", true, false) as Hud
+	assert_not_null(hud, "HUD node present on level build")
+	assert_true((hud.get_node("LevelContainer") as CanvasItem).visible, "level HUD visible in LEVEL mode")
+	assert_eq((hud.get_node("LevelContainer/ScoreLabel") as Label).text, "Score 0", "score seeded from player")
+
+
+func test_overworld_hud_shows_cleared():
+	GameManager.completed_levels.clear()
+	var ld := LevelData.new()
+	ld.map_kind = LevelData.MapKind.OVERWORLD
+	ld.width = 4
+	ld.height = 3
+	ld.tile_size = 16
+	ld.fill_blank()
+	ld.player_spawn = Vector2i(0, 1)
+	ld.entities.append(EntityDef.new("keen1.level_entrance", 0, 0, {"target_level_id": "level1"}))
+	ld.entities.append(EntityDef.new("keen1.level_entrance", 1, 0, {"target_level_id": "level2"}))
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(ld)
+	var hud := rt.find_child("Hud", true, false) as Hud
+	assert_not_null(hud, "HUD node present on overworld build")
+	assert_true((hud.get_node("OverworldContainer") as CanvasItem).visible, "overworld HUD visible")
+	assert_eq((hud.get_node("OverworldContainer/ClearedLabel") as Label).text, "Levels cleared: 0 / 2", "M counts entrances, N is completed set size")
+	GameManager.completed_levels.clear()
