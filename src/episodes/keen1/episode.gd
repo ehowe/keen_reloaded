@@ -48,3 +48,11 @@ func register_entities(registry: Node) -> void:
 	var ship := preload("res://src/runtime/entities/ship.tscn")
 	registry.register("keen1.ship", registry.CATEGORY_SPECIAL, "Ship",
 		[], ship, overworld_only)
+	var teleporter := preload("res://src/runtime/entities/teleporter.tscn")
+	registry.register("keen1.teleporter", registry.CATEGORY_SPECIAL, "Teleporter",
+		[
+			{name = "teleporter_id", default = "", type = "string"},
+			{name = "destination_level_id", default = "", type = "string"},
+			{name = "destination_teleporter_id", default = "", type = "string"},
+		],
+		teleporter, all_kinds)
