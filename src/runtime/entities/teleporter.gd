@@ -159,13 +159,17 @@ func _on_animation_finished() -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	_nearby = true
+	# Only the player triggers proximity — tile collision bodies share layer 1
+	# and would otherwise permanently set _nearby (causing every teleporter to
+	# fire on the same interact press).
 	if body != null and body.is_in_group("player"):
+		_nearby = true
 		_player = body
 
 
-func _on_body_exited(_body: Node) -> void:
-	_nearby = false
+func _on_body_exited(body: Node) -> void:
+	if body != null and body.is_in_group("player"):
+		_nearby = false
 
 
 # --- test seams ---

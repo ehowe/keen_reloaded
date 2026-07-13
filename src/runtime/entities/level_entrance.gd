@@ -209,12 +209,16 @@ func _get_variant_sprite() -> Sprite2D:
 	return fallback
 
 
-func _on_body_entered(_body: Node) -> void:
-	_nearby = true
+func _on_body_entered(body: Node) -> void:
+	# Only the player triggers proximity — tile collision bodies share layer 1
+	# and would otherwise permanently set _nearby.
+	if body != null and body.is_in_group("player"):
+		_nearby = true
 
 
-func _on_body_exited(_body: Node) -> void:
-	_nearby = false
+func _on_body_exited(body: Node) -> void:
+	if body != null and body.is_in_group("player"):
+		_nearby = false
 
 
 # --- test seam ---

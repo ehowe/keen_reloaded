@@ -58,6 +58,23 @@ func test_attempt_enter_requires_nearby():
 	e._set_nearby_for_test(true)
 	assert_true(e.attempt_enter(true))
 
+func test_non_player_body_does_not_set_nearby():
+	# TileMapLayer collision bodies share layer 1 and enter proximity zones at
+	# build time. They must NOT mark the entrance as nearby — only the player.
+	var e := _make_entrance("a", false)
+	var decoy := StaticBody2D.new()
+	add_child_autofree(decoy)
+	e._on_body_entered(decoy)
+	assert_false(e.attempt_enter(true), "non-player body must not activate proximity")
+
+func test_player_body_sets_nearby():
+	var e := _make_entrance("a", false)
+	var p := CharacterBody2D.new()
+	p.add_to_group("player")
+	add_child_autofree(p)
+	e._on_body_entered(p)
+	assert_true(e.attempt_enter(true), "player body activates proximity")
+
 func test_attempt_enter_requires_interact():
 	var e := _make_entrance("a", false)
 	e._set_nearby_for_test(true)

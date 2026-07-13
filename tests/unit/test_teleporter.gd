@@ -44,6 +44,23 @@ func test_attempt_teleport_requires_nearby():
 	t._set_nearby_for_test(true)
 	assert_true(t.attempt_teleport(true))
 
+func test_non_player_body_does_not_set_nearby():
+	# TileMapLayer collision bodies share layer 1 and enter proximity zones at
+	# build time. They must NOT mark the teleporter as nearby — only the player.
+	var t := _teleporter()
+	var decoy := StaticBody2D.new()
+	add_child_autofree(decoy)
+	t._on_body_entered(decoy)
+	assert_false(t.attempt_teleport(true), "non-player body must not activate proximity")
+
+func test_player_body_sets_nearby():
+	var t := _teleporter()
+	var p := CharacterBody2D.new()
+	p.add_to_group("player")
+	add_child_autofree(p)
+	t._on_body_entered(p)
+	assert_true(t.attempt_teleport(true), "player body activates proximity")
+
 func test_attempt_teleport_requires_interact():
 	var t := _teleporter()
 	t._set_nearby_for_test(true)
