@@ -1,7 +1,7 @@
 # Plan 6c — Persistence (Save/Load) — Design Spec
 
 **Date:** 2026-07-13
-**Status:** Draft
+**Status:** Implemented
 **Parent spec:** `docs/superpowers/specs/2026-06-25-keen-reloaded-design.md`
 **Related:** `docs/superpowers/specs/2026-07-05-map-kind-overworld-loop-design.md` (defines `GameManager.serialize()`/`deserialize()` seams this plan wires to disk)
 **Engine:** Godot 4.7 (stable), GDScript

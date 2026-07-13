@@ -15,7 +15,7 @@ Plan 6 (Polish) was decomposed into three independent sub-plans:
 |---|---|---|
 | **6a — Audio** | music + SFX | **this spec** |
 | 6b — Feel & Feedback | HUD polish + gamepad mapping | ✅ done |
-| 6c — Persistence | save / progression (disk) | later |
+| 6c — Persistence | save / progression (disk) | done |
 
 Background/parallax was considered for 6a but **descoped by decision**: levels already ship static backgrounds via the existing `background_tiles` TileMapLayer (rendered in `LevelRuntime._add_tile_layer`). `LevelData.background_ref` stays unused and out of scope.
 

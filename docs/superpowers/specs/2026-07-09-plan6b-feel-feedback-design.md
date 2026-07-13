@@ -15,7 +15,7 @@ Plan 6 (Polish) was decomposed into three independent sub-plans:
 |---|---|---|
 | 6a — Audio | music + SFX | ✅ done |
 | **6b — Feel & Feedback** | **HUD polish + gamepad mapping** | **this spec** |
-| 6c — Persistence | save / progression (disk) | later |
+| 6c — Persistence | save / progression (disk) | done |
 
 Plan 6b delivers two independent improvements, bundled because both are small and
 both are "feel" surface area:
