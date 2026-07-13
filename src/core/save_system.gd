@@ -72,6 +72,69 @@ func clear_active() -> void:
 	active_slot = 0
 
 
+## Read metadata for every slot 1..SLOT_COUNT. Each entry is a Dictionary:
+##   {"slot": N, "status": "empty"|"occupied"|"corrupt"|"missing_pack"|
+##                       "unsupported_version", ...metadata}
+## Does NOT touch GameManager. Resolves pack validity via PackLoader.
+func list_slots() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for slot in range(1, SLOT_COUNT + 1):
+		out.append(_slot_status(slot))
+	return out
+
+
+func _slot_status(slot: int) -> Dictionary:
+	var base := saves_dir + "slot_%d.json" % slot
+	var entry := {"slot": slot}
+	if not FileAccess.file_exists(base):
+		entry["status"] = "empty"
+		return entry
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(base)) != OK:
+		entry["status"] = "corrupt"
+		return entry
+	var parsed: Variant = parser.data
+	if typeof(parsed) != TYPE_DICTIONARY:
+		entry["status"] = "corrupt"
+		return entry
+	var d: Dictionary = parsed
+	if not d.has("version") or not d.has("data"):
+		entry["status"] = "corrupt"
+		return entry
+	var ver: int = int(d["version"])
+	if ver != CURRENT_VERSION:
+		entry["status"] = "unsupported_version"
+		entry["version"] = ver
+		return entry
+	var kind: String = String(d.get("kind", ""))
+	var scope_id: String = String(d.get("scope_id", ""))
+	if kind == "pack" and PackLoader.get_overworld(scope_id) == null:
+		entry["status"] = "missing_pack"
+	else:
+		entry["status"] = "occupied"
+	entry["kind"] = kind
+	entry["scope_id"] = scope_id
+	entry["scope_title"] = String(d.get("scope_title", scope_id))
+	entry["saved_at"] = int(d.get("saved_at", 0))
+	entry["completed_count"] = int(d.get("completed_count", 0))
+	return entry
+
+
+## Remove a slot file and its .bak. Used by corrupt/missing-pack cleanup and
+## explicit user "clear slot" actions.
+func delete_slot(slot: int) -> void:
+	if slot < 1 or slot > SLOT_COUNT:
+		return
+	var base := saves_dir + "slot_%d.json" % slot
+	if FileAccess.file_exists(base):
+		DirAccess.remove_absolute(base)
+	var bak := base + ".bak"
+	if FileAccess.file_exists(bak):
+		DirAccess.remove_absolute(bak)
+	if active_slot == slot:
+		active_slot = 0
+
+
 ## Read a slot, validate, apply to GameManager via deserialize(), set active_slot.
 ## Falls back to <slot>.bak if the primary file fails validation. Returns true
 ## on success; on any failure GameManager is left untouched and active_slot
