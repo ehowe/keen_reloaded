@@ -6,6 +6,7 @@ extends Node
 
 const EPISODES_DIR := "res://src/episodes"
 const RUNTIME_SCENE := preload("res://src/runtime/level_runtime.tscn")
+const PAUSE_MENU := preload("res://src/ui/pause_menu.tscn")
 
 enum State { MENU, OVERWORLD, LEVEL, TEST }
 
@@ -28,6 +29,8 @@ var completed_levels: Array[String] = []
 var last_entrance_pos: Vector2i = Vector2i.ZERO
 
 var _levels_by_id: Dictionary = {}  # level_id -> LevelData (registry seam; Plan 5 fills via PackLoader)
+
+var _pause_menu: CanvasLayer = null
 
 
 ## Session-reset helper (also used by tests).
@@ -325,6 +328,25 @@ func deserialize(data: Dictionary) -> void:
 func _ready() -> void:
 	_ensure_input_actions()
 	register_episodes()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_pause()
+		get_viewport().set_input_as_handled()
+
+
+func _toggle_pause() -> void:
+	# No pause in menu or test mode.
+	if state == State.MENU or state == State.TEST:
+		return
+	if _pause_menu == null:
+		_pause_menu = PAUSE_MENU.instantiate()
+		get_tree().root.add_child(_pause_menu)
+	if _pause_menu.visible:
+		_pause_menu.close()
+	else:
+		_pause_menu.open()
 
 
 ## Scan src/episodes/*/episode.gd, instantiate each Episode, and register its
