@@ -55,7 +55,7 @@ TMPL_MARKER  := $(TMPL_DIR)/macos.zip
 TPZ          := Godot_v4.7-stable_export_templates.tpz
 TPZ_URL      := https://github.com/godotengine/godot/releases/download/4.7-stable/$(TPZ)
 
-.PHONY: all build build-all templates test import run run-app edit clean check-godot help
+.PHONY: all build build-all templates test import convert-levels run run-app edit clean check-godot help
 
 all: build
 
@@ -68,6 +68,7 @@ help:
 	@echo "  make run        - run project from source"
 	@echo "  make test       - run GUT tests"
 	@echo "  make import     - headless import"
+	@echo "  make convert-levels - regenerate binary .res from .tres LevelData"
 	@echo "  make edit       - open Godot editor"
 	@echo "  make clean      - remove build/ + export_presets.cfg"
 
@@ -128,7 +129,7 @@ export_presets.cfg:
 # Build: standalone app for the CURRENT host OS/arch. Re-exports every run.
 # Depends on: engine check, templates (auto-install), preset (auto-gen), import.
 # ---------------------------------------------------------------------------
-build: check-godot templates export_presets.cfg import
+build: check-godot templates export_presets.cfg import convert-levels
 	@echo ">> Exporting $(HOST_PRESET) ($(HOST_OS)/$(HOST_ARCH)) -> $(HOST_OUTPUT)"
 	@mkdir -p $(BUILD_DIR)
 	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
@@ -139,7 +140,7 @@ build: check-godot templates export_presets.cfg import
 # Build-all: cross-build every desktop platform into build/.
 # (Templates for all three ship in the single .tpz installed by `templates`.)
 # ---------------------------------------------------------------------------
-build-all: check-godot templates export_presets.cfg import
+build-all: check-godot templates export_presets.cfg import convert-levels
 	@mkdir -p $(BUILD_DIR)
 	@echo ">> Exporting macOS..."
 	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
@@ -157,6 +158,17 @@ check-godot:
 
 import:
 	@$(GODOT) --headless --import --quit
+
+# ---------------------------------------------------------------------------
+# ConvertLevels: regenerate .res binaries from authored .tres LevelData.
+# Godot 4.7's export converter strips PackedInt32Array tile data during
+# text→binary .tres conversion, so we pre-convert via ResourceSaver (which
+# preserves the arrays) and ship the .res alongside the .tres source. Runtime
+# (Episode.load_overworld / load_levels) prefers the .res sibling. Re-run
+# whenever a .tres under assets/levels/ changes.
+# ---------------------------------------------------------------------------
+convert-levels: check-godot
+	@$(GODOT) --headless --path . --script tools/convert_levels_to_res.gd 2>&1 | grep -E "converted=|warning|error" || true
 
 # ---------------------------------------------------------------------------
 # Run

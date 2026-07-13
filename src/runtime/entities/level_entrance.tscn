@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bps1y2r05fags" path="res://assets/sprites/Crystal.png" id="4_fghwl"]
 [ext_resource type="Texture2D" uid="uid://baw0lo7gnd7af" path="res://assets/sprites/Castle.png" id="7_g6cv4"]
 [ext_resource type="Texture2D" uid="uid://hf3p0kcxi1yq" path="res://assets/sprites/Treasury.png" id="8_qrcpf"]
+[ext_resource type="Texture2D" uid="uid://cdcescqq1x1jt" path="res://assets/sprites/Small Done.png" id="9_2f3ck"]
+[ext_resource type="Texture2D" uid="uid://6jw0gt2vpso8" path="res://assets/sprites/Large Done.png" id="10_x5ngc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
 atlas = ExtResource("2_a43v2")
@@ -15,33 +17,64 @@ atlas = ExtResource("2_a43v2")
 [sub_resource type="AtlasTexture" id="AtlasTexture_fghwl"]
 atlas = ExtResource("3_5e01r")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccdw"]
+atlas = ExtResource("9_2f3ck")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
+atlas = ExtResource("10_x5ngc")
+region = Rect2(0, 0, 128, 128)
+
 [node name="LevelEntrance" type="Node2D" unique_id=105064654]
 script = ExtResource("1_le")
 
 [node name="City" type="Sprite2D" parent="." unique_id=652746644]
+visible = false
 position = Vector2(0, -32)
 texture = SubResource("AtlasTexture_x4u6v")
+metadata/useLargeDoneTile = true
+metadata/doneVariant = "blue"
 
 [node name="Blue Shrine" type="Sprite2D" parent="." unique_id=1994985908]
 visible = false
 texture = ExtResource("3_464nk")
+metadata/useLargeDoneTile = false
+metadata/doneVariant = "blue"
 
 [node name="Emerald" type="Sprite2D" parent="." unique_id=107820338]
 visible = false
 texture = ExtResource("3_l1dfl")
+metadata/useLargeDoneTile = true
+metadata/doneVariant = "blue"
 
 [node name="Gray Shrine" type="Sprite2D" parent="." unique_id=1467140166]
 visible = false
 texture = SubResource("AtlasTexture_fghwl")
+metadata/useLargeDoneTile = false
+metadata/doneVariant = "blue"
 
 [node name="Crystal" type="Sprite2D" parent="." unique_id=1163336983]
 visible = false
 texture = ExtResource("4_fghwl")
+metadata/useLargeDoneTile = true
+metadata/doneVariant = "blue"
 
 [node name="Castle" type="Sprite2D" parent="." unique_id=924760483]
 visible = false
 texture = ExtResource("7_g6cv4")
+metadata/useLargeDoneTile = true
+metadata/doneVariant = "blue"
 
 [node name="Treasury" type="Sprite2D" parent="." unique_id=1560188097]
 visible = false
 texture = ExtResource("8_qrcpf")
+metadata/useLargeDoneTile = true
+metadata/doneVariant = "blue"
+
+[node name="Small Done" type="Sprite2D" parent="." unique_id=1412453544]
+visible = false
+texture = SubResource("AtlasTexture_qccdw")
+
+[node name="Large Done" type="Sprite2D" parent="." unique_id=331511178]
+visible = false
+texture = SubResource("AtlasTexture_07erc")

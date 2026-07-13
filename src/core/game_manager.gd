@@ -234,8 +234,10 @@ func _find_episode(ep_id: String) -> Episode:
 	dir.list_dir_begin()
 	var subdir := dir.get_next()
 	while subdir != "":
-		if dir.dir_exists(subdir) and dir.file_exists("%s/episode.gd" % subdir):
-			var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+		var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+		# ResourceLoader.exists (not DirAccess.file_exists) so the check still
+		# resolves after export, where scripts are stored as .gdc + .gd.remap.
+		if dir.dir_exists(subdir) and ResourceLoader.exists(path):
 			var ep_script: GDScript = load(path)
 			if ep_script != null:
 				var ep: Episode = ep_script.new()
@@ -280,8 +282,10 @@ func register_episodes() -> void:
 	dir.list_dir_begin()
 	var subdir := dir.get_next()
 	while subdir != "":
-		if dir.dir_exists(subdir) and dir.file_exists("%s/episode.gd" % subdir):
-			var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+		var path := "%s/%s/episode.gd" % [EPISODES_DIR, subdir]
+		# ResourceLoader.exists (not DirAccess.file_exists) so the check still
+		# resolves after export, where scripts are stored as .gdc + .gd.remap.
+		if dir.dir_exists(subdir) and ResourceLoader.exists(path):
 			var ep_script: GDScript = load(path)
 			if ep_script != null:
 				var ep: Episode = ep_script.new()

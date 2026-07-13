@@ -14,6 +14,14 @@ const TILE := 64
 const BLOCKER_SIZE := 48
 const PROXIMITY_RADIUS := 1  # tiles around the door in each direction (3x3 zone)
 
+# Done-overlay sprite names + color column layout. The done sheet packs three
+# color variants side by side; each column is `step` pixels wide.
+const DONE_SMALL_NODE := "Small Done"
+const DONE_LARGE_NODE := "Large Done"
+const DONE_STEP_LARGE := 128
+const DONE_STEP_SMALL := 64
+const DONE_COLOR_ORDER := ["blue", "red", "yellow"]
+
 var type_id: String = ""
 var target_level_id: String = ""
 var blocks_until_completed: bool = false
@@ -23,6 +31,11 @@ var _nearby: bool = false
 var _proximity: Area2D
 var _blocker: StaticBody2D
 var _blocker_shape: CollisionShape2D
+# Cached the first time _apply_done_visual runs (after EntityVariant selects the
+# variant in setup). Reused on later refreshes so a hidden variant is still
+# found.
+var _active_variant: Sprite2D = null
+var _done_atlas_duplicated: bool = false
 
 
 ## Called by EntityRegistry.instantiate. Reads editor-set properties. Order-
@@ -111,15 +124,89 @@ func is_blocking() -> bool:
 
 
 ## Recompute the blocker's solidity from GameManager state. Called on build and
-## after a level is completed.
+## after a level is completed. Also refreshes the done-overlay sprite so a
+## completed level's entrance swaps to its Small/Large Done tile.
 func refresh_blocking() -> void:
 	_apply_blocking()
+	_apply_done_visual()
 
 
 func _apply_blocking() -> void:
 	if _blocker_shape == null:
 		return
 	_blocker_shape.set_deferred("disabled", not is_blocking())
+
+
+## When the target level is completed, hide the active variant sprite and show
+## the matching done-overlay sprite (Small/Large per the variant's
+## `useLargeDoneTile` metadata) with its atlas region shifted to the column for
+## `doneVariant` (blue=0, red=1, yellow=2). Otherwise hide both done sprites and
+## leave the variant sprite visible. The AtlasTexture is duplicated before its
+## region is mutated so the shared tscn subresource is not corrupted across
+## instances.
+func _apply_done_visual() -> void:
+	var small := get_node_or_null(DONE_SMALL_NODE)
+	var large := get_node_or_null(DONE_LARGE_NODE)
+	if small == null or large == null:
+		return
+	(small as CanvasItem).visible = false
+	(large as CanvasItem).visible = false
+	if _active_variant == null:
+		_active_variant = _get_variant_sprite()
+	var variant := _active_variant
+	if variant == null:
+		return
+	var completed := target_level_id != "" and GameManager.is_level_completed(target_level_id)
+	if not completed:
+		variant.visible = true
+		return
+	variant.visible = false
+	var use_large := bool(variant.get_meta("useLargeDoneTile", false))
+	var done: Sprite2D = large if use_large else small
+	var step := DONE_STEP_LARGE if use_large else DONE_STEP_SMALL
+	var color := String(variant.get_meta("doneVariant", "blue")).to_lower()
+	var idx := DONE_COLOR_ORDER.find(color)
+	if idx < 0:
+		idx = 0
+	_set_atlas_column(done, idx * step)
+	done.position = variant.position
+	done.visible = true
+
+
+## Mutates the done sprite's atlas region to start at column `x`. The
+## AtlasTexture is duplicated once (on the first call for this instance) so the
+## shared tscn subresource is not corrupted across instances; subsequent calls
+## mutate the already-duplicated texture in place. Re-duplicating every call
+## frees the previous duplicate while the renderer may still hold a reference,
+## causing an intermittent SIGSEGV in exported builds.
+func _set_atlas_column(sprite: Sprite2D, x: int) -> void:
+	var base := sprite.texture as AtlasTexture
+	if base == null:
+		return
+	if not _done_atlas_duplicated:
+		var dup: AtlasTexture = base.duplicate()
+		sprite.texture = dup
+		base = dup
+		_done_atlas_duplicated = true
+	base.region.position.x = x
+
+
+## Returns the active variant sprite (the visible non-done Sprite2D), or the
+## first non-done Sprite2D if none is visible yet.
+func _get_variant_sprite() -> Sprite2D:
+	var fallback: Sprite2D = null
+	for c in get_children():
+		if not (c is Sprite2D):
+			continue
+		var nm := String(c.name)
+		if nm == DONE_SMALL_NODE or nm == DONE_LARGE_NODE:
+			continue
+		var s := c as Sprite2D
+		if s.visible:
+			return s
+		if fallback == null:
+			fallback = s
+	return fallback
 
 
 func _on_body_entered(_body: Node) -> void:

@@ -42,6 +42,7 @@ func _ready() -> void:
 		GameManager.pending_player_spawn = Vector2i(-1, -1)
 
 
+
 ## Find the just-spawned destination teleporter and play its arrival animation.
 ## Clears the arrival id whether or not the teleporter was found.
 func _trigger_arrival(teleporter_id: String) -> void:
