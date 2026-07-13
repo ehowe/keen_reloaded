@@ -72,6 +72,52 @@ func clear_active() -> void:
 	active_slot = 0
 
 
+## Read a slot, validate, apply to GameManager via deserialize(), set active_slot.
+## Falls back to <slot>.bak if the primary file fails validation. Returns true
+## on success; on any failure GameManager is left untouched and active_slot
+## is unchanged.
+func load_slot(slot: int) -> bool:
+	if slot < 1 or slot > SLOT_COUNT:
+		push_warning("SaveSystem: invalid slot %d" % slot)
+		return false
+	var base := saves_dir + "slot_%d.json" % slot
+	var payload: Variant = _read_and_validate(base)
+	if payload == null:
+		var bak := base + ".bak"
+		if FileAccess.file_exists(bak):
+			payload = _read_and_validate(bak)
+			if payload == null:
+				return false
+			push_warning("SaveSystem: slot %d primary corrupt, loaded .bak" % slot)
+		else:
+			return false
+	GameManager.deserialize(payload["data"])
+	active_slot = slot
+	return true
+
+
+## Read + JSON-parse + validate a slot file. Returns the validated Dictionary
+## (the full envelope including "data"), or null on any failure.
+func _read_and_validate(path: String) -> Variant:
+	if not FileAccess.file_exists(path):
+		return null
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(path)) != OK:
+		return null
+	var parsed: Variant = parser.data
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return null
+	var d: Dictionary = parsed
+	if not d.has("version") or not d.has("data"):
+		return null
+	var ver: int = int(d["version"])
+	if ver != CURRENT_VERSION:
+		return null  # forward-incompatible or pre-migration; no converters yet
+	if typeof(d["data"]) != TYPE_DICTIONARY:
+		return null
+	return d
+
+
 func _ensure_dir() -> void:
 	if not DirAccess.dir_exists_absolute(saves_dir):
 		DirAccess.make_dir_recursive_absolute(saves_dir)
