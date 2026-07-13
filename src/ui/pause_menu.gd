@@ -69,6 +69,7 @@ func _on_load() -> void:
 	ss.set_mode("continue")
 	ss.title.text = "Load — Choose Slot"
 	ss.slot_chosen.connect(_on_load_slot_chosen)
+	ss.slot_chosen.connect(func(_s: int, _m: String) -> void: ss.queue_free())
 
 
 func _on_load_slot_chosen(slot: int, _mode: String) -> void:
@@ -84,6 +85,8 @@ func _on_quit() -> void:
 	SaveSystem.save_active()
 	SaveSystem.clear_active()
 	get_tree().paused = false
+	visible = false
+	GameManager.state = GameManager.State.MENU
 	get_tree().change_scene_to_packed(MAIN_MENU)
 
 
