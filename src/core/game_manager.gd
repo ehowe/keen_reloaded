@@ -19,6 +19,9 @@ var return_scene: PackedScene = null
 var episodes: Array = []  # registered Episode metadata ({id, title})
 
 var current_episode_id: String = ""
+# "episode" or "pack". Set by start_episode/start_pack so SaveSystem can tag
+# saves and resume_overworld can pick the right overworld resolver.
+var current_scope_kind: String = "episode"
 var current_overworld: LevelData = null
 var current_level: LevelData = null
 var completed_levels: Array[String] = []
@@ -32,6 +35,7 @@ func clear_progress() -> void:
 	state = State.MENU
 	completed_levels.clear()
 	current_episode_id = ""
+	current_scope_kind = "episode"
 	current_overworld = null
 	current_level = null
 	last_entrance_pos = Vector2i.ZERO
@@ -249,11 +253,12 @@ func _find_episode(ep_id: String) -> Episode:
 	return null
 
 
-## Save-ready hooks (not wired to disk this spec; Plan 6 calls these).
+## Save-ready hooks. SaveSystem wraps this payload with slot metadata.
 func serialize() -> Dictionary:
 	return {
 		"completed_levels": completed_levels.duplicate(),
 		"current_episode_id": current_episode_id,
+		"current_scope_kind": current_scope_kind,
 	}
 
 
@@ -263,6 +268,8 @@ func deserialize(data: Dictionary) -> void:
 	for id in loaded:
 		completed_levels.append(String(id))
 	current_episode_id = String(data.get("current_episode_id", ""))
+	# Older saves (pre-Plan-6c) lack this key; default to "episode".
+	current_scope_kind = String(data.get("current_scope_kind", "episode"))
 
 
 func _ready() -> void:

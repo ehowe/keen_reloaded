@@ -211,3 +211,20 @@ func test_start_pack_sets_overworld_state_and_registers_levels():
 	assert_eq(GameManager.get_level_by_id("k1_01").level_id, "k1_01")
 	# fresh session: progress cleared on start_pack
 	assert_false(GameManager.is_level_completed("k1_01"))
+
+func test_current_scope_kind_defaults_episode():
+	assert_eq(GameManager.current_scope_kind, "episode")
+
+
+func test_serialize_carries_scope_kind_and_round_trips():
+	GameManager.current_scope_kind = "pack"
+	GameManager.current_episode_id = "mypack"
+	GameManager.mark_completed("lvl1")
+	var data := GameManager.serialize()
+	assert_eq(data.get("current_scope_kind", ""), "pack")
+	GameManager.clear_progress()
+	assert_eq(GameManager.current_scope_kind, "episode")
+	GameManager.deserialize(data)
+	assert_eq(GameManager.current_scope_kind, "pack")
+	assert_eq(GameManager.current_episode_id, "mypack")
+	assert_true(GameManager.is_level_completed("lvl1"))
