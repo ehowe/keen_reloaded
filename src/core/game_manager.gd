@@ -257,6 +257,7 @@ func resume_overworld_no_scene_swap() -> bool:
 	pending_level = ow
 	pending_player_spawn = Vector2i(-1, -1)
 	pending_teleport_arrival_id = ""
+	last_entrance_pos = Vector2i.ZERO
 	current_level = null
 	state = State.OVERWORLD
 	return true

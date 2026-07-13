@@ -300,3 +300,37 @@ func test_serialize_carries_scope_kind_post_resume():
 	GameManager.clear_progress()
 	GameManager.deserialize(data)
 	assert_eq(GameManager.current_scope_kind, "pack")
+
+
+func test_resume_overworld_pack_registers_levels_without_clearing():
+	# Install a real pack, seed completion as if loaded from a save.
+	var ow := LevelData.new()
+	ow.level_id = "ow"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	var lvl := LevelData.new()
+	lvl.level_id = "p1_01"
+	lvl.width = 2
+	lvl.height = 2
+	lvl.fill_blank()
+	_seed_pack_loader("resumepack", ow, [lvl])
+	GameManager.current_scope_kind = "pack"
+	GameManager.current_episode_id = "resumepack"
+	GameManager.mark_completed("p1_01")
+	var ok := GameManager.resume_overworld_no_scene_swap()
+	assert_true(ok)
+	assert_eq(GameManager.state, GameManager.State.OVERWORLD)
+	# Disk-loaded resources (CACHE_MODE_IGNORE) — verify by level_id, not identity.
+	assert_eq(GameManager.current_overworld.level_id, "ow")
+	assert_not_null(GameManager.get_level_by_id("p1_01"), "pack level registered")
+	assert_not_null(GameManager.get_level_by_id("ow"), "pack overworld registered")
+	assert_true(GameManager.is_level_completed("p1_01"), "completion preserved")
+
+
+func test_resume_overworld_missing_pack_returns_false():
+	# current_episode_id points at a pack that PackLoader does not have.
+	GameManager.current_scope_kind = "pack"
+	GameManager.current_episode_id = "ghost_pack"
+	assert_false(GameManager.resume_overworld_no_scene_swap())
