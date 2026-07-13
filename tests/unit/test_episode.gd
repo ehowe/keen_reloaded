@@ -82,5 +82,24 @@ func test_keen1_load_levels_finds_level1():
 	assert_true(found_01, "keen1_01 found in load_levels output")
 
 
+func test_bundled_overworld_tres_carries_tile_data():
+	# Regression: the authored overworld.tres is the source of truth (the
+	# convert_levels_to_res tool regenerates the .res sibling from it, and the
+	# in-game editor loads it directly). Its tile arrays must match w*h. An
+	# earlier commit stripped these arrays, leaving the editor blank.
+	var ld := load("res://assets/levels/keen1/overworld.tres") as LevelData
+	assert_not_null(ld, "overworld.tres loads as LevelData")
+	var want := ld.width * ld.height
+	assert_eq(ld.geometry_tiles.size(), want, "geometry_tiles present in overworld.tres")
+	assert_eq(ld.foreground_tiles.size(), want, "foreground_tiles present in overworld.tres")
+	assert_eq(ld.background_tiles.size(), want, "background_tiles present in overworld.tres")
+	var non_empty := 0
+	for t in ld.background_tiles:
+		if t != 0:
+			non_empty += 1
+			break
+	assert_gt(non_empty, 0, "overworld.tres has at least one painted tile (not blank)")
+
+
 func after_each():
 	GameManager.register_episodes()

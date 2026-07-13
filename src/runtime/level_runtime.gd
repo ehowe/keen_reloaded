@@ -266,10 +266,18 @@ func _on_completion_dismissed() -> void:
 		# Test ▶ from the editor: go back to the editor.
 		get_tree().change_scene_to_packed(GameManager.return_scene)
 	elif GameManager != null and GameManager.current_overworld != null:
-		# Overworld loop: return to the overworld at the entrance tile.
-		GameManager.complete_level()
+		# Overworld loop: defer the scene swap so it runs AFTER the input
+		# event flush completes. Calling change_scene_to_packed from inside
+		# _unhandled_input (the dismissal key press) crashes in exported
+		# builds because PackedScene::instantiate() runs synchronously
+		# during the input node iteration.
+		call_deferred("_do_complete_level")
 	else:
 		get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
+
+
+func _do_complete_level() -> void:
+	GameManager.complete_level()
 
 
 func _max_tile_id(level: LevelData) -> int:
