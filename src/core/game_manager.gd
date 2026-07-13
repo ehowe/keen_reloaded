@@ -90,6 +90,7 @@ func enter_level_no_scene_swap(target_level_id: String, from_tile: Vector2i) -> 
 ## completion so gate blockers clear on the rebuilt overworld.
 func complete_level() -> void:
 	complete_level_no_scene_swap()
+	SaveSystem.save_active()
 	get_tree().change_scene_to_packed(RUNTIME_SCENE)
 
 
@@ -107,6 +108,7 @@ func complete_level_no_scene_swap() -> void:
 ## respawns at the entrance he walked in from, level stays uncompleted.
 func fail_level() -> void:
 	fail_level_no_scene_swap()
+	SaveSystem.save_active()
 	get_tree().change_scene_to_packed(RUNTIME_SCENE)
 
 
@@ -126,6 +128,9 @@ func fail_level_no_scene_swap() -> void:
 func teleport(destination_level_id: String, destination_teleporter_id: String) -> bool:
 	if not teleport_no_scene_swap(destination_level_id, destination_teleporter_id):
 		return false
+	# Auto-save only when the teleport lands us back on an overworld.
+	if state == State.OVERWORLD:
+		SaveSystem.save_active()
 	get_tree().change_scene_to_packed(RUNTIME_SCENE)
 	return true
 
@@ -181,6 +186,7 @@ func start_episode(ep_id: String) -> void:
 
 func start_episode_no_scene_swap(ep_id: String, ow: LevelData) -> void:
 	current_episode_id = ep_id
+	current_scope_kind = "episode"
 	current_overworld = ow
 	register_level(ow)
 	# Register every LEVEL-kind map in the episode so level entrances resolve.
@@ -196,20 +202,24 @@ func start_episode_no_scene_swap(ep_id: String, ow: LevelData) -> void:
 ## Boot a custom level pack: resolve its overworld, register every pack level,
 ## then swap to the runtime scene in OVERWORLD state. Reuses the existing
 ## enter/complete/fail loop. (Bundled episodes use start_episode instead.)
+## New-game path: clears progress for a fresh session.
 func start_pack(pack_id: String) -> void:
 	var ow := PackLoader.get_overworld(pack_id)
 	if ow == null:
 		push_warning("GameManager: pack '%s' has no overworld" % pack_id)
 		return
+	clear_progress()
 	start_pack_no_scene_swap(pack_id, ow)
 	get_tree().change_scene_to_packed(RUNTIME_SCENE)
 
 
-## Non-scene-swap variant for headless tests.
+## Non-scene-swap variant for headless tests. Does NOT call clear_progress():
+## the public start_pack wrapper clears for the new-game path, and the load
+## path (resume_overworld_no_scene_swap) restores progress via deserialize
+## before calling this. Here we only register levels + set state.
 func start_pack_no_scene_swap(pack_id: String, ow: LevelData) -> void:
-	# Custom packs always start a fresh session (progress is session-held; save = Plan 6).
-	clear_progress()
 	current_episode_id = pack_id
+	current_scope_kind = "pack"
 	current_overworld = ow
 	# Explicit overworld register mirrors start_episode; the loop below re-registers
 	# it (same cached instance) — idempotent and harmless.
@@ -219,6 +229,45 @@ func start_pack_no_scene_swap(pack_id: String, ow: LevelData) -> void:
 	pending_level = ow
 	pending_player_spawn = Vector2i(-1, -1)
 	state = State.OVERWORLD
+
+
+## Resume the overworld for the current scope (episode or pack) after a save
+## load. Registers levels WITHOUT clearing progress (deserialize already
+## restored completed_levels). Returns false if the overworld is gone.
+func resume_overworld_no_scene_swap() -> bool:
+	var ow: LevelData = null
+	if current_scope_kind == "pack":
+		ow = PackLoader.get_overworld(current_episode_id)
+		if ow == null:
+			push_warning("GameManager: cannot resume — pack '%s' overworld gone" % current_episode_id)
+			return false
+		for lvl in PackLoader.get_levels(current_episode_id):
+			register_level(lvl)
+	else:
+		ow = _resolve_overworld(current_episode_id)
+		if ow == null:
+			push_warning("GameManager: cannot resume — episode '%s' overworld gone" % current_episode_id)
+			return false
+		var ep := _find_episode(current_episode_id)
+		if ep != null:
+			for lvl in ep.load_levels():
+				register_level(lvl)
+	current_overworld = ow
+	register_level(ow)
+	pending_level = ow
+	pending_player_spawn = Vector2i(-1, -1)
+	pending_teleport_arrival_id = ""
+	current_level = null
+	state = State.OVERWORLD
+	return true
+
+
+## Scene-swap wrapper for the load path. Called by the slot-select UI after
+## SaveSystem.load_slot has restored session state.
+func resume_overworld() -> void:
+	if not resume_overworld_no_scene_swap():
+		return
+	get_tree().change_scene_to_packed(RUNTIME_SCENE)
 
 
 func _resolve_overworld(ep_id: String) -> LevelData:

@@ -2,11 +2,15 @@ extends GutTest
 
 func before_each():
 	GameManager.clear_progress()
+	SaveSystem.saves_dir = SAVES_TMP
+	SaveSystem.active_slot = 0
+	PackLoader._remove_dir_recursive(SAVES_TMP)
 
 func after_each():
 	GameManager.clear_progress()
 	PackLoader._remove_dir_recursive(PL_TMP)
 	PackLoader.root_dir = "user://levelpacks/"
+	_restore_save_dir()
 
 func test_is_level_completed_false_by_default():
 	assert_false(GameManager.is_level_completed("keen1_01"))
@@ -150,6 +154,13 @@ func test_fail_level_returns_to_overworld_without_completing():
 
 const PL_TMP := "user://tmp_gm_packtest/"
 
+const SAVES_TMP := "user://tmp_gm_saves/"
+
+func _restore_save_dir():
+	PackLoader._remove_dir_recursive(SAVES_TMP)
+	SaveSystem.saves_dir = SaveSystem.DEFAULT_SAVES_DIR
+	SaveSystem.active_slot = 0
+
 func _seed_pack_loader(pack_id: String, ow: LevelData, levels: Array) -> void:
 	PackLoader.root_dir = PL_TMP
 	PackLoader._remove_dir_recursive(PL_TMP)
@@ -228,3 +239,64 @@ func test_serialize_carries_scope_kind_and_round_trips():
 	assert_eq(GameManager.current_scope_kind, "pack")
 	assert_eq(GameManager.current_episode_id, "mypack")
 	assert_true(GameManager.is_level_completed("lvl1"))
+
+
+func test_resume_overworld_episode_registers_levels_without_clearing():
+	# Seed completion state as if loaded from a save.
+	GameManager.current_scope_kind = "episode"
+	GameManager.current_episode_id = "keen1"
+	GameManager.mark_completed("keen1_01")
+	var ep := GameManager._find_episode("keen1")
+	assert_not_null(ep)
+	var ow := ep.load_overworld()
+	assert_not_null(ow)
+	# resume_overworld_no_scene_swap must register the overworld + episode
+	# levels without wiping the just-restored completion set.
+	var ok := GameManager.resume_overworld_no_scene_swap()
+	assert_true(ok)
+	assert_eq(GameManager.state, GameManager.State.OVERWORLD)
+	# load_overworld() uses ResourceLoader.CACHE_MODE_IGNORE, so the instance
+	# held here and the one resume re-resolved differ by identity; compare by id.
+	assert_eq(GameManager.current_overworld.level_id, ow.level_id)
+	assert_not_null(GameManager.get_level_by_id("keen1_01"))
+	assert_true(GameManager.is_level_completed("keen1_01"), "completion preserved")
+
+
+func test_resume_overworld_missing_episode_returns_false():
+	GameManager.current_scope_kind = "episode"
+	GameManager.current_episode_id = "no_such_episode"
+	assert_false(GameManager.resume_overworld_no_scene_swap())
+
+
+func test_start_pack_no_scene_swap_does_not_clear_progress():
+	# Per Plan 6c: start_pack_no_scene_swap no longer hard-clears; the public
+	# start_pack wrapper clears for the new-game path, and the load path uses
+	# resume_overworld_no_scene_swap instead.
+	GameManager.mark_completed("pre_existing")
+	var ow := LevelData.new()
+	ow.level_id = "ow"
+	ow.width = 2
+	ow.height = 2
+	ow.fill_blank()
+	ow.map_kind = LevelData.MapKind.OVERWORLD
+	_seed_pack_loader("clrpack", ow, [])
+	GameManager.start_pack_no_scene_swap("clrpack", ow)
+	assert_true(GameManager.is_level_completed("pre_existing"), "progress must survive _no_scene_swap")
+	assert_eq(GameManager.current_scope_kind, "pack")
+
+
+func test_save_active_noop_without_active_slot():
+	# save_active must be a no-op (no file/dir created) when active_slot == 0.
+	SaveSystem.active_slot = 0
+	assert_true(SaveSystem.save_active())
+	assert_false(DirAccess.dir_exists_absolute(SAVES_TMP))
+
+
+func test_serialize_carries_scope_kind_post_resume():
+	# After resume sets scope_kind, serialize must round-trip it.
+	GameManager.current_scope_kind = "pack"
+	var data := GameManager.serialize()
+	assert_eq(data["current_scope_kind"], "pack")
+	GameManager.clear_progress()
+	GameManager.deserialize(data)
+	assert_eq(GameManager.current_scope_kind, "pack")
