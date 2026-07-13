@@ -61,6 +61,8 @@ func _repopulate() -> void:
 		btn.disabled = not clickable
 		if clickable:
 			btn.pressed.connect(_on_slot_pressed.bind(entry))
+		btn.focus_entered.connect(_on_button_focus)
+		btn.pressed.connect(_on_button_select)
 		grid.add_child(btn)
 
 
