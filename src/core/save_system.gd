@@ -106,6 +106,9 @@ func _slot_status(slot: int) -> Dictionary:
 		entry["status"] = "unsupported_version"
 		entry["version"] = ver
 		return entry
+	if typeof(d["data"]) != TYPE_DICTIONARY:
+		entry["status"] = "corrupt"
+		return entry
 	var kind: String = String(d.get("kind", ""))
 	var scope_id: String = String(d.get("scope_id", ""))
 	if kind == "pack" and PackLoader.get_overworld(scope_id) == null:

@@ -247,3 +247,12 @@ func test_delete_slot_clears_active_if_match():
 func test_delete_slot_out_of_range_noop():
 	SaveSystem.delete_slot(0)  # no crash
 	SaveSystem.delete_slot(9)
+
+func test_list_slots_corrupt_data_not_dict():
+	# data present but not a Dictionary → corrupt (not occupied), matching
+	# _read_and_validate's contract so list_slots status == load_slot outcome.
+	var f := FileAccess.open(TMP + "slot_4.json", FileAccess.WRITE)
+	f.store_string('{"version": 1, "data": "not a dict", "kind": "episode", "scope_id": "keen1"}')
+	f.close()
+	var slots := SaveSystem.list_slots()
+	assert_eq(slots[3]["status"], "corrupt")
