@@ -1,6 +1,7 @@
 extends Control
 
 const MAIN_MENU := preload("res://src/ui/main_menu.tscn")
+const SLOT_SELECT := preload("res://src/ui/slot_select.tscn")
 
 @onready var list: ItemList = %PackList
 @onready var status: Label = %StatusLabel
@@ -69,7 +70,21 @@ func _on_item_activated(idx: int) -> void:
 	var packs := PackLoader.get_packs()
 	if packs.is_empty() or idx < 0 or idx >= packs.size():
 		return
-	GameManager.start_pack(packs[idx].pack_id)
+	var pack_id: String = packs[idx].pack_id
+	# Route through slot-select so the pack run is saveable.
+	var ss := SLOT_SELECT.instantiate()
+	add_child(ss)  # @onready vars resolve here
+	ss.set_mode("new_game")
+	ss.title.text = "New Pack Game — Choose Slot"
+	ss.slot_chosen.connect(func(slot: int, _mode: String) -> void:
+		_on_pack_slot_chosen(pack_id, slot))
+
+
+func _on_pack_slot_chosen(pack_id: String, slot: int) -> void:
+	SaveSystem.active_slot = slot
+	GameManager.clear_progress()
+	GameManager.start_pack(pack_id)
+	SaveSystem.save_active()
 
 
 func _back() -> void:
