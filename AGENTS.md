@@ -14,7 +14,15 @@ Godot 4.7 game (Commander Keen remaster). GDScript. Desktop-only.
 - **Run tests (headless):** `make test` (or `./tests/run_all.sh`)
 - **Import project:** `make import` (or `godot --headless --import --quit`)
 - **Open editor:** `make edit` (or `godot -e`)
+- **See version status:** `make version`
+- **Preview a release:** `make release-dry` (no side effects)
+- **Cut a release:** `make release` (bumps VERSION, patches project.godot, generates CHANGELOG.md, commits + tags — requires clean tree)
 - See `make help` for all targets.
+
+## Versioning
+CalVer `YYYY.MM.DD` (same-day re-release → `.2`, `.3`).
+Source of truth: `VERSION` file. `make release` patches it + `project.godot` + generates `CHANGELOG.md` from conventional commits.
+Title screen reads `application/config/version` at runtime (shows `"dev"` if unreleased).
 
 ## Testing
 GUT (Godot Unit Test) framework, vendored in `addons/gut/`.

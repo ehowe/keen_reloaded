@@ -14,6 +14,7 @@ func _ready() -> void:
 	%QuitButton.pressed.connect(func() -> void: get_tree().quit())
 	_wire_ui_sfx()
 	_update_continue_enabled()
+	_update_version_label()
 
 
 func _wire_ui_sfx() -> void:
@@ -44,6 +45,12 @@ func _update_continue_enabled() -> void:
 				has_occupied = true
 				break
 		(%ContinueButton as Button).disabled = not has_occupied
+
+
+func _update_version_label() -> void:
+	if has_node("%VersionLabel"):
+		var v: String = ProjectSettings.get_setting("application/config/version", "dev")
+		(%VersionLabel as Label).text = "v" + v
 
 
 func _ensure_play_button() -> void:

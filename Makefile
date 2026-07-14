@@ -13,6 +13,9 @@
 #   make import     Headless import / refresh the .godot cache
 #   make edit       Open the Godot editor
 #   make clean      Remove build/ and the generated export preset
+#   make version    Show current version + last tag + commits since tag
+#   make release-dry Preview the version a release would cut (no side effects)
+#   make release    Bump VERSION, patch project.godot, generate changelog, commit + tag
 #
 # Override the engine binary if needed:  make GODOT=/path/to/godot build
 
@@ -25,6 +28,11 @@ APP_NAME  := keen_reloaded
 MAC_APP   := $(BUILD_DIR)/$(APP_NAME).app
 WIN_EXE   := $(BUILD_DIR)/$(APP_NAME)_windows.exe
 LINUX_BIN := $(BUILD_DIR)/$(APP_NAME)_linux.x86_64
+
+# --- Versioning (CalVer YYYY.MM.DD) -----------------------------------------
+VERSION_FILE := VERSION
+VERSION      := $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0")
+LAST_TAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "")
 
 # --- Host OS/arch detection -------------------------------------------------
 # `make build` targets the host; `make build-all` cross-builds all platforms.
@@ -55,7 +63,7 @@ TMPL_MARKER  := $(TMPL_DIR)/macos.zip
 TPZ          := Godot_v4.7-stable_export_templates.tpz
 TPZ_URL      := https://github.com/godotengine/godot/releases/download/4.7-stable/$(TPZ)
 
-.PHONY: all build build-all templates test import convert-levels run run-app edit clean check-godot help
+.PHONY: all build build-all templates test import convert-levels run run-app edit clean check-godot version release release-dry help
 
 all: build
 
@@ -71,6 +79,9 @@ help:
 	@echo "  make convert-levels - regenerate binary .res from .tres LevelData"
 	@echo "  make edit       - open Godot editor"
 	@echo "  make clean      - remove build/ + export_presets.cfg"
+	@echo "  make version    - show current version + last tag + commits since tag"
+	@echo "  make release-dry - preview the version a release would cut"
+	@echo "  make release    - bump VERSION, changelog, commit + tag"
 
 # ---------------------------------------------------------------------------
 # Export templates: downloaded automatically if the marker is absent.
@@ -106,7 +117,7 @@ export_presets.cfg:
 			'[preset.0.options]' \
 			'custom_template/debug=""' 'custom_template/release=""' \
 			'application/bundle_identifier="com.keenreloaded.game"' \
-			'application/short_version="1.0"' 'application/version="1.0"' \
+			'application/short_version="$(VERSION)"' 'application/version="$(VERSION)"' \
 			'application/min_macos_version="10.12"' 'display/high_res=true' \
 			'codesign/codesign=0' 'notarization/notarization=0' '' ; \
 		printf '%s\n' '[preset.1]' '' \
@@ -185,6 +196,54 @@ else ifeq ($(HOST_OS),Linux)
 else
 	@"$(HOST_OUTPUT)"
 endif
+
+# ---------------------------------------------------------------------------
+# Versioning (CalVer YYYY.MM.DD)
+# ---------------------------------------------------------------------------
+version:
+	@echo "VERSION:  $(VERSION)"
+	@if [ -n "$(LAST_TAG)" ]; then \
+		since=$$(git rev-list --count $(LAST_TAG)..HEAD 2>/dev/null || echo "?"); \
+		echo "Last tag: $(LAST_TAG)"; \
+		echo "Commits since tag: $$since"; \
+	else \
+		echo "Last tag: none"; \
+		echo "Commits since tag: (no tags yet)"; \
+	fi
+
+release-dry:
+	@target=$$(./tools/version.sh); \
+	echo ">> Dry run — would release: v$$target"; \
+	echo ">> Would update: VERSION, project.godot"; \
+	echo ">> Would regenerate: export_presets.cfg (gitignored)"; \
+	if [ -n "$(LAST_TAG)" ]; then \
+		echo ">> Changelog range: $(LAST_TAG)..HEAD"; \
+	else \
+		echo ">> Changelog range: full history (no prior tag)"; \
+	fi; \
+	echo ">> Would prepend section to CHANGELOG.md"; \
+	echo ">> Would commit + tag v$$target"; \
+	echo ">> (no files modified)"
+
+release:
+	@test -z "$$(git status --porcelain)" || { echo "ERROR: working tree dirty. Commit or stash first."; exit 1; }
+	@set -e; \
+	target=$$(./tools/version.sh); \
+	echo ">> Releasing v$$target"; \
+	echo "$$target" > VERSION; \
+	./tools/set_project_version.sh "$$target"; \
+	rm -f export_presets.cfg && $(MAKE) --no-print-directory export_presets.cfg; \
+	section=$$(./tools/changelog.sh "$(LAST_TAG)" "$$target"); \
+	if [ -f CHANGELOG.md ]; then \
+		printf '%s\n\n' "$$section" | cat - CHANGELOG.md > CHANGELOG.md.tmp && mv CHANGELOG.md.tmp CHANGELOG.md; \
+	else \
+		printf '# Changelog\n\n%s\n' "$$section" > CHANGELOG.md; \
+	fi; \
+	git add VERSION CHANGELOG.md project.godot; \
+	git commit -m "chore(release): v$$target"; \
+	git tag "v$$target"; \
+	echo ">> Released v$$target"; \
+	echo ">> Push with: git push && git push --tags"
 
 # ---------------------------------------------------------------------------
 # Test / editor / clean
