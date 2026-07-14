@@ -88,3 +88,29 @@ func test_clear_progress_resets_arrival_id():
 	GameManager.pending_teleport_arrival_id = "stale"
 	GameManager.clear_progress()
 	assert_eq(GameManager.pending_teleport_arrival_id, "", "clear_progress resets arrival id")
+
+## Regression: when a stale level with the same level_id is registered (e.g. from
+## a prior game session that loaded a different .res), re-registering the current
+## instance (as test_run must do) must overwrite it so teleport resolves to the
+## CURRENT level, not the stale one.
+func test_register_overwrites_stale_level_for_teleport():
+	var stale := _level("ow", LevelData.MapKind.OVERWORLD)
+	_add_teleporter(stale, "light", 1, 1, "ow", "dark")
+	_add_teleporter(stale, "dark", 2, 2, "ow", "light")
+	GameManager.register_level(stale)
+	# Simulate test_run registering the edited instance.
+	var current := _level("ow", LevelData.MapKind.OVERWORLD)
+	_add_teleporter(current, "light", 1, 1, "ow", "dark")
+	_add_teleporter(current, "dark", 2, 2, "ow", "light")
+	GameManager.register_level(current)
+	assert_true(GameManager.teleport_no_scene_swap("ow", "dark"))
+	assert_eq(GameManager.pending_level, current, "teleport resolves to re-registered level, not stale")
+
+## Regression: clear_progress (called on quit-to-menu) must purge stale level
+## registrations so they cannot leak into a subsequent Test ▶ session.
+func test_clear_progress_purges_level_registrations():
+	var lvl := _level("ow", LevelData.MapKind.OVERWORLD)
+	_add_teleporter(lvl, "tp", 1, 1, "ow", "tp")
+	GameManager.register_level(lvl)
+	GameManager.clear_progress()
+	assert_null(GameManager.get_level_by_id("ow"), "stale registration purged by clear_progress")

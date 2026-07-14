@@ -86,7 +86,9 @@ func _on_quit() -> void:
 	SaveSystem.clear_active()
 	get_tree().paused = false
 	visible = false
-	GameManager.state = GameManager.State.MENU
+	# Clear ALL session state (including _levels_by_id) so stale level
+	# registrations don't leak into a subsequent Test ▶ session.
+	GameManager.clear_progress()
 	get_tree().change_scene_to_packed(MAIN_MENU)
 
 

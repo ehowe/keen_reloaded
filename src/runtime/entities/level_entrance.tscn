@@ -29,8 +29,7 @@ region = Rect2(0, 0, 128, 128)
 script = ExtResource("1_le")
 
 [node name="City" type="Sprite2D" parent="." unique_id=652746644]
-visible = false
-position = Vector2(0, -32)
+position = Vector2(-16, -32)
 texture = SubResource("AtlasTexture_x4u6v")
 metadata/useLargeDoneTile = true
 metadata/doneVariant = "blue"
@@ -42,7 +41,7 @@ metadata/useLargeDoneTile = false
 metadata/doneVariant = "blue"
 
 [node name="Emerald" type="Sprite2D" parent="." unique_id=107820338]
-visible = false
+position = Vector2(-16, -32)
 texture = ExtResource("3_l1dfl")
 metadata/useLargeDoneTile = true
 metadata/doneVariant = "blue"
@@ -60,13 +59,13 @@ metadata/useLargeDoneTile = true
 metadata/doneVariant = "blue"
 
 [node name="Castle" type="Sprite2D" parent="." unique_id=924760483]
-visible = false
+position = Vector2(-17, -16)
 texture = ExtResource("7_g6cv4")
 metadata/useLargeDoneTile = true
 metadata/doneVariant = "blue"
 
 [node name="Treasury" type="Sprite2D" parent="." unique_id=1560188097]
-visible = false
+position = Vector2(-16, -31)
 texture = ExtResource("8_qrcpf")
 metadata/useLargeDoneTile = true
 metadata/doneVariant = "blue"

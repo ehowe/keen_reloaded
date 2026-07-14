@@ -96,7 +96,10 @@ func load_level() -> void:
 
 ## Public entry used by the toolbar "Test ▶" button. Stashes the current level
 ## and swaps to the runtime scene for live play; Esc in the runtime returns here.
+## Registers the level so same-map teleports resolve to THIS instance instead of
+## a stale one left in _levels_by_id by a prior game session.
 func test_run() -> void:
+	GameManager.register_level(level)
 	GameManager.pending_level = level
 	GameManager.return_scene = preload("res://src/editor/level_editor.tscn")
 	get_tree().change_scene_to_packed(preload("res://src/runtime/level_runtime.tscn"))
@@ -402,10 +405,23 @@ func _on_save_path(path: String) -> void:
 		return
 	var err := ResourceSaver.save(level, path)
 	if err == OK:
+		_save_binary_sibling(path)
 		_remember_path(path)
 		_set_status("Saved: %s" % path)
 	else:
 		_set_status("Save FAILED (error %d): %s" % [err, path])
+
+
+## Saves a binary .res sibling next to a .tres so load_overworld() (which
+## prefers .res) stays in sync without a manual convert step. Best-effort:
+## warns on failure but never blocks the primary .tres save.
+func _save_binary_sibling(tres_path: String) -> void:
+	if tres_path.get_extension().to_lower() != "tres":
+		return
+	var bin_path := tres_path.get_basename() + ".res"
+	var bin_err := ResourceSaver.save(level, bin_path)
+	if bin_err != OK:
+		push_warning("LevelEditor: could not write binary sibling %s (err=%d)" % [bin_path, bin_err])
 
 
 func _on_load_path(path: String) -> void:
