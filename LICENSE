@@ -1,0 +1,91 @@
+keen_reloaded — Licensing
+==========================
+
+This project is a non-commercial fan work. It contains three different kinds of
+material, each with a different legal status. Please read this file in full.
+
+
+1. SOURCE CODE — MIT License
+----------------------------
+
+All original source code in this repository (everything under `src/`, `tools/`,
+`tests/`, the `Makefile`, the `addons/` vendored code, and project scripts) is
+licensed under the terms of the MIT License (see the full text below).
+
+In short: you may use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the code, for any purpose — including commercial —
+provided you include the copyright notice and this permission notice.
+
+The MIT License applies only to the SOURCE CODE, not to the derived artwork or
+the Commander Keen intellectual property (see section 2).
+
+
+2. COMMANDER KEEN IP & DERIVED ART — NOT LICENSED
+-------------------------------------------------
+
+*Commander Keen* and all related characters, names, story, and concepts are the
+property of **id Software**. This project is not affiliated with, endorsed by,
+or associated with id Software.
+
+The sprite and tile art in `assets/sprites/` and `assets/tilesets/` is DERIVED
+from the original *Commander Keen* games (edited: upscaled from 16px to 64px,
+and otherwise retouched for use in a modern engine). This art is a derivative
+work of copyrighted material that this project does not own and therefore
+CANNOT license. It is included for non-commercial fan use only and remains the
+property of id Software.
+
+The "Invasion of the Vorticons" title art is likewise id Software's property.
+
+Nothing in this repository grants any rights to the *Commander Keen*
+intellectual property or the derived artwork. If you wish to reuse the source
+code (section 1) you should supply your own original assets.
+
+
+3. AUDIO & HUD ICONS — CC0 (Public Domain)
+------------------------------------------
+
+All audio in `assets/audio/` and the HUD icons (`tools/gen_hud_icons.gd`) are
+programmatically generated original works dedicated to the public domain under
+CC0 1.0. No attribution required. See `assets/audio/LICENSE.txt`.
+
+
+4. THIRD-PARTY TOOLS — THEIR OWN LICENSES
+-----------------------------------------
+
+- **Godot Engine** — MIT License (https://godotengine.org/license)
+- **GUT (Godot Unit Test)** — MIT License, vendored in `addons/gut/`
+  (https://github.com/bitwes/Gut)
+
+These retain their respective licenses.
+
+
+===============================================================================
+MIT License
+===============================================================================
+
+Copyright (c) 2026 Eugene Howe
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+
+In plain terms: the original code here is free to use under the MIT License.
+The *Commander Keen* characters, names, and the derived sprites/tiles are NOT
+ours to give away — they belong to id Software and are used here only as a
+non-commercial fan tribute.
