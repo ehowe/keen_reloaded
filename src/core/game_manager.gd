@@ -47,6 +47,7 @@ func clear_progress() -> void:
 	pending_teleport_arrival_id = ""
 	return_scene = null
 	_levels_by_id.clear()
+	Inventory.clear()
 
 
 func is_level_completed(level_id: String) -> bool:
@@ -312,6 +313,7 @@ func serialize() -> Dictionary:
 		"completed_levels": completed_levels.duplicate(),
 		"current_episode_id": current_episode_id,
 		"current_scope_kind": current_scope_kind,
+		"inventory": Inventory.serialize(),
 	}
 
 
@@ -323,6 +325,7 @@ func deserialize(data: Dictionary) -> void:
 	current_episode_id = String(data.get("current_episode_id", ""))
 	# Older saves (pre-Plan-6c) lack this key; default to "episode".
 	current_scope_kind = String(data.get("current_scope_kind", "episode"))
+	Inventory.deserialize(data.get("inventory", {}))
 
 
 func _ready() -> void:

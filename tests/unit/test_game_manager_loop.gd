@@ -334,3 +334,30 @@ func test_resume_overworld_missing_pack_returns_false():
 	GameManager.current_scope_kind = "pack"
 	GameManager.current_episode_id = "ghost_pack"
 	assert_false(GameManager.resume_overworld_no_scene_swap())
+
+
+func test_serialize_carries_inventory():
+	Inventory.add_item("keen1.pogo")
+	var data := GameManager.serialize()
+	assert_true(data.has("inventory"))
+	assert_true(data["inventory"].has("keen1.pogo"))
+
+
+func test_deserialize_restores_inventory():
+	var data := {"completed_levels": [], "current_episode_id": "", "current_scope_kind": "episode", "inventory": {"keen1.pogo": true}}
+	GameManager.deserialize(data)
+	assert_true(Inventory.has_item("keen1.pogo"))
+
+
+func test_clear_progress_clears_inventory():
+	Inventory.add_item("keen1.pogo")
+	GameManager.clear_progress()
+	assert_false(Inventory.has_item("keen1.pogo"))
+
+
+func test_deserialize_old_save_without_inventory_key():
+	# Pre-this-plan saves lack the inventory key — must not error.
+	var data := {"completed_levels": ["x"], "current_episode_id": "keen1", "current_scope_kind": "episode"}
+	GameManager.deserialize(data)
+	assert_false(Inventory.has_item("keen1.pogo"))
+	assert_true(GameManager.is_level_completed("x"))

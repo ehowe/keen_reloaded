@@ -161,7 +161,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = _jump_dir * leap_speed
 			_jumping = true
 
-	if not _input_locked and Input.is_action_just_pressed("pogo"):
+	if not _input_locked and Inventory.has_item("keen1.pogo") and Input.is_action_just_pressed("pogo"):
 		_pogo = not _pogo
 
 	if _pogo and on_floor and _windup <= 0.0:

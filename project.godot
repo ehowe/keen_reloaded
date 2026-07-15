@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="keen_reloaded"
-config/version="2026.07.14"
 config/description="Commander Keen remaster — modular, episodic, with level editor"
+config/version="2026.07.14"
 run/main_scene="res://src/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
@@ -24,6 +24,7 @@ EntityRegistry="*res://src/core/entity_registry.gd"
 TileSetRegistry="*res://src/core/tileset_registry.gd"
 AudioManager="*res://src/core/audio_manager.gd"
 SaveSystem="*res://src/core/save_system.gd"
+Inventory="*res://src/core/inventory.gd"
 
 [display]
 
