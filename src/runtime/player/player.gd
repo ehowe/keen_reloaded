@@ -17,7 +17,8 @@ signal ammo_changed(ammo: int)
 signal died
 
 const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
-const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting", "Pogo"]
+const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting"]
+const POGO_SPRITES := ["PogoUpright", "PogoBounce"]
 const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
 const SHOOT_POSE_TIME := 0.12
 const DEATH_LAUNCH_ANGLE_DEG := 60.0
@@ -32,7 +33,10 @@ const COLLISION_OVERWORLD := "Overworld"
 @export var jump_velocity: float = 823.0
 @export var leap_speed: float = 480.0
 @export var air_accel: float = 3000.0
-@export var pogo_bounce: float = 1019.0
+@export var pogo_bounce: float = 823.0
+@export var pogo_bounce_max: float = 1211.0
+@export var pogo_drag: float = 1200.0
+@export var pogo_bounce_hold: float = 0.08
 @export var max_fall: float = 1920.0
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
@@ -64,6 +68,7 @@ var _mode: int = Mode.LEVEL
 var _overworld_dir: int = Direction.DOWN
 var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input while nonzero
 var _dead: bool = false
+var _pogo_bounce_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -129,6 +134,20 @@ func _physics_process(delta: float) -> void:
 	if _windup > 0.0:
 		# wind-up: halt horizontal; direction locked at jump press for launch
 		velocity.x = 0.0
+	elif _pogo:
+		# Pogo: air control via steer + momentum preservation across bounces.
+		# Forward motion continues at the same speed on landing (no friction).
+		if dir != 0.0:
+			var target := dir * run_speed
+			if on_floor:
+				velocity.x = target
+			else:
+				velocity.x = move_toward(velocity.x, target, air_accel * delta)
+			_facing = signi(dir)
+		elif not on_floor:
+			# Air drag: gradual deceleration when no input (smoother feel)
+			velocity.x = move_toward(velocity.x, 0.0, pogo_drag * delta)
+		# else (on_floor, no input): preserve momentum for the bounce
 	elif on_floor:
 		velocity.x = dir * run_speed * (_speed_scale if _input_locked else 1.0)
 		if dir != 0:
@@ -163,9 +182,10 @@ func _physics_process(delta: float) -> void:
 
 	if not _input_locked and Inventory.has_item("keen1.pogo") and Input.is_action_just_pressed("pogo"):
 		_pogo = not _pogo
+		_pogo_bounce_timer = 0.0
 
 	if _pogo and on_floor and _windup <= 0.0:
-		velocity.y = -pogo_bounce
+		velocity.y = -pogo_bounce_max if Input.is_action_pressed("jump") else -pogo_bounce
 		AudioManager.play_sfx("pogo")
 
 	if not _input_locked and Input.is_action_just_pressed("shoot"):
@@ -183,6 +203,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if is_on_floor():
 		_jumping = false
+	if _pogo and is_on_floor():
+		_pogo_bounce_timer = pogo_bounce_hold
+	elif _pogo_bounce_timer > 0.0:
+		_pogo_bounce_timer = maxf(_pogo_bounce_timer - delta, 0.0)
 	_shoot_timer = maxf(_shoot_timer - delta, 0.0)
 	_sync_visual()
 
@@ -290,6 +314,7 @@ func _sync_visual() -> void:
 
 func _sync_visual_death() -> void:
 	_hide_sprites(LEVEL_SPRITES)
+	_hide_pogo_sprites()
 	_hide_sprites(OVERWORLD_SPRITES)
 	var d := get_node_or_null("Death") as AnimatedSprite2D
 	if d == null:
@@ -311,9 +336,34 @@ func _hide_sprites(names: Array) -> void:
 			n.stop()
 
 
+func _hide_pogo_sprites() -> void:
+	for name in POGO_SPRITES:
+		var n := get_node_or_null(name) as Sprite2D
+		if n != null:
+			n.visible = false
+
+
 func _sync_visual_level() -> void:
 	_hide_sprites(OVERWORLD_SPRITES)
-	var anim := _current_anim(is_on_floor(), absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
+	var on_floor := is_on_floor()
+	if _pogo and _shoot_timer <= 0.0:
+		# Pogo: static Sprite2D selection. PogoBounce shows on landing (timer-based
+		# hold for ~5 frames around ground contact), PogoUpright all other times.
+		_hide_sprites(LEVEL_SPRITES)
+		var show_bounce := _pogo_bounce_timer > 0.0
+		var upright := get_node_or_null("PogoUpright") as Sprite2D
+		var bounce := get_node_or_null("PogoBounce") as Sprite2D
+		if upright != null:
+			upright.visible = not show_bounce
+			upright.flip_h = _facing < 0
+		if bounce != null:
+			bounce.visible = show_bounce
+			bounce.flip_h = _facing < 0
+		_anim = ""  # force anim restart when leaving pogo
+		return
+	# Non-pogo: hide pogo sprites, normal animated-sprite logic
+	_hide_pogo_sprites()
+	var anim := _current_anim(on_floor, absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
 	for name in LEVEL_SPRITES:
 		var n := get_node_or_null(name) as AnimatedSprite2D
 		if n == null:
@@ -346,6 +396,7 @@ func _overworld_anim_name() -> String:
 
 func _sync_visual_overworld() -> void:
 	_hide_sprites(LEVEL_SPRITES)
+	_hide_pogo_sprites()
 	var picked := _overworld_anim_name()
 	var moving := velocity.length() > 1.0
 	for name in OVERWORLD_SPRITES:
@@ -411,6 +462,13 @@ func _align_sprite_feet() -> void:
 		var dh := _frame_height(death)
 		if dh > 0.0:
 			death.offset.y = -(dh * 0.5 - foot_y)
+	for name in POGO_SPRITES:
+		var ps := get_node_or_null(name) as Sprite2D
+		if ps == null or ps.texture == null:
+			continue
+		var ph: float = ps.texture.get_height()
+		if ph > 0.0:
+			ps.offset.y = -(ph * 0.5 - foot_y)
 
 
 static func _frame_height(spr: AnimatedSprite2D) -> float:

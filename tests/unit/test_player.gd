@@ -358,3 +358,88 @@ func test_dead_takes_precedence_over_overworld_mode():
 func test_player_has_max_health_default():
 	var p: Player = add_child_autofree(Player.new())
 	assert_eq(p.max_health, 3, "default max_health is 3")
+
+
+# ---- Pogo physics ----
+
+func test_pogo_bounce_standard_is_three_tiles():
+	var p := _new_player()
+	var h := p.pogo_bounce * p.pogo_bounce / (2.0 * p.gravity)
+	assert_almost_eq(h, 3.0 * 64.0, 1.0, "standard pogo bounce = 3 tiles")
+
+func test_pogo_bounce_max_is_six_and_half_tiles():
+	var p := _new_player()
+	var h := p.pogo_bounce_max * p.pogo_bounce_max / (2.0 * p.gravity)
+	assert_almost_eq(h, 6.5 * 64.0, 1.0, "max pogo bounce = 6.5 tiles")
+
+func test_pogo_air_allows_horizontal_steer():
+	Inventory.add_item("keen1.pogo")
+	var p := _new_player()
+	p._pogo = true
+	p.velocity.x = 0.0
+	Input.action_press("move_right")
+	p._physics_process(0.016)
+	assert_gt(p.velocity.x, 0.0, "pogo air: input steers horizontally")
+	Input.action_release("move_right")
+	Inventory.clear()
+
+func test_pogo_air_drag_decelerates_no_input():
+	Inventory.add_item("keen1.pogo")
+	var p := _new_player()
+	p._pogo = true
+	p.velocity.x = 300.0
+	p._physics_process(0.016)
+	var expected := 300.0 - p.pogo_drag * 0.016
+	assert_almost_eq(p.velocity.x, expected, 0.5, "pogo air: gradual drag without input")
+	Inventory.clear()
+
+func test_pogo_air_drag_brings_to_zero():
+	Inventory.add_item("keen1.pogo")
+	var p := _new_player()
+	p._pogo = true
+	p.velocity.x = 480.0
+	for i in 200:
+		p._physics_process(0.016)
+	assert_almost_eq(p.velocity.x, 0.0, 0.5, "pogo air: drag eventually stops motion")
+	Inventory.clear()
+
+func test_pogo_air_steer_uses_run_speed_target():
+	Inventory.add_item("keen1.pogo")
+	var p := _new_player()
+	p._pogo = true
+	p.velocity.x = 0.0
+	Input.action_press("move_right")
+	# Simulate enough frames to reach near run_speed
+	for i in 100:
+		p._physics_process(0.016)
+	assert_almost_eq(absf(p.velocity.x), p.run_speed, 5.0, "pogo air: steers toward run_speed")
+	Input.action_release("move_right")
+	Inventory.clear()
+
+func test_pogo_shows_upright_in_air():
+	Inventory.add_item("keen1.pogo")
+	var p := _new_player()
+	p._pogo = true
+	p._sync_visual()
+	var upright := p.get_node_or_null("PogoUpright") as Sprite2D
+	var bounce := p.get_node_or_null("PogoBounce") as Sprite2D
+	assert_not_null(upright, "PogoUpright node exists")
+	assert_not_null(bounce, "PogoBounce node exists")
+	assert_true(upright.visible, "PogoUpright visible in air")
+	assert_false(bounce.visible, "PogoBounce hidden in air")
+	for name in Player.LEVEL_SPRITES:
+		var n := p.get_node_or_null(name) as AnimatedSprite2D
+		if n != null:
+			assert_false(n.visible, "%s hidden during pogo" % name)
+	Inventory.clear()
+
+func test_pogo_sprites_hidden_when_not_pogoing():
+	var p := _new_player()
+	p._pogo = false
+	p._sync_visual()
+	var upright := p.get_node_or_null("PogoUpright") as Sprite2D
+	var bounce := p.get_node_or_null("PogoBounce") as Sprite2D
+	if upright != null:
+		assert_false(upright.visible, "PogoUpright hidden when not pogoing")
+	if bounce != null:
+		assert_false(bounce.visible, "PogoBounce hidden when not pogoing")

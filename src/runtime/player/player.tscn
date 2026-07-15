@@ -120,28 +120,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ucsdg"]
-atlas = ExtResource("2_rbc7w")
-region = Rect2(680, 0, 64, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c8rte"]
-atlas = ExtResource("2_rbc7w")
-region = Rect2(748, 0, 64, 96)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_t1r0o"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ucsdg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c8rte")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_mt4dn"]
 atlas = ExtResource("3_odxas")
 region = Rect2(544, 0, 64, 64)
@@ -308,6 +286,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_rbc7w")
+region = Rect2(680, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f00d8"]
+atlas = ExtResource("2_rbc7w")
+region = Rect2(748, 0, 64, 96)
+
 [node name="Player" type="CharacterBody2D" unique_id=85974780]
 z_index = 1
 collision_mask = 4
@@ -344,10 +330,6 @@ frame_progress = 0.37275806
 visible = false
 sprite_frames = SubResource("SpriteFrames_f7soo")
 
-[node name="Pogo" type="AnimatedSprite2D" parent="." unique_id=19181197]
-visible = false
-sprite_frames = SubResource("SpriteFrames_t1r0o")
-
 [node name="OverworldUp" type="AnimatedSprite2D" parent="." unique_id=1013987129]
 visible = false
 sprite_frames = SubResource("SpriteFrames_0uirr")
@@ -371,3 +353,9 @@ sprite_frames = SubResource("SpriteFrames_b8cap")
 visible = false
 sprite_frames = SubResource("SpriteFrames_o820e")
 frame_progress = 0.115484014
+
+[node name="PogoUpright" type="Sprite2D" parent="." unique_id=1938096912]
+texture = SubResource("AtlasTexture_x4u6v")
+
+[node name="PogoBounce" type="Sprite2D" parent="." unique_id=789170289]
+texture = SubResource("AtlasTexture_f00d8")

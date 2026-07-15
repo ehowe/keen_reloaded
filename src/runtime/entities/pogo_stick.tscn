@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cnmbpok8ok5do"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/pogo_stick.gd" id="1_pogo"]
+[ext_resource type="Script" uid="uid://bqmerwsb3cojw" path="res://src/runtime/entities/pogo_stick.gd" id="1_pogo"]
+[ext_resource type="Texture2D" uid="uid://b7ihigfw4amcd" path="res://assets/sprites/Pickups.png" id="2_qmnr1"]
 
-[node name="PogoStick" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_qmnr1")
+region = Rect2(320, 0, 64, 64)
+
+[node name="PogoStick" type="CharacterBody2D" unique_id=1284576004]
 script = ExtResource("1_pogo")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=1714289468]
+texture = SubResource("AtlasTexture_x4u6v")
