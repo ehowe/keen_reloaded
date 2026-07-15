@@ -25,9 +25,9 @@ GODOT ?= /Users/eugene/.local/share/mise/installs/godot/4.7-stable/Godot.app/Con
 # --- Build output -----------------------------------------------------------
 BUILD_DIR := build
 APP_NAME  := keen_reloaded
-MAC_APP   := $(BUILD_DIR)/$(APP_NAME).app
-WIN_EXE   := $(BUILD_DIR)/$(APP_NAME)_windows.exe
-LINUX_BIN := $(BUILD_DIR)/$(APP_NAME)_linux.x86_64
+MAC_APP   := $(BUILD_DIR)/macos/$(APP_NAME).app
+WIN_EXE   := $(BUILD_DIR)/windows/$(APP_NAME)_windows.exe
+LINUX_BIN := $(BUILD_DIR)/linux/$(APP_NAME)_linux.x86_64
 
 # --- Versioning (CalVer YYYY.MM.DD) -----------------------------------------
 VERSION_FILE := VERSION
@@ -141,8 +141,8 @@ export_presets.cfg:
 # Depends on: engine check, templates (auto-install), preset (auto-gen), import.
 # ---------------------------------------------------------------------------
 build: check-godot templates export_presets.cfg import convert-levels
+	@mkdir -p $(dir $(HOST_OUTPUT))
 	@echo ">> Exporting $(HOST_PRESET) ($(HOST_OS)/$(HOST_ARCH)) -> $(HOST_OUTPUT)"
-	@mkdir -p $(BUILD_DIR)
 	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
 	@echo ">> Built: $(HOST_OUTPUT)"
 	@echo ">> Launch with: make run-app"
@@ -152,7 +152,7 @@ build: check-godot templates export_presets.cfg import convert-levels
 # (Templates for all three ship in the single .tpz installed by `templates`.)
 # ---------------------------------------------------------------------------
 build-all: check-godot templates export_presets.cfg import convert-levels
-	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN))
 	@echo ">> Exporting macOS..."
 	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
 	@echo ">> Exporting Windows Desktop..."

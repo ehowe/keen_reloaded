@@ -98,7 +98,8 @@ The project is under active development. Here is what works and what is planned.
 - **Tests** — ~50 GUT test files covering data model, editor commands, runtime,
   entity AI, packs, save system, and UI smoke tests.
 - **Cross-platform builds** — `make build-all` produces macOS, Windows, and
-  Linux binaries from one project.
+  Linux binaries from one project. Only macOS builds have been tested; Windows
+  and Linux builds are **completely untested** and likely do not work yet.
 
 ### Not Yet Done
 
