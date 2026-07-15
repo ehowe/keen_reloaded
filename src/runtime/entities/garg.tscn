@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://d371024eihh7k"]
+
+[ext_resource type="Script" uid="uid://dmf3o31nnxcv" path="res://src/runtime/entities/garg.gd" id="1_garg"]
+[ext_resource type="Texture2D" uid="uid://bvxi75sx101n1" path="res://assets/sprites/Garg 96x128.png" id="2_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lubv2"]
+atlas = ExtResource("2_tex")
+region = Rect2(200, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_461qe"]
+atlas = ExtResource("2_tex")
+region = Rect2(300, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3gtx2"]
+atlas = ExtResource("2_tex")
+region = Rect2(400, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djuw3"]
+atlas = ExtResource("2_tex")
+region = Rect2(500, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_idle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lubv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_461qe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3gtx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_djuw3")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_walk0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_walk1"]
+atlas = ExtResource("2_tex")
+region = Rect2(100, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_walk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_walk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_walk1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64ww2"]
+atlas = ExtResource("2_tex")
+region = Rect2(600, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnk0e"]
+atlas = ExtResource("2_tex")
+region = Rect2(700, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_shot"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64ww2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnk0e")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Garg" type="CharacterBody2D" unique_id=1082238192]
+script = ExtResource("1_garg")
+
+[node name="Idle" type="AnimatedSprite2D" parent="." unique_id=722074703]
+sprite_frames = SubResource("SpriteFrames_idle")
+frame_progress = 0.52006906
+
+[node name="Walking" type="AnimatedSprite2D" parent="." unique_id=1096910519]
+visible = false
+sprite_frames = SubResource("SpriteFrames_walk")
+frame_progress = 0.38609615
+
+[node name="Shot" type="AnimatedSprite2D" parent="." unique_id=316608919]
+visible = false
+sprite_frames = SubResource("SpriteFrames_shot")
+frame = 1
+frame_progress = 1.0
