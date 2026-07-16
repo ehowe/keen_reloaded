@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://t15ef31bsdio"]
+
+[ext_resource type="Script" path="res://src/runtime/entities/fire.gd" id="1_fire"]
+[ext_resource type="Texture2D" uid="uid://lwlf8vbpd005" path="res://assets/sprites/Fire.png" id="2_f88g6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afyrh"]
+atlas = ExtResource("2_f88g6")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rig65"]
+atlas = ExtResource("2_f88g6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hqck"]
+atlas = ExtResource("2_f88g6")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsqnw"]
+atlas = ExtResource("2_f88g6")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afyrh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rig65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hqck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsqnw")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Fire" type="CharacterBody2D" unique_id=403099629]
+script = ExtResource("1_fire")
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=1851937330]
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+autoplay = "default"

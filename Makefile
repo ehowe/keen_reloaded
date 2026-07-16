@@ -6,6 +6,7 @@
 #   make build      Export a standalone app for the CURRENT OS/arch
 #                   (macOS -> .app, Windows -> .exe, Linux -> binary)
 #   make build-all  Cross-build all three desktop targets into build/
+#                   (macOS export also produces a .dmg via create-dmg)
 #   make run-app    Build for current host, then launch it
 #   make templates  Download + install Godot export templates (idempotent, ~1.3GB once)
 #   make run        Run the project from source
@@ -33,6 +34,8 @@ LINUX_BIN := $(BUILD_DIR)/linux/$(APP_NAME)_linux.x86_64
 VERSION_FILE := VERSION
 VERSION      := $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0")
 LAST_TAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+MAC_DMG      := $(BUILD_DIR)/macos/$(APP_NAME).$(VERSION).dmg
 
 # --- Host OS/arch detection -------------------------------------------------
 # `make build` targets the host; `make build-all` cross-builds all platforms.
@@ -70,7 +73,7 @@ all: build
 help:
 	@echo "keen_reloaded targets:"
 	@echo "  make build      - export app for current OS/arch ($(HOST_OS)/$(HOST_ARCH))"
-	@echo "  make build-all  - cross-build macOS + Windows + Linux into build/"
+	@echo "  make build-all  - cross-build macOS (+DMG) + Windows + Linux into build/"
 	@echo "  make run-app    - build (current host) then launch"
 	@echo "  make templates  - install export templates (~1.3GB, one-time)"
 	@echo "  make run        - run project from source"
@@ -145,6 +148,11 @@ build: check-godot templates export_presets.cfg import convert-levels
 	@echo ">> Exporting $(HOST_PRESET) ($(HOST_OS)/$(HOST_ARCH)) -> $(HOST_OUTPUT)"
 	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
 	@echo ">> Built: $(HOST_OUTPUT)"
+ifeq ($(HOST_OS),Darwin)
+	@echo ">> Creating DMG: $(MAC_DMG)"
+	@create-dmg --overwrite "$(MAC_DMG)" "$(dir $(MAC_APP))"
+	@echo ">> DMG: $(MAC_DMG)"
+endif
 	@echo ">> Launch with: make run-app"
 
 # ---------------------------------------------------------------------------
@@ -155,12 +163,16 @@ build-all: check-godot templates export_presets.cfg import convert-levels
 	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN))
 	@echo ">> Exporting macOS..."
 	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
+	@echo ">> Creating DMG: $(MAC_DMG)"
+	@create-dmg --overwrite "$(MAC_DMG)" "$(dir $(MAC_APP))"
+	@echo ">> DMG: $(MAC_DMG)"
 	@echo ">> Exporting Windows Desktop..."
 	@$(GODOT) --headless --export-release "Windows Desktop" "$(WIN_EXE)"
 	@echo ">> Exporting Linux..."
 	@$(GODOT) --headless --export-release "Linux" "$(LINUX_BIN)"
 	@echo ">> Built all platforms:"
 	@echo "   $(MAC_APP)"
+	@echo "   $(MAC_DMG)"
 	@echo "   $(WIN_EXE)"
 	@echo "   $(LINUX_BIN)"
 

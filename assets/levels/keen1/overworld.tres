@@ -84,7 +84,7 @@ x = 13
 y = 16
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_05",
 "variant": "Gray Shrine"
 }
 
