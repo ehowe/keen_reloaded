@@ -51,7 +51,7 @@ x = 22
 y = 28
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_02",
 "variant": "Blue Shrine"
 }
 
