@@ -36,6 +36,7 @@ func build(e: LevelEditor) -> void:
 	_map_kind_picker.name = "MapKindPicker"
 	_map_kind_picker.add_item("Level", LevelData.MapKind.LEVEL)
 	_map_kind_picker.add_item("Overworld", LevelData.MapKind.OVERWORLD)
+	_map_kind_picker.add_item("Message", LevelData.MapKind.MESSAGE)
 	_map_kind_picker.item_selected.connect(_on_map_kind_selected)
 	add_child(_labeled("Map Kind", _map_kind_picker))
 
