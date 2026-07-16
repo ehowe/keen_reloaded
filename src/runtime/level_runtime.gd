@@ -307,9 +307,20 @@ func _on_message_requested(target_level_id: String) -> void:
 	_add_tile_layer(msg_level, LevelData.LAYER_BACKGROUND, ts_decor, center)
 	_add_tile_layer(msg_level, LevelData.LAYER_FOREGROUND, ts_decor, center)
 	_add_tile_layer(msg_level, LevelData.LAYER_GEOMETRY, ts_geo, center)
+	# The TileMapLayer renders at the TileSet's native tile_size (e.g. 64px),
+	# NOT at LevelData.tile_size. Use the TileSet's size for centering and fit.
+	var render_ts := ts
+	if ts_decor != null:
+		render_ts = ts_decor.tile_size.x
 	var vp := get_viewport_rect().size
-	var lvl_px := Vector2(msg_level.width * ts, msg_level.height * ts)
-	center.position = vp * 0.5 - lvl_px * 0.5
+	var rendered_px := Vector2(msg_level.width * render_ts, msg_level.height * render_ts)
+	# Scale to fit within viewport (with margin); never upscale beyond native.
+	var margin_f := 0.85
+	var fit := minf(vp.x * margin_f / rendered_px.x, vp.y * margin_f / rendered_px.y)
+	if fit > 1.0:
+		fit = 1.0
+	center.scale = Vector2(fit, fit)
+	center.position = vp * 0.5 - rendered_px * fit * 0.5
 	layer.add_child(center)
 	get_tree().paused = true
 

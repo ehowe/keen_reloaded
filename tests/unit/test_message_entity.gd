@@ -113,10 +113,44 @@ func test_runtime_message_overlay_builds_and_dismisses():
 	assert_not_null(rt.find_child("MessageOverlay", true, false), "overlay added")
 	assert_true(get_tree().paused, "tree paused")
 
+	# Verify the MessageContent node exists and is centered/scaled.
+	var content := rt.find_child("MessageContent", true, false) as Node2D
+	assert_not_null(content, "MessageContent node exists")
+	assert_eq(content.scale, Vector2.ONE, "small message not upscaled (fit capped at 1.0)")
+
 	# Dismiss.
 	rt._on_message_dismissed()
 	assert_false(get_tree().paused, "tree unpaused after dismiss")
 	assert_null(rt.find_child("MessageOverlay", true, false), "overlay removed")
+
+
+func test_runtime_message_overlay_scales_large_message():
+	# A message larger than the viewport should be scaled down to fit.
+	var msg_level := LevelData.new()
+	msg_level.level_id = "big_msg"
+	msg_level.width = 200
+	msg_level.height = 200
+	msg_level.tile_size = 16
+	msg_level.fill_blank()
+	msg_level.map_kind = LevelData.MapKind.MESSAGE
+	GameManager.register_level(msg_level)
+
+	var level := LevelData.new()
+	level.width = 6
+	level.height = 4
+	level.tile_size = 16
+	level.fill_blank()
+	level.player_spawn = Vector2i(1, 1)
+	level.entities.append(EntityDef.new("keen1.message", 3, 1, {"target_level_id": "big_msg"}))
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(level)
+
+	rt._on_message_requested("big_msg")
+	var content := rt.find_child("MessageContent", true, false) as Node2D
+	assert_not_null(content, "MessageContent exists for large message")
+	assert_true(content.scale.x < 1.0 and content.scale.y < 1.0, "large message scaled down to fit viewport")
+	rt._on_message_dismissed()
 
 
 func test_runtime_message_unknown_level_no_crash():
