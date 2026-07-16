@@ -69,7 +69,7 @@ func load_levels() -> Array:
 		if pick == overworld_path.get_file():
 			continue  # skip the overworld itself
 		var res := load(dir_path + pick)
-		if res is LevelData and res.map_kind == LevelData.MapKind.LEVEL:
+		if res is LevelData and res.map_kind in [LevelData.MapKind.LEVEL, LevelData.MapKind.MESSAGE]:
 			levels.append(res)
 	return levels
 
