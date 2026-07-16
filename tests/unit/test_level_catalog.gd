@@ -67,6 +67,31 @@ func test_scan_handles_missing_dir() -> void:
 	assert_eq(ids, [])
 
 
+func test_load_levels_in_dir_returns_resources() -> void:
+	assert_eq(ResourceSaver.save(_make_level("aaa"), TMP + "a.tres"), OK)
+	assert_eq(ResourceSaver.save(_make_level("bbb"), TMP + "b.tres"), OK)
+	var levels := LevelCatalog.load_levels_in_dir(TMP)
+	assert_eq(levels.size(), 2)
+	var ids: Array[String] = []
+	for ld in levels:
+		ids.append(ld.level_id)
+	ids.sort()
+	assert_eq(ids, ["aaa", "bbb"])
+
+
+func test_load_levels_in_dir_recursive() -> void:
+	_make_dir(TMP + "sub/")
+	assert_eq(ResourceSaver.save(_make_level("top"), TMP + "t.tres"), OK)
+	assert_eq(ResourceSaver.save(_make_level("nested"), TMP + "sub/n.tres"), OK)
+	var levels := LevelCatalog.load_levels_in_dir(TMP)
+	assert_eq(levels.size(), 2)
+
+
+func test_load_levels_in_dir_missing_returns_empty() -> void:
+	var levels := LevelCatalog.load_levels_in_dir("user://nonexistent_xyz/")
+	assert_eq(levels.size(), 0)
+
+
 func _make_dir(path: String) -> void:
 	DirAccess.make_dir_recursive_absolute(path)
 

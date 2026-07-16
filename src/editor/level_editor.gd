@@ -98,11 +98,25 @@ func load_level() -> void:
 ## and swaps to the runtime scene for live play; Esc in the runtime returns here.
 ## Registers the level so same-map teleports resolve to THIS instance instead of
 ## a stale one left in _levels_by_id by a prior game session.
+##
+## Also registers sibling LevelData files from the same directory so that
+## cross-level references (e.g. message entities pointing at a MESSAGE-kind
+## level) resolve during the test play.
 func test_run() -> void:
 	GameManager.register_level(level)
+	_register_sibling_levels()
 	GameManager.pending_level = level
 	GameManager.return_scene = preload("res://src/editor/level_editor.tscn")
 	get_tree().change_scene_to_packed(preload("res://src/runtime/level_runtime.tscn"))
+
+
+func _register_sibling_levels() -> void:
+	if _last_path == "":
+		return
+	var dir := _last_path.get_base_dir() + "/"
+	for ld in LevelCatalog.load_levels_in_dir(dir):
+		if ld.level_id != level.level_id:
+			GameManager.register_level(ld)
 
 
 func set_active_layer(layer: String) -> void:
