@@ -26,6 +26,14 @@ var current_scope_kind: String = "episode"
 var current_overworld: LevelData = null
 var current_level: LevelData = null
 var completed_levels: Array[String] = []
+# Persistent ammo stash. Source of truth across levels: LevelRuntime seeds each
+# freshly spawned Player from this, and Player.add_ammo()/shoot() write back to
+# it so pickups survive scene swaps. Serialized with the session; cleared on new
+# game (clear_progress). Survives death (fail_level).
+var ammo: int = 0
+# Persistent lives count. Source of truth across levels. Serialized with the
+# session; cleared on new game (clear_progress). Default 3 like classic Keen.
+var lives: int = 3
 var last_entrance_pos: Vector2i = Vector2i.ZERO
 
 var _levels_by_id: Dictionary = {}  # level_id -> LevelData (registry seam; Plan 5 fills via PackLoader)
@@ -42,6 +50,8 @@ func clear_progress() -> void:
 	current_overworld = null
 	current_level = null
 	last_entrance_pos = Vector2i.ZERO
+	ammo = 0
+	lives = 3
 	pending_player_spawn = Vector2i(-1, -1)
 	pending_level = null
 	pending_teleport_arrival_id = ""
@@ -314,6 +324,8 @@ func serialize() -> Dictionary:
 		"current_episode_id": current_episode_id,
 		"current_scope_kind": current_scope_kind,
 		"inventory": Inventory.serialize(),
+		"ammo": ammo,
+		"lives": lives,
 	}
 
 
@@ -326,6 +338,10 @@ func deserialize(data: Dictionary) -> void:
 	# Older saves (pre-Plan-6c) lack this key; default to "episode".
 	current_scope_kind = String(data.get("current_scope_kind", "episode"))
 	Inventory.deserialize(data.get("inventory", {}))
+	# Older saves (pre-blaster) lack ammo; default to 0.
+	ammo = int(data.get("ammo", 0))
+	# Older saves (pre-lives) lack this key; default to 3.
+	lives = int(data.get("lives", 3))
 
 
 func _ready() -> void:

@@ -2,6 +2,7 @@ extends GutTest
 
 func after_each() -> void:
 	AudioManager.stop_music()
+	GameManager.ammo = 0
 
 func _level() -> LevelData:
 	var ld := LevelData.new()
@@ -218,6 +219,17 @@ func test_build_keeps_player_mode_for_level():
 	add_child_autofree(rt)
 	rt.build(_level())
 	assert_eq(rt.player._mode, Player.Mode.LEVEL, "player stays in LEVEL mode on level map")
+
+
+func test_build_seeds_player_ammo_from_game_manager():
+	# Ammo persists in GameManager across levels; a freshly spawned player must
+	# inherit it so the stash carries over (and the HUD shows the right count).
+	GameManager.pending_level = null
+	GameManager.ammo = 4
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	assert_eq(rt.player.ammo, 4, "player ammo seeded from GameManager on spawn")
 
 
 func test_kill_zone_lethal_fall_does_not_respawn():

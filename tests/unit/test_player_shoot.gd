@@ -1,5 +1,15 @@
 extends GutTest
 
+const BLASTER := "keen1.blaster"
+
+
+func before_each() -> void:
+	# Each player spawn re-grants the blaster; start every test clean so the
+	# grant is exercised by _ready, and mirror store is predictable.
+	Inventory.clear()
+	GameManager.ammo = 0
+
+
 func _new_player() -> Player:
 	var p := Player.new()
 	add_child_autofree(p)
@@ -73,3 +83,49 @@ func test_add_ammo_clamps_to_max():
 	p.ammo = p.max_ammo
 	p.add_ammo(10)
 	assert_eq(p.ammo, p.max_ammo, "clamped to max_ammo")
+
+
+# ---- Blaster (permanent inventory item, like pogo) ----
+
+func test_ready_grants_blaster():
+	var p := _new_player()
+	assert_true(Inventory.has_item(BLASTER), "player always owns the blaster on spawn")
+
+
+func test_shoot_requires_blaster():
+	var host := Node2D.new()
+	add_child_autofree(host)
+	var p := Player.new()
+	host.add_child(p)
+	p.ammo = p.max_ammo
+	Inventory.remove_item(BLASTER)  # disarm: no blaster, even with ammo
+	var before := host.get_child_count()
+	p.shoot()
+	assert_eq(host.get_child_count(), before, "no projectile without the blaster")
+	assert_eq(p.ammo, p.max_ammo, "ammo not spent without the blaster")
+
+
+# ---- Ammo mirrors the persistent GameManager store ----
+
+func test_add_ammo_mirrors_game_manager():
+	var p := _new_player()
+	p.add_ammo(3)
+	assert_eq(p.ammo, 3, "local ammo updated")
+	assert_eq(GameManager.ammo, 3, "pickup wrote through to persistent store")
+
+
+func test_add_ammo_clamps_game_manager_to_max():
+	var p := _new_player()
+	p.add_ammo(100)
+	assert_eq(GameManager.ammo, p.max_ammo, "persistent store clamped to max_ammo")
+
+
+func test_shoot_mirrors_game_manager():
+	var host := Node2D.new()
+	add_child_autofree(host)
+	var p := Player.new()
+	host.add_child(p)
+	p.ammo = p.max_ammo
+	GameManager.ammo = p.max_ammo
+	p.shoot()
+	assert_eq(GameManager.ammo, p.max_ammo - 1, "shot decremented persistent store")

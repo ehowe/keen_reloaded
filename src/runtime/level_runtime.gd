@@ -168,6 +168,11 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 	p.position = _cell_center(level.player_spawn, ts)
 	add_child(p)
 	player = p
+	# Inherit the persistent ammo stash so it carries across levels/deaths; the
+	# Player itself starts at 0 and GameManager.ammo is the source of truth.
+	# (HUD is seeded directly from this value in _build_hud below.)
+	if GameManager != null:
+		p.ammo = GameManager.ammo
 	var world_bounds := Rect2(
 		Vector2.ZERO,
 		Vector2(level.width * ts, level.height * ts) * RUNTIME_SCALE
@@ -197,6 +202,11 @@ func _build_hud(p: Node) -> void:
 		if GameManager != null:
 			cleared = GameManager.completed_levels.size()
 		hud.set_cleared(cleared, total)
+		if GameManager != null:
+			hud.set_overworld_ammo(GameManager.ammo)
+			hud.set_overworld_lives(GameManager.lives)
+		for item_id in Hud.OVERWORLD_ITEM_ORDER:
+			hud.set_item_owned(item_id, Inventory.has_item(item_id))
 	else:
 		hud.set_mode(Hud.Mode.LEVEL)
 		hud.set_health(int(p.get("health")), int(p.get("max_health")))

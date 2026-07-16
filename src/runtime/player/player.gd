@@ -17,6 +17,10 @@ signal ammo_changed(ammo: int)
 signal died
 
 const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
+## Permanent inventory item representing Keen's raygun/blaster. Always owned
+## (granted in _ready), so shooting is always available given ammo — kept as an
+## inventory item so it persists in saves like keen1.pogo.
+const BLASTER := "keen1.blaster"
 const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting"]
 const POGO_SPRITES := ["PogoUpright", "PogoBounce"]
 const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
@@ -73,6 +77,9 @@ var _pogo_bounce_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
+	# Keen always carries the blaster (permanent inventory item, like the pogo).
+	# Idempotent: covers episode, pack, and editor-Test entry paths alike.
+	Inventory.add_item(BLASTER)
 	ammo = 0
 	ammo_changed.emit(ammo)
 	_apply_collision_for_mode()
@@ -229,8 +236,12 @@ func _physics_overworld(delta: float) -> void:
 	_sync_visual()
 
 
-## Fire a projectile from the Muzzle in the facing direction (if ammo remains).
+## Fire a projectile from the Muzzle in the facing direction. Requires the
+## blaster (permanent inventory item) and at least one shot of ammo. Mirrors the
+## post-fire ammo back to GameManager so the stash persists across levels.
 func shoot() -> void:
+	if not Inventory.has_item(BLASTER):
+		return
 	if ammo <= 0:
 		return
 	AudioManager.play_sfx("shoot")
@@ -246,6 +257,7 @@ func shoot() -> void:
 	proj.speed = projectile_speed
 	proj.launch(_facing)
 	ammo -= 1
+	GameManager.ammo = ammo
 	ammo_changed.emit(ammo)
 
 
@@ -266,6 +278,8 @@ func add_score(amount: int) -> void:
 
 func add_ammo(amount: int) -> void:
 	ammo = clampi(ammo + amount, 0, max_ammo)
+	# Write through to the persistent store so pickups survive scene swaps.
+	GameManager.ammo = ammo
 	ammo_changed.emit(ammo)
 
 
