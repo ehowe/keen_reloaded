@@ -270,6 +270,7 @@ func _on_tileset_selected(index: int) -> void:
 		_e.level.tileset_ref = loaded
 	# New file: reset to its first source so the palette always shows something.
 	_e.active_source_order = 0
+	_apply_tile_size_for_source(_e.level.tileset_ref, 0)
 	_e._broadcast()
 
 
@@ -295,7 +296,22 @@ func _sync_source_picker(order: int) -> void:
 
 
 func _on_source_selected(index: int) -> void:
-	_e.set_active_source_order(int(_source_picker.get_item_metadata(index)))
+	var order := int(_source_picker.get_item_metadata(index))
+	_apply_tile_size_for_source(_e.level.tileset_ref, order)
+	_e.set_active_source_order(order)
+
+
+## Sync level.tile_size to the atlas source's texture_region_size so the grid
+## matches the tiles being painted. Skips silently for null/no-source tilesets.
+func _apply_tile_size_for_source(ts: TileSet, order: int) -> void:
+	if ts == null or order < 0 or order >= ts.get_source_count():
+		return
+	var src := ts.get_source(ts.get_source_id(order)) as TileSetAtlasSource
+	if src == null:
+		return
+	var s := src.texture_region_size.x
+	if s > 0:
+		_e.level.tile_size = s
 
 
 # ---------------------------------------------------------------- helpers

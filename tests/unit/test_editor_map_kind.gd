@@ -118,3 +118,56 @@ func test_inspector_two_enums_each_write_independently():
 	ob_mode.item_selected.emit(2)
 	assert_eq(def.properties["mode"], "blink")
 	assert_eq(def.properties["facing"], "left", "changing mode did not touch facing")
+
+
+# --- Tile size sync ---
+
+func _tileset_with_region(region: Vector2i) -> TileSet:
+	var ts := TileSet.new()
+	ts.tile_size = region
+	var src := TileSetAtlasSource.new()
+	src.texture_region_size = region
+	ts.add_source(src)
+	return ts
+
+func test_source_select_syncs_tile_size():
+	var ed := _make_editor()
+	ed.level.tile_size = 64
+	ed.level.tileset_ref = _tileset_with_region(Vector2i(32, 32))
+	ed._inspector.refresh(ed)
+	ed._inspector._on_source_selected(0)
+	assert_eq(ed.level.tile_size, 32, "tile_size synced to source region 32")
+
+func test_tileset_select_syncs_tile_size():
+	var ed := _make_editor()
+	ed.level.tile_size = 64
+	var ts := _tileset_with_region(Vector2i(8, 8))
+	ed.level.tileset_ref = ts
+	ed._inspector.refresh(ed)
+	# Simulate selecting the tileset: refresh already populated the picker with
+	# the current tileset. Trigger source 0 selection to fire the sync.
+	ed._inspector._on_source_selected(0)
+	assert_eq(ed.level.tile_size, 8, "tile_size synced to source region 8")
+
+func test_null_tileset_does_not_change_tile_size():
+	var ed := _make_editor()
+	ed.level.tile_size = 64
+	ed._inspector._apply_tile_size_for_source(null, 0)
+	assert_eq(ed.level.tile_size, 64, "null tileset leaves tile_size unchanged")
+
+func test_multi_source_syncs_per_source():
+	var ed := _make_editor()
+	var ts := TileSet.new()
+	var s0 := TileSetAtlasSource.new()
+	s0.texture_region_size = Vector2i(64, 64)
+	ts.add_source(s0)
+	var s1 := TileSetAtlasSource.new()
+	s1.texture_region_size = Vector2i(32, 32)
+	ts.add_source(s1)
+	ed.level.tileset_ref = ts
+	ed.level.tile_size = 8
+	ed._inspector.refresh(ed)
+	ed._inspector._on_source_selected(1)
+	assert_eq(ed.level.tile_size, 32, "source 1 sets 32px tiles")
+	ed._inspector._on_source_selected(0)
+	assert_eq(ed.level.tile_size, 64, "source 0 sets 64px tiles")
