@@ -4,12 +4,13 @@ extends Entity
 ## `message_requested(target_level_id)`. LevelRuntime resolves the MESSAGE-kind
 ## LevelData, builds a centered tile overlay, and pauses the tree.
 ##
-## Has two visual states managed via child sprites named "Unread" and "Read".
-## If the scene provides no such children, a fallback ColorRect (named
-## "Visual") recolors: yellow when unread, gray when read.
+## Scene children (message.tscn):
+##   "Base"   — Sprite2D, always visible (the entity's resting sprite).
+##   "Unread" — AnimatedSprite2D, plays while the message is unread.
+##   "Read"   — Sprite2D, shown after a one-shot message is consumed.
 ##
-## `repeat` property: false (default) = one-shot, switches to read after first
-## contact and blocks re-trigger. true = re-readable, stays unread.
+## `repeat` property: false (default) = one-shot, switches Unread→Read after
+## first contact and blocks re-trigger. true = re-readable, stays Unread.
 
 signal message_requested(target_level_id: String)
 
@@ -29,6 +30,12 @@ func setup(p_type_id: String, p_props: Dictionary) -> void:
 
 func _ready() -> void:
 	super._ready()
+	# Hide the fallback ColorRect that Entity._build_contact adds when the
+	# scene provides real sprites.
+	if has_node("Base"):
+		var fallback := get_node_or_null("Visual")
+		if fallback is ColorRect:
+			fallback.visible = false
 	_update_visual()
 
 
@@ -47,8 +54,14 @@ func _update_visual() -> void:
 	var unread := get_node_or_null("Unread")
 	var read := get_node_or_null("Read")
 	if unread != null and read != null:
-		(unread as CanvasItem).visible = not show_read
+		var unread_visible := not show_read
+		(unread as CanvasItem).visible = unread_visible
 		(read as CanvasItem).visible = show_read
+		if unread is AnimatedSprite2D:
+			if unread_visible:
+				(unread as AnimatedSprite2D).play()
+			else:
+				(unread as AnimatedSprite2D).stop()
 	else:
 		var vis := get_node_or_null("Visual")
 		if vis is ColorRect:

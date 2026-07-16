@@ -1,6 +1,61 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://b6xyjj3sg8rll"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/message.gd" id="1_msg"]
+[ext_resource type="Script" uid="uid://dpvksj81ekum0" path="res://src/runtime/entities/message.gd" id="1_msg"]
+[ext_resource type="Texture2D" uid="uid://bof6vb51ehbl0" path="res://assets/sprites/Messenger Yorp.png" id="2_bx4p2"]
 
-[node name="Message" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ntyv"]
+atlas = ExtResource("2_bx4p2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4p2"]
+atlas = ExtResource("2_bx4p2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wx6e2"]
+atlas = ExtResource("2_bx4p2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb11s"]
+atlas = ExtResource("2_bx4p2")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bx4p2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx6e2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb11s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx6e2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_bx4p2")
+region = Rect2(64, 64, 64, 64)
+
+[node name="Message" type="CharacterBody2D" unique_id=1932609352]
 script = ExtResource("1_msg")
+
+[node name="Read" type="Sprite2D" parent="." unique_id=1657153368]
+visible = false
+position = Vector2(0, -64)
+texture = SubResource("AtlasTexture_3ntyv")
+
+[node name="Unread" type="AnimatedSprite2D" parent="." unique_id=1627269136]
+position = Vector2(0, -64)
+sprite_frames = SubResource("SpriteFrames_bx4p2")
+autoplay = "default"
+frame_progress = 0.056993634
+
+[node name="Base" type="Sprite2D" parent="." unique_id=765910455]
+texture = SubResource("AtlasTexture_x4u6v")

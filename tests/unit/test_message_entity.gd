@@ -48,27 +48,41 @@ func test_repeat_allows_reread():
 	e._handle_player(_player_stub())
 	assert_signal_emit_count(e, "message_requested", 2, "repeatable emits every contact")
 
-func test_fallback_visual_is_unread_color():
+func test_base_always_visible():
 	var e := _make()
-	var vis := e.get_node_or_null("Visual")
-	assert_not_null(vis, "fallback Visual ColorRect exists")
-	assert_true(vis is ColorRect)
-	# Yellow-ish (unread default)
-	assert_true((vis as ColorRect).color.r > 0.9, "unread fallback is yellow-ish")
+	var base := e.get_node_or_null("Base") as CanvasItem
+	assert_not_null(base, "Base sprite exists")
+	assert_true(base.visible, "Base visible by default")
+	e._handle_player(_player_stub())
+	assert_true(base.visible, "Base still visible after read")
 
-func test_fallback_visual_swaps_to_read_color():
+func test_unread_visible_and_playing_by_default():
+	var e := _make()
+	var unread := e.get_node_or_null("Unread") as CanvasItem
+	assert_not_null(unread, "Unread sprite exists")
+	assert_true(unread.visible, "Unread visible by default")
+	if unread is AnimatedSprite2D:
+		assert_true((unread as AnimatedSprite2D).is_playing(), "Unread animation playing")
+
+func test_read_hidden_by_default():
+	var e := _make()
+	var read := e.get_node_or_null("Read") as CanvasItem
+	assert_not_null(read, "Read sprite exists")
+	assert_false(read.visible, "Read hidden by default")
+
+func test_one_shot_swaps_unread_to_read():
 	var e := _make("m", false)
 	e._handle_player(_player_stub())
-	var vis := e.get_node("Visual") as ColorRect
-	# Gray-ish (read state)
-	assert_true(vis.color.r < 0.7, "read fallback is gray-ish")
-	assert_true(vis.color.g < 0.7, "read fallback is gray-ish")
+	assert_false((e.get_node("Unread") as CanvasItem).visible, "Unread hidden after one-shot read")
+	assert_true((e.get_node("Read") as CanvasItem).visible, "Read shown after one-shot read")
+	if e.get_node("Unread") is AnimatedSprite2D:
+		assert_false((e.get_node("Unread") as AnimatedSprite2D).is_playing(), "Unread animation stopped")
 
-func test_repeat_stays_unread_color():
+func test_repeat_stays_unread():
 	var e := _make("m", true)
 	e._handle_player(_player_stub())
-	var vis := e.get_node("Visual") as ColorRect
-	assert_true(vis.color.r > 0.9, "repeatable stays unread (yellow)")
+	assert_true((e.get_node("Unread") as CanvasItem).visible, "Unread stays visible for repeatable")
+	assert_false((e.get_node("Read") as CanvasItem).visible, "Read stays hidden for repeatable")
 
 
 func test_runtime_message_overlay_builds_and_dismisses():
