@@ -35,7 +35,7 @@ VERSION_FILE := VERSION
 VERSION      := $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0")
 LAST_TAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "")
 
-MAC_DMG      := $(BUILD_DIR)/macos/$(APP_NAME).$(VERSION).dmg
+MAC_DMG      := $(BUILD_DIR)/dist/$(APP_NAME).$(VERSION).dmg
 
 # --- Host OS/arch detection -------------------------------------------------
 # `make build` targets the host; `make build-all` cross-builds all platforms.
@@ -149,6 +149,7 @@ build: check-godot templates export_presets.cfg import convert-levels
 	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
 	@echo ">> Built: $(HOST_OUTPUT)"
 ifeq ($(HOST_OS),Darwin)
+	@mkdir -p $(dir $(MAC_DMG))
 	@echo ">> Creating DMG: $(MAC_DMG)"
 	@create-dmg --overwrite "$(MAC_DMG)" "$(dir $(MAC_APP))"
 	@echo ">> DMG: $(MAC_DMG)"
@@ -160,7 +161,7 @@ endif
 # (Templates for all three ship in the single .tpz installed by `templates`.)
 # ---------------------------------------------------------------------------
 build-all: check-godot templates export_presets.cfg import convert-levels
-	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN))
+	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN)) $(dir $(MAC_DMG))
 	@echo ">> Exporting macOS..."
 	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
 	@echo ">> Creating DMG: $(MAC_DMG)"
