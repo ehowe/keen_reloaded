@@ -23,6 +23,7 @@ var entities_spawned: Array[Node2D] = []
 var elapsed: float = 0.0
 var _completed: bool = false
 var _dying: bool = false
+var _message_overlay_layer: CanvasLayer = null
 
 var _level: LevelData = null
 var _tile_size: int = 64
@@ -138,7 +139,9 @@ func _drive_music(level: LevelData) -> void:
 		AudioManager.stop_music()
 
 
-func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> TileMapLayer:
+func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet, parent: Node = null) -> TileMapLayer:
+	if parent == null:
+		parent = self
 	var tml := TileMapLayer.new()
 	tml.name = "Tiles_" + layer_name
 	tml.tile_set = tileset
@@ -154,7 +157,7 @@ func _add_tile_layer(level: LevelData, layer_name: String, tileset: TileSet) -> 
 			var coords := TileAtlas.atlas_coords_for_id(tileset, id)
 			if sid >= 0 and coords.x >= 0:
 				tml.set_cell(Vector2i(x, y), sid, coords)
-	add_child(tml)
+	parent.add_child(tml)
 	return tml
 
 
@@ -232,6 +235,8 @@ func _spawn_entities(level: LevelData, ts: int) -> void:
 			(node as LevelEntrance).enter_requested.connect(_on_enter_requested)
 		elif node is Teleporter:
 			(node as Teleporter).teleport_requested.connect(_on_teleport_requested.bind(node))
+		elif node is Message:
+			(node as Message).message_requested.connect(_on_message_requested)
 		elif node.has_signal("level_completed"):
 			node.level_completed.connect(_on_level_completed)
 
@@ -268,6 +273,54 @@ func _on_teleport_requested(destination_level_id: String, destination_teleporter
 	# scene swap). Restore the source visual + player so we don't soft-lock.
 	if not GameManager.teleport(destination_level_id, destination_teleporter_id):
 		source.restore_after_failed_departure()
+
+
+## Build a paused overlay rendering the message level's tiles centered on the
+## viewport. Resolves the level via GameManager; null = graceful skip.
+func _on_message_requested(target_level_id: String) -> void:
+	var msg_level := GameManager.get_level_by_id(target_level_id)
+	if msg_level == null:
+		push_warning("LevelRuntime: message level '%s' not found" % target_level_id)
+		return
+	var layer := CanvasLayer.new()
+	layer.name = "MessageOverlay"
+	layer.layer = 10
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(layer)
+	_message_overlay_layer = layer
+	var overlay: MessageOverlay = preload("res://src/ui/message_overlay.tscn").instantiate()
+	layer.add_child(overlay)
+	overlay.dismissed.connect(_on_message_dismissed)
+	# Build centered tile render (visual only, no collision/player/entities).
+	var ts := msg_level.tile_size
+	var ts_geo: TileSet
+	var ts_decor: TileSet
+	if msg_level.tileset_ref != null:
+		ts_geo = msg_level.tileset_ref
+		ts_decor = msg_level.tileset_ref
+	else:
+		var max_id := _max_tile_id(msg_level)
+		ts_geo = ProceduralTileSet.build(max_id, ts, true)
+		ts_decor = ProceduralTileSet.build(max_id, ts, false)
+	var center := Node2D.new()
+	center.name = "MessageContent"
+	_add_tile_layer(msg_level, LevelData.LAYER_BACKGROUND, ts_decor, center)
+	_add_tile_layer(msg_level, LevelData.LAYER_FOREGROUND, ts_decor, center)
+	_add_tile_layer(msg_level, LevelData.LAYER_GEOMETRY, ts_geo, center)
+	var vp := get_viewport_rect().size
+	var lvl_px := Vector2(msg_level.width * ts, msg_level.height * ts)
+	center.position = vp * 0.5 - lvl_px * 0.5
+	layer.add_child(center)
+	get_tree().paused = true
+
+
+func _on_message_dismissed() -> void:
+	get_tree().paused = false
+	if _message_overlay_layer != null:
+		var layer := _message_overlay_layer
+		_message_overlay_layer = null
+		remove_child(layer)
+		layer.queue_free()
 
 
 func _on_completion_dismissed() -> void:

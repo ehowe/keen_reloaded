@@ -69,3 +69,45 @@ func test_repeat_stays_unread_color():
 	e._handle_player(_player_stub())
 	var vis := e.get_node("Visual") as ColorRect
 	assert_true(vis.color.r > 0.9, "repeatable stays unread (yellow)")
+
+
+func test_runtime_message_overlay_builds_and_dismisses():
+	# Register a fake MESSAGE level that GameManager can resolve.
+	var msg_level := LevelData.new()
+	msg_level.level_id = "test_msg_level"
+	msg_level.width = 4
+	msg_level.height = 2
+	msg_level.tile_size = 16
+	msg_level.fill_blank()
+	msg_level.map_kind = LevelData.MapKind.MESSAGE
+	GameManager.register_level(msg_level)
+
+	# Build a runtime with a Message entity.
+	var level := LevelData.new()
+	level.width = 6
+	level.height = 4
+	level.tile_size = 16
+	level.fill_blank()
+	level.player_spawn = Vector2i(1, 1)
+	level.entities.append(EntityDef.new("keen1.message", 3, 1, {"target_level_id": "test_msg_level"}))
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(level)
+
+	# Simulate contact by calling the handler directly.
+	rt._on_message_requested("test_msg_level")
+	assert_not_null(rt.find_child("MessageOverlay", true, false), "overlay added")
+	assert_true(get_tree().paused, "tree paused")
+
+	# Dismiss.
+	rt._on_message_dismissed()
+	assert_false(get_tree().paused, "tree unpaused after dismiss")
+	assert_null(rt.find_child("MessageOverlay", true, false), "overlay removed")
+
+
+func test_runtime_message_unknown_level_no_crash():
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt._on_message_requested("nonexistent_level_id")
+	assert_false(get_tree().paused, "no pause when message level not found")
+	assert_null(rt.find_child("MessageOverlay", true, false), "no overlay for unknown level")
