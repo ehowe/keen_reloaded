@@ -292,28 +292,15 @@ func _on_message_requested(target_level_id: String) -> void:
 	layer.add_child(overlay)
 	overlay.dismissed.connect(_on_message_dismissed)
 	# Build centered tile render (visual only, no collision/player/entities).
+	# Uses TileCanvas (_draw) instead of TileMapLayer so tiles render at
+	# msg_level.tile_size with no gaps when source texture_region_size differs
+	# from the TileSet's tile_size.
 	var ts := msg_level.tile_size
-	var ts_geo: TileSet
-	var ts_decor: TileSet
-	if msg_level.tileset_ref != null:
-		ts_geo = msg_level.tileset_ref
-		ts_decor = msg_level.tileset_ref
-	else:
-		var max_id := _max_tile_id(msg_level)
-		ts_geo = ProceduralTileSet.build(max_id, ts, true)
-		ts_decor = ProceduralTileSet.build(max_id, ts, false)
-	var center := Node2D.new()
+	var center := TileCanvas.new()
 	center.name = "MessageContent"
-	_add_tile_layer(msg_level, LevelData.LAYER_BACKGROUND, ts_decor, center)
-	_add_tile_layer(msg_level, LevelData.LAYER_FOREGROUND, ts_decor, center)
-	_add_tile_layer(msg_level, LevelData.LAYER_GEOMETRY, ts_geo, center)
-	# The TileMapLayer renders at the TileSet's native tile_size (e.g. 64px),
-	# NOT at LevelData.tile_size. Use the TileSet's size for centering and fit.
-	var render_ts := ts
-	if ts_decor != null:
-		render_ts = ts_decor.tile_size.x
+	center.set_data(msg_level, ts)
 	var vp := get_viewport_rect().size
-	var rendered_px := Vector2(msg_level.width * render_ts, msg_level.height * render_ts)
+	var rendered_px := Vector2(msg_level.width * ts, msg_level.height * ts)
 	# Scale to fit within viewport (with margin); never upscale beyond native.
 	var margin_f := 0.85
 	var fit := minf(vp.x * margin_f / rendered_px.x, vp.y * margin_f / rendered_px.y)
