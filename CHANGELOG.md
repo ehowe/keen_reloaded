@@ -1,3 +1,15 @@
+## v2026.07.15 — 2026-07-15
+
+### Added
+- add level5, fire hazard entity, Backgrounds tileset, DMG builds
+- persistent ammo/lives + overworld inventory HUD
+- add Garg charging hazard
+- rewrite pogo physics, animation, bounce hold
+- add pogo stick pickup + persistent inventory
+
+### Documentation
+- add ASCII art header
+
 # Changelog
 
 ## v2026.07.14 — 2026-07-14
