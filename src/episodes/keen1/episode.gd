@@ -68,3 +68,10 @@ func register_entities(registry: Node) -> void:
 			{name = "destination_teleporter_id", default = "", type = "string"},
 		],
 		teleporter, all_kinds)
+	var message := preload("res://src/runtime/entities/message.tscn")
+	registry.register("keen1.message", registry.CATEGORY_SPECIAL, "Message Sign",
+		[
+			{name = "target_level_id", default = "", type = "level_id"},
+			{name = "repeat", default = false, type = "bool"},
+		],
+		message)
