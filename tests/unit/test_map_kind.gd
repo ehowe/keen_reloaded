@@ -47,3 +47,20 @@ func test_level_build_has_kill_zone():
 	rt.build(ld)
 	assert_not_null(rt.find_child("BoundsKillZone", true, false),
 		"level keeps the kill zone")
+
+func test_message_kind_exists():
+	assert_eq(LevelData.MapKind.MESSAGE, 2)
+
+func test_message_kind_round_trip():
+	var ld := LevelData.new()
+	ld.level_id = "msg1"
+	ld.width = 2
+	ld.height = 2
+	ld.fill_blank()
+	ld.map_kind = LevelData.MapKind.MESSAGE
+	var path := "user://tests/test_map_kind_msg.tres"
+	DirAccess.make_dir_recursive_absolute("user://tests/")
+	assert_eq(ResourceSaver.save(ld, path), OK)
+	var loaded := ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as LevelData
+	assert_not_null(loaded)
+	assert_eq(loaded.map_kind, LevelData.MapKind.MESSAGE)

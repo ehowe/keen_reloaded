@@ -7,7 +7,7 @@ const LAYER_GEOMETRY := "geometry"
 const LAYER_FOREGROUND := "foreground"
 const LAYER_BACKGROUND := "background"
 
-enum MapKind { LEVEL, OVERWORLD }
+enum MapKind { LEVEL, OVERWORLD, MESSAGE }
 
 @export_group("Metadata")
 @export var level_id: String = ""
