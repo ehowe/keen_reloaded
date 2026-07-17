@@ -12,7 +12,7 @@ config_version=5
 
 config/name="keen_reloaded"
 config/description="Commander Keen remaster — modular, episodic, with level editor"
-config/version="2026.07.15"
+config/version="2026.07.16"
 run/main_scene="res://src/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 

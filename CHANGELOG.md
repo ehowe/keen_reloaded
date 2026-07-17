@@ -1,3 +1,26 @@
+## v2026.07.16 — 2026-07-16
+
+### Added
+- Message entity uses Base/Unread/Read sprites with animation control
+- editor grid syncs to selected atlas source tile size
+- wire MessageEntity signal to LevelRuntime overlay builder
+- register keen1.message entity type
+- add MessageEntity with read/unread sprite states
+- add MessageOverlay scene + dismiss-on-input
+- add Message option to editor MapKindPicker
+- Episode.load_levels includes MESSAGE-kind levels
+- add MapKind.MESSAGE to LevelData enum
+
+### Fixed
+- stage only .app for DMG, clean stale create-dmg volumes
+- output macOS DMG to build/dist to avoid recursive self-inclusion
+- message overlay renders via TileCanvas to avoid tile gaps
+- message overlay scales tiles to fit viewport using TileSet size
+- editor Test ▶ registers sibling levels so cross-level refs resolve
+
+### Documentation
+- add message entity design spec + implementation plan
+
 ## v2026.07.15 — 2026-07-15
 
 ### Added
