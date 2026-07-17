@@ -11,3 +11,10 @@ func undo(_level: LevelData) -> void:
 
 func describe() -> String:
 	return "EditorCommand"
+
+
+## Restore every cell in `prev` (Vector2i -> int) to its recorded id on the
+## given layer. Shared by the tile-editing commands' undo().
+static func restore_tiles(level: LevelData, layer: String, prev: Dictionary) -> void:
+	for cell: Vector2i in prev:
+		level.set_tile(layer, cell.x, cell.y, int(prev[cell]))

@@ -36,8 +36,9 @@ Re-filter on text change, no rebuild needed (buttons already exist).
 
 **Status:** Tracked (from the code-review pass on 2026-07-16). Tier 1 landed in
 commit `f83f0cd`. Tier 2 was addressed 2026-07-16: items 6, 7, 9, 10 are done;
-item 8 resolved as intentional (see below). Tier 3 remains open. Each remaining
-item is small and covered by existing tests unless noted.
+item 8 resolved as intentional (see below). Tier 3 was addressed 2026-07-16:
+items 11, 12, 14, 15 are done; item 13 resolved as intentional (see below). The
+full review pass is closed.
 
 ### Tier 2 — antipatterns
 
@@ -76,32 +77,40 @@ item is small and covered by existing tests unless noted.
 
 ### Tier 3 — nits
 
-- [ ] **`garg._hit_wall()` reimplements `enemy._pressing_into_wall()`.**
-  `src/runtime/entities/garg.gd:74` re-derives `dir * wall_normal.x < 0.0`,
-  which already exists as the static `enemy.gd:173`. Have garg call the base
-  static.
+- [x] **`garg._hit_wall()` reimplements `enemy._pressing_into_wall()`.** DONE.
+  `garg.gd:74` now calls the inherited static `_pressing_into_wall(_dir,
+  get_wall_normal().x)` instead of re-deriving `dir * wall_normal.x < 0.0`.
+  Behavior-identical (same expression the base uses at `enemy.gd:159`).
 
-- [ ] **Identical `undo` loop in two tile commands.**
-  `paint_cells_cmd.gd:26` and `flood_fill_cmd.gd:40` both do
-  `for cell in _prev: set_tile(layer, cell.x, cell.y, int(_prev[cell]))`.
-  Minor; could share a base `_restore_cells(level, prev)` helper.
+- [x] **Identical `undo` loop in tile commands.** DONE. A shared
+  `EditorCommand.restore_tiles(level, layer, prev)` static
+  (`src/editor/editor_command.gd`) writes back a `Vector2i -> int` snapshot.
+  `PaintCells`, `FloodFill`, and `MoveTiles` (both its dst-restore and
+  src-restore passes) route through it.
 
-- [ ] **`setup()` contract is inconsistent across entities.**
-  `message.gd:25` reads props manually (bypasses the generic apply in
-  `Entity.setup`), `spike.gd:8` calls `super` + `EntityVariant.apply`,
-  `ship.gd:25` ignores props, `level_entrance.gd:41` reads specific props.
-  Standardize one `setup` contract (e.g. always `super.setup` first, then
-  entity-specific reads).
+- [ ] **`setup()` contract is inconsistent across entities — RESOLVED AS
+  INTENTIONAL.** Investigated: the *signatures* are already uniform
+  (`setup(type_id, props)` everywhere; `entity_registry.gd:134` calls it
+  duck-typed via `has_method`). The *body* differences exist for sound
+  reasons: `Message` bypasses `Entity.setup`'s generic `set()` apply loop
+  deliberately — it needs `String()`/`bool()` coercion of its props and does
+  not use the `properties` dict; `Spike` legitimately layers
+  `EntityVariant.apply` on top of the base. Forcing "always call super" would
+  route Message's props through the un-coerced generic apply and risk type
+  bugs for no gain. Decision: leave as-is.
 
-- [ ] **`GameManager.ammo` dual source of truth.**
-  `player.gd:260,282` write `GameManager.ammo = ammo`; `level_runtime.gd:178`
-  reads it back. `Player.ammo` and `GameManager.ammo` can drift. Pick a single
-  owner.
+- [x] **`GameManager.ammo` dual source of truth.** DONE. `Player._set_ammo(v)`
+  (`player.gd`) is now the single mutation point: it sets the runtime field,
+  writes through to `GameManager.ammo`, and emits `ammo_changed`. `shoot` and
+  `add_ammo` both route through it, so the runtime/persistent pair can no
+  longer drift. (The persistent->runtime *seed* at `level_runtime.gd:178` is a
+  separate direction and stays a direct field write; `_ready`'s `ammo = 0`
+  default likewise is not a mutation that needs syncing.)
 
-- [ ] **Proximity entities still parallel-reimplement `setup` / `type_id`.**
-  Tier 1 unified their proximity *plumbing* under `ProximityInteractable`, but
-  `Ship`/`Teleporter`/`LevelEntrance` still each carry their own `setup` +
-  `type_id`, parallel to `Entity`'s (`entity.gd:15,22`). A shared
-  `InteractableEntity` base above `ProximityInteractable` could unify the
-  setup/type_id contract too. Lowest priority — only worth it if more
-  overworld interactables are planned.
+- [x] **Proximity entities parallel-reimplement `setup` / `type_id`.** DONE.
+  `type_id` + a base `setup` (that records the type id) are hoisted into
+  `ProximityInteractable`; the three `var type_id` redeclarations are gone.
+  `Ship` drops its `setup` override entirely (it only set the id); `Teleporter`
+  and `LevelEntrance` now call `super.setup` first, then read their own props.
+  Mirrors `Entity.setup`'s contract. The registry's duck-typed
+  `node.setup(...)` call is unchanged.

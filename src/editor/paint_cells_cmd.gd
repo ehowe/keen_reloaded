@@ -24,8 +24,7 @@ func apply(level: LevelData) -> void:
 		level.set_tile(layer, cell.x, cell.y, new_id)
 
 func undo(level: LevelData) -> void:
-	for cell: Vector2i in _prev:
-		level.set_tile(layer, cell.x, cell.y, int(_prev[cell]))
+	restore_tiles(level, layer, _prev)
 
 func describe() -> String:
 	return "PaintCells(%s -> %d, %d cells)" % [layer, new_id, _prev.size()]

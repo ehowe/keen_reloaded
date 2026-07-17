@@ -16,14 +16,7 @@ const REQUIRED_PARTS := [
 	"Whisky Bottle (Fuel)",
 ]
 
-var type_id: String = ""
-
 var _collected: Dictionary = {}  # part name -> true
-
-
-## Called by EntityRegistry.instantiate after constructing the node.
-func setup(p_type_id: String, _props: Dictionary) -> void:
-	type_id = p_type_id
 
 
 func _process(_delta: float) -> void:

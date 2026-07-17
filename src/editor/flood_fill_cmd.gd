@@ -38,8 +38,7 @@ func apply(level: LevelData) -> void:
 		stack.append(c + Vector2i(0, -1))
 
 func undo(level: LevelData) -> void:
-	for cell: Vector2i in _changed:
-		level.set_tile(layer, cell.x, cell.y, int(_changed[cell]))
+	restore_tiles(level, layer, _changed)
 
 func describe() -> String:
 	return "FloodFill(%s @ %s -> %d)" % [layer, str(origin), new_id]

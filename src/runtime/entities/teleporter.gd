@@ -23,7 +23,6 @@ const ANIM_NAME := "default"
 
 enum _Phase { IDLE, DEPART, ARRIVE }
 
-var type_id: String = ""
 var teleporter_id: String = ""
 var destination_level_id: String = ""
 var destination_teleporter_id: String = ""
@@ -36,7 +35,7 @@ var _player: Node = null
 
 ## Called by EntityRegistry.instantiate after constructing the node.
 func setup(p_type_id: String, props: Dictionary) -> void:
-	type_id = p_type_id
+	super.setup(p_type_id, props)
 	teleporter_id = String(props.get("teleporter_id", ""))
 	destination_level_id = String(props.get("destination_level_id", ""))
 	destination_teleporter_id = String(props.get("destination_teleporter_id", ""))

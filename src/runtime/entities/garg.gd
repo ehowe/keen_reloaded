@@ -74,7 +74,7 @@ func _ai_tick(_delta: float) -> void:
 func _hit_wall() -> bool:
 	if not is_on_wall():
 		return false
-	return _dir * get_wall_normal().x < 0.0
+	return _pressing_into_wall(_dir, get_wall_normal().x)
 
 
 ## Pure decision: would the garg notice Keen at `player_pos` (vertical body

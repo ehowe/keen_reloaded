@@ -13,8 +13,16 @@ extends Node2D
 const TILE := Constants.TILE
 const PROXIMITY_RADIUS := 1  # tiles around the entity in each direction (3x3 zone)
 
+var type_id: String = ""
 var _nearby: bool = false
 var _proximity: Area2D
+
+
+## Called by EntityRegistry.instantiate after constructing the node: records the
+## registered type id. Subclasses override, call super.setup first, then read
+## their own editor-set properties (mirrors Entity.setup's type_id contract).
+func setup(p_type_id: String, _p_props: Dictionary) -> void:
+	type_id = p_type_id
 
 
 func _ready() -> void:

@@ -265,9 +265,7 @@ func shoot() -> void:
 	proj.global_position = origin
 	proj.speed = projectile_speed
 	proj.launch(_facing)
-	ammo -= 1
-	GameManager.ammo = ammo
-	ammo_changed.emit(ammo)
+	_set_ammo(ammo - 1)
 
 
 func set_camera_bounds(rect: Rect2) -> void:
@@ -285,11 +283,17 @@ func add_score(amount: int) -> void:
 	score_changed.emit(score)
 
 
-func add_ammo(amount: int) -> void:
-	ammo = clampi(ammo + amount, 0, max_ammo)
-	# Write through to the persistent store so pickups survive scene swaps.
+## Apply a new ammo total: update the runtime field, write through to the
+## persistent store, and notify listeners. Centralizes the invariant that
+## every ammo change keeps GameManager.ammo and the HUD in sync.
+func _set_ammo(value: int) -> void:
+	ammo = value
 	GameManager.ammo = ammo
 	ammo_changed.emit(ammo)
+
+
+func add_ammo(amount: int) -> void:
+	_set_ammo(clampi(ammo + amount, 0, max_ammo))
 
 
 ## Apply a horizontal bounce impulse (e.g. from a yorp bump). Overrides Keen's

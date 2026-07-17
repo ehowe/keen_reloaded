@@ -20,7 +20,6 @@ const DONE_STEP_LARGE := 128
 const DONE_STEP_SMALL := 64
 const DONE_COLOR_ORDER := ["blue", "red", "yellow"]
 
-var type_id: String = ""
 var target_level_id: String = ""
 var blocks_until_completed: bool = false
 var tile: Vector2i = Vector2i(-1, -1)
@@ -39,7 +38,7 @@ var _done_atlas_duplicated: bool = false
 ## run yet (it null-guards the shape). Applies the "variant" enum to select which
 ## child Sprite2D is visible.
 func setup(p_type_id: String, p_props: Dictionary) -> void:
-	type_id = p_type_id
+	super.setup(p_type_id, p_props)
 	target_level_id = String(p_props.get("target_level_id", ""))
 	blocks_until_completed = bool(p_props.get("blocks_until_completed", false))
 	EntityVariant.apply(type_id, p_props, self)

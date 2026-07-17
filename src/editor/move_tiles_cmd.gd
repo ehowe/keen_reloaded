@@ -59,12 +59,8 @@ func undo(level: LevelData) -> void:
 	# because dst_prev captured the pre-move src id.
 	for layer in _layers:
 		if _dst_prev.has(layer):
-			var dstp: Dictionary = _dst_prev[layer]
-			for d: Vector2i in dstp:
-				level.set_tile(layer, d.x, d.y, int(dstp[d]))
-		var src: Dictionary = _layers[layer]
-		for cell: Vector2i in src:
-			level.set_tile(layer, cell.x, cell.y, int(src[cell]))
+			restore_tiles(level, layer, _dst_prev[layer])
+		restore_tiles(level, layer, _layers[layer])
 
 
 func describe() -> String:
