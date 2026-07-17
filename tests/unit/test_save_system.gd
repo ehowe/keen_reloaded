@@ -245,8 +245,10 @@ func test_delete_slot_clears_active_if_match():
 	assert_eq(SaveSystem.active_slot, 0)
 
 func test_delete_slot_out_of_range_noop():
-	SaveSystem.delete_slot(0)  # no crash
-	SaveSystem.delete_slot(9)
+	SaveSystem.active_slot = 2
+	SaveSystem.delete_slot(0)  # below range
+	SaveSystem.delete_slot(9)  # above range
+	assert_eq(SaveSystem.active_slot, 2, "out-of-range delete must not touch active_slot")
 
 func test_list_slots_corrupt_data_not_dict():
 	# data present but not a Dictionary → corrupt (not occupied), matching
