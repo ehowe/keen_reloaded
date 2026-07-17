@@ -1,3 +1,10 @@
+## v2026.07.17 — 2026-07-17
+
+### Refactored
+- Tier 3 nits (wall-check, restore_tiles, ammo sync, proximity type_id)
+- Tier 2 cleanup (Constants, ItemIDs, Player.find, data-driven pickups)
+- extract shared entity helpers (SpriteUtil, ShapeUtil, ProximityInteractable, instakill)
+
 ## v2026.07.16 — 2026-07-16
 
 ### Added
