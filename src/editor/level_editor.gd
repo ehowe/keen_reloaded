@@ -84,9 +84,14 @@ func new_level() -> void:
 	_new_level()
 
 
-## Public entry used by the toolbar "Save" button.
+## Public entry used by the toolbar "Save" button. Overwrites the current file
+## in-place when a path is already known (prior save or load); otherwise prompts
+## for a new path via the save dialog.
 func save_level() -> void:
-	_save_dialog.popup_centered_clamped(Vector2i(700, 500))
+	if _last_path != "":
+		_on_save_path(_last_path)
+	else:
+		_save_dialog.popup_centered_clamped(Vector2i(700, 500))
 
 
 ## Public entry used by the toolbar "Load" button.

@@ -55,7 +55,7 @@ texture = SubResource("AtlasTexture_3ntyv")
 position = Vector2(0, -64)
 sprite_frames = SubResource("SpriteFrames_bx4p2")
 autoplay = "default"
-frame_progress = 0.11887649
+frame_progress = 0.27257943
 
 [node name="Base" type="Sprite2D" parent="." unique_id=765910455]
 texture = SubResource("AtlasTexture_x4u6v")
