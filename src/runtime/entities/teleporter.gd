@@ -1,5 +1,5 @@
 class_name Teleporter
-extends Node2D
+extends ProximityInteractable
 ## Special entity valid in both LEVEL and OVERWORLD maps. Player stands near it
 ## and presses `interact` to teleport to a destination teleporter (same or
 ## different map). Directional: each teleporter has one destination; a two-way
@@ -19,8 +19,6 @@ extends Node2D
 signal teleport_requested(destination_level_id: String, destination_teleporter_id: String)
 signal arrival_finished()
 
-const TILE := 64
-const PROXIMITY_RADIUS := 1  # tiles around the teleporter in each direction (3x3 zone)
 const ANIM_NAME := "default"
 
 enum _Phase { IDLE, DEPART, ARRIVE }
@@ -31,9 +29,7 @@ var destination_level_id: String = ""
 var destination_teleporter_id: String = ""
 
 var _phase: int = _Phase.IDLE
-var _nearby: bool = false
 var _player: Node = null
-var _proximity: Area2D
 @onready var _visual: CanvasItem = get_node_or_null("Visual")
 @onready var _anim: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
 
@@ -47,7 +43,7 @@ func setup(p_type_id: String, props: Dictionary) -> void:
 
 
 func _ready() -> void:
-	_build_proximity()
+	super._ready()
 	# `Visual` + `AnimatedSprite2D` come from the scene. Build a fallback
 	# ColorRect only when the scene provided none (e.g. bare Teleporter.new()).
 	if _visual == null:
@@ -55,23 +51,6 @@ func _ready() -> void:
 		add_child(_visual)
 	if _anim != null:
 		_anim.animation_finished.connect(_on_animation_finished)
-
-
-func _build_proximity() -> void:
-	_proximity = Area2D.new()
-	_proximity.name = "Proximity"
-	_proximity.monitoring = true
-	_proximity.collision_layer = 0
-	_proximity.collision_mask = 1  # player bit
-	var shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	var zone := float(TILE * (1 + PROXIMITY_RADIUS * 2))
-	rect.size = Vector2(zone, zone)
-	shape.shape = rect
-	_proximity.add_child(shape)
-	_proximity.body_entered.connect(_on_body_entered)
-	_proximity.body_exited.connect(_on_body_exited)
-	add_child(_proximity)
 
 
 func _fallback_visual() -> CanvasItem:
@@ -158,23 +137,10 @@ func _on_animation_finished() -> void:
 			arrival_finished.emit()
 
 
-func _on_body_entered(body: Node) -> void:
-	# Only the player triggers proximity — tile collision bodies share layer 1
-	# and would otherwise permanently set _nearby (causing every teleporter to
-	# fire on the same interact press).
-	if body != null and body.is_in_group("player"):
-		_nearby = true
-		_player = body
-
-
-func _on_body_exited(body: Node) -> void:
-	if body != null and body.is_in_group("player"):
-		_nearby = false
+func _on_player_entered(player: Node) -> void:
+	_player = player
 
 
 # --- test seams ---
-func _set_nearby_for_test(v: bool) -> void:
-	_nearby = v
-
 func _set_player_for_test(p: Node) -> void:
 	_player = p

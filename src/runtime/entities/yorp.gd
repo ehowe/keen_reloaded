@@ -65,8 +65,8 @@ func _solidify_against_player() -> void:
 	var p := _player_body()
 	if p == null:
 		return
-	var yh := _rect_half("BodyShape")
-	var ph := _rect_half_of(p, Player.COLLISION_LEVEL)
+	var yh := ShapeUtil.rect_half(self, "BodyShape")
+	var ph := ShapeUtil.rect_half(p, Player.COLLISION_LEVEL)
 	if yh == Vector2.ZERO or ph == Vector2.ZERO:
 		return
 	var dy := p.global_position.y - global_position.y
@@ -99,17 +99,6 @@ func _player_body() -> CharacterBody2D:
 	if p is CharacterBody2D:
 		return p
 	return null
-
-
-func _rect_half(shape_node: String) -> Vector2:
-	return _rect_half_of(self, shape_node)
-
-
-static func _rect_half_of(node: Node, shape_node: String) -> Vector2:
-	var cs := node.get_node_or_null(shape_node) as CollisionShape2D
-	if cs != null and cs.shape is RectangleShape2D:
-		return (cs.shape as RectangleShape2D).size * 0.5
-	return Vector2.ZERO
 
 
 ## Yorp resolves contact by solidifying against Keen each frame; the base

@@ -92,24 +92,17 @@ func _should_charge(player_pos: Vector2, player_half_h: float, facing: int) -> b
 
 
 func _player_half_height(player: Node) -> float:
-	var h := _shape_half_height(player, Player.COLLISION_LEVEL)
+	var h := ShapeUtil.rect_half(player, Player.COLLISION_LEVEL).y
 	if h > 0.0:
 		return h
 	return TILE * 0.45
 
 
 func _body_half_height() -> float:
-	var h := _shape_half_height(self, "BodyShape")
+	var h := ShapeUtil.rect_half(self, "BodyShape").y
 	if h > 0.0:
 		return h
 	return TILE * 0.45
-
-
-func _shape_half_height(node: Node, shape_node: String) -> float:
-	var cs := node.get_node_or_null(shape_node) as CollisionShape2D
-	if cs != null and cs.shape is RectangleShape2D:
-		return (cs.shape as RectangleShape2D).size.y * 0.5
-	return 0.0
 
 
 func _player_node() -> Node2D:

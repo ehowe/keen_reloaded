@@ -468,30 +468,18 @@ func _align_sprite_feet() -> void:
 		var n := get_node_or_null(name) as AnimatedSprite2D
 		if n == null:
 			continue
-		var h := _frame_height(n)
+		var h := SpriteUtil.frame_height(n)
 		if h > 0.0:
-			n.offset.y = -(h * 0.5 - foot_y)
+			n.offset.y = SpriteUtil.foot_offset_y(h, foot_y)
 	var death := get_node_or_null("Death") as AnimatedSprite2D
 	if death != null:
-		var dh := _frame_height(death)
+		var dh := SpriteUtil.frame_height(death)
 		if dh > 0.0:
-			death.offset.y = -(dh * 0.5 - foot_y)
+			death.offset.y = SpriteUtil.foot_offset_y(dh, foot_y)
 	for name in POGO_SPRITES:
 		var ps := get_node_or_null(name) as Sprite2D
 		if ps == null or ps.texture == null:
 			continue
 		var ph: float = ps.texture.get_height()
 		if ph > 0.0:
-			ps.offset.y = -(ph * 0.5 - foot_y)
-
-
-static func _frame_height(spr: AnimatedSprite2D) -> float:
-	if spr.sprite_frames == null:
-		return 0.0
-	var anims := spr.sprite_frames.get_animation_names()
-	if anims.is_empty():
-		return 0.0
-	var tex := spr.sprite_frames.get_frame_texture(anims[0], 0)
-	if tex is AtlasTexture:
-		return (tex as AtlasTexture).region.size.y
-	return float(tex.get_height())
+			ps.offset.y = SpriteUtil.foot_offset_y(ph, foot_y)

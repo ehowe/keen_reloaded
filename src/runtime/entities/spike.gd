@@ -11,5 +11,4 @@ func setup(p_type_id: String, p_props: Dictionary) -> void:
 
 
 func _handle_player(player: Node) -> void:
-	if player.has_method("take_damage") and "health" in player:
-		player.take_damage(player.health)
+	_instakill(player)

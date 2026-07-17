@@ -1,5 +1,5 @@
 class_name LevelEntrance
-extends Node2D
+extends ProximityInteractable
 ## Overworld-only entity: a level door. Player presses `interact` while nearby to
 ## enter the linked level. When `blocks_until_completed` is set and the target
 ## level is not yet completed, a solid StaticBody2D blocks overworld passage.
@@ -10,9 +10,7 @@ extends Node2D
 
 signal enter_requested(target_level_id: String, tile: Vector2i)
 
-const TILE := 64
 const BLOCKER_SIZE := 48
-const PROXIMITY_RADIUS := 1  # tiles around the door in each direction (3x3 zone)
 
 # Done-overlay sprite names + color column layout. The done sheet packs three
 # color variants side by side; each column is `step` pixels wide.
@@ -27,8 +25,6 @@ var target_level_id: String = ""
 var blocks_until_completed: bool = false
 var tile: Vector2i = Vector2i(-1, -1)
 
-var _nearby: bool = false
-var _proximity: Area2D
 var _blocker: StaticBody2D
 var _blocker_shape: CollisionShape2D
 # Cached the first time _apply_done_visual runs (after EntityVariant selects the
@@ -56,25 +52,8 @@ func set_tile(t: Vector2i) -> void:
 
 
 func _ready() -> void:
-	_build_proximity()
+	super._ready()
 	_build_blocker()
-
-
-func _build_proximity() -> void:
-	_proximity = Area2D.new()
-	_proximity.name = "Proximity"
-	_proximity.monitoring = true
-	_proximity.collision_layer = 0
-	_proximity.collision_mask = 1  # player bit
-	var shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	var zone := float(TILE * (1 + PROXIMITY_RADIUS * 2))
-	rect.size = Vector2(zone, zone)
-	shape.shape = rect
-	_proximity.add_child(shape)
-	_proximity.body_entered.connect(_on_body_entered)
-	_proximity.body_exited.connect(_on_body_exited)
-	add_child(_proximity)
 
 
 func _build_blocker() -> void:
@@ -207,20 +186,3 @@ func _get_variant_sprite() -> Sprite2D:
 		if fallback == null:
 			fallback = s
 	return fallback
-
-
-func _on_body_entered(body: Node) -> void:
-	# Only the player triggers proximity — tile collision bodies share layer 1
-	# and would otherwise permanently set _nearby.
-	if body != null and body.is_in_group("player"):
-		_nearby = true
-
-
-func _on_body_exited(body: Node) -> void:
-	if body != null and body.is_in_group("player"):
-		_nearby = false
-
-
-# --- test seam ---
-func _set_nearby_for_test(v: bool) -> void:
-	_nearby = v

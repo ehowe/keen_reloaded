@@ -18,5 +18,4 @@ func _ready() -> void:
 
 
 func _handle_player(player: Node) -> void:
-	if player.has_method("take_damage") and "health" in player:
-		player.take_damage(player.health)
+	_instakill(player)

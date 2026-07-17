@@ -84,21 +84,9 @@ func _align_sprite_feet() -> void:
 	var foot_y := (body.shape as RectangleShape2D).size.y * 0.5
 	for name in _sprites:
 		var spr: AnimatedSprite2D = _sprites[name]
-		var h := _frame_height(spr)
+		var h := SpriteUtil.frame_height(spr)
 		if h > 0.0:
-			spr.offset.y = -(h * 0.5 - foot_y)
-
-
-static func _frame_height(spr: AnimatedSprite2D) -> float:
-	if spr.sprite_frames == null:
-		return 0.0
-	var anims := spr.sprite_frames.get_animation_names()
-	if anims.is_empty():
-		return 0.0
-	var tex := spr.sprite_frames.get_frame_texture(anims[0], 0)
-	if tex is AtlasTexture:
-		return (tex as AtlasTexture).region.size.y
-	return float(tex.get_height())
+			spr.offset.y = SpriteUtil.foot_offset_y(h, foot_y)
 
 
 func _sync_visual() -> void:
