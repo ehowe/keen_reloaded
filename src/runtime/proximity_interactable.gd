@@ -10,7 +10,7 @@ extends Node2D
 ## (e.g. Teleporter freezes it during the anim) and keep their own descriptive
 ## `attempt_*` method + 1-line `_process` that reads `interact` and calls it.
 
-const TILE := 64
+const TILE := Constants.TILE
 const PROXIMITY_RADIUS := 1  # tiles around the entity in each direction (3x3 zone)
 
 var _nearby: bool = false

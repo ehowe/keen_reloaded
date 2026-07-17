@@ -275,11 +275,9 @@ func _die() -> void:
 	if _dead:
 		return
 	_dead = true
-	var tree := get_tree()
-	if tree != null:
-		var p := tree.get_first_node_in_group("player")
-		if p != null and p.has_method("add_score"):
-			p.add_score(score_value)
+	var p := Player.find(get_tree())
+	if p != null and p.has_method("add_score"):
+		p.add_score(score_value)
 	if _leave_corpse:
 		_become_corpse()
 	else:

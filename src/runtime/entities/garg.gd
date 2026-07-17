@@ -106,10 +106,7 @@ func _body_half_height() -> float:
 
 
 func _player_node() -> Node2D:
-	var tree := get_tree()
-	if tree == null:
-		return null
-	var p := tree.get_first_node_in_group("player")
+	var p := Player.find(get_tree())
 	if p is Node2D:
 		return p
 	return null

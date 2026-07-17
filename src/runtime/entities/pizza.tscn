@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://btyqu8r4l8bf2"]
 
-[ext_resource type="Script" uid="uid://cj3uqpqjsp26t" path="res://src/runtime/entities/pizza.gd" id="1_pizza"]
+[ext_resource type="Script" uid="uid://bd4sgadanc6vi" path="res://src/runtime/entities/collectible.gd" id="1_pizza"]
 [ext_resource type="Texture2D" uid="uid://b7ihigfw4amcd" path="res://assets/sprites/Pickups.png" id="2_2jsyo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
@@ -9,6 +9,7 @@ region = Rect2(0, 0, 64, 64)
 
 [node name="Pizza" type="CharacterBody2D" unique_id=1758215728]
 script = ExtResource("1_pizza")
+score_value = 500
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=1652409526]
 texture = SubResource("AtlasTexture_x4u6v")

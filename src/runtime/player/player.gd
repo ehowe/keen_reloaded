@@ -20,7 +20,7 @@ const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
 ## Permanent inventory item representing Keen's raygun/blaster. Always owned
 ## (granted in _ready), so shooting is always available given ammo — kept as an
 ## inventory item so it persists in saves like keen1.pogo.
-const BLASTER := "keen1.blaster"
+const BLASTER := ItemIDs.BLASTER
 const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting"]
 const POGO_SPRITES := ["PogoUpright", "PogoBounce"]
 const OVERWORLD_SPRITES := ["OverworldUp", "OverworldDown", "OverworldLeft", "OverworldRight"]
@@ -73,6 +73,15 @@ var _overworld_dir: int = Direction.DOWN
 var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input while nonzero
 var _dead: bool = false
 var _pogo_bounce_timer: float = 0.0
+
+
+## First node in the "player" group on `tree`, or null when the tree is null or
+## no player is present. Consolidates the get_first_node_in_group + null-tree
+## guard duplicated across enemy AI. Returns Node; callers cast/duck-type.
+static func find(tree: SceneTree) -> Node:
+	if tree == null:
+		return null
+	return tree.get_first_node_in_group("player")
 
 
 func _ready() -> void:
@@ -187,7 +196,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = _jump_dir * leap_speed
 			_jumping = true
 
-	if not _input_locked and Inventory.has_item("keen1.pogo") and Input.is_action_just_pressed("pogo"):
+	if not _input_locked and Inventory.has_item(ItemIDs.POGO) and Input.is_action_just_pressed("pogo"):
 		_pogo = not _pogo
 		_pogo_bounce_timer = 0.0
 

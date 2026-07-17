@@ -1,8 +1,10 @@
 class_name Collectible
 extends Entity
-## A pickup that awards score on contact, then frees itself.
+## A pickup that awards score on contact, then frees itself. score_value is an
+## @export so each pickup scene (lollipop/pizza/soda/book/teddy) carries its own
+## value in the .tscn — no per-value subclass needed.
 
-var score_value: int = 100
+@export var score_value: int = 100
 
 
 func _color() -> Color:

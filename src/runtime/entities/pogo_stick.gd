@@ -3,7 +3,7 @@ extends Entity
 ## Pogo stick pickup. Grants the "keen1.pogo" inventory item on contact, then
 ## frees. Registered as a LEVEL-only item so it cannot be placed on the overworld.
 
-const POGO_ITEM_ID := "keen1.pogo"
+const POGO_ITEM_ID := ItemIDs.POGO
 
 
 func _handle_player(_player: Node) -> void:

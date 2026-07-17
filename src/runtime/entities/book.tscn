@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dccldrmlfofo7"]
 
-[ext_resource type="Script" uid="uid://c5c0yd37jw17k" path="res://src/runtime/entities/book.gd" id="1_book"]
+[ext_resource type="Script" uid="uid://bd4sgadanc6vi" path="res://src/runtime/entities/collectible.gd" id="1_book"]
 [ext_resource type="Texture2D" uid="uid://b7ihigfw4amcd" path="res://assets/sprites/Pickups.png" id="2_6g13y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
@@ -12,6 +12,7 @@ atlas = SubResource("AtlasTexture_07erc")
 
 [node name="Book" type="CharacterBody2D" unique_id=1022146609]
 script = ExtResource("1_book")
+score_value = 1000
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=1534701519]
 texture = SubResource("AtlasTexture_x4u6v")

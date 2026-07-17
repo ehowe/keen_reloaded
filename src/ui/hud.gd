@@ -28,7 +28,7 @@ const DIM_MODULATE := Color(0.22, 0.22, 0.25, 0.5)
 
 # Ordered item-id -> texture map for the icon-only inventory slots.
 const OVERWORLD_ITEM_TEX := {
-	"keen1.pogo": POGO_TEX,
+	ItemIDs.POGO: POGO_TEX,
 	"keen4.joystick": JOYSTICK_TEX,
 	"keen4.battery": BATTERY_TEX,
 	"keen4.vacuum": VACUUM_TEX,
@@ -37,7 +37,7 @@ const OVERWORLD_ITEM_TEX := {
 
 # Deterministic left-to-right display order.
 const OVERWORLD_ITEM_ORDER := [
-	"keen1.pogo",
+	ItemIDs.POGO,
 	"keen4.joystick",
 	"keen4.battery",
 	"keen4.vacuum",

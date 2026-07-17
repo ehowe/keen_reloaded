@@ -10,7 +10,7 @@ extends CharacterBody2D
 
 signal player_touched(player: Node)
 
-const TILE := 64
+const TILE := Constants.TILE
 
 var type_id: String = ""
 var properties: Dictionary = {}

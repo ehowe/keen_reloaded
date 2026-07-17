@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fifqy7qwvfj"]
 
-[ext_resource type="Script" uid="uid://bgq0lcfpw3ccg" path="res://src/runtime/entities/soda.gd" id="1_soda"]
+[ext_resource type="Script" uid="uid://bd4sgadanc6vi" path="res://src/runtime/entities/collectible.gd" id="1_soda"]
 [ext_resource type="Texture2D" uid="uid://b7ihigfw4amcd" path="res://assets/sprites/Pickups.png" id="2_tf3q0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
@@ -12,6 +12,7 @@ atlas = SubResource("AtlasTexture_07erc")
 
 [node name="Soda" type="CharacterBody2D" unique_id=2088631959]
 script = ExtResource("1_soda")
+score_value = 200
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=1898081100]
 texture = SubResource("AtlasTexture_x4u6v")

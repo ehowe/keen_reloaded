@@ -22,13 +22,11 @@ func _ready() -> void:
 
 
 func _choose_walk_dir() -> int:
-	var tree := get_tree()
-	if tree != null:
-		var p := tree.get_first_node_in_group("player") as Node2D
-		if p != null:
-			if randf() < seek_chance:
-				return 1 if p.global_position.x > global_position.x else -1
-			return -1 if randf() < 0.5 else 1
+	var p := Player.find(get_tree()) as Node2D
+	if p != null:
+		if randf() < seek_chance:
+			return 1 if p.global_position.x > global_position.x else -1
+		return -1 if randf() < 0.5 else 1
 	return -_dir
 
 
@@ -92,10 +90,7 @@ func _solidify_against_player() -> void:
 
 
 func _player_body() -> CharacterBody2D:
-	var tree := get_tree()
-	if tree == null:
-		return null
-	var p := tree.get_first_node_in_group("player")
+	var p := Player.find(get_tree())
 	if p is CharacterBody2D:
 		return p
 	return null

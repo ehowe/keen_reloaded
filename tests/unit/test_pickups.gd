@@ -13,7 +13,7 @@ class FakePlayer extends Node:
 
 
 func test_lollipop_awards_score():
-	var c: Lollipop = add_child_autofree(load("res://src/runtime/entities/lollipop.tscn").instantiate())
+	var c: Collectible = add_child_autofree(load("res://src/runtime/entities/lollipop.tscn").instantiate())
 	assert_eq(c.score_value, 100)
 	var p := FakePlayer.new()
 	add_child_autofree(p)
