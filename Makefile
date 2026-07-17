@@ -36,6 +36,9 @@ VERSION      := $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0")
 LAST_TAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "")
 
 MAC_DMG      := $(BUILD_DIR)/dist/$(APP_NAME).$(VERSION).dmg
+# Clean staging folder holding ONLY the .app, so stray build artifacts (prior
+# DMGs, create-dmg's own rw.*.dmg staging files) can never leak into the image.
+MAC_DMG_STAGE := $(BUILD_DIR)/dmg-staging
 
 # --- Host OS/arch detection -------------------------------------------------
 # `make build` targets the host; `make build-all` cross-builds all platforms.
@@ -66,7 +69,7 @@ TMPL_MARKER  := $(TMPL_DIR)/macos.zip
 TPZ          := Godot_v4.7-stable_export_templates.tpz
 TPZ_URL      := https://github.com/godotengine/godot/releases/download/4.7-stable/$(TPZ)
 
-.PHONY: all build build-all templates test import convert-levels run run-app edit clean check-godot version release release-dry help
+.PHONY: all build build-all macos-dmg templates test import convert-levels run run-app edit clean check-godot version release release-dry help
 
 all: build
 
@@ -149,24 +152,41 @@ build: check-godot templates export_presets.cfg import convert-levels
 	@$(GODOT) --headless --export-release "$(HOST_PRESET)" "$(HOST_OUTPUT)"
 	@echo ">> Built: $(HOST_OUTPUT)"
 ifeq ($(HOST_OS),Darwin)
-	@mkdir -p $(dir $(MAC_DMG))
-	@echo ">> Creating DMG: $(MAC_DMG)"
-	@create-dmg --overwrite "$(MAC_DMG)" "$(dir $(MAC_APP))"
-	@echo ">> DMG: $(MAC_DMG)"
+	@$(MAKE) --no-print-directory macos-dmg
 endif
 	@echo ">> Launch with: make run-app"
+
+# ---------------------------------------------------------------------------
+# macOS DMG: stages ONLY the .app into a clean folder, then builds the image.
+# create-dmg copies *everything* in its source folder into the DMG, so pointing
+# it at build/macos/ would bundle stale .dmg files lying there. We also detach
+# any leftover create-dmg staging volumes (/Volumes/dmg.*) and drop orphaned
+# rw.*.dmg files that interrupted runs leave in the output dir.
+# ---------------------------------------------------------------------------
+macos-dmg:
+	@echo ">> Staging .app -> $(MAC_DMG_STAGE)"
+	@for v in $$(mount | sed -n 's|^.*on \(/Volumes/dmg\.[^ ]*\) .*$$|\1|p'); do \
+		echo ">> Detaching stale staging volume: $$v"; \
+		hdiutil detach "$$v" -force >/dev/null 2>&1 || true; \
+	done
+	@rm -f $(dir $(MAC_DMG))rw.*.dmg
+	@rm -rf "$(MAC_DMG_STAGE)" && mkdir -p "$(MAC_DMG_STAGE)"
+	@cp -R "$(MAC_APP)" "$(MAC_DMG_STAGE)/"
+	@mkdir -p "$(dir $(MAC_DMG))"
+	@echo ">> Creating DMG: $(MAC_DMG)"
+	@create-dmg --overwrite --volname "$(APP_NAME)" "$(MAC_DMG)" "$(MAC_DMG_STAGE)"
+	@rm -rf "$(MAC_DMG_STAGE)"
+	@echo ">> DMG: $(MAC_DMG)"
 
 # ---------------------------------------------------------------------------
 # Build-all: cross-build every desktop platform into build/.
 # (Templates for all three ship in the single .tpz installed by `templates`.)
 # ---------------------------------------------------------------------------
 build-all: check-godot templates export_presets.cfg import convert-levels
-	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN)) $(dir $(MAC_DMG))
+	@mkdir -p $(dir $(MAC_APP)) $(dir $(WIN_EXE)) $(dir $(LINUX_BIN))
 	@echo ">> Exporting macOS..."
 	@$(GODOT) --headless --export-release "macOS" "$(MAC_APP)"
-	@echo ">> Creating DMG: $(MAC_DMG)"
-	@create-dmg --overwrite "$(MAC_DMG)" "$(dir $(MAC_APP))"
-	@echo ">> DMG: $(MAC_DMG)"
+	@$(MAKE) --no-print-directory macos-dmg
 	@echo ">> Exporting Windows Desktop..."
 	@$(GODOT) --headless --export-release "Windows Desktop" "$(WIN_EXE)"
 	@echo ">> Exporting Linux..."
