@@ -75,3 +75,8 @@ func register_entities(registry: Node) -> void:
 			{name = "repeat", default = false, type = "bool"},
 		],
 		message)
+	var keycard := preload("res://src/runtime/entities/Keycard.tscn")
+	registry.register("keen1.keycard", registry.CATEGORY_ITEM, "Keycard",
+		[{name = "variant", default = "red", type = "enum",
+			options = ["red", "blue", "yellow", "green"]}],
+		keycard)
