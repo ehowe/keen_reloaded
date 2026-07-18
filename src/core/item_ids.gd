@@ -9,5 +9,7 @@ extends RefCounted
 ## to toggle pogo mode; shown as an overworld inventory icon.
 const POGO := "keen1.pogo"
 
-## Raygun/blaster. Always owned (granted in Player._ready); gates shooting.
+## Raygun/blaster. Find-to-own: granted by the keen1.raygun ammo pickup entity
+## on first contact; gates shooting. Persists across levels + save/load via the
+## Inventory autoload (like POGO). Cleared on new game by clear_progress().
 const BLASTER := "keen1.blaster"

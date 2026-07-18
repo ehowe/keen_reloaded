@@ -1,7 +1,9 @@
 extends GutTest
 ## Ammo is a persistent GameManager field (source of truth across levels). It
 ## serializes with the session, deserializes back, and resets on clear_progress
-## (new game). The blaster is a permanent inventory item Keen always owns.
+## (new game). The blaster is a find-to-own inventory item (granted by the
+## keen1.raygun pickup) tracked separately via the Inventory autoload; its
+## persistence is covered by test_inventory.gd and test_pickups.gd.
 
 const BLASTER := "keen1.blaster"
 
