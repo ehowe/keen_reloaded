@@ -1,0 +1,123 @@
+[gd_scene load_steps=3 format=3 uid="uid://c41lgnol20jpr"]
+
+[ext_resource type="Texture2D" uid="uid://dwytk2047oo55" path="res://assets/tilesets/Doors and Keycards.png" id="1_jitga"]
+[ext_resource type="Script" path="res://src/runtime/entities/door.gd" id="2_door"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("1_jitga")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
+atlas = ExtResource("1_jitga")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccdw"]
+atlas = ExtResource("1_jitga")
+region = Rect2(192, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7soo"]
+atlas = ExtResource("1_jitga")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="Animation" id="Animation_jitga"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorMask/Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorMask/Visual:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DoorMask/Visual:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_mfjms"]
+resource_name = "Retract"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorMask/Visual:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.16666667, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorMask/Visual:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 128, -0.16666667, -21.333334, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_atrkh"]
+_data = {
+&"RESET": SubResource("Animation_jitga"),
+&"Retract": SubResource("Animation_mfjms")
+}
+
+[node name="Door" type="CharacterBody2D" unique_id=405096024]
+script = ExtResource("2_door")
+
+[node name="DoorMask" type="Polygon2D" parent="." unique_id=1036162027]
+clip_children = 1
+
+[node name="Visual" type="Node2D" parent="DoorMask" unique_id=1900524467]
+
+[node name="Red" type="Sprite2D" parent="DoorMask/Visual" unique_id=837743592]
+visible = false
+position = Vector2(0, -32)
+texture = SubResource("AtlasTexture_x4u6v")
+
+[node name="Blue" type="Sprite2D" parent="DoorMask/Visual" unique_id=1241394494]
+visible = false
+position = Vector2(0, -32)
+texture = SubResource("AtlasTexture_07erc")
+
+[node name="Yellow" type="Sprite2D" parent="DoorMask/Visual" unique_id=792853298]
+visible = false
+position = Vector2(0, -32)
+texture = SubResource("AtlasTexture_qccdw")
+
+[node name="Green" type="Sprite2D" parent="DoorMask/Visual" unique_id=1571942318]
+position = Vector2(0, -32)
+texture = SubResource("AtlasTexture_f7soo")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=244793670]
+position = Vector2(-0.10000229, 0.1972351)
+scale = Vector2(0.9980468, 1.0014535)
+polygon = PackedVector2Array(-32, 32, 32, 32, 32, -97, -31, -97)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1952157524]
+libraries/ = SubResource("AnimationLibrary_atrkh")

@@ -80,3 +80,8 @@ func register_entities(registry: Node) -> void:
 		[{name = "variant", default = "red", type = "enum",
 			options = ["red", "blue", "yellow", "green"]}],
 		keycard)
+	var door := preload("res://src/runtime/entities/Door.tscn")
+	registry.register("keen1.door", registry.CATEGORY_SPECIAL, "Door",
+		[{name = "variant", default = "red", type = "enum",
+			options = ["red", "blue", "yellow", "green"]}],
+		door)
