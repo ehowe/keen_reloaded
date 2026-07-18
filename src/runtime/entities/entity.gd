@@ -36,19 +36,8 @@ func _ready() -> void:
 
 
 func _build_contact() -> void:
-	_area = Area2D.new()
-	_area.name = "Area2D"
-	_area.monitoring = true
-	_area.collision_layer = 0
-	_area.collision_mask = 1  # player bit
-	var shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = Vector2(TILE, TILE)
-	shape.shape = rect
-	_area.add_child(shape)
-	_area.body_entered.connect(_on_body_entered)
+	_area = _build_contact_area()
 	add_child(_area)
-
 	if not has_node("Visual"):
 		var vis := ColorRect.new()
 		vis.name = "Visual"
@@ -56,6 +45,25 @@ func _build_contact() -> void:
 		vis.position = Vector2(-TILE / 2.0, -TILE / 2.0)
 		vis.color = _color()
 		add_child(vis)
+
+
+## Build the player-contact Area2D (mask = player bit, 1-tile rectangle shape,
+## wired to _on_body_entered). Factored out so subclasses with their own visual
+## tree (e.g. Door, whose sprites live at DoorMask/Visual) can build the sensor
+## without triggering the ColorRect fallback in _build_contact.
+func _build_contact_area() -> Area2D:
+	var area := Area2D.new()
+	area.name = "Area2D"
+	area.monitoring = true
+	area.collision_layer = 0
+	area.collision_mask = 1  # player bit
+	var shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(TILE, TILE)
+	shape.shape = rect
+	area.add_child(shape)
+	area.body_entered.connect(_on_body_entered)
+	return area
 
 
 func _color() -> Color:
