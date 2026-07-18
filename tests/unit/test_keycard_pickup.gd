@@ -79,3 +79,13 @@ func test_keycard_variant_selects_matching_sprite():
 	assert_false(kc.get_node("Visual/Blue").visible, "Blue hidden")
 	assert_false(kc.get_node("Visual/Yellow").visible, "Yellow hidden")
 	assert_false(kc.get_node("Visual/Green").visible, "Green hidden")
+
+
+func test_keycard_variant_selects_non_default_sprite():
+	# Set variant=green via props; EntityVariant.apply must toggle visibility
+	# (default scene state has Red visible — this test fails if apply is a no-op).
+	var kc: Keycard = add_child_autofree(EntityRegistry.instantiate("keen1.keycard", Vector2.ZERO, {"variant": "green"})) as Keycard
+	assert_true(kc.get_node("Visual/Green").visible, "Green visible for variant=green")
+	assert_false(kc.get_node("Visual/Red").visible, "Red hidden")
+	assert_false(kc.get_node("Visual/Blue").visible, "Blue hidden")
+	assert_false(kc.get_node("Visual/Yellow").visible, "Yellow hidden")

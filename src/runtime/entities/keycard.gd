@@ -14,7 +14,6 @@ func setup(p_type_id: String, p_props: Dictionary) -> void:
 
 
 func _handle_player(player: Node) -> void:
-	if player.has_method("add_keycard"):
-		player.add_keycard(variant)
+	player.add_keycard(variant)
 	AudioManager.play_sfx("pickup_score")
 	queue_free()
