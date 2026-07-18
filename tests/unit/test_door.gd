@@ -130,3 +130,24 @@ func test_door_variant_selects_matching_sprite():
 	assert_false(d.get_node("DoorMask/Visual/Red").visible, "Red hidden")
 	assert_false(d.get_node("DoorMask/Visual/Blue").visible, "Blue hidden")
 	assert_false(d.get_node("DoorMask/Visual/Green").visible, "Green hidden")
+
+
+func test_door_contact_area_extends_beyond_solid_collision():
+	# Bug repro: the door's CollisionPolygon2D is solid and ~1 tile wide. The
+	# contact Area2D sits at the door origin. If the Area2D's shape matches the
+	# door's collision width, the player gets stopped at the tile boundary and
+	# their body NEVER enters the Area2D's region — body_entered never fires,
+	# the door never opens. The Area2D shape must extend BEYOND the solid
+	# collision horizontally so the player enters the detection zone first.
+	var d := _new_door()
+	var area := d.get_node_or_null("Area2D") as Area2D
+	assert_not_null(area, "contact Area2D present")
+	var col := area.get_child(0) as CollisionShape2D
+	assert_not_null(col, "Area2D has a CollisionShape2D")
+	var rect := col.shape as RectangleShape2D
+	assert_not_null(rect, "Area2D shape is RectangleShape2D")
+	# Door's collision polygon is ~TILE wide (64px). Contact shape must be
+	# STRICTLY WIDER so the player can enter the detection zone before being
+	# blocked by the solid collision.
+	assert_gt(rect.size.x, Constants.TILE,
+		"contact Area2D shape wider than 1 tile (got %f)" % rect.size.x)

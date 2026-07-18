@@ -20,6 +20,17 @@ func _ready() -> void:
 	# Build only the contact Area2D — skip Entity's ColorRect visual fallback
 	# (the door's sprites live at DoorMask/Visual, not as a direct child).
 	_area = _build_contact_area()
+	# Widen the contact sensor beyond the door's solid CollisionPolygon2D.
+	# The door is the first entity that is BOTH solid (tiles layer) AND uses
+	# the Area2D contact sensor pattern; if the sensor's shape matched the
+	# door's collision width, the player would be stopped at the tile boundary
+	# and their body would never enter the Area2D's region — body_entered
+	# would never fire and the door would never open. Extending the sensor 1
+	# tile outward on each side gives the player room to enter the detection
+	# zone before being blocked by the solid collision.
+	var col := _area.get_child(0) as CollisionShape2D
+	if col != null and col.shape is RectangleShape2D:
+		(col.shape as RectangleShape2D).size = Vector2(TILE * 3.0, TILE)
 	add_child(_area)
 	# Door sits on the tiles layer (bit 3 = value 4) so its CollisionPolygon2D
 	# actually blocks the player (player.collision_mask = 4). Default items bit
