@@ -12,6 +12,10 @@ class FakePlayer extends Node:
 		ammo = clampi(ammo + a, 0, max_ammo)
 
 
+func before_each():
+	Inventory.clear()
+
+
 func test_lollipop_awards_score():
 	var c: Collectible = add_child_autofree(load("res://src/runtime/entities/lollipop.tscn").instantiate())
 	assert_eq(c.score_value, 100)
@@ -46,15 +50,33 @@ func test_score_pickups_award_expected_values():
 		assert_true(node.is_queued_for_deletion(), "%s frees after use" % tid)
 
 
-func test_raygun_grants_ammo():
+func test_raygun_grants_ammo_and_blaster():
 	var r: AmmoPickup = add_child_autofree(load("res://src/runtime/entities/ammo_pickup.tscn").instantiate())
 	assert_eq(r.ammo_value, 5)
 	var p := FakePlayer.new()
 	p.ammo = 1
 	add_child_autofree(p)
+	assert_false(Inventory.has_item(ItemIDs.BLASTER), "blaster not owned before pickup")
 	r._on_body_entered(p)
 	assert_eq(p.ammo, 5, "ammo granted and clamped to max")
+	assert_true(Inventory.has_item(ItemIDs.BLASTER), "blaster granted on first pickup")
 	assert_true(r.is_queued_for_deletion(), "pickup frees after use")
+
+
+## Second+ raygun pickups still grant ammo but do not re-emit item_collected
+## for the blaster (Inventory.add_item is idempotent).
+func test_raygun_blaster_grant_is_idempotent():
+	# Pre-grant the blaster as if a prior pickup already gave it.
+	Inventory.add_item(ItemIDs.BLASTER)
+	watch_signals(Inventory)
+	var r: AmmoPickup = add_child_autofree(load("res://src/runtime/entities/ammo_pickup.tscn").instantiate())
+	var p := FakePlayer.new()
+	p.ammo = 0
+	add_child_autofree(p)
+	r._on_body_entered(p)
+	assert_eq(p.ammo, 5, "ammo still granted on subsequent pickups")
+	assert_true(Inventory.has_item(ItemIDs.BLASTER), "blaster still owned")
+	assert_signal_not_emitted(Inventory, "item_collected", "no re-emit on duplicate blaster grant")
 
 
 func after_each():
