@@ -55,6 +55,10 @@ const COLLISION_OVERWORLD := "Overworld"
 var score: int = 0
 var health: int = 3
 var ammo: int = 0
+## Per-level keycard counts. color (String) -> count (int). Auto-cleared: the
+## Player node is freed + rebuilt on every level swap, so this Dictionary never
+## crosses levels and never reaches save/load.
+var keycards: Dictionary = {}
 
 var _facing: int = 1
 var _pogo: bool = false
@@ -294,6 +298,25 @@ func _set_ammo(value: int) -> void:
 
 func add_ammo(amount: int) -> void:
 	_set_ammo(clampi(ammo + amount, 0, max_ammo))
+
+
+## True if the player holds at least one keycard of `color`.
+func has_keycard(color: String) -> bool:
+	return int(keycards.get(color, 0)) > 0
+
+
+## Grant one keycard of `color`. Adds to the existing count if any.
+func add_keycard(color: String) -> void:
+	keycards[color] = int(keycards.get(color, 0)) + 1
+
+
+## Decrement the `color` count by 1 (floors at 0). Returns true if a keycard
+## was actually consumed (player had at least one); false if the player had none.
+func consume_keycard(color: String) -> bool:
+	if not has_keycard(color):
+		return false
+	keycards[color] = int(keycards[color]) - 1
+	return true
 
 
 ## Apply a horizontal bounce impulse (e.g. from a yorp bump). Overrides Keen's
