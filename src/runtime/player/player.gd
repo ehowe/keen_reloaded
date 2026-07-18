@@ -17,9 +17,10 @@ signal ammo_changed(ammo: int)
 signal died
 
 const PROJECTILE := preload("res://src/runtime/player/projectile.tscn")
-## Permanent inventory item representing Keen's raygun/blaster. Always owned
-## (granted in _ready), so shooting is always available given ammo — kept as an
-## inventory item so it persists in saves like keen1.pogo.
+## Raygun/blaster inventory item. Find-to-own: granted by the keen1.raygun
+## ammo pickup on first contact (see ammo_pickup.gd). Gates shooting — see
+## shoot(). Persists across levels + save/load via the Inventory autoload
+## (like keen1.pogo).
 const BLASTER := ItemIDs.BLASTER
 const LEVEL_SPRITES := ["Idle", "Walking", "Jumping", "Shooting"]
 const POGO_SPRITES := ["PogoUpright", "PogoBounce"]
@@ -90,9 +91,6 @@ static func find(tree: SceneTree) -> Node:
 
 func _ready() -> void:
 	add_to_group("player")
-	# Keen always carries the blaster (permanent inventory item, like the pogo).
-	# Idempotent: covers episode, pack, and editor-Test entry paths alike.
-	Inventory.add_item(BLASTER)
 	ammo = 0
 	ammo_changed.emit(ammo)
 	_apply_collision_for_mode()
@@ -250,7 +248,7 @@ func _physics_overworld(delta: float) -> void:
 
 
 ## Fire a projectile from the Muzzle in the facing direction. Requires the
-## blaster (permanent inventory item) and at least one shot of ammo. Mirrors the
+## blaster (find-to-own inventory item) and at least one shot of ammo. Mirrors the
 ## post-fire ammo back to GameManager so the stash persists across levels.
 func shoot() -> void:
 	if not Inventory.has_item(BLASTER):

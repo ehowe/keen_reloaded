@@ -4,8 +4,8 @@ const BLASTER := "keen1.blaster"
 
 
 func before_each() -> void:
-	# Each player spawn re-grants the blaster; start every test clean so the
-	# grant is exercised by _ready, and mirror store is predictable.
+	# Blaster is find-to-own (granted by the keen1.raygun pickup, not by
+	# Player._ready). Start every test clean so each must grant it explicitly.
 	Inventory.clear()
 	GameManager.ammo = 0
 
@@ -26,6 +26,7 @@ func test_shoot_spawns_projectile_and_decrements():
 	add_child_autofree(host)
 	var p := Player.new()
 	host.add_child(p)  # parent = host so the projectile lands as a sibling
+	Inventory.add_item(BLASTER)
 	p.projectile_speed = 999.0
 	p.ammo = p.max_ammo
 	var before := host.get_child_count()
@@ -53,6 +54,7 @@ func test_shoot_uses_facing():
 	add_child_autofree(host)
 	var p := Player.new()
 	host.add_child(p)
+	Inventory.add_item(BLASTER)
 	p._facing = -1
 	p.ammo = p.max_ammo
 	p.shoot()
@@ -66,6 +68,7 @@ func test_shoot_spawn_flips_with_facing():
 	add_child_autofree(host)
 	var p := scene.instantiate() as Player
 	host.add_child(p)
+	Inventory.add_item(BLASTER)
 	p.global_position = Vector2(1000, 500)
 	p.ammo = p.max_ammo
 	p._facing = 1
@@ -85,11 +88,13 @@ func test_add_ammo_clamps_to_max():
 	assert_eq(p.ammo, p.max_ammo, "clamped to max_ammo")
 
 
-# ---- Blaster (permanent inventory item, like pogo) ----
+# ---- Blaster (find-to-own: granted by keen1.raygun pickup, not Player._ready) ----
 
-func test_ready_grants_blaster():
+func test_ready_does_not_grant_blaster():
+	# Player._ready must NOT auto-grant the blaster. Acquisition is via the
+	# keen1.raygun pickup (see test_pickups.gd). Spawn-and-check is the contract.
 	var p := _new_player()
-	assert_true(Inventory.has_item(BLASTER), "player always owns the blaster on spawn")
+	assert_false(Inventory.has_item(BLASTER), "spawn does not auto-grant blaster")
 
 
 func test_shoot_requires_blaster():
@@ -125,6 +130,7 @@ func test_shoot_mirrors_game_manager():
 	add_child_autofree(host)
 	var p := Player.new()
 	host.add_child(p)
+	Inventory.add_item(BLASTER)
 	p.ammo = p.max_ammo
 	GameManager.ammo = p.max_ammo
 	p.shoot()
