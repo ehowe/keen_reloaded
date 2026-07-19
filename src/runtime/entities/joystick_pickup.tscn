@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://seay6vbdplit"]
+
+[ext_resource type="Script" uid="uid://ds4rs3s1fuv13" path="res://src/runtime/entities/joystick_pickup.gd" id="1_joystick"]
+[ext_resource type="Texture2D" uid="uid://tak3yitqb2s0" path="res://assets/sprites/Joystick.png" id="2_ydw08"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd0pi"]
+atlas = ExtResource("2_ydw08")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo1nk"]
+atlas = ExtResource("2_ydw08")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drrkm"]
+atlas = ExtResource("2_ydw08")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxf2w"]
+atlas = ExtResource("2_ydw08")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yd0pi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo1nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drrkm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxf2w")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="JoystickPickup" type="CharacterBody2D" unique_id=1967664003]
+script = ExtResource("1_joystick")
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=1103776746]
+sprite_frames = SubResource("SpriteFrames_x4u6v")

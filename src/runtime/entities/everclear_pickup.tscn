@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://dw3kwiybue0g0"]
+
+[ext_resource type="Script" uid="uid://b78krx1vojuof" path="res://src/runtime/entities/everclear_pickup.gd" id="1_everclear"]
+[ext_resource type="Texture2D" uid="uid://1u8giqjgr6oa" path="res://assets/sprites/Everclear.png" id="2_cldv6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_impab"]
+atlas = ExtResource("2_cldv6")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oilnr"]
+atlas = ExtResource("2_cldv6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0w42"]
+atlas = ExtResource("2_cldv6")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ql3rt"]
+atlas = ExtResource("2_cldv6")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_impab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oilnr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0w42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ql3rt")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="EverclearPickup" type="CharacterBody2D" unique_id=1009068465]
+script = ExtResource("1_everclear")
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=1064629933]
+sprite_frames = SubResource("SpriteFrames_x4u6v")

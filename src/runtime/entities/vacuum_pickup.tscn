@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bnpx1ypom0qri"]
+
+[ext_resource type="Script" uid="uid://c08j1mctycwc3" path="res://src/runtime/entities/vacuum_pickup.gd" id="1_vacuum"]
+[ext_resource type="Texture2D" uid="uid://qwl073m8p31k" path="res://assets/sprites/Vacuum.png" id="2_ko48i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as4eg"]
+atlas = ExtResource("2_ko48i")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcbtv"]
+atlas = ExtResource("2_ko48i")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbn7d"]
+atlas = ExtResource("2_ko48i")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdr3e"]
+atlas = ExtResource("2_ko48i")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_as4eg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcbtv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbn7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdr3e")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="VacuumPickup" type="CharacterBody2D" unique_id=1754769662]
+script = ExtResource("1_vacuum")
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=405595033]
+sprite_frames = SubResource("SpriteFrames_x4u6v")
