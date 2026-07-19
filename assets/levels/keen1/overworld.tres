@@ -62,7 +62,7 @@ x = 23
 y = 24
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_04",
 "variant": "City"
 }
 
@@ -95,7 +95,7 @@ x = 16
 y = 11
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_06",
 "variant": "Blue Shrine"
 }
 
