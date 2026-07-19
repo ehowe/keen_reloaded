@@ -87,17 +87,23 @@ func test_door_non_matching_color_stays_locked():
 	assert_false(d.get_node("CollisionPolygon2D").disabled, "collision still solid")
 
 
-func test_door_collision_disables_after_retract_animation():
+func test_door_collision_disables_when_animation_starts():
+	# Player must be able to walk through the door WHILE the Retract animation
+	# is playing, not after it finishes. So _handle_player must disable the
+	# solid CollisionPolygon2D + contact Area2D immediately when the animation
+	# starts — without waiting for animation_finished.
+	# Uses set_deferred because body_entered is a physics-signal callback;
+	# the deferred call applies at end of frame, so we await one frame before
+	# asserting.
 	var d := _new_door({"variant": "red"})
 	var p := _new_player_with(["red"])
 	d._handle_player(p)
-	# Simulate AnimationPlayer.animation_finished firing for "Retract".
-	d._on_retract_finished("Retract")
-	assert_true(d.get_node("CollisionPolygon2D").disabled, "CollisionPolygon2D disabled after anim")
-	# Contact Area2D also disabled so re-entry cannot refire.
+	await get_tree().process_frame
+	assert_true(d.get_node("CollisionPolygon2D").disabled,
+		"CollisionPolygon2D disabled immediately on contact (not deferred to anim end)")
 	var area := d.get_node_or_null("Area2D") as Area2D
 	assert_not_null(area, "contact Area2D present")
-	assert_false(area.monitoring, "Area2D monitoring off after open")
+	assert_false(area.monitoring, "Area2D monitoring off immediately on contact")
 
 
 func test_door_handle_player_is_idempotent_after_open():

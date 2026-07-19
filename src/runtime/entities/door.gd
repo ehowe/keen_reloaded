@@ -2,9 +2,9 @@ class_name Door
 extends Entity
 ## Color-locked door. Solid (collision on the tiles bit) until the player
 ## carries a matching keycard; on contact the door consumes one keycard of its
-## variant color, plays the "Retract" animation, then disables both its
-## CollisionPolygon2D and contact Area2D so the door stays open and cannot
-## refire. Variant sprite is selected via EntityVariant (Red/Blue/Yellow/Green).
+## variant color, disables both its CollisionPolygon2D and contact Area2D so
+## the player can walk through WHILE the "Retract" animation plays, then leaves
+## the door open. Variant sprite is selected via EntityVariant (Red/Blue/Yellow/Green).
 
 
 var variant: String = "red"
@@ -30,7 +30,7 @@ func _ready() -> void:
 	# zone before being blocked by the solid collision.
 	var col := _area.get_child(0) as CollisionShape2D
 	if col != null and col.shape is RectangleShape2D:
-		(col.shape as RectangleShape2D).size = Vector2(TILE * 3.0, TILE)
+		(col.shape as RectangleShape2D).size = Vector2(TILE * 1.1, TILE)
 	add_child(_area)
 	# Door sits on the tiles layer (bit 3 = value 4) so its CollisionPolygon2D
 	# actually blocks the player (player.collision_mask = 4). Default items bit
@@ -46,25 +46,24 @@ func _handle_player(player: Node) -> void:
 		return  # Locked — door stays solid, player bumped.
 	_opened = true
 	player.consume_keycard(variant)
+	# Disable collision BEFORE playing the animation so the player can walk
+	# through the door while the Retract anim is still running, instead of
+	# being blocked until animation_finished fires.
+	_disable_collision()
 	AudioManager.play_sfx("door_open")  # warns gracefully until asset exists
 	var anim := get_node_or_null("AnimationPlayer") as AnimationPlayer
-	if anim == null:
-		_disable_collision()
-		return
-	if not anim.has_animation("Retract"):
-		_disable_collision()
-		return
-	anim.animation_finished.connect(_on_retract_finished)
-	anim.play("Retract")
-
-
-func _on_retract_finished(_anim_name: String) -> void:
-	_disable_collision()
+	if anim != null and anim.has_animation("Retract"):
+		anim.play("Retract")
 
 
 func _disable_collision() -> void:
+	# Use set_deferred because this runs inside the Area2D's body_entered
+	# physics-signal callback — Godot forbids mutating physics state
+	# (disabled/monitoring) synchronously during the query flush. Mirrors
+	# enemy.gd and level_entrance.gd. The deferred call applies at end of frame.
 	var poly := get_node_or_null("CollisionPolygon2D") as CollisionPolygon2D
 	if poly != null:
-		poly.disabled = true
+		poly.set_deferred("disabled", true)
 	if _area != null:
-		_area.monitoring = false
+		_area.set_deferred("monitoring", false)
+
