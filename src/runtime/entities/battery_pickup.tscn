@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dcsqf01s8i7x3"]
+
+[ext_resource type="Script" uid="uid://doj0x7beh7aew" path="res://src/runtime/entities/battery_pickup.gd" id="1_battery"]
+[ext_resource type="Texture2D" uid="uid://cgvbv2nj5uv0v" path="res://assets/sprites/Battery.png" id="2_8rffk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jf8qa"]
+atlas = ExtResource("2_8rffk")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hc5b"]
+atlas = ExtResource("2_8rffk")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v45yy"]
+atlas = ExtResource("2_8rffk")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eippu"]
+atlas = ExtResource("2_8rffk")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jf8qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hc5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v45yy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eippu")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="BatteryPickup" type="CharacterBody2D" unique_id=1444547779]
+script = ExtResource("1_battery")
+
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=872620862]
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.22940363

@@ -22,6 +22,7 @@ func register_entities(registry: Node) -> void:
 	var teddy := preload("res://src/runtime/entities/teddy.tscn")
 	var raygun := preload("res://src/runtime/entities/ammo_pickup.tscn")
 	var pogo_stick := preload("res://src/runtime/entities/pogo_stick.tscn")
+	var battery := preload("res://src/runtime/entities/battery_pickup.tscn")
 	var exit_door := preload("res://src/runtime/entities/exit_door.tscn")
 	var clapper := preload("res://src/runtime/entities/clapper.tscn")
 	var spike := preload("res://src/runtime/entities/spike.tscn")
@@ -39,6 +40,7 @@ func register_entities(registry: Node) -> void:
 	registry.register("keen1.teddy", registry.CATEGORY_ITEM, "Teddy Bear", [], teddy)
 	registry.register("keen1.raygun", registry.CATEGORY_ITEM, "Raygun Ammo", [], raygun)
 	registry.register("keen1.pogo_stick", registry.CATEGORY_ITEM, "Pogo Stick", [], pogo_stick)
+	registry.register("keen1.battery", registry.CATEGORY_ITEM, "Battery", [], battery)
 	registry.register("keen1.exit_door", registry.CATEGORY_SPECIAL, "Exit Door", [], exit_door)
 	var all_kinds: Array[int] = [LevelData.MapKind.LEVEL, LevelData.MapKind.OVERWORLD]
 	registry.register("keen1.player_spawn", registry.CATEGORY_SPECIAL, "Player Spawn", [], null, all_kinds)

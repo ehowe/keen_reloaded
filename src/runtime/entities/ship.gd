@@ -4,19 +4,19 @@ extends ProximityInteractable
 ## `interact` while nearby to request a ship-parts progress readout. Emits
 ## `progress_requested` (LevelRuntime wires it to a UI overlay once authored).
 ##
-## Placeholder: REQUIRED_PARTS lists the classic Keen 1 ship parts; collected
-## state is held session-only via collect_part() until a real inventory lands.
+## Ship parts state is the Inventory autoload — each part has a {name, id}
+## entry in REQUIRED_PARTS and is considered collected when Inventory.has_item(id)
+## is true. The keen1.battery pickup is the only granter wired today; the other
+## three ids are forward-declarations awaiting their own pickups.
 
 signal progress_requested(collected: int, total: int, required_parts: Array)
 
 const REQUIRED_PARTS := [
-	"Battery",
-	"Joystick",
-	"Vacuum Cleaner",
-	"Whisky Bottle (Fuel)",
+	{name = "Battery",              id = ItemIDs.BATTERY},
+	{name = "Joystick",             id = ItemIDs.JOYSTICK},
+	{name = "Vacuum Cleaner",       id = ItemIDs.VACUUM},
+	{name = "Whisky Bottle (Fuel)", id = ItemIDs.EVERCLEAR},
 ]
-
-var _collected: Dictionary = {}  # part name -> true
 
 
 func _process(_delta: float) -> void:
@@ -34,7 +34,11 @@ func attempt_show_progress(interact_pressed: bool) -> bool:
 
 
 func collected_count() -> int:
-	return _collected.size()
+	var n := 0
+	for part in REQUIRED_PARTS:
+		if Inventory.has_item(part.id):
+			n += 1
+	return n
 
 
 func total_count() -> int:
@@ -42,12 +46,7 @@ func total_count() -> int:
 
 
 func is_part_collected(part_name: String) -> bool:
-	return _collected.has(part_name)
-
-
-## Placeholder seam for a future inventory system: mark a part as collected.
-## Ignored if the name is not in REQUIRED_PARTS.
-func collect_part(part_name: String) -> void:
-	if String(part_name) == "" or not REQUIRED_PARTS.has(part_name):
-		return
-	_collected[part_name] = true
+	for part in REQUIRED_PARTS:
+		if part.name == part_name:
+			return Inventory.has_item(part.id)
+	return false

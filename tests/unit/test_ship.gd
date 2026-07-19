@@ -62,3 +62,35 @@ func test_attempt_show_progress_emits_signal():
 	assert_true(s.attempt_show_progress(true))
 	assert_eq(captured["collected"], 0, "starts with zero collected")
 	assert_eq(captured["total"], s.REQUIRED_PARTS.size(), "total = required parts count")
+
+
+func before_each():
+	Inventory.clear()
+
+
+func after_each():
+	Inventory.clear()
+
+
+func test_collected_count_starts_at_zero():
+	var s := _ship()
+	assert_eq(s.collected_count(), 0, "no inventory items -> zero parts collected")
+
+
+func test_collected_count_increments_when_battery_granted():
+	var s := _ship()
+	Inventory.add_item(ItemIDs.BATTERY)
+	assert_eq(s.collected_count(), 1, "battery in inventory -> one part collected")
+
+
+func test_is_part_collected_reflects_inventory():
+	var s := _ship()
+	assert_false(s.is_part_collected("Battery"), "not collected before grant")
+	Inventory.add_item(ItemIDs.BATTERY)
+	assert_true(s.is_part_collected("Battery"), "collected after grant")
+
+
+func test_is_part_collected_unknown_name_returns_false():
+	var s := _ship()
+	Inventory.add_item(ItemIDs.BATTERY)
+	assert_false(s.is_part_collected("Nonexistent Part"), "unknown name -> false")
