@@ -66,4 +66,3 @@ func _disable_collision() -> void:
 		poly.set_deferred("disabled", true)
 	if _area != null:
 		_area.set_deferred("monitoring", false)
-
