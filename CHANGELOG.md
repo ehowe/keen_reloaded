@@ -1,3 +1,8 @@
+## v2026.07.19 — 2026-07-19
+
+### Added
+- add everclear/vacuum/joystick collectibles
+
 ## v2026.07.18 — 2026-07-18
 
 ### Added
