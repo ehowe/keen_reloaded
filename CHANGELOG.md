@@ -1,3 +1,29 @@
+## v2026.07.18 — 2026-07-18
+
+### Added
+- rework butler + vorticon AI, sprite atlases
+- add keen1.battery collectible
+- raygun grants blaster inventory item on first contact
+- blaster is find-to-own, not auto-granted
+- add color-locked Door entity
+- add Keycard pickup entity
+- add per-level keycard state
+
+### Fixed
+- disable collision via set_deferred during anim
+- widen contact sensor beyond solid collision
+- drop half-applied guard, add non-default variant test
+
+### Documentation
+- refresh blaster docstrings to reflect find-to-own
+- blaster find-to-own implementation plan
+- blaster as find-to-own global inventory
+- door + keycard entities implementation plan
+- door + keycard entities design spec
+
+### Refactored
+- extract _build_contact_area helper
+
 ## v2026.07.17 — 2026-07-17
 
 ### Refactored
