@@ -1,13 +1,75 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bietnhs2qe0gt"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/butler.gd" id="1_but"]
+[ext_resource type="Script" uid="uid://cfkwm6nu5jn3m" path="res://src/runtime/entities/butler.gd" id="1_but"]
+[ext_resource type="Texture2D" uid="uid://n7snevld65il" path="res://assets/sprites/Butler.png" id="2_0pohx"]
 
-[node name="Butler" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gho5q"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m46ol"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(68, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlgg0"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(136, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j38tv"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(204, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gho5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m46ol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rlgg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j38tv")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0edr"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(340, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n26y8"]
+atlas = ExtResource("2_0pohx")
+region = Rect2(272, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0edr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n26y8")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Butler" type="CharacterBody2D" unique_id=904652094]
 script = ExtResource("1_but")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0.5, 0.5, 0.55, 1)
+[node name="Walking" type="AnimatedSprite2D" parent="." unique_id=1937079068]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.80045134
+
+[node name="Idle" type="AnimatedSprite2D" parent="." unique_id=2146695735]
+visible = false
+sprite_frames = SubResource("SpriteFrames_07erc")
+frame_progress = 0.2692339

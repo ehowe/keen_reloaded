@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bk2ycard00000"]
+[gd_scene format=3 uid="uid://bk2ycard00000"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/keycard.gd" id="1_keycard"]
+[ext_resource type="Script" uid="uid://b08da4xl3hs8m" path="res://src/runtime/entities/keycard.gd" id="1_keycard"]
 [ext_resource type="Texture2D" uid="uid://dwytk2047oo55" path="res://assets/tilesets/Doors and Keycards.png" id="2_atlas"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_red"]
@@ -19,22 +19,22 @@ region = Rect2(128, 128, 64, 64)
 atlas = ExtResource("2_atlas")
 region = Rect2(192, 128, 64, 64)
 
-[node name="Keycard" type="CharacterBody2D"]
+[node name="Keycard" type="CharacterBody2D" unique_id=1892136906]
 script = ExtResource("1_keycard")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=555594660]
 
-[node name="Red" type="Sprite2D" parent="Visual"]
+[node name="Red" type="Sprite2D" parent="Visual" unique_id=1347250382]
 texture = SubResource("AtlasTexture_red")
 
-[node name="Blue" type="Sprite2D" parent="Visual"]
+[node name="Green" type="Sprite2D" parent="Visual" unique_id=348940217]
 visible = false
 texture = SubResource("AtlasTexture_blue")
 
-[node name="Yellow" type="Sprite2D" parent="Visual"]
+[node name="Blue" type="Sprite2D" parent="Visual" unique_id=4333987]
 visible = false
 texture = SubResource("AtlasTexture_yellow")
 
-[node name="Green" type="Sprite2D" parent="Visual"]
+[node name="Yellow" type="Sprite2D" parent="Visual" unique_id=589121300]
 visible = false
 texture = SubResource("AtlasTexture_green")

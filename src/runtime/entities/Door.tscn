@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c41lgnol20jpr"]
+[gd_scene format=3 uid="uid://c41lgnol20jpr"]
 
 [ext_resource type="Texture2D" uid="uid://dwytk2047oo55" path="res://assets/tilesets/Doors and Keycards.png" id="1_jitga"]
-[ext_resource type="Script" path="res://src/runtime/entities/door.gd" id="2_door"]
+[ext_resource type="Script" uid="uid://ct40ov4wtaewm" path="res://src/runtime/entities/door.gd" id="2_door"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
 atlas = ExtResource("1_jitga")
@@ -92,6 +92,7 @@ script = ExtResource("2_door")
 
 [node name="DoorMask" type="Polygon2D" parent="." unique_id=1036162027]
 clip_children = 1
+polygon = PackedVector2Array(-31, -96, 33, -96, 32, 32, -32, 32)
 
 [node name="Visual" type="Node2D" parent="DoorMask" unique_id=1900524467]
 

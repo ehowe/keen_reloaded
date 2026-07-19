@@ -46,7 +46,7 @@ const COLLISION_OVERWORLD := "Overworld"
 @export var coyote_time: float = 0.10
 @export var jump_buffer: float = 0.10
 @export var max_ammo: int = 5
-@export var max_health: int = 3
+@export var max_health: int = 1
 @export var projectile_speed: float = 600.0
 @export var jump_cut_gravity: float = 4045.0
 ## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
@@ -54,7 +54,7 @@ const COLLISION_OVERWORLD := "Overworld"
 @export var death_launch_speed: float = 800.0
 
 var score: int = 0
-var health: int = 3
+var health: int = 1
 var ammo: int = 0
 ## Per-level keycard counts. color (String) -> count (int). Auto-cleared: the
 ## Player node is freed + rebuilt on every level swap, so this Dictionary never
@@ -323,14 +323,15 @@ func apply_bounce(vx: float) -> void:
 	_bounce_vx = vx
 
 
-func take_damage(amount: int) -> void:
+## Any damage is lethal (classic Keen 1 behavior: Keen has 1 HP). The amount
+## is ignored — every call routes through _die() with the up-left launch.
+func take_damage(_amount: int) -> void:
 	if _dead:
 		return
-	health -= amount
+	health = 0
 	health_changed.emit(health)
 	AudioManager.play_sfx("hurt")
-	if health <= 0:
-		_die()
+	_die()
 
 
 func _die() -> void:

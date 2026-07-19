@@ -31,3 +31,5 @@ assets/levels/**/*.res
 
 .mnemonics
 .playwright-mcp
+
+assets/levels/**/test.tres

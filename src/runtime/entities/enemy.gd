@@ -17,13 +17,14 @@ extends Entity
 @export var knockback_x: float = 400.0
 @export var knockback_y: float = 300.0
 
-enum State { WALK, IDLE, STUNNED, SHOT }
+enum State { WALK, IDLE, STUNNED, SHOT, JUMP }
 
 const SPRITE_NAMES := {
 	State.WALK: "Walking",
 	State.IDLE: "Idle",
 	State.STUNNED: "Stunned",
 	State.SHOT: "Shot",
+	State.JUMP: "Jumping",
 }
 
 var health: int = 1
@@ -138,6 +139,9 @@ func _tick_wander(delta: float) -> void:
 				_dir = _choose_walk_dir()
 				_state = State.WALK
 				_phase_timer = _walk_phase_time()
+		State.JUMP:
+			# Airborne: preserve horizontal velocity; subclass _ai_tick handles launch.
+			pass
 
 
 ## Facing picked when starting a WALK phase. Base: reverse (classic patrol).

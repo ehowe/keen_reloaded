@@ -73,7 +73,7 @@ x = 10
 y = 22
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_03",
 "variant": "Treasury"
 }
 

@@ -17,18 +17,25 @@ func _fake_player() -> FakeKinematicPlayer:
 	return p
 
 
-func test_vorticon_has_three_hp_and_awards_score():
+func test_vorticon_has_four_hp_and_awards_score():
 	var v: Vorticon = add_child_autofree(load("res://src/runtime/entities/vorticon.tscn").instantiate())
-	assert_eq(v.health, 3, "vorticon starts at 3 hp")
+	assert_eq(v.health, 4, "vorticon starts at 4 hp")
 	v.score_value = 300
 	var p := _fake_player()
 	v.take_damage(1)
-	assert_eq(v.health, 2)
+	assert_eq(v.health, 3)
 	assert_false(v.is_queued_for_deletion(), "alive after 1 hit")
 	v.take_damage(1)
 	v.take_damage(1)
-	assert_eq(p.score, 300, "score awarded on third hit")
-	assert_true(v.is_queued_for_deletion(), "freed at 0 hp")
+	assert_false(v.is_queued_for_deletion(), "alive after 3 hits")
+	# 4th hit triggers the Shot animation death path (deferred 0.6s by _die timer).
+	v.take_damage(1)
+	assert_true(v._dying, "dying flag set on fourth hit")
+	assert_eq(v._state, Enemy.State.SHOT, "enters SHOT state for death animation")
+	v._die()  # simulate the deferred timer firing
+	assert_eq(p.score, 300, "score awarded on death")
+	assert_true(v.is_queued_for_deletion() or not v.is_physics_processing(),
+			"removed or frozen as corpse")
 
 
 func test_butler_is_armored():

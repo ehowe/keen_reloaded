@@ -1,13 +1,149 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dv5m8vq5esrch"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/vorticon.gd" id="1_vort"]
+[ext_resource type="Script" uid="uid://ufhrbn62301p" path="res://src/runtime/entities/vorticon.gd" id="1_vort"]
+[ext_resource type="Texture2D" uid="uid://be4k75hp1fprr" path="res://assets/sprites/Vorticon.png" id="2_g4po7"]
 
-[node name="Vorticon" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhvxg"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(400, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwwhu"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(500, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhvxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwwhu")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3r5t"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(0, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awhc3"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(100, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgick"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(200, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snmdi"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(300, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3r5t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awhc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dgick")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snmdi")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7p80"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(600, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qccdw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7p80")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8thvh"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(700, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buewe"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(800, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3by16"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(900, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwjq7"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(1000, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tct4e"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(1100, 0, 96, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix4sy"]
+atlas = ExtResource("2_g4po7")
+region = Rect2(1200, 0, 96, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f7soo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8thvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buewe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3by16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwjq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tct4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix4sy")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Vorticon" type="CharacterBody2D" unique_id=655531423]
 script = ExtResource("1_vort")
 
-[node name="Visual" type="ColorRect" parent="."]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0.85, 0.3, 0.3, 1)
+[node name="Idle" type="AnimatedSprite2D" parent="." unique_id=426070860]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.3013831
+
+[node name="Walking" type="AnimatedSprite2D" parent="." unique_id=650003101]
+visible = false
+sprite_frames = SubResource("SpriteFrames_07erc")
+frame = 1
+frame_progress = 0.76345277
+
+[node name="Jumping" type="AnimatedSprite2D" parent="." unique_id=1750428790]
+visible = false
+sprite_frames = SubResource("SpriteFrames_qccdw")
+
+[node name="Shot" type="AnimatedSprite2D" parent="." unique_id=88342381]
+sprite_frames = SubResource("SpriteFrames_f7soo")
+frame_progress = 0.11605423

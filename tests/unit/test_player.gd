@@ -7,11 +7,14 @@ func test_score_accumulates():
 	p.add_score(25)
 	assert_eq(p.score, 125)
 
-func test_take_damage_reduces_health():
+func test_take_damage_instakills():
+	# Classic Keen 1: any damage is lethal. amount is ignored; every call dies.
 	var p := Player.new()
 	add_child(p)
+	assert_eq(p.health, 1, "default health is 1")
 	p.take_damage(1)
-	assert_eq(p.health, 2)
+	assert_eq(p.health, 0, "health -> 0")
+	assert_true(p._dead, "_dead set; any damage is lethal")
 
 func test_player_in_player_group():
 	var p := Player.new()
@@ -357,7 +360,7 @@ func test_dead_takes_precedence_over_overworld_mode():
 
 func test_player_has_max_health_default():
 	var p: Player = add_child_autofree(Player.new())
-	assert_eq(p.max_health, 3, "default max_health is 3")
+	assert_eq(p.max_health, 1, "default max_health is 1 (classic Keen 1)")
 
 
 # ---- Pogo physics ----

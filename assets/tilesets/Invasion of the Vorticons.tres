@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bkgrr6vktb5c1" path="res://assets/tilesets/Overworld.png" id="3_1nq8p"]
 [ext_resource type="Texture2D" uid="uid://dfgc4f83lgkal" path="res://assets/tilesets/Backgrounds.png" id="4_nkrbu"]
 [ext_resource type="Texture2D" uid="uid://8c6ulpxqbn7d" path="res://assets/tilesets/Fonts.png" id="5_1c7gv"]
+[ext_resource type="Texture2D" uid="uid://dwytk2047oo55" path="res://assets/tilesets/Doors and Keycards.png" id="6_crutm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v1u76"]
 resource_name = "Full Tileset (Deprecated)"
@@ -1810,7 +1811,6 @@ texture_region_size = Vector2i(64, 64)
 0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 0:5/0/physics_layer_0/polygon_0/one_way = true
 1:5/0 = 0
-1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 2:5/0 = 0
 2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 3:5/0 = 0
@@ -1825,6 +1825,9 @@ texture_region_size = Vector2i(64, 64)
 1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
 2:6/0 = 0
 2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:6/0 = 0
+3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:6/0/physics_layer_0/polygon_0/one_way = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nkrbu"]
 resource_name = "Overworld"
@@ -2283,6 +2286,22 @@ texture_region_size = Vector2i(32, 32)
 33:2/0 = 0
 34:2/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_avs3l"]
+texture = ExtResource("6_crutm")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+
 [resource]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 5
@@ -2291,3 +2310,4 @@ sources/1 = SubResource("TileSetAtlasSource_1nq8p")
 sources/2 = SubResource("TileSetAtlasSource_nkrbu")
 sources/3 = SubResource("TileSetAtlasSource_1c7gv")
 sources/4 = SubResource("TileSetAtlasSource_crutm")
+sources/5 = SubResource("TileSetAtlasSource_avs3l")
