@@ -15,6 +15,7 @@ func setup(p_type_id: String, p_props: Dictionary) -> void:
 
 
 func _ready() -> void:
+	assert(_TOP_SOLID + _KILL_HEIGHT == TILE)
 	# Build the player-contact Area2D via the base, then shrink its shape to
 	# the bottom _KILL_HEIGHT px of the tile so only the dangly mass kills.
 	# Player standing on top (feet above the kill zone) is safe.

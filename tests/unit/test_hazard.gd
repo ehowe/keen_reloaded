@@ -1,9 +1,9 @@
 extends GutTest
 
-## Characterization tests for the instakill hazard family (Spike/Fire/Clapper)
-## and the base Hazard contact-damage contract. These lock the existing
-## "drain all health on contact" behavior so the instakill-helper refactor
-## (#1) cannot silently change it.
+## Characterization tests for the instakill hazard family (Spike/Fire/Clapper
+## /GreenDanglyStuff) and the base Hazard contact-damage contract. These lock
+## the existing "drain all health on contact" behavior so the instakill-helper
+## refactor (#1) cannot silently change it.
 
 
 class FakePlayer extends CharacterBody2D:
@@ -72,7 +72,7 @@ func test_green_dangly_stuff_instakills_on_contact():
 	assert_eq(p.health, 0, "GreenDanglyStuff drains all health on bottom contact")
 
 
-func test_green_dangly_stuff_contact_area_is_bottom_half():
+func test_green_dangly_stuff_contact_area_is_bottom_kill_zone():
 	var g := GreenDanglyStuff.new()
 	add_child_autofree(g)  # _ready() builds the contact Area2D + body shape
 	var area := g.get_node_or_null("Area2D") as Area2D
@@ -81,7 +81,7 @@ func test_green_dangly_stuff_contact_area_is_bottom_half():
 	assert_not_null(col, "Area2D has a CollisionShape2D")
 	assert_true(col.shape is RectangleShape2D, "Area2D shape is RectangleShape2D")
 	var rect := col.shape as RectangleShape2D
-	assert_eq(rect.size, Vector2(64, 48), "kill zone is 64 wide × 48 tall (bottom half)")
+	assert_eq(rect.size, Vector2(64, 48), "kill zone is 64 wide × 48 tall (bottom 48 px strip)")
 	# Shape position centers the rect in the LOWER half of the tile.
 	# Tile center is (0,0); the bottom 48 strip's center is 8 px below origin.
 	assert_eq(col.position, Vector2(0, 8), "kill zone offset 8 px down so it spans the bottom 48 px")
