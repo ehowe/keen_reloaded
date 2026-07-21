@@ -62,3 +62,44 @@ func test_instakill_ignores_non_player_body():
 	add_child_autofree(decoy)
 	s._handle_player(decoy)  # must not error
 	assert_true(true, "non-player body does not crash instakill path")
+
+
+func test_green_dangly_stuff_instakills_on_contact():
+	var g := GreenDanglyStuff.new()
+	add_child_autofree(g)
+	var p := _player()
+	g._handle_player(p)
+	assert_eq(p.health, 0, "GreenDanglyStuff drains all health on bottom contact")
+
+
+func test_green_dangly_stuff_contact_area_is_bottom_half():
+	var g := GreenDanglyStuff.new()
+	add_child_autofree(g)  # _ready() builds the contact Area2D + body shape
+	var area := g.get_node_or_null("Area2D") as Area2D
+	assert_not_null(area, "contact Area2D exists")
+	var col := area.get_child(0) as CollisionShape2D
+	assert_not_null(col, "Area2D has a CollisionShape2D")
+	assert_true(col.shape is RectangleShape2D, "Area2D shape is RectangleShape2D")
+	var rect := col.shape as RectangleShape2D
+	assert_eq(rect.size, Vector2(64, 48), "kill zone is 64 wide × 48 tall (bottom half)")
+	# Shape position centers the rect in the LOWER half of the tile.
+	# Tile center is (0,0); the bottom 48 strip's center is 8 px below origin.
+	assert_eq(col.position, Vector2(0, 8), "kill zone offset 8 px down so it spans the bottom 48 px")
+
+
+func test_green_dangly_stuff_body_is_one_way_platform():
+	var g := GreenDanglyStuff.new()
+	add_child_autofree(g)
+	assert_eq(g.collision_layer, 4, "body on tiles bit so player lands on it")
+	assert_eq(g.collision_mask, 0, "body mask is zero (static)")
+	# Find the body's direct-child CollisionShape2D (not the Area2D's shape).
+	var body_col: CollisionShape2D = null
+	for c in g.get_children():
+		if c is CollisionShape2D:
+			body_col = c
+			break
+	assert_not_null(body_col, "body has a direct CollisionShape2D child")
+	assert_true(body_col.one_way_collision, "body shape is one-way (land from top, pass through from below)")
+	assert_true(body_col.shape is RectangleShape2D, "body shape is RectangleShape2D")
+	var rect := body_col.shape as RectangleShape2D
+	assert_eq(rect.size, Vector2(64, 64), "body shape covers the full tile")
