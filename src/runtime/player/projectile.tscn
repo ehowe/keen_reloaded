@@ -6,6 +6,14 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(16, 8)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
+atlas = ExtResource("2_5xsce")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_5xsce")
+region = Rect2(0, 32, 64, 32)
+
 [node name="Projectile" type="Area2D" unique_id=1573228111]
 collision_layer = 0
 collision_mask = 6
@@ -14,5 +22,10 @@ script = ExtResource("1_proj")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1080782882]
 shape = SubResource("RectangleShape2D_1")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=150274287]
-texture = ExtResource("2_5xsce")
+[node name="Player" type="Sprite2D" parent="." unique_id=150274287]
+visible = false
+texture = SubResource("AtlasTexture_07erc")
+
+[node name="Tank Robot" type="Sprite2D" parent="." unique_id=1972477753]
+visible = false
+texture = SubResource("AtlasTexture_x4u6v")

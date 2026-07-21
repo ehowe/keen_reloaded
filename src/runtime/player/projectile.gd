@@ -4,14 +4,36 @@ extends Area2D
 ## expiry, on hitting an enemy (deals 1 damage), or on hitting a wall/solid tile.
 ## Passes through items (entities without take_damage) and one-way platforms
 ## (jump-through floors): one-way tile polygons are treated as non-blocking.
+##
+## Two visual/physics variants share this scene: the player's raygun bolt
+## (Variant.PLAYER — "Player" sprite, masks enemies+tiles) and the Tank Robot's
+## enemy blaster bolt (Variant.TANK_ROBOT — "Tank Robot" sprite, masks
+## player+tiles). Set `variant` BEFORE adding the node to the tree so _ready
+## picks the right sprite + collision mask.
+
+enum Variant { PLAYER, TANK_ROBOT }
+
+const _MASK_PLAYER_BOLT := 6   # enemies (2) + tiles (4)
+const _MASK_ENEMY_BOLT := 5    # player (1) + tiles (4)
 
 @export var speed: float = 600.0
 @export var lifetime: float = 2.0
+@export var variant: Variant = Variant.PLAYER
 
 var velocity: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	# Show the sprite matching the variant; hide the other so a single scene
+	# serves both player and Tank Robot blasters.
+	var want := "Player" if variant == Variant.PLAYER else "Tank Robot"
+	for n in ["Player", "Tank Robot"]:
+		var s := get_node_or_null(n) as Sprite2D
+		if s != null:
+			s.visible = (n == want)
+	# Enemy bolts target the player; player bolts target enemies. Both still
+	# collide with solid tiles so they despawn on walls.
+	collision_mask = _MASK_ENEMY_BOLT if variant == Variant.TANK_ROBOT else _MASK_PLAYER_BOLT
 	if body_entered.is_connected(_on_body_entered) == false:
 		body_entered.connect(_on_body_entered)
 
@@ -31,9 +53,15 @@ func _physics_process(delta: float) -> void:
 			return
 
 
-## Launch in facing direction (dir = +1 right / -1 left).
+## Launch in facing direction (dir = +1 right / -1 left). Flips the visible
+## blaster sprite so the bolt art points the way it travels.
 func launch(dir: int) -> void:
-	velocity = Vector2(signi(dir) * speed, 0.0)
+	var d := signi(dir)
+	velocity = Vector2(d * speed, 0.0)
+	var want := "Player" if variant == Variant.PLAYER else "Tank Robot"
+	var s := get_node_or_null(want) as Sprite2D
+	if s != null:
+		s.flip_h = d < 0
 
 
 func _on_body_entered(body: Node) -> void:

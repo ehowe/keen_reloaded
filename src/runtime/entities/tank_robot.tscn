@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://dfafssjuglmi1"]
+
+[ext_resource type="Script" path="res://src/runtime/entities/tank_robot.gd" id="1_tr"]
+[ext_resource type="Texture2D" uid="uid://d25jbe1l1b032" path="res://assets/sprites/Tank Robot.png" id="1_4a1m4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2we8"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(0, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4j8o"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(68, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j0n7"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(136, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ispcy"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(204, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2we8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4j8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1j0n7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ispcy")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i43k8"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(272, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdiba"]
+atlas = ExtResource("1_4a1m4")
+region = Rect2(340, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i43k8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdiba")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(64, 96)
+
+[node name="TankRobot" type="CharacterBody2D" unique_id=1663569242]
+script = ExtResource("1_tr")
+
+[node name="BodyShape" type="CollisionShape2D" parent="." unique_id=7000000001]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Moving" type="AnimatedSprite2D" parent="." unique_id=554535245]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.46097028
+
+[node name="Idle" type="AnimatedSprite2D" parent="." unique_id=1326396653]
+sprite_frames = SubResource("SpriteFrames_07erc")
