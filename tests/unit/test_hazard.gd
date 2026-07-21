@@ -116,3 +116,7 @@ func test_green_dangly_stuff_scene_instantiates_with_three_variants():
 	assert_not_null(vis.get_node_or_null("Left Edge"), "Left Edge variant present")
 	assert_not_null(vis.get_node_or_null("Normal"), "Normal variant present")
 	assert_not_null(vis.get_node_or_null("Right Edge"), "Right Edge variant present")
+	# Default visibility: only Normal shows until EntityVariant picks another.
+	assert_true((vis.get_node("Normal") as CanvasItem).visible, "Normal visible by default")
+	assert_false((vis.get_node("Left Edge") as CanvasItem).visible, "Left Edge hidden by default")
+	assert_false((vis.get_node("Right Edge") as CanvasItem).visible, "Right Edge hidden by default")
