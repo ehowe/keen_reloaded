@@ -6,6 +6,7 @@ extends Resource
 const LAYER_GEOMETRY := "geometry"
 const LAYER_FOREGROUND := "foreground"
 const LAYER_BACKGROUND := "background"
+const LAYER_FRONT := "front"
 
 enum MapKind { LEVEL, OVERWORLD, MESSAGE }
 
@@ -25,6 +26,7 @@ enum MapKind { LEVEL, OVERWORLD, MESSAGE }
 @export var geometry_tiles: PackedInt32Array = []
 @export var foreground_tiles: PackedInt32Array = []
 @export var background_tiles: PackedInt32Array = []
+@export var front_tiles: PackedInt32Array = []
 
 @export_group("Entities")
 @export var entities: Array[EntityDef] = []
@@ -57,6 +59,31 @@ func fill_blank() -> void:
 	foreground_tiles.fill(0)
 	background_tiles.resize(count)
 	background_tiles.fill(0)
+	front_tiles.resize(count)
+	front_tiles.fill(0)
+
+
+## Ensures every tile array is sized width*height. Arrays that already match
+## are left untouched (preserving painted data); arrays that don't match
+## (e.g. an old .tres that predates `front_tiles`) are reset to all-zero.
+## Call after loading a level from disk so the runtime and editor never see a
+## short array. No-op when width*height is 0.
+func ensure_tile_arrays_sized() -> void:
+	var want := width * height
+	if want <= 0:
+		return
+	if geometry_tiles.size() != want:
+		geometry_tiles.resize(want)
+		geometry_tiles.fill(0)
+	if foreground_tiles.size() != want:
+		foreground_tiles.resize(want)
+		foreground_tiles.fill(0)
+	if background_tiles.size() != want:
+		background_tiles.resize(want)
+		background_tiles.fill(0)
+	if front_tiles.size() != want:
+		front_tiles.resize(want)
+		front_tiles.fill(0)
 
 
 ## Resizes the level to new_w x new_h, PRESERVING existing tiles. New rows are
@@ -72,6 +99,7 @@ func resize(new_w: int, new_h: int) -> void:
 	geometry_tiles = _remap_tiles(geometry_tiles, old_w, old_h, new_w, new_h, delta_h)
 	foreground_tiles = _remap_tiles(foreground_tiles, old_w, old_h, new_w, new_h, delta_h)
 	background_tiles = _remap_tiles(background_tiles, old_w, old_h, new_w, new_h, delta_h)
+	front_tiles = _remap_tiles(front_tiles, old_w, old_h, new_w, new_h, delta_h)
 	width = new_w
 	height = new_h
 	# Columns change at the right -> entity x unchanged. Rows change at the top
@@ -166,6 +194,22 @@ func set_background_tile(x: int, y: int, tile_id: int) -> void:
 	background_tiles[idx] = tile_id
 
 
+## Returns the front tile id at (x, y). 0 if out of bounds.
+func get_front_tile(x: int, y: int) -> int:
+	var idx := tile_index_at(x, y)
+	if idx < 0 or idx >= front_tiles.size():
+		return 0
+	return front_tiles[idx]
+
+
+## Sets the front tile id at (x, y). Ignored if out of bounds.
+func set_front_tile(x: int, y: int, tile_id: int) -> void:
+	var idx := tile_index_at(x, y)
+	if idx < 0 or idx >= front_tiles.size():
+		return
+	front_tiles[idx] = tile_id
+
+
 ## Generic layer access: returns the tile id at (x,y) for the named layer.
 ## Unknown layers and out-of-bounds cells return 0.
 func get_tile(layer: String, x: int, y: int) -> int:
@@ -176,6 +220,8 @@ func get_tile(layer: String, x: int, y: int) -> int:
 			return get_foreground_tile(x, y)
 		LAYER_BACKGROUND:
 			return get_background_tile(x, y)
+		LAYER_FRONT:
+			return get_front_tile(x, y)
 	return 0
 
 
@@ -189,3 +235,5 @@ func set_tile(layer: String, x: int, y: int, tile_id: int) -> void:
 			set_foreground_tile(x, y, tile_id)
 		LAYER_BACKGROUND:
 			set_background_tile(x, y, tile_id)
+		LAYER_FRONT:
+			set_front_tile(x, y, tile_id)

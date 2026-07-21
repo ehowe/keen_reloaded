@@ -69,9 +69,10 @@ func _draw() -> void:
 	# full opacity. An opaque, densely-filled layer (e.g. a geometry layer full of
 	# sky tiles) would otherwise cover every foreground/background tile, making
 	# edits on those layers invisible. Drawing the active layer last guarantees
-	# painted tiles are always seen.
+	# painted tiles are always seen. FRONT is composited alongside the others
+	# (last) so it stays visually on top in the editor preview, matching runtime.
 	var dim := Color(1, 1, 1, 0.5)
-	for layer in [LevelData.LAYER_BACKGROUND, LevelData.LAYER_FOREGROUND, LevelData.LAYER_GEOMETRY]:
+	for layer in [LevelData.LAYER_BACKGROUND, LevelData.LAYER_FOREGROUND, LevelData.LAYER_GEOMETRY, LevelData.LAYER_FRONT]:
 		if layer == editor.active_layer:
 			continue
 		_layer_pass(layer, cs, EditorColors.layer_tint(layer) * dim)

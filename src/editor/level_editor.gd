@@ -205,7 +205,7 @@ func move_selection(delta: Vector2i) -> bool:
 		return false
 	if delta == Vector2i.ZERO:
 		return false
-	var layers := [LevelData.LAYER_GEOMETRY, LevelData.LAYER_FOREGROUND, LevelData.LAYER_BACKGROUND]
+	var layers := [LevelData.LAYER_GEOMETRY, LevelData.LAYER_FOREGROUND, LevelData.LAYER_BACKGROUND, LevelData.LAYER_FRONT]
 	var end := tile_selection.end  # exclusive
 	# Bounds check: every filled cell's destination must be in-bounds.
 	for layer in layers:
@@ -418,8 +418,8 @@ func _make_file_dialog(mode: int) -> FileDialog:
 func _on_save_path(path: String) -> void:
 	_last_path = path
 	var want := level.width * level.height
-	if want > 0 and (level.geometry_tiles.size() != want or level.foreground_tiles.size() != want or level.background_tiles.size() != want):
-		push_error("Refusing to save %s: tile array size mismatch (want %d, have geo=%d fg=%d bg=%d). File unchanged." % [path, want, level.geometry_tiles.size(), level.foreground_tiles.size(), level.background_tiles.size()])
+	if want > 0 and (level.geometry_tiles.size() != want or level.foreground_tiles.size() != want or level.background_tiles.size() != want or level.front_tiles.size() != want):
+		push_error("Refusing to save %s: tile array size mismatch (want %d, have geo=%d fg=%d bg=%d front=%d). File unchanged." % [path, want, level.geometry_tiles.size(), level.foreground_tiles.size(), level.background_tiles.size(), level.front_tiles.size()])
 		_set_status("Save ABORTED (array size mismatch): %s" % path)
 		return
 	var err := ResourceSaver.save(level, path)
@@ -462,6 +462,9 @@ func _load_from_path(path: String) -> bool:
 	if loaded == null:
 		return false
 	level = loaded
+	# Migration: pad any undersized tile array (e.g. pre-LAYER_FRONT .tres) so
+	# the editor and the save-size-guard both see width*height for every layer.
+	level.ensure_tile_arrays_sized()
 	undo_stack.clear()
 	selected_entity_index = -1
 	_last_path = path

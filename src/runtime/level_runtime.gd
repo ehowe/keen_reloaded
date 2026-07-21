@@ -108,6 +108,10 @@ func _complete_death() -> void:
 func build(level: LevelData) -> void:
 	_clear()
 	_level = level
+	# Migration safety net: old .tres files may predate LAYER_FRONT (or any
+	# later array) and arrive with an undersized array. Pad to width*height
+	# before building so save/load round-trips stay valid.
+	level.ensure_tile_arrays_sized()
 	_tile_size = level.tile_size
 	scale = Vector2(RUNTIME_SCALE, RUNTIME_SCALE)
 	var ts := level.tile_size
@@ -125,6 +129,13 @@ func build(level: LevelData) -> void:
 	layers[LevelData.LAYER_GEOMETRY] = _add_tile_layer(level, LevelData.LAYER_GEOMETRY, ts_geo)
 	_spawn_player(level, ts)
 	_spawn_entities(level, ts)
+	# FRONT sits ABOVE the player + entities in the scene tree AND has a higher
+	# z_index so it renders on top of sprites (canopy, overhead arches, etc.).
+	# Player.tscn sets z_index=1, so FRONT must exceed that. Entities default to
+	# z_index=0 and stay below FRONT regardless of z.
+	var front_layer := _add_tile_layer(level, LevelData.LAYER_FRONT, ts_decor)
+	front_layer.z_index = 10
+	layers[LevelData.LAYER_FRONT] = front_layer
 	_build_bounds(level, ts)
 	_drive_music(level)
 
@@ -343,7 +354,7 @@ func _do_complete_level() -> void:
 
 func _max_tile_id(level: LevelData) -> int:
 	var m := 0
-	for arr in [level.geometry_tiles, level.foreground_tiles, level.background_tiles]:
+	for arr in [level.geometry_tiles, level.foreground_tiles, level.background_tiles, level.front_tiles]:
 		for v in arr:
 			m = maxi(m, v)
 	return m

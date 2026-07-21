@@ -42,11 +42,13 @@ func test_fill_blank_tiles():
 	assert_eq(ld.geometry_tiles.size(), 12, "4x3 = 12 tiles")
 	assert_eq(ld.foreground_tiles.size(), 12)
 	assert_eq(ld.background_tiles.size(), 12)
-	# every element across all 3 layers must be 0
+	assert_eq(ld.front_tiles.size(), 12)
+	# every element across all 4 layers must be 0
 	for i in range(12):
 		assert_eq(ld.geometry_tiles[i], TILE_EMPTY)
 		assert_eq(ld.foreground_tiles[i], TILE_EMPTY)
 		assert_eq(ld.background_tiles[i], TILE_EMPTY)
+		assert_eq(ld.front_tiles[i], TILE_EMPTY)
 
 func test_set_get_geometry_tile():
 	var ld := _make_level()
@@ -169,10 +171,12 @@ func test_resize_preserves_all_layers():
 	ld.set_tile(LevelData.LAYER_GEOMETRY, 1, 1, 1)
 	ld.set_tile(LevelData.LAYER_FOREGROUND, 1, 1, 2)
 	ld.set_tile(LevelData.LAYER_BACKGROUND, 1, 1, 3)
+	ld.set_tile(LevelData.LAYER_FRONT, 1, 1, 4)
 	ld.resize(4, 5)  # delta_h = +2 -> old (1,1) -> new (1,3)
 	assert_eq(ld.get_tile(LevelData.LAYER_GEOMETRY, 1, 3), 1)
 	assert_eq(ld.get_tile(LevelData.LAYER_FOREGROUND, 1, 3), 2)
 	assert_eq(ld.get_tile(LevelData.LAYER_BACKGROUND, 1, 3), 3)
+	assert_eq(ld.get_tile(LevelData.LAYER_FRONT, 1, 3), 4)
 
 func test_resize_shifts_entities_and_spawn():
 	var ld := _make_level()  # 4x3
@@ -202,3 +206,29 @@ func test_resize_shrink_width_drops_entities_in_removed_cols():
 	ld.resize(2, 3)
 	assert_eq(ld.entities.size(), 1)
 	assert_eq(ld.entities[0].type, "b")
+
+
+# --- migration: ensure_tile_arrays_sized pads undersized arrays ---
+
+func test_ensure_tile_arrays_sized_pads_missing_front():
+	# Simulate loading an old .tres that predated LAYER_FRONT: front_tiles is
+	# empty while geo/fg/bg are sized. The helper must pad front to w*h zeros
+	# without disturbing the existing arrays.
+	var ld := _make_level()  # 4x3 -> want=12
+	ld.fill_blank()
+	ld.set_geometry_tile(0, 0, 5)
+	ld.front_tiles = PackedInt32Array()  # simulate legacy load
+	assert_eq(ld.front_tiles.size(), 0)
+	ld.ensure_tile_arrays_sized()
+	assert_eq(ld.front_tiles.size(), 12, "front padded to width*height")
+	for i in range(12):
+		assert_eq(ld.front_tiles[i], 0, "padded cells are empty")
+	assert_eq(ld.get_geometry_tile(0, 0), 5, "existing geo data untouched")
+
+func test_ensure_tile_arrays_sized_noop_when_already_correct():
+	var ld := _make_level()
+	ld.fill_blank()
+	ld.set_tile(LevelData.LAYER_FRONT, 1, 1, 7)
+	var before := ld.front_tiles.duplicate()
+	ld.ensure_tile_arrays_sized()
+	assert_eq(ld.front_tiles, before, "already-sized array left untouched")

@@ -20,4 +20,6 @@ static func layer_tint(layer: String) -> Color:
 			return Color(1, 1, 1, 0.9)
 		LevelData.LAYER_BACKGROUND:
 			return Color(1, 1, 1, 0.6)
+		LevelData.LAYER_FRONT:
+			return Color(1, 0.6, 0.8, 0.95)
 	return Color(1, 1, 1, 1)

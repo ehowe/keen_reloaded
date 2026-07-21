@@ -54,3 +54,23 @@ func test_editor_place_select_undo_via_controller():
 	inst.undo()
 	assert_eq(inst.level.get_tile(LevelData.LAYER_GEOMETRY, 1, 1), 0)
 	inst.queue_free()
+
+
+func test_editor_paint_on_front_layer():
+	var scene: PackedScene = load("res://src/editor/level_editor.tscn")
+	var inst: LevelEditor = scene.instantiate()
+	add_child(inst)
+	inst.set_active_layer(LevelData.LAYER_FRONT)
+	inst.set_tool("paint")
+	inst.set_selected_tile_id(3)
+	inst.begin_stroke()
+	inst.stroke_to(Vector2i(2, 2))
+	inst.end_stroke()
+	assert_eq(inst.level.get_tile(LevelData.LAYER_FRONT, 2, 2), 3)
+	# Erase on the same layer zeros it back out.
+	inst.set_tool("erase")
+	inst.begin_stroke()
+	inst.stroke_to(Vector2i(2, 2))
+	inst.end_stroke()
+	assert_eq(inst.level.get_tile(LevelData.LAYER_FRONT, 2, 2), 0)
+	inst.queue_free()

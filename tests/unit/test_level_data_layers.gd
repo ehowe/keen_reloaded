@@ -11,6 +11,7 @@ func test_layer_name_constants_exist():
 	assert_eq(LevelData.LAYER_GEOMETRY, "geometry")
 	assert_eq(LevelData.LAYER_FOREGROUND, "foreground")
 	assert_eq(LevelData.LAYER_BACKGROUND, "background")
+	assert_eq(LevelData.LAYER_FRONT, "front")
 
 func test_get_tile_and_set_tile_geometry():
 	var ld := _make_level()
@@ -29,6 +30,12 @@ func test_get_tile_and_set_tile_background():
 	ld.set_tile(LevelData.LAYER_BACKGROUND, 0, 0, 9)
 	assert_eq(ld.get_tile(LevelData.LAYER_BACKGROUND, 0, 0), 9)
 	assert_eq(ld.get_background_tile(0, 0), 9)
+
+func test_get_tile_and_set_tile_front():
+	var ld := _make_level()
+	ld.set_tile(LevelData.LAYER_FRONT, 2, 0, 4)
+	assert_eq(ld.get_tile(LevelData.LAYER_FRONT, 2, 0), 4)
+	assert_eq(ld.get_front_tile(2, 0), 4)
 
 func test_unknown_layer_get_returns_zero():
 	var ld := _make_level()

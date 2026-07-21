@@ -43,7 +43,7 @@ func build(e: LevelEditor) -> void:
 
 	add_child(_section_label("Layer"))
 	var layer_group := ButtonGroup.new()
-	for layer: String in [LevelData.LAYER_GEOMETRY, LevelData.LAYER_FOREGROUND, LevelData.LAYER_BACKGROUND]:
+	for layer: String in [LevelData.LAYER_GEOMETRY, LevelData.LAYER_FOREGROUND, LevelData.LAYER_BACKGROUND, LevelData.LAYER_FRONT]:
 		var b := Button.new()
 		b.text = layer.capitalize()
 		b.toggle_mode = true

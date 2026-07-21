@@ -19,15 +19,33 @@ func _level() -> LevelData:
 	return ld
 
 
-func test_build_assembles_three_tile_layers():
+func test_build_assembles_four_tile_layers():
 	GameManager.pending_level = null
 	var rt := LevelRuntime.new()
 	add_child_autofree(rt)
 	rt.build(_level())
-	assert_eq(rt.layers.size(), 3)
+	assert_eq(rt.layers.size(), 4)
 	assert_true(rt.layers.has(LevelData.LAYER_GEOMETRY))
 	assert_true(rt.layers.has(LevelData.LAYER_FOREGROUND))
 	assert_true(rt.layers.has(LevelData.LAYER_BACKGROUND))
+	assert_true(rt.layers.has(LevelData.LAYER_FRONT))
+
+
+## FRONT renders ABOVE player + entities. Two requirements: (1) z_index higher
+## than the player's z_index=1 (Godot sorts CanvasItems by z_index BEFORE tree
+## order), and (2) FRONT is a later scene-tree sibling than player + entities
+## so same-z_index ties still resolve correctly.
+func test_front_layer_renders_above_player_and_entities():
+	GameManager.pending_level = null
+	var rt := LevelRuntime.new()
+	add_child_autofree(rt)
+	rt.build(_level())
+	var front: TileMapLayer = rt.layers[LevelData.LAYER_FRONT]
+	assert_gt(front.z_index, rt.player.z_index, "front.z_index must exceed player.z_index (1) to render on top")
+	assert_eq(rt.player.z_index, 1, "sanity: player still z_index=1 (if this changed, bump FRONT)")
+	var front_idx := front.get_index()
+	for e in rt.entities_spawned:
+		assert_gt(front_idx, e.get_index(), "front must be a later sibling than every entity (defensive)")
 
 
 func test_build_sets_geometry_cells():
@@ -60,7 +78,7 @@ func test_ready_auto_builds_from_pending_level():
 	var rt := LevelRuntime.new()
 	add_child_autofree(rt)
 	# _ready fired on add_child and should have built from pending_level.
-	assert_eq(rt.layers.size(), 3)
+	assert_eq(rt.layers.size(), 4)
 	assert_not_null(rt.player)
 	GameManager.pending_level = null
 
