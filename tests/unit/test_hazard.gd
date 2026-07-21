@@ -103,3 +103,16 @@ func test_green_dangly_stuff_body_is_one_way_platform():
 	assert_true(body_col.shape is RectangleShape2D, "body shape is RectangleShape2D")
 	var rect := body_col.shape as RectangleShape2D
 	assert_eq(rect.size, Vector2(64, 64), "body shape covers the full tile")
+
+
+func test_green_dangly_stuff_scene_instantiates_with_three_variants():
+	var packed := load("res://src/runtime/entities/green_dangly_stuff.tscn") as PackedScene
+	assert_not_null(packed, "scene loads")
+	var g := add_child_autofree(packed.instantiate()) as GreenDanglyStuff
+	assert_not_null(g, "scene root is GreenDanglyStuff")
+	var vis := g.get_node_or_null("Visual")
+	assert_not_null(vis, "Visual wrapper exists")
+	# All three variant AnimatedSprite2D children are present by exact name.
+	assert_not_null(vis.get_node_or_null("Left Edge"), "Left Edge variant present")
+	assert_not_null(vis.get_node_or_null("Normal"), "Normal variant present")
+	assert_not_null(vis.get_node_or_null("Right Edge"), "Right Edge variant present")
