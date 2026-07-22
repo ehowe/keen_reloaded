@@ -26,6 +26,28 @@ func _ready() -> void:
 	collision_layer = 4  # tiles bit
 	collision_mask = 0
 	_add_one_way_body_shape()
+	_randomize_variant_start_frames()
+
+
+## Randomize each variant's starting frame + frame progress so multiple
+## instances in a level don't animate in lockstep. Mirrors Fire.gd. All
+## three variants are randomized (only the visible one renders), so the
+## chosen variant is already desync'd when EntityVariant shows it.
+func _randomize_variant_start_frames() -> void:
+	var vis := get_node_or_null("Visual")
+	if vis == null:
+		return
+	for c in vis.get_children():
+		if not (c is AnimatedSprite2D):
+			continue
+		var anim := c as AnimatedSprite2D
+		if anim.sprite_frames == null:
+			continue
+		var count := anim.sprite_frames.get_frame_count("default")
+		if count <= 0:
+			continue
+		anim.frame = randi() % count
+		anim.frame_progress = randf()
 
 
 func _handle_player(player: Node) -> void:
