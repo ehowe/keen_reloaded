@@ -52,6 +52,23 @@ func test_spike_registered_as_hazard_with_facing_schema():
 	assert_eq(String(schema[0].get("default")), "right")
 	assert_eq(schema[0].get("options"), ["right", "left"])
 
+func test_green_dangly_stuff_registered_as_hazard_with_variant_schema():
+	EntityRegistry.clear()
+	Keen1Episode.new().register_entities(EntityRegistry)
+	assert_true(EntityRegistry.has("keen1.green_dangly_stuff"), "keen1.green_dangly_stuff registered")
+	var e: Dictionary = EntityRegistry.get_entry("keen1.green_dangly_stuff")
+	assert_eq(e["category"], EntityRegistry.CATEGORY_HAZARD)
+	assert_true(e.get("scene", null) is PackedScene, "binds a runtime PackedScene")
+	var kinds: Array = e.get("map_kinds", [])
+	assert_true(kinds.has(LevelData.MapKind.LEVEL), "LEVEL kind allowed")
+	assert_false(kinds.has(LevelData.MapKind.OVERWORLD), "OVERWORLD excluded")
+	var schema := EntityRegistry.get_properties_schema("keen1.green_dangly_stuff")
+	assert_eq(schema.size(), 1)
+	assert_eq(String(schema[0].get("name")), "variant")
+	assert_eq(String(schema[0].get("type")), "enum")
+	assert_eq(String(schema[0].get("default")), "Normal")
+	assert_eq(schema[0].get("options"), ["Left Edge", "Normal", "Right Edge"])
+
 func test_level_entrance_has_variant_schema():
 	EntityRegistry.clear()
 	Keen1Episode.new().register_entities(EntityRegistry)

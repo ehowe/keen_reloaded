@@ -1,3 +1,131 @@
-[gd_scene format=3 uid="uid://c6ymsifd05n7s"]
+[gd_scene load_steps=18 format=3 uid="uid://c6ymsifd05n7s"]
 
-[node name="GreenDanglyStuff" type="Node2D" unique_id=619585884]
+[ext_resource type="Script" path="res://src/runtime/entities/green_dangly_stuff.gd" id="1_gds"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Green Dangly Stuff.png" id="2_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_le_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_le"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le_3")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm_3")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_re"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re_3")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GreenDanglyStuff" type="CharacterBody2D"]
+script = ExtResource("1_gds")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Left Edge" type="AnimatedSprite2D" parent="Visual"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_le")
+autoplay = "default"
+
+[node name="Normal" type="AnimatedSprite2D" parent="Visual"]
+sprite_frames = SubResource("SpriteFrames_nm")
+autoplay = "default"
+
+[node name="Right Edge" type="AnimatedSprite2D" parent="Visual"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_re")
+autoplay = "default"
