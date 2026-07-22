@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://dfafssjuglmi1"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/tank_robot.gd" id="1_tr"]
 [ext_resource type="Texture2D" uid="uid://d25jbe1l1b032" path="res://assets/sprites/Tank Robot.png" id="1_4a1m4"]
+[ext_resource type="Script" uid="uid://sdm1r3ob4523" path="res://src/runtime/entities/tank_robot.gd" id="1_tr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2we8"]
 atlas = ExtResource("1_4a1m4")
@@ -61,13 +64,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(64, 96)
-
 [node name="TankRobot" type="CharacterBody2D" unique_id=1663569242]
 script = ExtResource("1_tr")
 
-[node name="BodyShape" type="CollisionShape2D" parent="." unique_id=7000000001]
+[node name="BodyShape" type="CollisionShape2D" parent="." unique_id=-1589934591]
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Moving" type="AnimatedSprite2D" parent="." unique_id=554535245]

@@ -1,0 +1,1853 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://src/data/entity_def.gd" id="1_6ogxd"]
+[ext_resource type="Script" path="res://src/data/level_data.gd" id="2_pehj4"]
+[ext_resource type="TileSet" path="res://assets/tilesets/Invasion of the Vorticons.tres" id="3_omqgm"]
+
+[sub_resource type="Resource" id="Resource_6ogxd"]
+script = ExtResource("1_6ogxd")
+type = "keen1.exit_door"
+x = 118
+y = 11
+
+[sub_resource type="Resource" id="Resource_pehj4"]
+script = ExtResource("1_6ogxd")
+type = "keen1.exit_sign"
+x = 116
+y = 10
+
+[sub_resource type="Resource" id="Resource_omqgm"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 60
+y = 6
+properties = {
+"variant": "Left Edge"
+}
+
+[sub_resource type="Resource" id="Resource_kgten"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 61
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_kaw4c"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 62
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_6tm86"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 63
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_8h5ep"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 64
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_w028e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 65
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_01vod"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 66
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_oh6lf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 67
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_rhnkn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 68
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_3ju82"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 69
+y = 6
+properties = {
+"variant": "Right Edge"
+}
+
+[sub_resource type="Resource" id="Resource_5v0nu"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 78
+y = 6
+properties = {
+"variant": "Left Edge"
+}
+
+[sub_resource type="Resource" id="Resource_8e4sn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 79
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_rfr3n"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 80
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_twkac"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 81
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_mjvgp"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 82
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_5r5rr"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 83
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_d23ca"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 84
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_1liu0"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 85
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_ib45o"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 86
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_t450f"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 87
+y = 6
+properties = {
+"variant": "Right Edge"
+}
+
+[sub_resource type="Resource" id="Resource_5h6ha"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 17
+y = 6
+properties = {
+"variant": "Left Edge"
+}
+
+[sub_resource type="Resource" id="Resource_i3h4i"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 18
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_u4yn1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 19
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_ydqg1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 20
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_cnfc7"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 21
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_udkkk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 22
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_0fl3e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 23
+y = 6
+properties = {
+"variant": "Normal"
+}
+
+[sub_resource type="Resource" id="Resource_n8tph"]
+script = ExtResource("1_6ogxd")
+type = "keen1.green_dangly_stuff"
+x = 24
+y = 6
+properties = {
+"variant": "Right Edge"
+}
+
+[sub_resource type="Resource" id="Resource_7ldhb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 14
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_3ibdo"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 103
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_5d3qf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 104
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_dbiin"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 105
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_jwpxf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 106
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_ie7d2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 107
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_j7ken"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 108
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_un4dk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 109
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_dn2hn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 110
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_kjxeo"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 111
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_m015v"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 112
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_vvo5b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 114
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_rye2n"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 113
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_ywnp5"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 116
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_kiitb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 115
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_1c7jk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 118
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_vgofe"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 117
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_jdmbk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 119
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_lcp60"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 120
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_8v356"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 121
+y = 59
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_6a1tl"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 65
+y = 59
+
+[sub_resource type="Resource" id="Resource_yqcqt"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 66
+y = 59
+
+[sub_resource type="Resource" id="Resource_tfxan"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 34
+y = 59
+
+[sub_resource type="Resource" id="Resource_3racg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 35
+y = 59
+
+[sub_resource type="Resource" id="Resource_iovjg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 36
+y = 59
+
+[sub_resource type="Resource" id="Resource_fti7e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 37
+y = 59
+
+[sub_resource type="Resource" id="Resource_mb8n0"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 47
+y = 46
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_mrr8q"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 48
+y = 46
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_6u70l"]
+script = ExtResource("1_6ogxd")
+type = "keen1.spike"
+x = 49
+y = 46
+properties = {
+"facing": "right"
+}
+
+[sub_resource type="Resource" id="Resource_xol0n"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 114
+y = 30
+
+[sub_resource type="Resource" id="Resource_8eei8"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 113
+y = 30
+
+[sub_resource type="Resource" id="Resource_wuroo"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 109
+y = 33
+
+[sub_resource type="Resource" id="Resource_wfjvs"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 108
+y = 33
+
+[sub_resource type="Resource" id="Resource_en5od"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 104
+y = 30
+
+[sub_resource type="Resource" id="Resource_sgnee"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 103
+y = 30
+
+[sub_resource type="Resource" id="Resource_kcmlw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 99
+y = 28
+
+[sub_resource type="Resource" id="Resource_affrc"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 98
+y = 28
+
+[sub_resource type="Resource" id="Resource_h5i3y"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 94
+y = 25
+
+[sub_resource type="Resource" id="Resource_bpsv7"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 93
+y = 25
+
+[sub_resource type="Resource" id="Resource_qcisw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 89
+y = 27
+
+[sub_resource type="Resource" id="Resource_ao4mp"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 88
+y = 27
+
+[sub_resource type="Resource" id="Resource_hol42"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 84
+y = 29
+
+[sub_resource type="Resource" id="Resource_bbimw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 83
+y = 29
+
+[sub_resource type="Resource" id="Resource_lcd65"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 78
+y = 24
+
+[sub_resource type="Resource" id="Resource_l10tl"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 79
+y = 24
+
+[sub_resource type="Resource" id="Resource_1q036"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 78
+y = 31
+
+[sub_resource type="Resource" id="Resource_3c08m"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 79
+y = 31
+
+[sub_resource type="Resource" id="Resource_hq22c"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 73
+y = 26
+
+[sub_resource type="Resource" id="Resource_y1q6l"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 72
+y = 26
+
+[sub_resource type="Resource" id="Resource_foytw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 67
+y = 23
+
+[sub_resource type="Resource" id="Resource_r83mx"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 68
+y = 23
+
+[sub_resource type="Resource" id="Resource_bu6cr"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 59
+y = 23
+
+[sub_resource type="Resource" id="Resource_mfehn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 60
+y = 23
+
+[sub_resource type="Resource" id="Resource_57v8b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 52
+y = 23
+
+[sub_resource type="Resource" id="Resource_2addv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 53
+y = 23
+
+[sub_resource type="Resource" id="Resource_8qb4d"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 45
+y = 23
+
+[sub_resource type="Resource" id="Resource_m1sdg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 46
+y = 23
+
+[sub_resource type="Resource" id="Resource_g1pno"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 38
+y = 23
+
+[sub_resource type="Resource" id="Resource_spfal"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 39
+y = 23
+
+[sub_resource type="Resource" id="Resource_axoo2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 106
+y = 3
+
+[sub_resource type="Resource" id="Resource_gd4cw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 101
+y = 12
+
+[sub_resource type="Resource" id="Resource_gtqhi"]
+script = ExtResource("1_6ogxd")
+type = "keen1.teddy"
+x = 97
+y = 2
+
+[sub_resource type="Resource" id="Resource_ak41e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 36
+y = 5
+
+[sub_resource type="Resource" id="Resource_rw75k"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 48
+y = 5
+
+[sub_resource type="Resource" id="Resource_ghsid"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 31
+y = 11
+
+[sub_resource type="Resource" id="Resource_wqbyo"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 32
+y = 11
+
+[sub_resource type="Resource" id="Resource_gen3t"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 94
+y = 46
+
+[sub_resource type="Resource" id="Resource_r477c"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 95
+y = 46
+
+[sub_resource type="Resource" id="Resource_2xico"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 96
+y = 46
+
+[sub_resource type="Resource" id="Resource_43wpo"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 100
+y = 48
+
+[sub_resource type="Resource" id="Resource_oas4e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 101
+y = 48
+
+[sub_resource type="Resource" id="Resource_i8qg4"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 102
+y = 48
+
+[sub_resource type="Resource" id="Resource_w4vdm"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 103
+y = 48
+
+[sub_resource type="Resource" id="Resource_64gcx"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 65
+y = 36
+
+[sub_resource type="Resource" id="Resource_0jxkb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 66
+y = 36
+
+[sub_resource type="Resource" id="Resource_5sy3l"]
+script = ExtResource("1_6ogxd")
+type = "keen1.fire"
+x = 67
+y = 36
+
+[sub_resource type="Resource" id="Resource_ihnmf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 47
+y = 50
+
+[sub_resource type="Resource" id="Resource_rlajh"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 74
+y = 45
+
+[sub_resource type="Resource" id="Resource_fcqrh"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 104
+y = 18
+
+[sub_resource type="Resource" id="Resource_e3i3r"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 96
+y = 22
+
+[sub_resource type="Resource" id="Resource_bnpfh"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 22
+y = 34
+
+[sub_resource type="Resource" id="Resource_c8hry"]
+script = ExtResource("1_6ogxd")
+type = "keen1.garg"
+x = 34
+y = 35
+
+[sub_resource type="Resource" id="Resource_52vii"]
+script = ExtResource("1_6ogxd")
+type = "keen1.tank_robot"
+x = 92
+y = 57
+
+[sub_resource type="Resource" id="Resource_hfh80"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 7
+y = 40
+
+[sub_resource type="Resource" id="Resource_cv3r2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 8
+y = 40
+
+[sub_resource type="Resource" id="Resource_8pttk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 9
+y = 40
+
+[sub_resource type="Resource" id="Resource_gil34"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 11
+y = 40
+
+[sub_resource type="Resource" id="Resource_uykbk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 11
+y = 41
+
+[sub_resource type="Resource" id="Resource_7jbs0"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 7
+y = 42
+
+[sub_resource type="Resource" id="Resource_tqydk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 8
+y = 42
+
+[sub_resource type="Resource" id="Resource_wd480"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 9
+y = 42
+
+[sub_resource type="Resource" id="Resource_klyim"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 8
+y = 43
+
+[sub_resource type="Resource" id="Resource_tmmch"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 8
+y = 44
+
+[sub_resource type="Resource" id="Resource_q0k2y"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 11
+y = 43
+
+[sub_resource type="Resource" id="Resource_ap501"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 11
+y = 44
+
+[sub_resource type="Resource" id="Resource_ylsvv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 14
+y = 50
+
+[sub_resource type="Resource" id="Resource_h3fl6"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 14
+y = 51
+
+[sub_resource type="Resource" id="Resource_ml51b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 14
+y = 52
+
+[sub_resource type="Resource" id="Resource_ml5vv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 14
+y = 53
+
+[sub_resource type="Resource" id="Resource_4erlw"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 14
+y = 54
+
+[sub_resource type="Resource" id="Resource_k723b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 15
+y = 55
+
+[sub_resource type="Resource" id="Resource_2dcii"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 55
+
+[sub_resource type="Resource" id="Resource_xifow"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 21
+y = 55
+
+[sub_resource type="Resource" id="Resource_djiuu"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 29
+y = 52
+
+[sub_resource type="Resource" id="Resource_e1as6"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 32
+y = 54
+
+[sub_resource type="Resource" id="Resource_7t6g8"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 39
+y = 54
+
+[sub_resource type="Resource" id="Resource_ey2w6"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 42
+y = 54
+
+[sub_resource type="Resource" id="Resource_vwgb3"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 41
+
+[sub_resource type="Resource" id="Resource_1w557"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 42
+
+[sub_resource type="Resource" id="Resource_x48ao"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 43
+
+[sub_resource type="Resource" id="Resource_we4r2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 44
+
+[sub_resource type="Resource" id="Resource_aouk5"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 45
+
+[sub_resource type="Resource" id="Resource_4aeya"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 41
+y = 35
+
+[sub_resource type="Resource" id="Resource_fmaj2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 43
+y = 35
+
+[sub_resource type="Resource" id="Resource_sfkuk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 45
+y = 35
+
+[sub_resource type="Resource" id="Resource_3pcq0"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 53
+y = 35
+
+[sub_resource type="Resource" id="Resource_n4b8m"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 51
+y = 35
+
+[sub_resource type="Resource" id="Resource_jdwno"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 49
+y = 35
+
+[sub_resource type="Resource" id="Resource_s63t2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 47
+y = 35
+
+[sub_resource type="Resource" id="Resource_h68rt"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 30
+
+[sub_resource type="Resource" id="Resource_thxhu"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 31
+
+[sub_resource type="Resource" id="Resource_im3yf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 32
+
+[sub_resource type="Resource" id="Resource_e2b1j"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 33
+
+[sub_resource type="Resource" id="Resource_8dplj"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 34
+
+[sub_resource type="Resource" id="Resource_o4cle"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 18
+y = 35
+
+[sub_resource type="Resource" id="Resource_vn4h6"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 24
+y = 24
+
+[sub_resource type="Resource" id="Resource_dg38e"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 26
+y = 25
+
+[sub_resource type="Resource" id="Resource_7oyab"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 28
+y = 26
+
+[sub_resource type="Resource" id="Resource_ognmb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 30
+y = 27
+
+[sub_resource type="Resource" id="Resource_7b4ep"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 36
+y = 28
+
+[sub_resource type="Resource" id="Resource_bqrks"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 42
+y = 28
+
+[sub_resource type="Resource" id="Resource_awjol"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 49
+y = 28
+
+[sub_resource type="Resource" id="Resource_hv0ck"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 56
+y = 28
+
+[sub_resource type="Resource" id="Resource_ga2ot"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 70
+y = 30
+
+[sub_resource type="Resource" id="Resource_3gibf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 71
+y = 30
+
+[sub_resource type="Resource" id="Resource_4ob1w"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 64
+y = 54
+
+[sub_resource type="Resource" id="Resource_ivkq2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 67
+y = 55
+
+[sub_resource type="Resource" id="Resource_5j51l"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 71
+y = 55
+
+[sub_resource type="Resource" id="Resource_167nb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 79
+y = 53
+
+[sub_resource type="Resource" id="Resource_6ldnn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 83
+y = 49
+
+[sub_resource type="Resource" id="Resource_obd71"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 87
+y = 45
+
+[sub_resource type="Resource" id="Resource_jdwtj"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 91
+y = 41
+
+[sub_resource type="Resource" id="Resource_87rwv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 92
+y = 35
+
+[sub_resource type="Resource" id="Resource_b4fdp"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 93
+y = 35
+
+[sub_resource type="Resource" id="Resource_mb85s"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 94
+y = 35
+
+[sub_resource type="Resource" id="Resource_0xtnx"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 95
+y = 35
+
+[sub_resource type="Resource" id="Resource_16omr"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 91
+y = 31
+
+[sub_resource type="Resource" id="Resource_rwkgj"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 91
+y = 30
+
+[sub_resource type="Resource" id="Resource_sym12"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 91
+y = 29
+
+[sub_resource type="Resource" id="Resource_dcf1r"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 119
+y = 33
+
+[sub_resource type="Resource" id="Resource_bw3hq"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 119
+y = 32
+
+[sub_resource type="Resource" id="Resource_qxy57"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 120
+y = 32
+
+[sub_resource type="Resource" id="Resource_afnsx"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 120
+y = 33
+
+[sub_resource type="Resource" id="Resource_3bqfy"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 121
+y = 52
+
+[sub_resource type="Resource" id="Resource_i0ljf"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 121
+y = 54
+
+[sub_resource type="Resource" id="Resource_hvr6c"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 79
+y = 44
+
+[sub_resource type="Resource" id="Resource_rf71t"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 92
+y = 10
+
+[sub_resource type="Resource" id="Resource_2f1iq"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 93
+y = 10
+
+[sub_resource type="Resource" id="Resource_cj2as"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 94
+y = 10
+
+[sub_resource type="Resource" id="Resource_gmx7j"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 95
+y = 10
+
+[sub_resource type="Resource" id="Resource_8x4ab"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 80
+y = 7
+
+[sub_resource type="Resource" id="Resource_h3xem"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 81
+y = 7
+
+[sub_resource type="Resource" id="Resource_mc0kl"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 82
+y = 7
+
+[sub_resource type="Resource" id="Resource_pel4a"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 83
+y = 7
+
+[sub_resource type="Resource" id="Resource_yu488"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 84
+y = 7
+
+[sub_resource type="Resource" id="Resource_l57g1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 85
+y = 7
+
+[sub_resource type="Resource" id="Resource_oltxh"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 62
+y = 7
+
+[sub_resource type="Resource" id="Resource_0ndal"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 63
+y = 7
+
+[sub_resource type="Resource" id="Resource_ld4oq"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 64
+y = 7
+
+[sub_resource type="Resource" id="Resource_h7q0a"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 65
+y = 7
+
+[sub_resource type="Resource" id="Resource_33xks"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 66
+y = 7
+
+[sub_resource type="Resource" id="Resource_xncc2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 67
+y = 7
+
+[sub_resource type="Resource" id="Resource_54fx5"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 84
+y = 12
+
+[sub_resource type="Resource" id="Resource_wf1kb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 83
+y = 12
+
+[sub_resource type="Resource" id="Resource_wqf2x"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 78
+y = 13
+
+[sub_resource type="Resource" id="Resource_61m3b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 79
+y = 13
+
+[sub_resource type="Resource" id="Resource_j64n1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 72
+y = 14
+
+[sub_resource type="Resource" id="Resource_0rm31"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 73
+y = 14
+
+[sub_resource type="Resource" id="Resource_jr6hg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 74
+y = 14
+
+[sub_resource type="Resource" id="Resource_64itx"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 68
+y = 14
+
+[sub_resource type="Resource" id="Resource_ordbu"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 67
+y = 14
+
+[sub_resource type="Resource" id="Resource_v82bd"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 66
+y = 14
+
+[sub_resource type="Resource" id="Resource_li878"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 25
+y = 14
+
+[sub_resource type="Resource" id="Resource_ih5bc"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 30
+y = 14
+
+[sub_resource type="Resource" id="Resource_61854"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 31
+y = 14
+
+[sub_resource type="Resource" id="Resource_ces4m"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 32
+y = 14
+
+[sub_resource type="Resource" id="Resource_82f5k"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 38
+y = 14
+
+[sub_resource type="Resource" id="Resource_6m3f1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 39
+y = 14
+
+[sub_resource type="Resource" id="Resource_fikl8"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 45
+y = 14
+
+[sub_resource type="Resource" id="Resource_i337q"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 46
+y = 14
+
+[sub_resource type="Resource" id="Resource_r5rca"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 52
+y = 14
+
+[sub_resource type="Resource" id="Resource_rjrrp"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 53
+y = 14
+
+[sub_resource type="Resource" id="Resource_4k6kk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 59
+y = 14
+
+[sub_resource type="Resource" id="Resource_6hng7"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 60
+y = 14
+
+[sub_resource type="Resource" id="Resource_530an"]
+script = ExtResource("1_6ogxd")
+type = "keen1.lollipop"
+x = 33
+y = 8
+
+[sub_resource type="Resource" id="Resource_h0fdg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 2
+y = 31
+
+[sub_resource type="Resource" id="Resource_av866"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 2
+y = 32
+
+[sub_resource type="Resource" id="Resource_wkx8o"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 3
+y = 32
+
+[sub_resource type="Resource" id="Resource_026hu"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 23
+y = 37
+
+[sub_resource type="Resource" id="Resource_8m2cc"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 30
+y = 42
+
+[sub_resource type="Resource" id="Resource_r4nu7"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 31
+y = 42
+
+[sub_resource type="Resource" id="Resource_vujum"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 31
+y = 41
+
+[sub_resource type="Resource" id="Resource_s6veg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 33
+y = 41
+
+[sub_resource type="Resource" id="Resource_itvp1"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 33
+y = 42
+
+[sub_resource type="Resource" id="Resource_8p7n0"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 34
+y = 42
+
+[sub_resource type="Resource" id="Resource_opqad"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 43
+y = 39
+
+[sub_resource type="Resource" id="Resource_5btgk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 59
+y = 36
+
+[sub_resource type="Resource" id="Resource_v6qle"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 60
+y = 36
+
+[sub_resource type="Resource" id="Resource_8wq04"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 65
+y = 41
+
+[sub_resource type="Resource" id="Resource_nlsw2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 78
+y = 42
+
+[sub_resource type="Resource" id="Resource_ph2dt"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 84
+y = 43
+
+[sub_resource type="Resource" id="Resource_dseu4"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 85
+y = 43
+
+[sub_resource type="Resource" id="Resource_5y2yl"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 85
+y = 42
+
+[sub_resource type="Resource" id="Resource_idjlt"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 87
+y = 42
+
+[sub_resource type="Resource" id="Resource_7iduy"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 102
+y = 16
+
+[sub_resource type="Resource" id="Resource_ianfa"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 103
+y = 16
+
+[sub_resource type="Resource" id="Resource_a7hjd"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 103
+y = 17
+
+[sub_resource type="Resource" id="Resource_xmqdg"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 103
+y = 18
+
+[sub_resource type="Resource" id="Resource_l50oq"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 102
+y = 18
+
+[sub_resource type="Resource" id="Resource_8auwe"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 102
+y = 17
+
+[sub_resource type="Resource" id="Resource_smuu2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 62
+y = 36
+
+[sub_resource type="Resource" id="Resource_xy3qi"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 63
+y = 36
+
+[sub_resource type="Resource" id="Resource_0uen8"]
+script = ExtResource("1_6ogxd")
+type = "keen1.soda"
+x = 18
+y = 16
+
+[sub_resource type="Resource" id="Resource_6cbom"]
+script = ExtResource("1_6ogxd")
+type = "keen1.teddy"
+x = 20
+y = 34
+
+[sub_resource type="Resource" id="Resource_8xnh2"]
+script = ExtResource("1_6ogxd")
+type = "keen1.teddy"
+x = 33
+y = 35
+
+[sub_resource type="Resource" id="Resource_0xqth"]
+script = ExtResource("1_6ogxd")
+type = "keen1.book"
+x = 93
+y = 42
+
+[sub_resource type="Resource" id="Resource_gmc0j"]
+script = ExtResource("1_6ogxd")
+type = "keen1.teddy"
+x = 121
+y = 17
+
+[sub_resource type="Resource" id="Resource_l1p87"]
+script = ExtResource("1_6ogxd")
+type = "keen1.pizza"
+x = 31
+y = 47
+
+[sub_resource type="Resource" id="Resource_6rpaa"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 41
+y = 30
+
+[sub_resource type="Resource" id="Resource_naohb"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 42
+y = 30
+
+[sub_resource type="Resource" id="Resource_3dtb8"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 43
+y = 30
+
+[sub_resource type="Resource" id="Resource_l8wve"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 48
+y = 30
+
+[sub_resource type="Resource" id="Resource_80son"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 49
+y = 30
+
+[sub_resource type="Resource" id="Resource_k06mv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 50
+y = 30
+
+[sub_resource type="Resource" id="Resource_mt7be"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 55
+y = 30
+
+[sub_resource type="Resource" id="Resource_ree8b"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 56
+y = 30
+
+[sub_resource type="Resource" id="Resource_hrsmd"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 57
+y = 30
+
+[sub_resource type="Resource" id="Resource_s6tsm"]
+script = ExtResource("1_6ogxd")
+type = "keen1.pizza"
+x = 100
+y = 18
+
+[sub_resource type="Resource" id="Resource_xuvv4"]
+script = ExtResource("1_6ogxd")
+type = "keen1.clapper"
+x = 6
+y = 32
+
+[sub_resource type="Resource" id="Resource_y47kr"]
+script = ExtResource("1_6ogxd")
+type = "keen1.raygun"
+x = 14
+y = 11
+
+[sub_resource type="Resource" id="Resource_xm2ic"]
+script = ExtResource("1_6ogxd")
+type = "keen1.butler"
+x = 83
+y = 39
+
+[sub_resource type="Resource" id="Resource_uh1vp"]
+script = ExtResource("1_6ogxd")
+type = "keen1.butler"
+x = 90
+y = 39
+
+[sub_resource type="Resource" id="Resource_bmbpk"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 112
+y = 53
+
+[sub_resource type="Resource" id="Resource_hfd43"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 36
+y = 56
+
+[sub_resource type="Resource" id="Resource_nua47"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 28
+y = 28
+
+[sub_resource type="Resource" id="Resource_rkoxa"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 32
+y = 29
+
+[sub_resource type="Resource" id="Resource_m1axn"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 17
+y = 16
+
+[sub_resource type="Resource" id="Resource_kutso"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 62
+y = 5
+
+[sub_resource type="Resource" id="Resource_rjxue"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 81
+y = 5
+
+[sub_resource type="Resource" id="Resource_jkpyv"]
+script = ExtResource("1_6ogxd")
+type = "keen1.yorp"
+x = 63
+y = 16
+
+[resource]
+script = ExtResource("2_pehj4")
+level_id = "keen1_07"
+level_name = "Emerald City"
+episode = "1"
+width = 124
+height = 60
+geometry_tiles = PackedInt32Array(0, 65571, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65568, 65572, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 65564, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 65564, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 65558, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65538, 65537, 0, 0, 0, 0, 0, 0, 0, 0, 65537, 65542, 65564, 65564, 65564, 65564, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 65538, 65537, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65537, 65542, 0, 0, 0, 0, 65538, 65537, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 65538, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 65538, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65544, 65543, 65573, 0, 0, 65573, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65538, 65537, 65537, 65552, 65579, 65553, 65537, 65537, 65542, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65554, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65544, 65544, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65544, 65544, 65543, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 65565, 65565, 65565, 65565, 65565, 0, 0, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65547, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 65558, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 65576, 65576, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 65576, 65546, 65547, 65547, 65547, 65548, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65547, 65548, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 65564, 65564, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65577, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 65546, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 0, 65573, 0, 0, 65573, 65564, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 65546, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 65558, 0, 65558, 0, 65558, 0, 65558, 0, 65558, 0, 65558, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65546, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 65546, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65547, 65548, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 65578, 65578, 65578, 65578, 65578, 65578, 65578, 65578, 65578, 65578, 65578, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 65538, 65537, 65542, 0, 0, 0, 65538, 65537, 65542, 0, 0, 0, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 0, 65573, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65539, 65540, 65540, 65537, 65537, 65537, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 0, 0, 65558, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 0, 0, 0, 0, 0, 65573, 0, 0, 65569, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65544, 65544, 65543, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65573, 0, 0, 65570, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65558, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 65573, 0, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65558, 65558, 65558, 65558, 65558, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 65549, 65550, 65551, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65544, 65544, 65543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196634, 196635, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196634, 196635, 0, 196661, 196662, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65543, 0, 0, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65564, 65564, 65564, 65564, 65564, 0, 0, 0, 0, 0, 0, 0, 0, 65565, 65565, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196661, 196662, 0, 196661, 196662, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65542, 65538, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65558, 65558, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65545, 65544, 65544, 65544, 65544, 65544, 65543, 65545, 65544, 65544, 65544, 65544, 65544, 65543, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 65538, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537, 65542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65573, 0, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 65539, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65540, 65541, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65574, 0)
+foreground_tiles = PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196630, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196630, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196630, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196630, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196619, 196620, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196631, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196618, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196622, 196623, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196624, 196625, 196626, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196618, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196627, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196627, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196621, 196621, 196621, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+background_tiles = PackedInt32Array(196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613, 196613)
+front_tiles = PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196652, 0, 0, 196652, 0, 0, 196652, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196651, 0, 0, 196651, 0, 0, 196651, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196649, 0, 0, 196649, 0, 0, 196649, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196645, 196646, 196647, 196647, 196647, 196646, 196647, 196647, 196648, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 196657, 196658, 196659, 196658, 196659, 196658, 196659, 196658, 196660, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+entities = Array[ExtResource("1_6ogxd")]([SubResource("Resource_6ogxd"), SubResource("Resource_pehj4"), SubResource("Resource_omqgm"), SubResource("Resource_kgten"), SubResource("Resource_kaw4c"), SubResource("Resource_6tm86"), SubResource("Resource_8h5ep"), SubResource("Resource_w028e"), SubResource("Resource_01vod"), SubResource("Resource_oh6lf"), SubResource("Resource_rhnkn"), SubResource("Resource_3ju82"), SubResource("Resource_5v0nu"), SubResource("Resource_8e4sn"), SubResource("Resource_rfr3n"), SubResource("Resource_twkac"), SubResource("Resource_mjvgp"), SubResource("Resource_5r5rr"), SubResource("Resource_d23ca"), SubResource("Resource_1liu0"), SubResource("Resource_ib45o"), SubResource("Resource_t450f"), SubResource("Resource_5h6ha"), SubResource("Resource_i3h4i"), SubResource("Resource_u4yn1"), SubResource("Resource_ydqg1"), SubResource("Resource_cnfc7"), SubResource("Resource_udkkk"), SubResource("Resource_0fl3e"), SubResource("Resource_n8tph"), SubResource("Resource_7ldhb"), SubResource("Resource_3ibdo"), SubResource("Resource_5d3qf"), SubResource("Resource_dbiin"), SubResource("Resource_jwpxf"), SubResource("Resource_ie7d2"), SubResource("Resource_j7ken"), SubResource("Resource_un4dk"), SubResource("Resource_dn2hn"), SubResource("Resource_kjxeo"), SubResource("Resource_m015v"), SubResource("Resource_vvo5b"), SubResource("Resource_rye2n"), SubResource("Resource_ywnp5"), SubResource("Resource_kiitb"), SubResource("Resource_1c7jk"), SubResource("Resource_vgofe"), SubResource("Resource_jdmbk"), SubResource("Resource_lcp60"), SubResource("Resource_8v356"), SubResource("Resource_6a1tl"), SubResource("Resource_yqcqt"), SubResource("Resource_tfxan"), SubResource("Resource_3racg"), SubResource("Resource_iovjg"), SubResource("Resource_fti7e"), SubResource("Resource_mb8n0"), SubResource("Resource_mrr8q"), SubResource("Resource_6u70l"), SubResource("Resource_xol0n"), SubResource("Resource_8eei8"), SubResource("Resource_wuroo"), SubResource("Resource_wfjvs"), SubResource("Resource_en5od"), SubResource("Resource_sgnee"), SubResource("Resource_kcmlw"), SubResource("Resource_affrc"), SubResource("Resource_h5i3y"), SubResource("Resource_bpsv7"), SubResource("Resource_qcisw"), SubResource("Resource_ao4mp"), SubResource("Resource_hol42"), SubResource("Resource_bbimw"), SubResource("Resource_lcd65"), SubResource("Resource_l10tl"), SubResource("Resource_1q036"), SubResource("Resource_3c08m"), SubResource("Resource_hq22c"), SubResource("Resource_y1q6l"), SubResource("Resource_foytw"), SubResource("Resource_r83mx"), SubResource("Resource_bu6cr"), SubResource("Resource_mfehn"), SubResource("Resource_57v8b"), SubResource("Resource_2addv"), SubResource("Resource_8qb4d"), SubResource("Resource_m1sdg"), SubResource("Resource_g1pno"), SubResource("Resource_spfal"), SubResource("Resource_axoo2"), SubResource("Resource_gd4cw"), SubResource("Resource_gtqhi"), SubResource("Resource_ak41e"), SubResource("Resource_rw75k"), SubResource("Resource_ghsid"), SubResource("Resource_wqbyo"), SubResource("Resource_gen3t"), SubResource("Resource_r477c"), SubResource("Resource_2xico"), SubResource("Resource_43wpo"), SubResource("Resource_oas4e"), SubResource("Resource_i8qg4"), SubResource("Resource_w4vdm"), SubResource("Resource_64gcx"), SubResource("Resource_0jxkb"), SubResource("Resource_5sy3l"), SubResource("Resource_ihnmf"), SubResource("Resource_rlajh"), SubResource("Resource_fcqrh"), SubResource("Resource_e3i3r"), SubResource("Resource_bnpfh"), SubResource("Resource_c8hry"), SubResource("Resource_52vii"), SubResource("Resource_hfh80"), SubResource("Resource_cv3r2"), SubResource("Resource_8pttk"), SubResource("Resource_gil34"), SubResource("Resource_uykbk"), SubResource("Resource_7jbs0"), SubResource("Resource_tqydk"), SubResource("Resource_wd480"), SubResource("Resource_klyim"), SubResource("Resource_tmmch"), SubResource("Resource_q0k2y"), SubResource("Resource_ap501"), SubResource("Resource_ylsvv"), SubResource("Resource_h3fl6"), SubResource("Resource_ml51b"), SubResource("Resource_ml5vv"), SubResource("Resource_4erlw"), SubResource("Resource_k723b"), SubResource("Resource_2dcii"), SubResource("Resource_xifow"), SubResource("Resource_djiuu"), SubResource("Resource_e1as6"), SubResource("Resource_7t6g8"), SubResource("Resource_ey2w6"), SubResource("Resource_vwgb3"), SubResource("Resource_1w557"), SubResource("Resource_x48ao"), SubResource("Resource_we4r2"), SubResource("Resource_aouk5"), SubResource("Resource_4aeya"), SubResource("Resource_fmaj2"), SubResource("Resource_sfkuk"), SubResource("Resource_3pcq0"), SubResource("Resource_n4b8m"), SubResource("Resource_jdwno"), SubResource("Resource_s63t2"), SubResource("Resource_h68rt"), SubResource("Resource_thxhu"), SubResource("Resource_im3yf"), SubResource("Resource_e2b1j"), SubResource("Resource_8dplj"), SubResource("Resource_o4cle"), SubResource("Resource_vn4h6"), SubResource("Resource_dg38e"), SubResource("Resource_7oyab"), SubResource("Resource_ognmb"), SubResource("Resource_7b4ep"), SubResource("Resource_bqrks"), SubResource("Resource_awjol"), SubResource("Resource_hv0ck"), SubResource("Resource_ga2ot"), SubResource("Resource_3gibf"), SubResource("Resource_4ob1w"), SubResource("Resource_ivkq2"), SubResource("Resource_5j51l"), SubResource("Resource_167nb"), SubResource("Resource_6ldnn"), SubResource("Resource_obd71"), SubResource("Resource_jdwtj"), SubResource("Resource_87rwv"), SubResource("Resource_b4fdp"), SubResource("Resource_mb85s"), SubResource("Resource_0xtnx"), SubResource("Resource_16omr"), SubResource("Resource_rwkgj"), SubResource("Resource_sym12"), SubResource("Resource_dcf1r"), SubResource("Resource_bw3hq"), SubResource("Resource_qxy57"), SubResource("Resource_afnsx"), SubResource("Resource_3bqfy"), SubResource("Resource_i0ljf"), SubResource("Resource_hvr6c"), SubResource("Resource_rf71t"), SubResource("Resource_2f1iq"), SubResource("Resource_cj2as"), SubResource("Resource_gmx7j"), SubResource("Resource_8x4ab"), SubResource("Resource_h3xem"), SubResource("Resource_mc0kl"), SubResource("Resource_pel4a"), SubResource("Resource_yu488"), SubResource("Resource_l57g1"), SubResource("Resource_oltxh"), SubResource("Resource_0ndal"), SubResource("Resource_ld4oq"), SubResource("Resource_h7q0a"), SubResource("Resource_33xks"), SubResource("Resource_xncc2"), SubResource("Resource_54fx5"), SubResource("Resource_wf1kb"), SubResource("Resource_wqf2x"), SubResource("Resource_61m3b"), SubResource("Resource_j64n1"), SubResource("Resource_0rm31"), SubResource("Resource_jr6hg"), SubResource("Resource_64itx"), SubResource("Resource_ordbu"), SubResource("Resource_v82bd"), SubResource("Resource_li878"), SubResource("Resource_ih5bc"), SubResource("Resource_61854"), SubResource("Resource_ces4m"), SubResource("Resource_82f5k"), SubResource("Resource_6m3f1"), SubResource("Resource_fikl8"), SubResource("Resource_i337q"), SubResource("Resource_r5rca"), SubResource("Resource_rjrrp"), SubResource("Resource_4k6kk"), SubResource("Resource_6hng7"), SubResource("Resource_530an"), SubResource("Resource_h0fdg"), SubResource("Resource_av866"), SubResource("Resource_wkx8o"), SubResource("Resource_026hu"), SubResource("Resource_8m2cc"), SubResource("Resource_r4nu7"), SubResource("Resource_vujum"), SubResource("Resource_s6veg"), SubResource("Resource_itvp1"), SubResource("Resource_8p7n0"), SubResource("Resource_opqad"), SubResource("Resource_5btgk"), SubResource("Resource_v6qle"), SubResource("Resource_8wq04"), SubResource("Resource_nlsw2"), SubResource("Resource_ph2dt"), SubResource("Resource_dseu4"), SubResource("Resource_5y2yl"), SubResource("Resource_idjlt"), SubResource("Resource_7iduy"), SubResource("Resource_ianfa"), SubResource("Resource_a7hjd"), SubResource("Resource_xmqdg"), SubResource("Resource_l50oq"), SubResource("Resource_8auwe"), SubResource("Resource_smuu2"), SubResource("Resource_xy3qi"), SubResource("Resource_0uen8"), SubResource("Resource_6cbom"), SubResource("Resource_8xnh2"), SubResource("Resource_0xqth"), SubResource("Resource_gmc0j"), SubResource("Resource_l1p87"), SubResource("Resource_6rpaa"), SubResource("Resource_naohb"), SubResource("Resource_3dtb8"), SubResource("Resource_l8wve"), SubResource("Resource_80son"), SubResource("Resource_k06mv"), SubResource("Resource_mt7be"), SubResource("Resource_ree8b"), SubResource("Resource_hrsmd"), SubResource("Resource_s6tsm"), SubResource("Resource_xuvv4"), SubResource("Resource_y47kr"), SubResource("Resource_xm2ic"), SubResource("Resource_uh1vp"), SubResource("Resource_bmbpk"), SubResource("Resource_hfd43"), SubResource("Resource_nua47"), SubResource("Resource_rkoxa"), SubResource("Resource_m1axn"), SubResource("Resource_kutso"), SubResource("Resource_rjxue"), SubResource("Resource_jkpyv")])
+player_spawn = Vector2i(2, 49)
+tileset_ref = ExtResource("3_omqgm")

@@ -1,7 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6ymsifd05n7s"]
+[gd_scene format=3 uid="uid://c6ymsifd05n7s"]
 
-[ext_resource type="Script" path="res://src/runtime/entities/green_dangly_stuff.gd" id="1_gds"]
-[ext_resource type="Texture2D" path="res://assets/sprites/Green Dangly Stuff.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://dwyo6njqhjntl" path="res://src/runtime/entities/green_dangly_stuff.gd" id="1_gds"]
+[ext_resource type="Texture2D" uid="uid://dvo50kyls6o7f" path="res://assets/sprites/Green Dangly Stuff.png" id="2_tex"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_le_0"]
 atlas = ExtResource("2_tex")
@@ -36,7 +36,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nm_0"]
@@ -72,7 +72,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_re_0"]
@@ -108,24 +108,26 @@ animations = [{
 }],
 "loop": 1,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }]
 
-[node name="GreenDanglyStuff" type="CharacterBody2D"]
+[node name="GreenDanglyStuff" type="CharacterBody2D" unique_id=1917272352]
 script = ExtResource("1_gds")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=1537898457]
 
-[node name="Left Edge" type="AnimatedSprite2D" parent="Visual"]
+[node name="Left Edge" type="AnimatedSprite2D" parent="Visual" unique_id=1344724377]
 visible = false
 sprite_frames = SubResource("SpriteFrames_le")
 autoplay = "default"
+frame_progress = 0.57650256
 
-[node name="Normal" type="AnimatedSprite2D" parent="Visual"]
+[node name="Normal" type="AnimatedSprite2D" parent="Visual" unique_id=1881001951]
 sprite_frames = SubResource("SpriteFrames_nm")
 autoplay = "default"
+frame_progress = 0.23663887
 
-[node name="Right Edge" type="AnimatedSprite2D" parent="Visual"]
+[node name="Right Edge" type="AnimatedSprite2D" parent="Visual" unique_id=1672424846]
 visible = false
 sprite_frames = SubResource("SpriteFrames_re")
 autoplay = "default"
