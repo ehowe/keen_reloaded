@@ -1,3 +1,18 @@
+## v2026.07.21 — 2026-07-21
+
+### Added
+- randomize green dangly stuff anim start frame
+- green dangly stuff ceiling hazard
+- register keen1.green_dangly_stuff hazard
+- replace green dangly placeholder with real scene
+- add GreenDanglyStuff hazard script + tests
+- add keen1 tank robot
+- add LAYER_FRONT tile layer
+
+### Documentation
+- plan green dangly stuff hazard implementation
+- spec green dangly stuff ceiling hazard
+
 ## v2026.07.19 — 2026-07-19
 
 ### Added
