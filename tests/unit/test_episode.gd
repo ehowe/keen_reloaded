@@ -61,7 +61,7 @@ func test_green_dangly_stuff_registered_as_hazard_with_variant_schema():
 	assert_true(e.get("scene", null) is PackedScene, "binds a runtime PackedScene")
 	var kinds: Array = e.get("map_kinds", [])
 	assert_true(kinds.has(LevelData.MapKind.LEVEL), "LEVEL kind allowed")
-	assert_false(kinds.has(LevelData.MapKind.OVERWORLD), "OVERWorld excluded")
+	assert_false(kinds.has(LevelData.MapKind.OVERWORLD), "OVERWORLD excluded")
 	var schema := EntityRegistry.get_properties_schema("keen1.green_dangly_stuff")
 	assert_eq(schema.size(), 1)
 	assert_eq(String(schema[0].get("name")), "variant")
