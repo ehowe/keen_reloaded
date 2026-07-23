@@ -59,3 +59,10 @@ func test_step_ice1_turn_decelerates_through_zero():
 	for i in 1000:
 		vx = SurfacePhysics.step_ice1(vx, -1.0, 480.0, 1500.0, 0.016)
 	assert_almost_eq(vx, -480.0, 0.5, "reaches -cap when holding opposite")
+
+func test_step_ice2_pins_entry_direction_speed():
+	# pinned exactly to entry_dir * slide_speed regardless of incoming vx
+	assert_almost_eq(SurfacePhysics.step_ice2(1.0, 480.0), 480.0, 0.001, "right entry pins +slide_speed")
+	assert_almost_eq(SurfacePhysics.step_ice2(-1.0, 480.0), -480.0, 0.001, "left entry pins -slide_speed")
+	# incoming velocity is irrelevant once pinned
+	assert_almost_eq(SurfacePhysics.step_ice2(1.0, 480.0), 480.0, 0.001, "pin ignores incoming vx")

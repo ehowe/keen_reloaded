@@ -28,3 +28,10 @@ static func step_ice1(vx: float, dir: float, cap: float, accel: float, delta: fl
 	if dir != 0.0:
 		return move_toward(vx, dir * cap, accel * delta)
 	return vx
+
+
+## Ice2 surface: pin horizontal velocity to entry_dir * slide_speed. The
+## Player manages entry_dir, the lock flag, and the wall-stop (which zeroes
+## vx and clears the lock after move_and_slide); this helper just pins.
+static func step_ice2(entry_dir: float, slide_speed: float) -> float:
+	return entry_dir * slide_speed
