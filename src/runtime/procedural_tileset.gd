@@ -15,7 +15,12 @@ const COLLISION_LAYER_TILES := 4
 const COLLISION_MASK_PLAYER := 1
 
 ## Build a TileSet with `max_id` colored tiles (ids 1..max_id).
-static func build(max_id: int, tile_size: int, with_collision: bool) -> TileSet:
+## with_collision adds a full-cell collision rectangle to every tile (geometry
+## layer). ice1_ids / ice2_ids mark solid-color dev tile ids whose
+## `surface_type` custom-data reads ICE1 / ICE2 (all others NONE). The
+## surface_type layer is ALWAYS added so the player can read custom data
+## uniformly, regardless of whether any ice ids are supplied.
+static func build(max_id: int, tile_size: int, with_collision: bool, ice1_ids: Array[int] = [], ice2_ids: Array[int] = []) -> TileSet:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(tile_size, tile_size)
 	if max_id <= 0:
@@ -34,6 +39,20 @@ static func build(max_id: int, tile_size: int, with_collision: bool) -> TileSet:
 	ts.add_source(src)
 	for id in range(1, max_id + 1):
 		src.create_tile(Vector2i(id - 1, 0))
+
+	# surface_type custom-data layer (added unconditionally for a uniform read).
+	ts.add_custom_data_layer()
+	var cd_layer: int = ts.get_custom_data_layers_count() - 1
+	ts.set_custom_data_layer_name(cd_layer, "surface_type")
+	var surface_for_id := {}
+	for id in ice1_ids:
+		surface_for_id[id] = SurfaceType.Kind.ICE1
+	for id in ice2_ids:
+		surface_for_id[id] = SurfaceType.Kind.ICE2
+	for id in range(1, max_id + 1):
+		var td_surf: TileData = src.get_tile_data(Vector2i(id - 1, 0), 0)
+		var s: int = surface_for_id.get(id, SurfaceType.Kind.NONE)
+		td_surf.set_custom_data("surface_type", s)
 
 	if with_collision:
 		ts.add_physics_layer()
