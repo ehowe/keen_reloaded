@@ -28,3 +28,34 @@ func test_step_ground_speed_scale_multiplies_target():
 	for i in 50:
 		capped = SurfacePhysics.step_ground(capped, 1.0, 480.0, 0.5, 4000.0, 6000.0, 0.016)
 	assert_almost_eq(capped, 240.0, 0.5, "caps at scaled target")
+
+func test_step_ice1_entry_caps_overspeed():
+	# landing faster than cap -> clamped to cap, sign preserved
+	assert_almost_eq(SurfacePhysics.step_ice1_entry(700.0, 480.0), 480.0, 0.01, "right overspeed capped")
+	assert_almost_eq(SurfacePhysics.step_ice1_entry(-700.0, 480.0), -480.0, 0.01, "left overspeed capped")
+	# under cap -> unchanged
+	assert_almost_eq(SurfacePhysics.step_ice1_entry(300.0, 480.0), 300.0, 0.01, "under cap unchanged")
+
+func test_step_ice1_zero_friction_no_input():
+	# CORE assertion: releasing input on ice preserves velocity exactly
+	var vx := 480.0
+	for i in 60:
+		vx = SurfacePhysics.step_ice1(vx, 0.0, 480.0, 1500.0, 0.016)
+	assert_almost_eq(vx, 480.0, 0.001, "zero friction: velocity unchanged with no input")
+
+func test_step_ice1_accelerates_with_input():
+	var vx := 0.0
+	vx = SurfacePhysics.step_ice1(vx, 1.0, 480.0, 1500.0, 0.016)
+	assert_almost_eq(vx, 1500.0 * 0.016, 0.01, "accelerates by ice_accel*delta")
+
+func test_step_ice1_turn_decelerates_through_zero():
+	# gliding right at full, hold left -> decel through zero toward -cap
+	var vx := 480.0
+	for i in 200:
+		vx = SurfacePhysics.step_ice1(vx, -1.0, 480.0, 1500.0, 0.016)
+	assert_lte(vx, 0.0, "reversed sign within 200 frames")
+	# and eventually reaches -cap
+	vx = 480.0
+	for i in 1000:
+		vx = SurfacePhysics.step_ice1(vx, -1.0, 480.0, 1500.0, 0.016)
+	assert_almost_eq(vx, -480.0, 0.5, "reaches -cap when holding opposite")
