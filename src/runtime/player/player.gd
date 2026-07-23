@@ -78,6 +78,7 @@ var _overworld_dir: int = Direction.DOWN
 var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input while nonzero
 var _dead: bool = false
 var _pogo_bounce_timer: float = 0.0
+var _ground_tml: TileMapLayer = null
 
 
 ## First node in the "player" group on `tree`, or null when the tree is null or
@@ -112,6 +113,38 @@ func set_mode(m: int) -> void:
 	_mode = m
 	_apply_collision_for_mode()
 	_align_sprite_feet()
+
+
+## Injects the geometry TileMapLayer the player stands on, so the surface type
+## under its feet can be read each grounded frame. Set by LevelRuntime at spawn.
+func set_ground_tilemap(tml: TileMapLayer) -> void:
+	_ground_tml = tml
+
+
+## Surface type under the player's feet this frame (NONE/ICE1/ICE2). Reads the
+## geometry TileMapLayer's surface_type custom data at the foot cell. Returns
+## NONE when no tilemap is set, the cell is empty, or the tileset has no
+## surface_type layer (migration-safe).
+func _read_surface_under_feet() -> int:
+	if _ground_tml == null or _ground_tml.tile_set == null:
+		return SurfaceType.Kind.NONE
+	var ts: TileSet = _ground_tml.tile_set
+	# Migration safety: a tileset without the surface_type layer reads NONE
+	# (get_custom_data can error on an absent layer in 4.7).
+	if ts.get_custom_data_layer_by_name("surface_type") < 0:
+		return SurfaceType.Kind.NONE
+	var col := get_node_or_null(COLLISION_LEVEL) as CollisionShape2D
+	if col == null or not (col.shape is RectangleShape2D):
+		return SurfaceType.Kind.NONE
+	var foot_y := (col.shape as RectangleShape2D).size.y * 0.5
+	# Sample 1px below the foot so we land in the tile beneath, not the one
+	# whose top the foot rests on.
+	var foot := global_position + Vector2(0, foot_y + 1.0)
+	var cell := _ground_tml.local_to_map(_ground_tml.to_local(foot))
+	var td: TileData = _ground_tml.get_cell_tile_data(cell)
+	if td == null:
+		return SurfaceType.Kind.NONE
+	return int(td.get_custom_data("surface_type"))
 
 
 ## Enables only the current mode's CollisionShape2D and disables the other, so
