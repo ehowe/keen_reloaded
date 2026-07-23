@@ -66,3 +66,33 @@ func test_step_ice2_pins_entry_direction_speed():
 	assert_almost_eq(SurfacePhysics.step_ice2(-1.0, 480.0), -480.0, 0.001, "left entry pins -slide_speed")
 	# incoming velocity is irrelevant once pinned
 	assert_almost_eq(SurfacePhysics.step_ice2(1.0, 480.0), 480.0, 0.001, "pin ignores incoming vx")
+
+func test_coast_decel_for_brings_to_zero_in_fixed_distance():
+	# Constant decel a = v0^2 / (2d) stops the body in exactly d pixels.
+	# Integrate move_toward steps and sum the distance travelled.
+	var d := 96.0            # 1.5 tiles
+	var v0 := 480.0
+	var decel := SurfacePhysics.coast_decel_for(v0, d)
+	assert_gt(decel, 0.0, "positive decel for moving body")
+	var vx := v0
+	var travelled := 0.0
+	var frames := 0
+	while absf(vx) > 0.0001 and frames < 10000:
+		vx = SurfacePhysics.step_coast(vx, decel, 0.016)
+		travelled += absf(vx) * 0.016
+		frames += 1
+	assert_almost_eq(vx, 0.0, 0.5, "reaches zero")
+	# With move_toward the last step can slightly overshoot the analytic stop;
+	# the travelled distance is within one step's worth (v0*delta) of d.
+	assert_almost_eq(travelled, d, v0 * 0.016, "stops within ~one frame of 1.5 tiles")
+
+func test_coast_decel_for_zero_distance_is_noop():
+	assert_eq(SurfacePhysics.coast_decel_for(480.0, 0.0), 0.0, "zero distance -> no decel")
+
+func test_step_coast_monotonic_to_zero():
+	var decel := SurfacePhysics.coast_decel_for(480.0, 96.0)
+	var vx := 480.0
+	for i in 200:
+		vx = SurfacePhysics.step_coast(vx, decel, 0.016)
+		assert_gte(vx, 0.0, "never overshoots past zero")
+	assert_almost_eq(vx, 0.0, 0.5, "reaches zero")
