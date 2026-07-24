@@ -108,3 +108,35 @@ func test_step_grounded_speed_scale_applies_when_input_locked():
 	for i in 100:
 		p._step_grounded(ST.Kind.NONE, 1.0, 0.016)
 	assert_almost_eq(p.velocity.x, p.run_speed * 0.5, 1.0, "caps at scaled target while locked")
+
+
+func test_step_grounded_ice1_zero_friction_no_input():
+	var p := _new_player()
+	p.velocity.x = 480.0
+	for i in 60:
+		p._step_grounded(ST.Kind.ICE1, 0.0, 0.016)
+	assert_almost_eq(p.velocity.x, 480.0, 0.001, "ice1: velocity preserved with no input")
+
+
+func test_step_grounded_ice1_accelerates_with_input():
+	var p := _new_player()
+	p.velocity.x = 0.0
+	p._step_grounded(ST.Kind.ICE1, 1.0, 0.016)
+	assert_almost_eq(p.velocity.x, p.ice_accel * 0.016, 0.01, "ice1: accelerates by ice_accel*delta")
+
+
+func test_step_grounded_ice1_entry_caps_overspeed():
+	var p := _new_player()
+	p.ice_max_speed_cap = 480.0
+	p.velocity.x = 700.0          # landed faster than cap (e.g. from a leap)
+	p._step_grounded(ST.Kind.ICE1, 1.0, 0.016)
+	assert_almost_eq(p.velocity.x, 480.0, 0.5, "ice1: entry caps overspeed to cap")
+
+
+func test_step_grounded_ice1_shows_walking_while_glding():
+	# velocity-based anim (absf(vx)>1.0 -> Walking) already handles this; assert it.
+	var p := _new_player()
+	p._ice2_locked = false
+	var moving := absf(480.0) > 1.0 and not p._ice2_locked
+	assert_true(moving, "ice1 glide counts as moving -> Walking")
+	assert_eq(p._current_anim(true, moving, false, false, false), "Walking")
