@@ -52,6 +52,12 @@ const COLLISION_OVERWORLD := "Overworld"
 ## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
 @export var bounce_decay: float = 3000.0
 @export var death_launch_speed: float = 800.0
+@export var ground_accel: float = 4000.0
+@export var ground_decel: float = 6000.0
+@export var ice_accel: float = 1500.0
+@export var ice_max_speed_cap: float = 480.0
+@export var ice2_slide_speed: float = 480.0
+@export var coast_distance: float = 96.0   # Constants.TILE * 1.5
 
 var score: int = 0
 var health: int = 1
@@ -79,6 +85,12 @@ var _bounce_vx: float = 0.0  # active bounce impulse; overrides horizontal input
 var _dead: bool = false
 var _pogo_bounce_timer: float = 0.0
 var _ground_tml: TileMapLayer = null
+var _prev_surface: int = SurfaceType.Kind.NONE
+var _coasting: bool = false
+var _coast_decel: float = 0.0
+var _coast_steering: bool = false
+var _ice2_locked: bool = false
+var _ice2_entry_dir: float = 0.0
 
 
 ## First node in the "player" group on `tree`, or null when the tree is null or
@@ -168,6 +180,52 @@ func _set_collision_disabled_deferred(node_name: String, disabled: bool) -> void
 		col.set_deferred("disabled", disabled)
 
 
+## Grounded surface dispatch. Reads NO input and touches NO floor — it only
+## mutates velocity.x + the ice/coast state flags from `surface` and `dir`.
+## Called once per grounded frame from _physics_process. Pure-ish seam: tests
+## call it directly with a forced surface (no TileMapLayer/floor needed).
+func _step_grounded(surface: int, dir: float, delta: float) -> void:
+	var scale := _speed_scale if _input_locked else 1.0
+	match surface:
+		SurfaceType.Kind.ICE2:
+			_step_ice2_ground()
+		SurfaceType.Kind.ICE1:
+			_ice2_locked = false
+			velocity.x = SurfacePhysics.step_ice1_entry(velocity.x, ice_max_speed_cap)
+			velocity.x = SurfacePhysics.step_ice1(velocity.x, dir, ice_max_speed_cap, ice_accel, delta)
+			_end_coast_if_active()
+		_:
+			_ice2_locked = false
+			if _coasting:
+				_step_coast_ground(dir, delta)
+			elif (_prev_surface == SurfaceType.Kind.ICE1 or _prev_surface == SurfaceType.Kind.ICE2) and absf(velocity.x) > 1.0:
+				# ice -> normal ground transition: begin the fixed-distance coast
+				_coasting = true
+				_coast_steering = false
+				_coast_decel = SurfacePhysics.coast_decel_for(velocity.x, coast_distance)
+				velocity.x = SurfacePhysics.step_coast(velocity.x, _coast_decel, delta)
+			else:
+				velocity.x = SurfacePhysics.step_ground(velocity.x, dir, run_speed, scale, ground_accel, ground_decel, delta)
+	_prev_surface = surface
+
+
+## No-op unless coasting; kept as a named helper for the ICE1 branch.
+func _end_coast_if_active() -> void:
+	if _coasting:
+		_coasting = false
+		_coast_steering = false
+
+
+# ICE2 and coast ground steps are added in later tasks; stubs so the
+# dispatcher compiles now.
+func _step_ice2_ground() -> void:
+	pass
+
+
+func _step_coast_ground(_dir: float, _delta: float) -> void:
+	pass
+
+
 func _physics_process(delta: float) -> void:
 	if _dead:
 		move_and_slide()
@@ -200,8 +258,8 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0.0, pogo_drag * delta)
 		# else (on_floor, no input): preserve momentum for the bounce
 	elif on_floor:
-		velocity.x = dir * run_speed * (_speed_scale if _input_locked else 1.0)
-		if dir != 0:
+		_step_grounded(_read_surface_under_feet(), dir, delta)
+		if dir != 0 and not _ice2_locked:
 			_facing = signi(dir)
 	elif _jumping and _jump_dir != 0.0 and dir != 0.0:
 		# moving jump: slow air steer toward input; releasing input preserves momentum

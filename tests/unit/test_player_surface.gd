@@ -74,3 +74,37 @@ func test_read_surface_none_when_no_custom_data_layer():
 	p.set_ground_tilemap(tml)
 	p.global_position = Vector2(8, 8 - 48)
 	assert_eq(p._read_surface_under_feet(), ST.Kind.NONE, "missing layer -> NONE")
+
+
+func test_step_grounded_normal_accelerates_then_decelerates():
+	var p := _new_player()
+	# from rest, hold right -> accelerates toward run_speed (does not snap)
+	p.velocity.x = 0.0
+	p._step_grounded(ST.Kind.NONE, 1.0, 0.016)
+	assert_lt(p.velocity.x, p.run_speed, "accelerates, does not snap to run_speed")
+	assert_gt(p.velocity.x, 0.0, "moving right")
+	# build up real speed before testing deceleration — the "no instant stop"
+	# property must hold from a representative speed, not a 1-frame creep
+	# (a single accel frame yields less speed than one decel frame removes, by
+	# design: decel is snappier than accel for responsive feel).
+	for i in 10:
+		p._step_grounded(ST.Kind.NONE, 1.0, 0.016)
+	var mid := p.velocity.x
+	# release -> decelerates toward 0 (does not snap-stop)
+	p._step_grounded(ST.Kind.NONE, 0.0, 0.016)
+	assert_lt(absf(p.velocity.x), mid, "decelerating after release")
+	assert_gt(absf(p.velocity.x), 0.0, "not yet stopped (no instant stop)")
+	# eventually reaches run_speed when held
+	p.velocity.x = 0.0
+	for i in 100:
+		p._step_grounded(ST.Kind.NONE, 1.0, 0.016)
+	assert_almost_eq(p.velocity.x, p.run_speed, 1.0, "reaches run_speed when held")
+
+
+func test_step_grounded_speed_scale_applies_when_input_locked():
+	var p := _new_player()
+	p.lock_input(1.0, 0.5)   # exit walk: half speed
+	p.velocity.x = 0.0
+	for i in 100:
+		p._step_grounded(ST.Kind.NONE, 1.0, 0.016)
+	assert_almost_eq(p.velocity.x, p.run_speed * 0.5, 1.0, "caps at scaled target while locked")
