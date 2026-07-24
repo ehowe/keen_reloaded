@@ -230,8 +230,23 @@ func _step_ice2_ground() -> void:
 	velocity.x = SurfacePhysics.step_ice2(_ice2_entry_dir, ice2_slide_speed)
 
 
-func _step_coast_ground(_dir: float, _delta: float) -> void:
-	pass
+## Coast ground step (normal ground after ice). No input: decelerate at the
+## fixed-distance rate toward 0. Input held: suspend auto-decel and apply
+## type-1 steering; releasing input recomputes the decel from the current
+## speed (so the guaranteed 1.5-tile stop holds only for an uninterrupted
+## coast). Exits coast when velocity reaches ~0.
+func _step_coast_ground(dir: float, delta: float) -> void:
+	if dir != 0.0:
+		_coast_steering = true
+		velocity.x = SurfacePhysics.step_ice1(velocity.x, dir, ice_max_speed_cap, ice_accel, delta)
+	else:
+		if _coast_steering:
+			_coast_decel = SurfacePhysics.coast_decel_for(velocity.x, coast_distance)
+			_coast_steering = false
+		velocity.x = SurfacePhysics.step_coast(velocity.x, _coast_decel, delta)
+	if absf(velocity.x) <= 1.0:
+		_coasting = false
+		velocity.x = 0.0
 
 
 func _physics_process(delta: float) -> void:
