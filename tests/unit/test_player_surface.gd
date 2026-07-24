@@ -263,3 +263,44 @@ func test_player_ground_tilemap_injected_after_spawn():
 	var p := rt.player as Player
 	assert_not_null(p, "player spawned")
 	assert_not_null(p._ground_tml, "geometry TileMapLayer injected into player")
+
+
+func test_airborne_gap_prevents_coast_on_non_ice_landing():
+	# Jumping off ice then landing on normal ground must NOT coast.
+	var p := _new_player()
+	p.velocity.x = 480.0
+	p._prev_surface = ST.Kind.ICE1
+	p._was_on_floor = true   # was grounded last frame
+	p._physics_process(0.016)   # airborne frame: resets the surface session
+	assert_eq(p._prev_surface, ST.Kind.NONE, "prev surface reset while airborne")
+	# Now land on normal ground (NONE): no coast should begin.
+	p._step_grounded(ST.Kind.NONE, 0.0, 0.016)
+	assert_false(p._coasting, "no coast after airborne gap onto normal ground")
+
+
+func test_airborne_gap_prevents_stale_ice2_resume():
+	# Jump off ICE2 (no air momentum) then land back on ICE2 must NOT resume
+	# the old slide — a fresh entry (with horizontal velocity) is required.
+	var p := _new_player()
+	p._ice2_locked = true
+	p._ice2_entry_dir = 1.0
+	p.velocity.x = 0.0   # straight-up jump: no horizontal momentum in air
+	p._was_on_floor = true
+	p._physics_process(0.016)   # airborne: resets the session
+	assert_false(p._ice2_locked, "ice2 lock cleared while airborne")
+	# Land on ICE2 with no horizontal velocity: stands, does not resume slide.
+	p._step_grounded(ST.Kind.ICE2, 0.0, 0.016)
+	assert_false(p._ice2_locked, "no slide resume — fresh entry needed")
+	assert_almost_eq(p.velocity.x, 0.0, 0.01, "stands still on fresh ICE2 landing")
+
+
+func test_ice2_jump_carries_slide_direction():
+	# Sliding right on ICE2 (vx>0) with no move input: jump direction should
+	# follow the slide momentum, not zero out (straight up).
+	var p := _new_player()
+	p.velocity.x = 480.0
+	p._coyote = 0.1
+	Input.action_press("jump")   # no move_right pressed -> dir is 0
+	p._physics_process(0.016)    # initiates wind-up, captures jump dir
+	Input.action_release("jump")
+	assert_eq(p._jump_dir, 1.0, "jump dir follows slide momentum, not zero")

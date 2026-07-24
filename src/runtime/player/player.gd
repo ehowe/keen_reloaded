@@ -52,7 +52,7 @@ const COLLISION_OVERWORLD := "Overworld"
 ## How fast a bounce impulse (from a yorp bump) decays back to 0. Higher = snappier.
 @export var bounce_decay: float = 3000.0
 @export var death_launch_speed: float = 800.0
-@export var ground_accel: float = 4000.0
+@export var ground_accel: float = 3000.0
 @export var ground_decel: float = 6000.0
 @export var ice_accel: float = 1500.0
 @export var ice_max_speed_cap: float = 480.0
@@ -86,6 +86,7 @@ var _dead: bool = false
 var _pogo_bounce_timer: float = 0.0
 var _ground_tml: TileMapLayer = null
 var _prev_surface: int = SurfaceType.Kind.NONE
+var _was_on_floor: bool = false
 var _coasting: bool = false
 var _coast_decel: float = 0.0
 var _coast_steering: bool = false
@@ -262,6 +263,14 @@ func _physics_process(delta: float) -> void:
 		velocity.y = max_fall
 
 	var on_floor := is_on_floor()
+	if not on_floor and _was_on_floor:
+		# Left the ground (jump or walk-off): end the grounded surface session
+		# so a fresh landing reads the new surface, not stale ice/coast state.
+		_ice2_locked = false
+		_coasting = false
+		_coast_steering = false
+		_prev_surface = SurfaceType.Kind.NONE
+	_was_on_floor = on_floor
 	var dir := _forced_dir if _input_locked else Input.get_axis("move_left", "move_right")
 	if _windup > 0.0:
 		# wind-up: halt horizontal; direction locked at jump press for launch
@@ -300,7 +309,7 @@ func _physics_process(delta: float) -> void:
 	# Begin a grounded jump wind-up: play the Jump anim once, launch when it ends.
 	if _buffer > 0.0 and _coyote > 0.0 and not _pogo and _windup <= 0.0:
 		_windup = _jump_anim_duration()
-		_jump_dir = sign(dir)
+		_jump_dir = sign(dir) if dir != 0.0 else sign(velocity.x)
 		_buffer = 0.0
 		_coyote = 0.0
 		AudioManager.play_sfx("jump")
