@@ -192,6 +192,7 @@ func _spawn_player(level: LevelData, ts: int) -> void:
 		Vector2(level.width * ts, level.height * ts) * RUNTIME_SCALE
 	)
 	p.set_camera_bounds(world_bounds)
+	p.set_ground_tilemap(layers[LevelData.LAYER_GEOMETRY])
 	if level.map_kind == LevelData.MapKind.OVERWORLD:
 		p.set_mode(Player.Mode.OVERWORLD)
 	_build_hud(p)

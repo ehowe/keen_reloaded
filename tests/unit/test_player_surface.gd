@@ -239,3 +239,27 @@ func test_coast_cancels_when_stepping_onto_ice2():
 	p.velocity.x = 200.0
 	p._step_grounded(ST.Kind.ICE2, 0.0, 0.016)
 	assert_false(p._coasting, "coast cancelled on ICE2 entry")
+
+
+func test_player_ground_tilemap_injected_after_spawn():
+	# LevelRuntime.build wires the geometry TileMapLayer into the player.
+	# We assert the wiring contract directly: after set_ground_tilemap, the
+	# player holds the ref and reads from it (covered in Task 6). Here we only
+	# confirm LevelRuntime calls it — by checking the player's _ground_tml is
+	# non-null after a real build with a procedural tileset.
+	var lv := LevelData.new()
+	lv.width = 3
+	lv.height = 2
+	lv.tile_size = 16
+	lv.fill_blank()
+	# paint a geometry floor row at y=1 (cells 0..2) with tile id 1
+	lv.set_geometry_tile(0, 1, 1)
+	lv.set_geometry_tile(1, 1, 1)
+	lv.set_geometry_tile(2, 1, 1)
+	lv.player_spawn = Vector2i(1, 0)
+	var rt: LevelRuntime = add_child_autofree(LevelRuntime.new())
+	rt.build(lv)
+	await get_tree().physics_frame
+	var p := rt.player as Player
+	assert_not_null(p, "player spawned")
+	assert_not_null(p._ground_tml, "geometry TileMapLayer injected into player")
