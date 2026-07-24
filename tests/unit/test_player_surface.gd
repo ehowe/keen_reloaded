@@ -195,7 +195,6 @@ func test_coast_enters_on_ice_to_ground_transition():
 func test_coast_stops_in_about_1_5_tiles():
 	var p := _new_player()
 	p.coast_distance = 96.0
-	var start_x := 0.0
 	p.velocity.x = 480.0
 	p._prev_surface = ST.Kind.ICE1
 	# drive coast with no input until stopped or 2000 frames
@@ -231,18 +230,12 @@ func test_coast_input_suspends_decel_and_steer_accelerates():
 	assert_false(p._coast_steering, "steering flag cleared on release")
 
 
-func test_coast_jump_cancels_via_surface_reset():
-	# A jump leaves the ground; _step_grounded isn't called while airborne, and
-	# on landing _prev_surface has been reset, so no stale coast resumes. Simulate
-	# by NOT calling _step_grounded for the airborne frames then landing on NONE
-	# with _prev_surface != ICE.
+func test_coast_cancels_when_stepping_onto_ice2():
+	# Stepping onto ICE2 mid-coast ends the stale coast so a fresh one can begin
+	# on the next ice->ground exit (dispatcher's ICE2 branch calls _end_coast_if_active).
 	var p := _new_player()
 	p._coasting = true
 	p._coast_decel = 1200.0
 	p.velocity.x = 200.0
-	# airborne (no _step_grounded calls), then land on NONE fresh:
-	p._prev_surface = ST.Kind.NONE
-	p._step_grounded(ST.Kind.NONE, 0.0, 0.016)
-	# Not an ice->ground transition, and coasting was true -> it continues ONE
-	# frame then this is fine; the point: no NEW coast entry. Verify decel path:
-	assert_true(p._coasting, "existing coast continues on landing if still moving")
+	p._step_grounded(ST.Kind.ICE2, 0.0, 0.016)
+	assert_false(p._coasting, "coast cancelled on ICE2 entry")

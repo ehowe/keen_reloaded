@@ -188,6 +188,7 @@ func _step_grounded(surface: int, dir: float, delta: float) -> void:
 	match surface:
 		SurfaceType.Kind.ICE2:
 			_step_ice2_ground()
+			_end_coast_if_active()
 		SurfaceType.Kind.ICE1:
 			_ice2_locked = false
 			velocity.x = SurfacePhysics.step_ice1_entry(velocity.x, ice_max_speed_cap)
@@ -217,7 +218,6 @@ func _end_coast_if_active() -> void:
 		_coast_decel = 0.0
 
 
-# Coast ground step is added in a later task; stub so the dispatcher compiles.
 ## ICE2 ground step: on the first locked frame with horizontal velocity,
 ## record entry_dir and pin to slide_speed. Each subsequent locked frame
 ## re-pins. No entry velocity -> no slide (stands). Movement keys ignored.
