@@ -185,7 +185,6 @@ func _set_collision_disabled_deferred(node_name: String, disabled: bool) -> void
 ## Called once per grounded frame from _physics_process. Pure-ish seam: tests
 ## call it directly with a forced surface (no TileMapLayer/floor needed).
 func _step_grounded(surface: int, dir: float, delta: float) -> void:
-	var scale := _speed_scale if _input_locked else 1.0
 	match surface:
 		SurfaceType.Kind.ICE2:
 			_step_ice2_ground()
@@ -205,6 +204,7 @@ func _step_grounded(surface: int, dir: float, delta: float) -> void:
 				_coast_decel = SurfacePhysics.coast_decel_for(velocity.x, coast_distance)
 				velocity.x = SurfacePhysics.step_coast(velocity.x, _coast_decel, delta)
 			else:
+				var scale := _speed_scale if _input_locked else 1.0
 				velocity.x = SurfacePhysics.step_ground(velocity.x, dir, run_speed, scale, ground_accel, ground_decel, delta)
 	_prev_surface = surface
 
@@ -214,6 +214,7 @@ func _end_coast_if_active() -> void:
 	if _coasting:
 		_coasting = false
 		_coast_steering = false
+		_coast_decel = 0.0
 
 
 # ICE2 and coast ground steps are added in later tasks; stubs so the
