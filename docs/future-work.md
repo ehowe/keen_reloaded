@@ -32,6 +32,27 @@ Re-filter on text change, no rebuild needed (buttons already exist).
 **Touched when implemented:** `src/editor/palette_panel.gd`,
 `src/core/tile_atlas.gd`, TileSet authoring workflow.
 
+## Ice tile config (procedural fallback)
+
+**Status:** Deferred (post ice-physics feature, 2026-07-23).
+
+**Goal:** Decide which solid-color tile ids read as ice for dev/test levels
+that use the procedural tileset fallback (levels authored without a
+`tileset_ref`).
+
+**Context:** `ProceduralTileSet.build(max_id, tile_size, with_collision,
+ice1_ids = [], ice2_ids = [])` stamps the given tile ids with the
+`surface_type` custom-data layer — Type 1 (low-friction, steerable) for
+`ice1_ids`, Type 2 (forced slide) for `ice2_ids`. The call site
+`level_runtime.gd:125` currently passes no ice ids, so the procedural
+fallback reads no tiles as ice. Authored-tileset levels (with a
+`tileset_ref`) set `surface_type` per tile in the TileSet editor directly —
+no code change needed for those.
+
+**To enable in a procedural test level:** pass the chosen tile id(s) at the
+geometry call site, e.g.
+`ts_geo = ProceduralTileSet.build(max_id, ts, true, [], [ice2_id])`.
+
 ## Code cleanup — review follow-ups
 
 **Status:** Tracked (from the code-review pass on 2026-07-16). Tier 1 landed in
