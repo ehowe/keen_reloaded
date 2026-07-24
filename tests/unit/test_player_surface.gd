@@ -172,9 +172,12 @@ func test_step_grounded_ice2_pins_each_frame_while_locked():
 
 
 func test_ice2_locked_forces_idle_anim():
-	# While sliding, |vx|>0 but anim must be Idle (call site passes moving=false).
+	# Drive a real ICE2 slide entry, then derive `moving` the way production
+	# does (absf(velocity.x) > 1.0 and not _ice2_locked) — locked => Idle.
 	var p := _new_player()
-	p._ice2_locked = true
-	var moving := absf(480.0) > 1.0 and not p._ice2_locked
-	assert_false(moving, "ice2 locked -> moving arg is false")
+	p.ice2_slide_speed = 480.0
+	p.velocity.x = 250.0
+	p._step_grounded(ST.Kind.ICE2, 0.0, 0.016)  # enters slide
+	var moving := absf(p.velocity.x) > 1.0 and not p._ice2_locked
+	assert_false(moving, "ice2 locked -> moving false -> Idle")
 	assert_eq(p._current_anim(true, moving, false, false, false), "Idle")
