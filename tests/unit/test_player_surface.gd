@@ -133,10 +133,12 @@ func test_step_grounded_ice1_entry_caps_overspeed():
 	assert_almost_eq(p.velocity.x, 480.0, 0.5, "ice1: entry caps overspeed to cap")
 
 
-func test_step_grounded_ice1_shows_walking_while_glding():
-	# velocity-based anim (absf(vx)>1.0 -> Walking) already handles this; assert it.
+func test_step_grounded_ice1_shows_walking_while_gliding():
+	# Drive a real ICE1 glide step, then derive `moving` the same way production
+	# does (absf(velocity.x) > 1.0) — no ice2 guard in production's moving calc.
 	var p := _new_player()
-	p._ice2_locked = false
-	var moving := absf(480.0) > 1.0 and not p._ice2_locked
+	p.velocity.x = 0.0
+	p._step_grounded(ST.Kind.ICE1, 1.0, 0.016)
+	var moving := absf(p.velocity.x) > 1.0
 	assert_true(moving, "ice1 glide counts as moving -> Walking")
 	assert_eq(p._current_anim(true, moving, false, false, false), "Walking")
