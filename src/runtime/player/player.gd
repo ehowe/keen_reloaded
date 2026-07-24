@@ -133,13 +133,13 @@ func _read_surface_under_feet() -> int:
 	# (get_custom_data can error on an absent layer in 4.7).
 	if ts.get_custom_data_layer_by_name("surface_type") < 0:
 		return SurfaceType.Kind.NONE
-	var col := get_node_or_null(COLLISION_LEVEL) as CollisionShape2D
-	if col == null or not (col.shape is RectangleShape2D):
+	# Foot offset from the Level collision shape (Vector2.ZERO if absent/non-rect).
+	var half := ShapeUtil.rect_half(self, COLLISION_LEVEL)
+	if half == Vector2.ZERO:
 		return SurfaceType.Kind.NONE
-	var foot_y := (col.shape as RectangleShape2D).size.y * 0.5
 	# Sample 1px below the foot so we land in the tile beneath, not the one
 	# whose top the foot rests on.
-	var foot := global_position + Vector2(0, foot_y + 1.0)
+	var foot := global_position + Vector2(0, half.y + 1.0)
 	var cell := _ground_tml.local_to_map(_ground_tml.to_local(foot))
 	var td: TileData = _ground_tml.get_cell_tile_data(cell)
 	if td == null:
