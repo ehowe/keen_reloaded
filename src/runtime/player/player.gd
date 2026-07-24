@@ -219,8 +219,18 @@ func _end_coast_if_active() -> void:
 
 # ICE2 and coast ground steps are added in later tasks; stubs so the
 # dispatcher compiles now.
+## ICE2 ground step: on the first locked frame with horizontal velocity,
+## record entry_dir and pin to slide_speed. Each subsequent locked frame
+## re-pins. No entry velocity -> no slide (stands). Movement keys ignored.
 func _step_ice2_ground() -> void:
-	pass
+	if not _ice2_locked:
+		if absf(velocity.x) > 1.0:
+			_ice2_entry_dir = signf(velocity.x)
+			_ice2_locked = true
+		else:
+			return   # dropped straight down: stand, jump only
+	if _ice2_locked:
+		velocity.x = SurfacePhysics.step_ice2(_ice2_entry_dir, ice2_slide_speed)
 
 
 func _step_coast_ground(_dir: float, _delta: float) -> void:
@@ -311,6 +321,11 @@ func _physics_process(delta: float) -> void:
 		_bounce_vx = move_toward(_bounce_vx, 0.0, bounce_decay * delta)
 
 	move_and_slide()
+	if _ice2_locked and is_on_wall():
+		# Slid into a wall: stop dead, clear the lock. Keen stands on the ICE2
+		# tile and can only jump (re-slide requires a new landing entry).
+		_ice2_locked = false
+		velocity.x = 0.0
 	if is_on_floor():
 		_jumping = false
 	if _pogo and is_on_floor():
@@ -504,7 +519,8 @@ func _sync_visual_level() -> void:
 		return
 	# Non-pogo: hide pogo sprites, normal animated-sprite logic
 	_hide_pogo_sprites()
-	var anim := _current_anim(on_floor, absf(velocity.x) > 1.0, _pogo, _shoot_timer > 0.0, _windup > 0.0)
+	var moving := absf(velocity.x) > 1.0 and not _ice2_locked
+	var anim := _current_anim(on_floor, moving, _pogo, _shoot_timer > 0.0, _windup > 0.0)
 	for name in LEVEL_SPRITES:
 		var n := get_node_or_null(name) as AnimatedSprite2D
 		if n == null:

@@ -142,3 +142,39 @@ func test_step_grounded_ice1_shows_walking_while_gliding():
 	var moving := absf(p.velocity.x) > 1.0
 	assert_true(moving, "ice1 glide counts as moving -> Walking")
 	assert_eq(p._current_anim(true, moving, false, false, false), "Walking")
+
+
+func test_step_grounded_ice2_entry_pins_slide_speed():
+	var p := _new_player()
+	p.ice2_slide_speed = 480.0
+	p.velocity.x = 250.0           # moving right on entry
+	p._step_grounded(ST.Kind.ICE2, 0.0, 0.016)
+	assert_true(p._ice2_locked, "locked on entry")
+	assert_eq(p._ice2_entry_dir, 1.0, "entry dir is right")
+	assert_almost_eq(p.velocity.x, 480.0, 0.01, "pinned to +slide_speed")
+
+
+func test_step_grounded_ice2_no_entry_velocity_no_slide():
+	var p := _new_player()
+	p.velocity.x = 0.0             # dropped straight down: no horizontal velocity
+	p._step_grounded(ST.Kind.ICE2, 1.0, 0.016)   # movement key ignored anyway
+	assert_false(p._ice2_locked, "no slide when no entry velocity")
+	assert_almost_eq(p.velocity.x, 0.0, 0.01, "stands still")
+
+
+func test_step_grounded_ice2_pins_each_frame_while_locked():
+	var p := _new_player()
+	p._ice2_locked = true
+	p._ice2_entry_dir = -1.0
+	p.velocity.x = 123.0           # incoming vx irrelevant once locked
+	p._step_grounded(ST.Kind.ICE2, 1.0, 0.016)
+	assert_almost_eq(p.velocity.x, -480.0, 0.01, "re-pinned to entry_dir*slide_speed")
+
+
+func test_ice2_locked_forces_idle_anim():
+	# While sliding, |vx|>0 but anim must be Idle (call site passes moving=false).
+	var p := _new_player()
+	p._ice2_locked = true
+	var moving := absf(480.0) > 1.0 and not p._ice2_locked
+	assert_false(moving, "ice2 locked -> moving arg is false")
+	assert_eq(p._current_anim(true, moving, false, false, false), "Idle")
