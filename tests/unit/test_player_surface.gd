@@ -300,6 +300,7 @@ func test_ice2_jump_carries_slide_direction():
 	var p := _new_player()
 	p.velocity.x = 480.0
 	p._coyote = 0.1
+	p._buffer = 0.1   # GUT headless: Input.action_press won't trip just_pressed, so seed the buffer
 	Input.action_press("jump")   # no move_right pressed -> dir is 0
 	p._physics_process(0.016)    # initiates wind-up, captures jump dir
 	Input.action_release("jump")
