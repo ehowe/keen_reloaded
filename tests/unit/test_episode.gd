@@ -69,6 +69,25 @@ func test_green_dangly_stuff_registered_as_hazard_with_variant_schema():
 	assert_eq(String(schema[0].get("default")), "Normal")
 	assert_eq(schema[0].get("options"), ["Left Edge", "Normal", "Right Edge"])
 
+func test_ice_cannon_registered_as_hazard_with_facing_schema():
+	EntityRegistry.clear()
+	Keen1Episode.new().register_entities(EntityRegistry)
+	assert_true(EntityRegistry.has("keen1.ice_cannon"), "keen1.ice_cannon registered")
+	var e: Dictionary = EntityRegistry.get_entry("keen1.ice_cannon")
+	assert_eq(e["category"], EntityRegistry.CATEGORY_HAZARD, "category is HAZARD")
+	assert_true(e.get("scene", null) is PackedScene, "binds a runtime PackedScene")
+	var kinds: Array = e.get("map_kinds", [])
+	assert_true(kinds.has(LevelData.MapKind.LEVEL), "LEVEL kind allowed")
+	assert_false(kinds.has(LevelData.MapKind.OVERWORLD), "OVERWORLD excluded")
+	var schema := EntityRegistry.get_properties_schema("keen1.ice_cannon")
+	assert_eq(schema.size(), 1, "exactly one schema property")
+	assert_eq(String(schema[0].get("name")), "facing", "schema property name is facing")
+	assert_eq(String(schema[0].get("type")), "enum", "schema property type is enum")
+	assert_eq(String(schema[0].get("default")), "UpRight", "default facing is UpRight")
+	assert_eq(schema[0].get("options"),
+		["Up", "UpRight", "Right", "DownRight", "Down", "DownLeft", "Left", "UpLeft"],
+		"eight directional options")
+
 func test_level_entrance_has_variant_schema():
 	EntityRegistry.clear()
 	Keen1Episode.new().register_entities(EntityRegistry)

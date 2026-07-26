@@ -32,6 +32,7 @@ func register_entities(registry: Node) -> void:
 	var spike := preload("res://src/runtime/entities/spike.tscn")
 	var fire := preload("res://src/runtime/entities/fire.tscn")
 	var green_dangly := preload("res://src/runtime/entities/green_dangly_stuff.tscn")
+	var ice_cannon := preload("res://src/runtime/entities/ice_cannon.tscn")
 	registry.register("keen1.vorticon", registry.CATEGORY_ENEMY, "Vorticon", [], vorticon)
 	registry.register("keen1.yorp", registry.CATEGORY_ENEMY, "Yorp", [], yorp)
 	registry.register("keen1.garg", registry.CATEGORY_HAZARD, "Garg", [], garg)
@@ -43,6 +44,11 @@ func register_entities(registry: Node) -> void:
 		[{name = "variant", default = "Normal", type = "enum",
 			options = ["Left Edge", "Normal", "Right Edge"]}],
 		green_dangly)
+	registry.register("keen1.ice_cannon", registry.CATEGORY_HAZARD, "Ice Cannon",
+		[{name = "facing", default = "UpRight", type = "enum",
+			options = ["Up", "UpRight", "Right", "DownRight", "Down",
+				"DownLeft", "Left", "UpLeft"]}],
+		ice_cannon)
 	registry.register("keen1.lollipop", registry.CATEGORY_ITEM, "Lollipop", [], lollipop)
 	registry.register("keen1.soda", registry.CATEGORY_ITEM, "Soda", [], soda)
 	registry.register("keen1.pizza", registry.CATEGORY_ITEM, "Pizza", [], pizza)
