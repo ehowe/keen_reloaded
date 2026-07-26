@@ -5,6 +5,14 @@ extends GutTest
 ## wiring, and fire-spawns-projectile-at-muzzle.
 
 
+class FakePlayer extends CharacterBody2D:
+	var health: int = 3
+	func _ready() -> void:
+		add_to_group("player")
+	func take_damage(amount: int) -> void:
+		health = max(0, health - amount)
+
+
 func _new_cannon(facing: String = "UpRight") -> IceCannon:
 	var c: IceCannon = load("res://src/runtime/entities/ice_cannon.tscn").instantiate()
 	c.setup("keen1.ice_cannon", {"facing": facing})
@@ -129,10 +137,9 @@ func test_fire_spawns_projectile_at_muzzle_with_velocity():
 
 func test_handle_player_is_noop():
 	# The cannon builds no contact Area2D, so _handle_player is never
-	# invoked at runtime; verify the guard doesn't crash and does nothing.
+	# invoked at runtime; verify the guard neither crashes nor damages.
 	var c := _new_cannon()
-	var player := CharacterBody2D.new()
-	player.set("health", 3)  # dynamic; just ensures no mutation path runs
+	var player := FakePlayer.new()
 	add_child_autofree(player)
 	c._handle_player(player)
-	assert_eq(player.get("health"), 3, "cannon contact does not damage player")
+	assert_eq(player.health, 3, "cannon contact does not damage player")
