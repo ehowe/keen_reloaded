@@ -46,18 +46,18 @@ func _apply_facing() -> void:
 	# visible at a time; the visible one's metadata drives _fire().
 	var facing := String(properties.get("facing", "UpRight"))
 	var want := facing.to_lower()
+	var matched := false
 	for c in get_children():
 		if c is Sprite2D:
-			c.visible = (String(c.name).to_lower() == want)
+			var hit := (String(c.name).to_lower() == want)
+			c.visible = hit
+			if hit:
+				matched = true
+	if not matched:
+		push_warning("IceCannon: facing '%s' matched no sprite; defaulting to no visible muzzle (_fire will no-op)" % facing)
 
 
 func _add_body_shape() -> void:
-	# Idempotent: free any prior code-built body shape so a repeated
-	# _ready() (used by tests to re-tune @exports) rebuilds cleanly.
-	for c in get_children():
-		if c is CollisionShape2D:
-			remove_child(c)
-			c.free()
 	var shape := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(_BODY_SIZE, _BODY_SIZE)
@@ -66,12 +66,6 @@ func _add_body_shape() -> void:
 
 
 func _add_timer() -> void:
-	# Idempotent: free any prior code-built timer so a repeated _ready()
-	# (used by tests to re-tune period) reflects the current @export.
-	for c in get_children():
-		if c is Timer:
-			remove_child(c)
-			c.free()
 	var timer := Timer.new()
 	timer.wait_time = period
 	timer.autostart = true
@@ -103,6 +97,7 @@ func _read_start_offset(sprite: Sprite2D) -> Vector2:
 	var arr: PackedInt32Array = sprite.get_meta("projectile_start_position", PackedInt32Array())
 	if arr.size() >= 2:
 		return Vector2(float(arr[0]), float(arr[1]))
+	push_warning("IceCannon: sprite '%s' has no projectile_start_position metadata; spawning at center" % sprite.name)
 	return Vector2.ZERO
 
 

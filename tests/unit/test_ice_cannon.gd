@@ -107,15 +107,19 @@ func test_timer_configured_for_period():
 
 
 func test_period_export_overrides_wait_time():
-	var c := _new_cannon()
-	c.period = 2.5
-	c._ready()  # rebuild timer with new period
+	# Drive period through setup() properties (the real contract) instead of
+	# re-calling _ready(). Entity.setup() applies matching keys via set(), so
+	# @export period flows through before _ready() builds the Timer.
+	var c: IceCannon = load("res://src/runtime/entities/ice_cannon.tscn").instantiate()
+	c.setup("keen1.ice_cannon", {"facing": "UpRight", "period": 2.5})
+	add_child_autofree(c)
 	var timer: Timer = null
 	for child in c.get_children():
 		if child is Timer:
 			timer = child
 			break
-	assert_almost_eq(timer.wait_time, 2.5, 0.001, "period @export drives Timer.wait_time")
+	assert_not_null(timer, "Timer built")
+	assert_almost_eq(timer.wait_time, 2.5, 0.001, "period property drives Timer.wait_time")
 
 
 func test_fire_spawns_projectile_at_muzzle_with_velocity():
