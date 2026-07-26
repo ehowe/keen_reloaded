@@ -15,8 +15,10 @@ func _handle_player(player: Node) -> void:
 
 
 ## Drain the player's entire current health on contact (instakill). Shared by
-## the instakill hazard family (Spike/Fire/Clapper) so the contract lives in
-## one place. No-op when the body lacks the player damage contract.
+## the instakill hazard family (Spike/Fire/Clapper). No-op when the body
+## lacks the player damage contract. Non-Hazard nodes that need the same
+## contract (e.g. IceCannonProjectile, which extends Area2D, not Hazard)
+## mirror this verbatim — see ice_cannon_projectile.gd.
 func _instakill(player: Node) -> void:
 	if player.has_method("take_damage") and "health" in player:
 		player.take_damage(player.health)
