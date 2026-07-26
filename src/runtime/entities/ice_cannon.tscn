@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://b0n0s1tybh84e"]
+
+[ext_resource type="Texture2D" uid="uid://chitt08kubjlc" path="res://assets/sprites/Ice Cannon Projectile.png" id="1_hpm6q"]
+[ext_resource type="Texture2D" uid="uid://c6e2rh8ihc1fm" path="res://assets/tilesets/Ice Cannon.png" id="2_rkyu1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rawma"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i5du"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3s0d"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkgeb"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67ahn"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqdnc"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52pwl"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6twh1"]
+atlas = ExtResource("1_hpm6q")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4u6v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rawma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i5du")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3s0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gkgeb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67ahn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqdnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52pwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6twh1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
+atlas = ExtResource("2_rkyu1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccdw"]
+atlas = ExtResource("2_rkyu1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07erc"]
+atlas = ExtResource("2_rkyu1")
+region = Rect2(128, 0, 128, 128)
+
+[node name="IceCannon" type="Node2D" unique_id=493685079]
+
+[node name="Projectile" type="AnimatedSprite2D" parent="." unique_id=1748401079]
+visible = false
+sprite_frames = SubResource("SpriteFrames_x4u6v")
+frame_progress = 0.2821242
+
+[node name="UpRight" type="Sprite2D" parent="." unique_id=1578787612]
+texture = SubResource("AtlasTexture_x4u6v")
+metadata/projectile_start_position = PackedInt32Array(32, 32)
+metadata/projectile_vector = 315
+
+[node name="DownLeft" type="Sprite2D" parent="." unique_id=1403334933]
+visible = false
+rotation = 3.1415927
+texture = SubResource("AtlasTexture_x4u6v")
+metadata/projectile_start_position = PackedInt32Array(-32, -32)
+metadata/projectile_vector = 135
+
+[node name="UpLeft" type="Sprite2D" parent="." unique_id=582274832]
+visible = false
+texture = SubResource("AtlasTexture_qccdw")
+metadata/projectile_start_position = PackedInt32Array(-32, 32)
+metadata/projectile_vector = 45
+
+[node name="DownRight" type="Sprite2D" parent="." unique_id=1844353295]
+visible = false
+rotation = 3.1415927
+texture = SubResource("AtlasTexture_qccdw")
+metadata/projectile_start_position = PackedInt32Array(32, -32)
+metadata/projectile_vector = 225
+
+[node name="Up" type="Sprite2D" parent="." unique_id=1977010431]
+visible = false
+texture = SubResource("AtlasTexture_07erc")
+metadata/projectile_start_position = PackedInt32Array(0, 64)
+metadata/projectile_vector = 0
+
+[node name="Left" type="Sprite2D" parent="." unique_id=1325682336]
+visible = false
+rotation = -1.5707964
+texture = SubResource("AtlasTexture_07erc")
+metadata/projectile_start_position = PackedInt32Array(-64, 0)
+metadata/projectile_vector = 90
+
+[node name="Down" type="Sprite2D" parent="." unique_id=500682459]
+visible = false
+rotation = 3.1415927
+texture = SubResource("AtlasTexture_07erc")
+metadata/projectile_start_position = PackedInt32Array(0, -64)
+metadata/projectile_vector = 180
+
+[node name="Right" type="Sprite2D" parent="." unique_id=431273270]
+visible = false
+rotation = 1.5707964
+texture = SubResource("AtlasTexture_07erc")
+metadata/projectile_start_position = PackedInt32Array(64, 0)
+metadata/projectile_vector = 270
