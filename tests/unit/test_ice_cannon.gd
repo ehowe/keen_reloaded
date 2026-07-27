@@ -65,10 +65,10 @@ func test_direction_vector_for_each_facing_sprite():
 
 func test_read_start_offset_reads_metadata():
 	var c := _new_cannon()
-	# UpRight sprite carries PackedInt32Array(32, 32).
+	# UpRight sprite carries PackedInt32Array(32, -72).
 	var up_right := c.get_node("UpRight") as Sprite2D
 	var off := c._read_start_offset(up_right)
-	assert_eq(off, Vector2(32, 32), "UpRight muzzle offset read from metadata")
+	assert_eq(off, Vector2(32, -72), "UpRight muzzle offset read from metadata")
 
 
 func test_body_is_solid_and_has_no_contact_area():
@@ -131,8 +131,8 @@ func test_fire_spawns_projectile_at_muzzle_with_velocity():
 	assert_eq(parent.get_child_count(), before + 1, "_fire spawns one sibling")
 	var proj := parent.get_child(parent.get_child_count() - 1)
 	assert_true(proj is IceCannonProjectile, "sibling is IceCannonProjectile")
-	# UpRight muzzle offset (32,32) + cannon pos (100,100) = (132,132).
-	assert_eq(proj.global_position, Vector2(132, 132), "projectile spawned at muzzle offset")
+	# UpRight muzzle offset (32,-72) + cannon pos (100,100) = (132,28).
+	assert_eq(proj.global_position, Vector2(132, 28), "projectile spawned at muzzle offset")
 	# UpRight direction (315 deg) * speed (300) = (212.13, -212.13).
 	var expected_speed := c.projectile_speed
 	assert_almost_eq(proj.velocity.x, 0.7071067811865476 * expected_speed, 0.01, "velocity.x")

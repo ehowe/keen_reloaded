@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0n0s1tybh84e"]
+[gd_scene format=3 uid="uid://b0n0s1tybh84e"]
 
 [ext_resource type="Texture2D" uid="uid://c6e2rh8ihc1fm" path="res://assets/tilesets/Ice Cannon.png" id="1_body"]
-[ext_resource type="Script" path="res://src/runtime/entities/ice_cannon.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://d3rffaluajsv4" path="res://src/runtime/entities/ice_cannon.gd" id="2_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x4u6v"]
 atlas = ExtResource("1_body")
@@ -15,57 +15,66 @@ region = Rect2(256, 0, 128, 128)
 atlas = ExtResource("1_body")
 region = Rect2(128, 0, 128, 128)
 
-[node name="IceCannon" type="CharacterBody2D"]
+[node name="IceCannon" type="CharacterBody2D" unique_id=1289501621]
 script = ExtResource("2_script")
 
-[node name="UpRight" type="Sprite2D" parent="."]
+[node name="UpRight" type="Sprite2D" parent="." unique_id=1891730489]
+visible = false
+position = Vector2(-32, -32)
 texture = SubResource("AtlasTexture_x4u6v")
-metadata/projectile_start_position = PackedInt32Array(32, 32)
+metadata/projectile_start_position = PackedInt32Array(32, -72)
 metadata/projectile_vector = 315
 
-[node name="DownLeft" type="Sprite2D" parent="."]
+[node name="DownLeft" type="Sprite2D" parent="." unique_id=1530825260]
 visible = false
+position = Vector2(-32, -32)
 rotation = 3.1415927
 texture = SubResource("AtlasTexture_x4u6v")
-metadata/projectile_start_position = PackedInt32Array(-32, -32)
+metadata/projectile_start_position = PackedInt32Array(-48, 0)
 metadata/projectile_vector = 135
 
-[node name="UpLeft" type="Sprite2D" parent="."]
+[node name="UpLeft" type="Sprite2D" parent="." unique_id=2046880132]
 visible = false
+position = Vector2(-32, -32)
 texture = SubResource("AtlasTexture_qccdw")
-metadata/projectile_start_position = PackedInt32Array(-32, 32)
+metadata/projectile_start_position = PackedInt32Array(-64, -72)
 metadata/projectile_vector = 45
 
-[node name="DownRight" type="Sprite2D" parent="."]
+[node name="DownRight" type="Sprite2D" parent="." unique_id=1369426224]
 visible = false
+position = Vector2(-32, -32)
 rotation = 3.1415927
 texture = SubResource("AtlasTexture_qccdw")
-metadata/projectile_start_position = PackedInt32Array(32, -32)
+metadata/projectile_start_position = PackedInt32Array(0, 0)
 metadata/projectile_vector = 225
 
-[node name="Up" type="Sprite2D" parent="."]
+[node name="Up" type="Sprite2D" parent="." unique_id=1275356639]
 visible = false
+position = Vector2(-32, -32)
 texture = SubResource("AtlasTexture_07erc")
-metadata/projectile_start_position = PackedInt32Array(0, 64)
+metadata/projectile_start_position = PackedInt32Array(-32, -128)
 metadata/projectile_vector = 0
 
-[node name="Left" type="Sprite2D" parent="."]
+[node name="Left" type="Sprite2D" parent="." unique_id=659810425]
 visible = false
+position = Vector2(-32, -32)
 rotation = -1.5707964
 texture = SubResource("AtlasTexture_07erc")
-metadata/projectile_start_position = PackedInt32Array(-64, 0)
+metadata/projectile_start_position = PackedInt32Array(-128, -32)
 metadata/projectile_vector = 90
 
-[node name="Down" type="Sprite2D" parent="."]
+[node name="Down" type="Sprite2D" parent="." unique_id=20056414]
 visible = false
+position = Vector2(-32, -32)
 rotation = 3.1415927
 texture = SubResource("AtlasTexture_07erc")
-metadata/projectile_start_position = PackedInt32Array(0, -64)
+metadata/projectile_start_position = PackedInt32Array(-32, 64)
 metadata/projectile_vector = 180
 
-[node name="Right" type="Sprite2D" parent="."]
+[node name="Right" type="Sprite2D" parent="." unique_id=506954395]
 visible = false
+position = Vector2(-32, -32)
 rotation = 1.5707964
 texture = SubResource("AtlasTexture_07erc")
-metadata/projectile_start_position = PackedInt32Array(64, 0)
+metadata/projectile_start_position = PackedInt32Array(64, -32)
 metadata/projectile_vector = 270
