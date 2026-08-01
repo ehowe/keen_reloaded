@@ -53,27 +53,29 @@ region = Rect2(340, 0, 64, 96)
 [sub_resource type="SpriteFrames" id="SpriteFrames_07erc"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i43k8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qdiba")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 5.0
-}]
+		"duration": 1.0,
+		"texture": SubResource("AtlasTexture_i43k8")
+	}, {
+		"duration": 1.0,
+		"texture": SubResource("AtlasTexture_qdiba")
+	}],
+	"loop": 0,
+	"name": &"default",
+	"speed": 5.0
+	}]
 
 [node name="TankRobot" type="CharacterBody2D" unique_id=1663569242]
 script = ExtResource("1_tr")
 
 [node name="BodyShape" type="CollisionShape2D" parent="." unique_id=-1589934591]
+visible = false
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Moving" type="AnimatedSprite2D" parent="." unique_id=554535245]
 visible = false
 sprite_frames = SubResource("SpriteFrames_x4u6v")
-frame_progress = 0.46097028
+frame_progress = 0.5849691
 
 [node name="Idle" type="AnimatedSprite2D" parent="." unique_id=1326396653]
 sprite_frames = SubResource("SpriteFrames_07erc")
+frame_progress = 0.44074437

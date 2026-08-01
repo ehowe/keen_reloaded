@@ -27,7 +27,7 @@ enum Phase { WALK, STOP, TURN }
 var _phase: int = Phase.WALK
 var _fired_this_stop: bool = false
 var _fire_roll: float = 1.0   # cached randf() rolled on stop entry; decides if this stop fires
-var _reverse_roll: float = 1.0  # cached randf() rolled on turn entry; decides reversal
+var _pending_reverse: bool = false  # decided on turn entry; applied on turn exit
 
 
 func _ready() -> void:
@@ -78,6 +78,8 @@ func _tick_wander(delta: float) -> void:
 		Phase.TURN:
 			velocity.x = 0.0
 			if _phase_timer <= 0.0:
+				if _pending_reverse:
+					_dir = -_dir
 				_enter_walk()
 
 
@@ -112,9 +114,18 @@ func _enter_turn() -> void:
 	velocity.x = 0.0
 	# Stay in State.IDLE so the base loop keeps velocity.x = 0 during the turn.
 	_phase_timer = turn_time
-	_reverse_roll = randf()
-	if _should_reverse(_reverse_roll):
-		_dir = -_dir
+	# Decide reversal now but DON'T flip _dir yet: flipping at entry made the
+	# facing snap before the Idle turn anim played (the "spazz"). The actual
+	# flip is applied when the turn timer expires (see _tick_wander TURN).
+	_pending_reverse = _should_reverse(randf())
+	# Play the Idle turn animation ONCE from the start. It is authored
+	# non-looping, so it plays its frames and holds on the last — no strobe.
+	# (_sync_visual must not auto-restart it every frame, see below.)
+	var idle := _sprites.get("Idle") as AnimatedSprite2D
+	if idle != null and idle.sprite_frames != null:
+		idle.stop()
+		idle.frame = 0
+		idle.play()
 
 
 func _next_walk_time() -> float:
@@ -143,10 +154,10 @@ func _sync_visual() -> void:
 	if idle != null:
 		idle.flip_h = _dir < 0
 		idle.visible = in_turn
-		if in_turn:
-			if not idle.is_playing() and idle.sprite_frames != null:
-				idle.play()
-		elif idle.is_playing():
+		# The Idle turn anim is started once on turn entry (see _enter_turn) and
+		# is authored non-looping. Do NOT auto-restart it here — replaying the
+		# 2-frame anim every frame after it finishes was the turn "spazz".
+		if not in_turn and idle.is_playing():
 			idle.stop()
 
 
@@ -173,10 +184,8 @@ func take_damage(_amount: int) -> void:
 	pass
 
 
-## Contact from any side — including a stomp from above — drains all of Keen's
-## current health (instakill). Matches the Garg contact contract.
-func _handle_player(player: Node) -> void:
-	if _dying:
-		return
-	if player.has_method("take_damage") and "health" in player:
-		player.take_damage(player.health)
+## Body contact is harmless: bumping the Tank Robot does not hurt Keen. Only
+## the Tank Robot's blaster bolt kills Keen (the projectile damages the player
+## via its own Area2D in projectile.gd, independent of this hook).
+func _handle_player(_player: Node) -> void:
+	pass

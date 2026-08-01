@@ -120,12 +120,19 @@ func test_stop_phase_enters_turn_when_timer_expires():
 	assert_eq(t._phase, TankRobot.Phase.TURN, "expired stop -> turn")
 
 
-func test_turn_phase_reverses_dir_when_roll_hits():
+func test_turn_phase_defers_reversal_until_turn_exit():
+	# Reversal must NOT happen on turn entry (that caused the turn "spazz":
+	# facing snapped before the idle anim played). It fires when the turn
+	# timer expires, right before walking resumes.
 	var t := _new_tank()
 	t._dir = 1
 	t.turn_reverse_chance = 1.0  # always reverse
 	t._enter_turn()
-	assert_eq(t._dir, -1, "reversed on turn entry when roll forces it")
+	assert_eq(t._dir, 1, "no reverse on turn ENTRY (deferred to exit)")
+	t._phase_timer = 0.01
+	t._tick_wander(0.1)
+	assert_eq(t._phase, TankRobot.Phase.WALK, "expired turn -> walk")
+	assert_eq(t._dir, -1, "reversed on turn EXIT when roll forces it")
 
 
 func test_turn_phase_keeps_dir_when_roll_misses():
@@ -134,7 +141,22 @@ func test_turn_phase_keeps_dir_when_roll_misses():
 	# _enter_turn rolls randf() internally; force the decision via direct call.
 	t.turn_reverse_chance = 0.0
 	t._enter_turn()
-	assert_eq(t._dir, 1, "no reverse when chance is 0")
+	assert_eq(t._dir, 1, "no reverse on turn entry")
+	t._phase_timer = 0.01
+	t._tick_wander(0.1)
+	assert_eq(t._dir, 1, "still no reverse on turn exit when chance is 0")
+
+
+func test_turn_timing_lets_idle_play_once():
+	# The Idle turn anim must NOT loop: a looping 2-frame anim strobes (the
+	# turn "spazz"). It plays once over ~0.4s and holds its last frame until
+	# the reversal fires at turn exit.
+	var t := _new_tank_from_scene()
+	assert_almost_eq(t.turn_time, 0.4, 0.001, "turn_time ~0.4s (one idle play-through)")
+	var idle := t.get_node("Idle") as AnimatedSprite2D
+	assert_false(
+		idle.sprite_frames.get_animation_loop(idle.animation),
+		"idle anim is non-looping (no strobe)")
 
 
 func test_turn_phase_enters_walk_when_timer_expires():
@@ -210,12 +232,14 @@ func test_tank_robot_cannot_be_stunned():
 	assert_eq(t.velocity.x, 200.0, "not frozen by stun")
 
 
-func test_contact_instakills_player():
+func test_contact_does_not_harm_player():
+	# Only the Tank Robot's blaster bolt may kill Keen; bumping the body is
+	# harmless (the projectile damages Keen via its own Area2D, not here).
 	var t := _new_tank_from_scene()
 	var p := _fake_player()
 	assert_eq(p.health, 3, "starts at 3 hp")
 	t._handle_player(p)
-	assert_eq(p.health, 0, "tank robot contact drains all health")
+	assert_eq(p.health, 3, "body contact does not damage Keen")
 
 
 func test_contact_killed_no_score_award():
@@ -265,6 +289,21 @@ func test_tank_robot_registered_in_keen1_episode():
 	assert_eq(entry.get("type_id"), "keen1.tank_robot", "tank robot registered")
 	assert_eq(entry.get("category"), EntityRegistry.CATEGORY_HAZARD, "filed as hazard")
 	assert_not_null(entry.get("scene"), "scene bound")
+
+
+func test_tank_ledge_probe_reaches_past_feet():
+	# Regression: the Tank body is 64x96 (feet at y=+48 from origin) but the
+	# base LedgeProbe used a fixed TILE*0.6 = 38.4 depth, which ended ABOVE
+	# the feet -> the ray never reached the floor tile in front -> is_colliding()
+	# was always false -> _dir flipped every WALK frame (spazz + no patrol).
+	# The probe must extend BELOW the body's feet.
+	var t := _new_tank_from_scene()
+	var body := t.get_node("BodyShape") as CollisionShape2D
+	var foot_y: float = (body.shape as RectangleShape2D).size.y * 0.5
+	var rc := t.get_node("LedgeProbe") as RayCast2D
+	assert_gt(
+		rc.target_position.y, foot_y,
+		"ledge probe must reach past feet (target.y=%f, feet at %f)" % [rc.target_position.y, foot_y])
 
 
 func after_each():

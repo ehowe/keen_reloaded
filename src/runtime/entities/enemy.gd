@@ -57,10 +57,27 @@ func _ready() -> void:
 		var rc := RayCast2D.new()
 		rc.name = "LedgeProbe"
 		rc.enabled = true
-		rc.target_position = Vector2(_dir * TILE * 0.5, TILE * 0.6)
+		rc.target_position = _ledge_probe_target()
 		add_child(rc)
 	_cache_sprites()
 	_phase_timer = walk_time
+
+
+## Ledge-probe target in local space: ahead in the facing direction and DOWN
+## past the body's feet so the ray actually reaches the floor tile in front.
+## The depth scales with the collision body's height — a fixed TILE*0.6 ended
+## ABOVE the feet for tall bodies (e.g. Tank Robot's 96px body, feet at +48 vs
+## the old fixed +38.4), so is_colliding() was always false and the enemy
+## flipped _dir every WALK frame (spazz + no patrol).
+func _ledge_probe_target() -> Vector2:
+	var foot_y := TILE * 0.6
+	var half_w := TILE * 0.5
+	var body := get_node_or_null("BodyShape") as CollisionShape2D
+	if body != null and body.shape is RectangleShape2D:
+		var rect := body.shape as RectangleShape2D
+		half_w = rect.size.x * 0.5
+		foot_y = rect.size.y * 0.5 + TILE * 0.1  # a bit past the feet, into the floor zone
+	return Vector2(_dir * (half_w + 2.0), foot_y)
 
 
 func _cache_sprites() -> void:
@@ -165,7 +182,7 @@ func _turn_if_blocked() -> void:
 	elif turns_at_ledges:
 		var rc := get_node_or_null("LedgeProbe") as RayCast2D
 		if rc != null:
-			rc.target_position = Vector2(_dir * TILE * 0.5, TILE * 0.6)
+			rc.target_position = _ledge_probe_target()
 			rc.force_raycast_update()
 			if is_on_floor() and not rc.is_colliding():
 				_dir = -_dir
