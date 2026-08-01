@@ -117,7 +117,7 @@ x = 39
 y = 4
 properties = {
 "blocks_until_completed": false,
-"target_level_id": "",
+"target_level_id": "keen1_08",
 "variant": "Crystal"
 }
 
