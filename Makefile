@@ -125,7 +125,7 @@ export_presets.cfg:
 			'application/bundle_identifier="com.keenreloaded.game"' \
 			'application/short_version="$(VERSION)"' 'application/version="$(VERSION)"' \
 			'application/min_macos_version="10.12"' 'display/high_res=true' \
-			'codesign/codesign=0' 'notarization/notarization=0' '' ; \
+			'codesign/codesign=1' 'notarization/notarization=0' '' ; \
 		printf '%s\n' '[preset.1]' '' \
 			'name="Windows Desktop"' 'platform="Windows Desktop"' 'runnable=true' 'dedicated_server=false' \
 			'export_filter="all_resources"' 'include_filter=""' 'exclude_filter=""' \
@@ -164,6 +164,8 @@ endif
 # rw.*.dmg files that interrupted runs leave in the output dir.
 # ---------------------------------------------------------------------------
 macos-dmg:
+	@echo ">> Ad-hoc signing $(MAC_APP)"
+	@codesign --deep --force --sign - "$(MAC_APP)"
 	@echo ">> Staging .app -> $(MAC_DMG_STAGE)"
 	@for v in $$(mount | sed -n 's|^.*on \(/Volumes/dmg\.[^ ]*\) .*$$|\1|p'); do \
 		echo ">> Detaching stale staging volume: $$v"; \
