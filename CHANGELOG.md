@@ -1,3 +1,42 @@
+## v2026.08.01 — 2026-08-01
+
+### Added
+- build out level 8
+- register keen1.ice_cannon hazard with facing enum
+- add ice cannon hazard (solid body + timer-fired projectile)
+- add ice cannon projectile scene + script
+- add ice tiles, surface_type markup, and level8
+- inject geometry tilemap into player at spawn
+- fixed-distance coast on ice->ground exit
+- ice2 forced-slide entry/pin + wall-stop + idle anim
+- unified ground accel/decel model (replaces instant-snap)
+- player reads surface type under feet
+- surface_type custom-data layer in ProceduralTileSet
+- fixed-distance coast decel math
+- ice2 forced-slide pin math
+- ice1 zero-friction + entry-cap math
+- SurfaceType enum + ground accel/decel math
+
+### Fixed
+- ad-hoc codesign app bundle to stop 'corrupt' error
+- stop patrol spazz and make body contact harmless
+- retune muzzle offsets for offset sprites
+- seed buffer so ice2 jump-dir test exercises the momentum fix
+- reset surface state on leaving ground; carry ice momentum into jump; slower ground accel
+- end coast on ICE2 entry + lock with test, drop stale comment
+
+### Documentation
+- clarify _instakill contract is mirrored by non-Hazard nodes
+- note procedural ice tile config path
+- ice physics implementation plan
+- ice physics design spec
+
+### Refactored
+- warn on bad ice cannon facing; drop test-only _ready rebuild
+- ice2 early-return guard + drive real step in idle-anim test
+- tidy _step_grounded scale scope + reset coast state
+- use ShapeUtil.rect_half for foot offset in surface read
+
 ## v2026.07.21 — 2026-07-21
 
 ### Added
